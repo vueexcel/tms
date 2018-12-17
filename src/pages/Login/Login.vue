@@ -47,29 +47,36 @@
 
 <script>
 import Widget from "@/components/Widget/Widget";
+import { sync, get } from "vuex-pathify";
 
 export default {
   name: "LoginPage",
   components: { Widget },
-  data() {
-    return {
-      errorMessage: null
-    };
+  computed: {
+    admin: get("login/userName"),
+    pass: get("login/password"),
+    errorMessage: sync("login/errorMessage")
   },
   methods: {
     login() {
       const username = this.$refs.username.value;
       const password = this.$refs.password.value;
 
-      if (username.length !== 0 && password.length !== 0) {
+      if (
+        username.length !== 0 &&
+        password.length !== 0 &&
+        (username == this.admin && password == this.pass)
+      ) {
         window.localStorage.setItem("authenticated", true);
-        this.$router.push("/app/main/analytics");
+        this.$router.push("/app/dashboard");
+      } else {
+        this.errorMessage = "wrong credentials";
       }
     }
   },
   created() {
     if (window.localStorage.getItem("authenticated") === "true") {
-      this.$router.push("/app/main/analytics");
+      this.$router.push("/app/dashboard");
     }
   }
 };
