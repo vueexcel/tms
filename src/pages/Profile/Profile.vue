@@ -2,28 +2,14 @@
   <div>
     <b-breadcrumb>
       <b-breadcrumb-item>YOU ARE HERE</b-breadcrumb-item>
-      <b-breadcrumb-item active>Dashboard</b-breadcrumb-item>
+      <b-breadcrumb-item active>Profile</b-breadcrumb-item>
     </b-breadcrumb>
     <h1 class="page-title">Dashboard</h1>
     <b-row>
-      <b-col lg="3" sm="6" xs="12">
+      <b-col lg="8" sm="6" xs="12">
         <div class="pb-xlg h-100">
-          <Widget class="h-100 mb-0" title="Visits Today">
-            <div class="d-flex justify-content-between align-items-center mb-lg">
-              <h2>4,332</h2>
-              <i class="la la-arrow-right text-success rotate-315" />
-            </div>
-            <div class="d-flex flex-wrap justify-content-between">
-              <div class="mt">
-                <h6>+830</h6><p class="text-muted mb-0 mr"><small>Logins</small></p>
-              </div>
-              <div class="mt">
-                <h6>0.5%</h6><p class="text-muted mb-0"><small>Sign Out</small></p>
-              </div>
-              <div class="mt">
-                <h6>4.5%</h6><p class="text-muted mb-0 mr"><small>Rate</small></p>
-              </div>
-            </div>
+          <Widget class="h-100 mb-0 shadow">
+            <img src="./../../images/logo.png" alt="">
           </Widget>
         </div>
       </b-col>
@@ -256,7 +242,7 @@ import 'imports-loader?jQuery=jquery,this=>window!flot/jquery.flot.pie';
 import Widget from '@/components/Widget/Widget';
 
 export default {
-  name: 'Dashboard',
+  name: 'Profile',
   components: { Widget },
   data() {
     return {
@@ -362,4 +348,4 @@ export default {
 };
 </script>
 
-<style src="./Dashboard.scss" lang="scss" scoped />
+<style src="./Profile.scss" lang="scss" scoped />

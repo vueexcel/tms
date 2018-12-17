@@ -3,7 +3,7 @@
     <b-container class="pt-1 pb-1 bg-white shadow w-75">
       <Widget class="mx-auto" customHeader>
         <h5 class="logo mb-5">
-          <img src="./logo.png" width="100%" alt="logo">
+          <img src="./../../images/logo.png" width="100%" alt="logo">
         </h5>
         <h6 class="mt-0 mb-5 text-center font-weight-bold">Enter Your ExcellenceHR Username to Login</h6>
         <form class="mt-4" @submit.prevent="login">
@@ -68,7 +68,7 @@ export default {
         (username == this.admin && password == this.pass)
       ) {
         window.localStorage.setItem("authenticated", true);
-        this.$router.push("/app/dashboard");
+        this.$router.push("/app/profile");
       } else {
         this.errorMessage = "wrong credentials";
       }
@@ -76,7 +76,7 @@ export default {
   },
   created() {
     if (window.localStorage.getItem("authenticated") === "true") {
-      this.$router.push("/app/dashboard");
+      this.$router.push("/app/profile");
     }
   }
 };
