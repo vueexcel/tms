@@ -14,7 +14,7 @@ import TablesBasicPage from '@/pages/Tables/Basic';
 import GoogleMapPage from '@/pages/Maps/Google';
 
 // Main
-import AnalyticsPage from '@/pages/Dashboard/Dashboard';
+import Profile from '@/pages/Profile/Profile';
 
 // Charts
 import ChartsPage from '@/pages/Charts/Charts';
@@ -46,9 +46,9 @@ export default new Router({
       component: Layout,
       children: [
         {
-          path: 'dashboard',
-          name: 'AnalyticsPage',
-          component: AnalyticsPage,
+          path: 'profile',
+          name: 'Profile',
+          component: Profile,
         },
         {
           path: 'typography',

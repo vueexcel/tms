@@ -77,7 +77,7 @@
           <i class="la la-sign-out" /> Log Out
         </b-dropdown-item-button>
       </b-nav-item-dropdown>
-      <b-nav-item>
+      <!-- <b-nav-item>
         <a class="d-sm-down-none px-2" id="toggle-chat" href="#" @click="toggleChat">
           <i class="la la-globe" />
         </a>
@@ -96,7 +96,7 @@
             </p>
           </div>
         </div>
-      </b-nav-item>
+      </b-nav-item> -->
       <b-nav-item class="fs-lg d-md-none">
         <a href="#" @click="toggleChat">
           <span class="rounded rounded-lg bg-gray text-white"><i class="la la-globe" /></span>
