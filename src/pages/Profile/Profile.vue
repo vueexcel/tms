@@ -10,13 +10,33 @@
         <b-col lg="8" xs="12">
           <div class="pb-xlg h-100">
             <Widget class="h-100 mb-0 shadow">
+              <!-- tgvhnml,;lvchjbkm -->
+              <span class="thumb-md float-left mr-2">
+                <img
+                  class="rounded-circle"
+                  src="../../assets/people/a5.jpg"
+                  width="75"
+                  height="75"
+                  alt="..."
+                >
+              </span>
+              <div class="float-left mt-3">
+                <span class="large">
+                  Adam
+                  <span class="fw-semi-bold">Johns</span>
+                </span>
+                <p class="fw-semi">UI/UX designer</p>
+              </div>
+              <div class="flex"></div>
+
+              <!-- hgvjhnl,kbjgvjnk -->
             </Widget>
           </div>
         </b-col>
 
-        <b-col>
+        <b-col lg="4" xs="12">
           <div class="pb-xlg h-100 border">
-            <h1>helllo</h1>
+            <h4>OverAll Score</h4>
           </div>
         </b-col>
       </b-row>
