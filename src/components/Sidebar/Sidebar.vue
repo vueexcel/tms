@@ -5,7 +5,7 @@
     @mouseleave="sidebarMouseLeave"
   >
     <header class="logo">
-      <router-link to="/app"> <img src="./../../images/logo.png" width="100%" alt="logo"> </router-link>
+      <router-link to="/app"> <img src="@/images/logo.png" width="100%" alt="logo"> </router-link>
     </header>
     <ul class="nav">
       <NavLink
