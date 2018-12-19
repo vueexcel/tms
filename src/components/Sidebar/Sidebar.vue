@@ -5,49 +5,48 @@
     @mouseleave="sidebarMouseLeave"
   >
     <header class="logo">
-      <!-- <router-link to="/app"><span class="text-warning">Sing</span> App</router-link> -->
       <router-link to="/app"> <img src="./../../images/logo.png" width="100%" alt="logo"> </router-link>
     </header>
     <ul class="nav">
       <NavLink
         header="Dashboard"
         link="/app/dashboard"
-        iconName="flaticon-home"
+        iconName="fas fa-clone"
         index="dashboard"
         isHeader
       />
       <NavLink
         header="Check-ins"
         link="/app/typography"
-        iconName="flaticon-list"
+        iconName="fas fa-clipboard"
         index="typography"
         isHeader
       />
       <NavLink
         header="Weekly Review"
         link="/app/tables"
-        iconName="flaticon-equal-1"
+        iconName="fas fa-file-signature"
         index="tables"
         isHeader
       />
       <NavLink
         header="Performance Review"
         link="/app/notifications"
-        iconName="flaticon-star"
+        iconName="fas fa-chart-line"
         index="notifications"
         isHeader
       />
       <NavLink
         header="Your Team"
         link="/app/notifications"
-        iconName="flaticon-star"
+        iconName="fas fa-users"
         index="notifications"
         isHeader
       />
       <NavLink
         header="Admin"
         link="/app/notifications"
-        iconName="flaticon-home"
+        iconName="fas fa-user-cog"
         index="notifications"
         isHeader
       />

@@ -5,7 +5,7 @@ export default {
   namespaced: true,
   state: {
     sidebarClose: false,
-    sidebarStatic: true, //sidebar on/off
+    sidebarStatic: false, //sidebar on/off
     sidebarActiveElement: null,
     chatOpen: false,
   },
