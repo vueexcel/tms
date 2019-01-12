@@ -1,0 +1,41 @@
+@import '../../styles/app';
+
+table {
+
+  td,
+  th {
+    font-weight: $font-weight-normal;
+  }
+
+  tbody tr {
+    &:nth-child(odd) {
+      background: $gray-100;
+    }
+
+    td {
+      min-width: 100px;
+    }
+  }
+}
+
+.badgePos {
+  font-size: 7px;
+  left: 14px;
+  bottom: -7px;
+}
+
+.badgePosSelected {
+  font-size: 7px;
+  left: 20px;
+  bottom: -16px;
+}
+
+.btn-Custom {
+  width: 60px;
+  height: 60px;
+}
+
+.customPosPlus {
+  left: 23px;
+  bottom: 23px;
+}
