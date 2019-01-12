@@ -2,9 +2,9 @@
   <div>
     <b-breadcrumb>
       <b-breadcrumb-item>YOU ARE HERE</b-breadcrumb-item>
-      <b-breadcrumb-item active>Dashboard</b-breadcrumb-item>
+      <b-breadcrumb-item active>Manage Employees</b-breadcrumb-item>
     </b-breadcrumb>
-    <h1 class="page-title">Dashboard</h1>
+    <h1 class="page-title">Manage Employees</h1>
     <b-container class="no-gutters p-0">
       <b-row>
         <b-col lg="8" xs="12">
@@ -277,4 +277,4 @@ export default {
 };
 </script>
 
-<style src="./Profile.scss" lang="scss" scoped />
+<style src="./ManageEmployee.scss" lang="scss" scoped />

@@ -3,6 +3,8 @@
 import 'expose-loader?jQuery!jquery' // eslint-disable-line
 import 'expose-loader?$!jquery' // eslint-disable-line
 import Vue from 'vue';
+import axios from 'axios'
+import VueAxios from 'vue-axios'
 import BootstrapVue from 'bootstrap-vue';
 import * as VueGoogleMaps from 'vue2-google-maps';
 import VueTouch from 'vue-touch';
@@ -12,6 +14,7 @@ import store from './store';
 import router from './Routes';
 import App from './App';
 
+Vue.use(VueAxios, axios)
 Vue.use(BootstrapVue);
 Vue.use(VueTouch);
 Vue.use(Trend);

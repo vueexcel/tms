@@ -1,0 +1,224 @@
+@import '../../styles/app';
+
+table {
+
+  td,
+  th {
+    font-weight: $font-weight-normal;
+  }
+
+  tbody tr {
+    &:nth-child(odd) {
+      background: $gray-100;
+    }
+
+    td {
+      min-width: 100px;
+    }
+  }
+}
+
+.timeline {
+  position: relative;
+  box-sizing: border-box;
+}
+
+.timeline:before {
+  content: '';
+  position: absolute;
+  left: 100%;
+  width: 2px;
+  height: 100%;
+  background: #c5c5c5;
+}
+
+.timeline ul {
+  margin: 0;
+  padding: 0;
+}
+
+.timeline ul li {
+  position: relative;
+  width: 100%;
+  padding: 20px 100px 20px 0;
+  box-sizing: border-box;
+}
+
+// .timeline ul li:nth-child(odd) {
+// 	text-align: left;
+// 	clear: both;
+// }
+// .timeline ul li:nth-child(even) {
+// 	text-align: right;
+// 	clear: both;
+// }
+.content {
+  padding-bottom: 20px;
+  background: #fff;
+  border-radius: 5px;
+}
+
+.timeline ul li.c1:nth-child(odd):before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -16px;
+  width: 30px;
+  height: 30px;
+  background: rgba(0, 192, 149, 1);
+  border-radius: 50%;
+  box-shadow: 0 0 0 5px rgba(0, 192, 149, 0.7);
+  background-image: url("../../images/location.png");
+  background-size: 15px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.timeline ul li.c2:nth-child(odd):before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -16px;
+  width: 30px;
+  height: 30px;
+  background: rgba(100, 116, 250, 1);
+  border-radius: 50%;
+  box-shadow: 0 0 0 5px rgba(100, 116, 250, 0.7);
+  background-image: url("../../images/comment.png");
+  background-size: 12px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.timeline ul li.c3:nth-child(odd):before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -16px;
+  width: 30px;
+  height: 30px;
+  background: rgba(0, 192, 149, 1);
+  border-radius: 50%;
+  box-shadow: 0 0 0 5px rgba(0, 192, 149, 0.7);
+  background-image: url("../../images/location.png");
+  background-size: 15px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.timeline ul li.c4:nth-child(odd):before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -16px;
+  width: 30px;
+  height: 30px;
+  background: rgba(0, 192, 149, 1);
+  border-radius: 50%;
+  box-shadow: 0 0 0 5px rgba(0, 192, 149, 0.7)
+}
+
+// .timeline ul li:nth-child(even):before {
+// 	content: '';
+// 	position: absolute;
+// 	top: 0;
+// 	right: -16px;
+// 	width: 30px;
+// 	height: 30px;
+// 	background: rgba(0, 192, 149, 1);
+// 	border-radius: 50%;
+// 	box-shadow: 0 0 0 5px rgba(0, 192, 149, 0.7)
+// }
+.timeline ul li h3 {
+  margin: 0;
+  padding: 0;
+  font-weight: 600;
+  color: rgba(0, 192, 149, 1)
+}
+
+.timeline ul li p {
+  margin: 10px 0 0;
+  padding: 10px 0 0 13px;
+}
+.comments {
+  padding-left: 16px;
+  padding-top: 6px;
+  background: #F8F9FA; //comments background
+}
+
+.timeline ul li .time h4 {
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+}
+
+.timeline ul li:nth-child(odd) .time {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  padding: 0 25px 0 0;
+  text-align: right;
+}
+
+// .timeline ul li:nth-child(even) .time {
+// 	position: absolute;
+// 	top: 12px;
+// 	left: -185px;
+// 	margin: 0;
+// 	padding: 8px 16px;
+// 	background: rgba(233,33,99,1);
+// 	color: #fff;
+// 	border-radius: 18px;
+// 	box-shadow: 0 0 0 3px rgba(233,33,99,0.2);
+// }
+@media (max-width: 1000px) {
+  .timeline {
+    width: 100%;
+  }
+}
+
+@media (max-width: 767px) {
+
+  // h1 {
+  // 	text-align: center;
+  // 	font-size: 30px;
+  // 	padding: 0 20px;
+  // }
+  .timeline {
+    width: 100%;
+    padding-bottom: 0;
+  }
+
+  .timeline:before {
+    left: 55px;
+    margin-left: 20px
+  }
+
+  .content {
+    width: 250px;
+    margin-left: 35px
+  }
+
+  .timeline ul li:nth-child(odd),
+  .timeline ul li:nth-child(even) {
+    width: 100%;
+    text-align: left;
+    padding-left: 70px;
+    padding-bottom: 50px;
+  }
+
+  .timeline ul li:nth-child(odd):before,
+  .timeline ul li:nth-child(even):before {
+    top: 0;
+    left: 60px;
+  }
+
+  .timeline ul li:nth-child(odd) .time,
+  .timeline ul li:nth-child(even) .time {
+    top: 0;
+    left: 0;
+    text-align: right;
+    right: inherit;
+  }
+}
