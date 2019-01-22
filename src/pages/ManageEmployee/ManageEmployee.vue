@@ -13,6 +13,14 @@
         </b-col>
       </b-row>
     </b-container>
+    <h4 class="page-title">Team Name</h4>
+    <b-container class="no-gutters p-0">
+      <b-row>
+        <b-col lg="3" xs="12" v-for="employee in emp_arr" :key="employee.id">
+          <employeeWidget :employee="employee"/>
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
 

@@ -93,8 +93,30 @@ const state = {
                     name: 'Mahima k'
                 }
             ]
+        },
+        {
+            name: 'Manish Prakash',
+            technology: 'KPI Name',
+            post: 'ReactJs Developer',
+            id: 2,
+            manager: [
+                {
+                    image:'/img/a3.f6dc73f2.jpg',
+                    img_id:'one',
+                    name: 'Arun'
+                },
+                {
+                    image:'/img/a3.f6dc73f2.jpg',
+                    img_id:'two',
+                    name: 'Deepak'
+                },
+                {
+                    image:'/img/a6.2966ab8e.jpg',
+                    img_id:'three',
+                    name: 'Mahima k'
+                }   
+            ]
         }
-
     ]
 }
 // const mutation = make.mutation(state)
