@@ -48,17 +48,17 @@ const state = {
             manager: [
                 {
                     image:'/img/a3.f6dc73f2.jpg',
-                    img_id:'one',
+                    img_id:'seven',
                     name: 'Arun'
                 },
                 {
                     image:'/img/a3.f6dc73f2.jpg',
-                    img_id:'two',
+                    img_id:'eight',
                     name: 'Deepak'
                 },
                 {
                     image:'/img/a6.2966ab8e.jpg',
-                    img_id:'three',
+                    img_id:'nine',
                     name: 'Mahima k'
                 }   
             ]
@@ -71,7 +71,7 @@ const state = {
             manager: [
                 {
                     image:'/img/a3.f6dc73f2.jpg',
-                    img_id:'one',
+                    img_id:'ten',
                     name: 'Arun'
                 },
             ]
@@ -84,12 +84,12 @@ const state = {
             manager: [
                 {
                     image:'/img/a3.f6dc73f2.jpg',
-                    img_id:'one',
+                    img_id:'eleven',
                     name: 'Deepak'
                 },
                 {
                     image:'/img/a6.2966ab8e.jpg',
-                    img_id:'two',
+                    img_id:'twelve',
                     name: 'Mahima k'
                 }
             ]
@@ -102,17 +102,17 @@ const state = {
             manager: [
                 {
                     image:'/img/a3.f6dc73f2.jpg',
-                    img_id:'one',
+                    img_id:'thirteen',
                     name: 'Arun'
                 },
                 {
                     image:'/img/a3.f6dc73f2.jpg',
-                    img_id:'two',
+                    img_id:'forteen',
                     name: 'Deepak'
                 },
                 {
                     image:'/img/a6.2966ab8e.jpg',
-                    img_id:'three',
+                    img_id:'fifteen',
                     name: 'Mahima k'
                 }   
             ]

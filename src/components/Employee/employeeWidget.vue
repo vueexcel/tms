@@ -27,9 +27,11 @@
         </div>
         <div class="pr-3 ml-3 mb-2 mt-2">
           <b-row v-if="employee && employee.manager">
-            <b-col v-for="(img, index) in employee.manager" :key="index" lg="1" xs="12">
+            <b-col v-for="img in employee.manager" :key="img.img_id" lg="1" xs="12">
               <a>
                 <img
+                  @click="showCollapse(img)"
+                  v-b-toggle="'abc' +img.img_id"
                   class="rounded-circle"
                   v-b-tooltip.hover
                   :title="img.name"
@@ -38,17 +40,27 @@
                   height="40"
                 >
               </a>
+              <div>
+              <b-collapse :id="'abc' +img.img_id" v-if="manager.img_id === img.img_id" class="mt-2"> 
+              <!-- <b-card> -->
+                <div style="display:flex">
+              <img
+                class="rounded-circle"
+                :title="img.name"
+                :src="manager.image"
+                width="40"
+                height="40"
+              >
+              <span><p class="card-text">{{manager.name}}</p></span>  
+
+                </div>
+                    <!-- <b-card> -->
+                    <!-- </b-card> -->
+                <!-- </b-card> -->
+              </b-collapse>
+            </div>
             </b-col>
           </b-row>
-          <!-- <b-collapse :id="img.img_id" class="mt-2">
-            <b-card>
-              <p class="card-text">Collapse contents Here</p>
-              <b-btn v-b-toggle.collapse1_inner size="sm">Toggle Inner Collapse</b-btn>
-              <b-collapse id="collapse1_inner" class="mt-2">
-                <b-card>Hello!</b-card>
-              </b-collapse>
-            </b-card>
-          </b-collapse> -->
         </div>
       </div>
       <!-- </Widget> -->
@@ -62,6 +74,12 @@ import "imports-loader?window.jQuery=jquery,this=>window!widgster"; // eslint-di
 // import Widget from '@/components/Widget/Widget'
 export default {
   name: "employeeWidget",
+  data () {
+    return {
+      show: false,
+      manager: {}
+    }
+  }, 
   props: {
     employee: { type: Object, default: () => ({}) }
   },
@@ -78,6 +96,14 @@ export default {
         this.settings ||
         this.settingsInverse
       );
+    }
+  },
+  methods : {
+    showCollapse (value) {
+      this.show = !this.show
+      if (value) {
+        this.manager =  value
+      }
     }
   },
   // components: {
