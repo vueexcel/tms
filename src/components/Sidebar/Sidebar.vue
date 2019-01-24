@@ -66,7 +66,7 @@
       />
       <NavLink
         header="Manage Employees"
-        link="/app/checkin"
+        link="/admin/manageEmployee"
         iconName="fas fa-users"
         index="typography"
         isHeader

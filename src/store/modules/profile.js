@@ -18,7 +18,7 @@ const actions = {
             .then((response) => {
                 commit('name', response.data.name)
             }).catch((err) => {
-                // commit('loginfailed', err)
+                commit('loginfailed', err)
             })
     }
 }

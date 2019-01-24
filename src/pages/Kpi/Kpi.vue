@@ -158,7 +158,8 @@ export default {
           desc: this.kpiDescription
         });
       }
-      (this.kpiHeading = ""), (this.kpiDescription = "");
+      this.kpiHeading = "",
+      this.kpiDescription = ""
     },
     addEra: function(index) {
       console.log("inside add era block");
@@ -168,7 +169,8 @@ export default {
           desc: this.eraDescription
         });
       }
-      (this.eraHeading = ""), (this.eraDescription = "");
+      this.eraHeading = "", 
+      this.eraDescription = "";
     },
     addMember: function(i, index) {
       console.log(i, index, "===========", this.allMembers[i]);
