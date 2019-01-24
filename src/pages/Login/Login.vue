@@ -10,6 +10,9 @@
           <b-alert
             class="alert-sm"
             variant="danger"
+
+            :show="loginfailed !== null"
+
           >Wrong Credentials try again</b-alert>
           <div class="form-group">
             <input
@@ -58,7 +61,9 @@ export default {
   components: { Widget },
   computed: {
     authenticated: get("login/authenticated"),
+
     // loginfailed: get("login/loginfailed")
+
   },
   methods: {
     api: call("login/login_"),

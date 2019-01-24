@@ -66,7 +66,9 @@
       />
       <NavLink
         header="Manage Employees"
+
         link="/admin/manageEmployee"
+
         iconName="fas fa-users"
         index="typography"
         isHeader
