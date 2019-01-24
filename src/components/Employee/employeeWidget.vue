@@ -41,24 +41,30 @@
                 >
               </a>
               <div>
-              <b-collapse :id="'abc' +img.img_id" v-if="manager.img_id === img.img_id" class="mt-2"> 
-              <!-- <b-card> -->
-                <div style="display:flex">
-              <img
-                class="rounded-circle"
-                :title="img.name"
-                :src="manager.image"
-                width="40"
-                height="40"
-              >
-              <span><p class="card-text">{{manager.name}}</p></span>  
-
-                </div>
-                    <!-- <b-card> -->
-                    <!-- </b-card> -->
-                <!-- </b-card> -->
-              </b-collapse>
-            </div>
+                <b-collapse
+                  :id="'abc' +img.img_id"
+                  v-if="manager.img_id === img.img_id"
+                  class="mt-2"
+                >
+                  <!-- <b-card> -->
+                  <div style="display:flex">
+                    <img
+                      class="rounded-circle"
+                      :title="img.name"
+                      :src="manager.image"
+                      width="40"
+                      height="40"
+                    >
+                    <span>
+                      <p class="text-primary fw-semi-bold fs-larger">{{manager.name}}</p>
+                      <p class="text-primary fs-larger">{{manager}}</p>
+                    </span>
+                  </div>
+                  <!-- <b-card> -->
+                  <!-- </b-card> -->
+                  <!-- </b-card> -->
+                </b-collapse>
+              </div>
             </b-col>
           </b-row>
         </div>
@@ -74,12 +80,12 @@ import "imports-loader?window.jQuery=jquery,this=>window!widgster"; // eslint-di
 // import Widget from '@/components/Widget/Widget'
 export default {
   name: "employeeWidget",
-  data () {
+  data() {
     return {
       show: false,
       manager: {}
-    }
-  }, 
+    };
+  },
   props: {
     employee: { type: Object, default: () => ({}) }
   },
@@ -98,11 +104,11 @@ export default {
       );
     }
   },
-  methods : {
-    showCollapse (value) {
-      this.show = !this.show
+  methods: {
+    showCollapse(value) {
+      this.show = !this.show;
       if (value) {
-        this.manager =  value
+        this.manager = value;
       }
     }
   },
