@@ -141,7 +141,7 @@
             ==================================-->
             <span class="position-relative ml-1" v-for="(img, i) in searchFilter" :key="i">
               <img
-                @click="addMember(i, index)"
+                @click="addMember(i, index, img.name)"
                 class="rounded-circle"
                 :src="img.src"
                 width="25"
@@ -254,23 +254,7 @@
               >
                 <i class="fas fa-check" style="color:white;"></i>
               </b-badge>
-            </span>
-            <!-- ===========Another========= -->
-            <!-- <span class="position-relative ml-1">
-                <img
-                  class="rounded-circle"
-                  src="@/assets/people/a5.jpg"
-                  width="25"
-                  height="25"
-                  alt="..."
-                >
-                <b-badge variant="primary" class="rounded-circle fs-sm position-absolute badgePos">
-                  <i class="fas fa-plus" style="color:white;"></i>
-                </b-badge>
-            </span>-->
-            <!-- ============================
-              =======Image with badge ends
-            ==================================-->
+            </span>           
           </div>
         </div>
         <!--!@!@!@!@!@!@!@!@ WHEN GROUP INVOLVED MEMBERS WILL BE ADDED !@!@!@!@!@!@!@@!-->
@@ -289,7 +273,7 @@ import Widget from "@/components/Widget/Widget";
 import { get, call, sync } from "vuex-pathify";
 export default {
   name: "AddKpiEra",
-  props: { array_:{type: Array} },
+  props: { array_: { type: Array } },
   components: { Widget },
   computed: {
     name: get("profile/name"),
@@ -350,9 +334,15 @@ export default {
       }
       (this.eraHeading = ""), (this.eraDescription = "");
     },
-    addMember: function(i, index) {
-      // console.log(i, index, "===========", this.allMembers[i]);
-      this.addNewTeam[index].memberList.push(this.allMembers[i]);
+    addMember: function(i, index, name) {
+      for (let index = 0; index < this.allMembers.length; index++) {
+        const element = this.allMembers[index].name;
+        if (element == name) {
+          var addMemberToList = this.allMembers[index];
+        }
+      }
+      // this.addNewTeam[index].memberList.push(this.allMembers[i]);
+      this.addNewTeam[index].memberList.push(addMemberToList);
     }
   }
 };
