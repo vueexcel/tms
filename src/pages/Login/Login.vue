@@ -7,11 +7,7 @@
         </h5>
         <h6 class="mt-0 mb-5 text-center font-weight-bold">Enter Your ExcellenceHR Username to Login</h6>
         <form class="mt-4" @submit.prevent="login">
-          <b-alert
-            class="alert-sm"
-            variant="danger"
-            :show="loginfailed !== null"
-          >Wrong Credentials try again</b-alert>
+          <b-alert class="alert-sm" variant="danger">Wrong Credentials try again</b-alert>
           <div class="form-group">
             <input
               class="form-control no-border"
@@ -58,8 +54,8 @@ export default {
   name: "LoginPage",
   components: { Widget },
   computed: {
-    authenticated: get("login/authenticated"),
-    loginfailed: get("login/loginfailed")
+    authenticated: get("login/authenticated")
+    // loginfailed: get("login/loginfailed")
   },
   methods: {
     api: call("login/login_"),
@@ -77,9 +73,9 @@ export default {
   },
   created() {
     // if (window.localStorage.getItem("authenticated") !== null) {
-      // this.$router.push("/app/profile");
-      // this.$router.push("/admin/manageKpi");
-    }
+    //   this.$router.push("/app/profile");
+    //   this.$router.push("/admin/manageKpi");
+    // }
   }
 };
 </script>
