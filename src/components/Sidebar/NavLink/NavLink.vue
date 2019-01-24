@@ -74,7 +74,7 @@ export default {
   },
   computed: {
     fullIconName() {
-      return `fi ${this.iconName}`;
+      return `${this.iconName}`; //removed 'fi' in order use fontawesome5 icons / Dashboard
     },
     isActive() {  
       return (this.activeItem

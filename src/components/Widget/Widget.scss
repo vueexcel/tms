@@ -14,8 +14,9 @@
   padding: $widget-padding-vertical $widget-padding-horizontal;
   background: $widget-bg-color;
   border-radius: $border-radius-sm;
+  box-shadow: $widget-shadow;
 
-  >header {
+  > header {
     margin: (-$widget-padding-vertical) (-$widget-padding-horizontal);
     padding: $widget-padding-vertical $widget-padding-horizontal;
 
@@ -50,7 +51,7 @@
     .widget-body.p-0 {
       margin: $widget-padding-vertical (-$widget-padding-horizontal) (-$widget-padding-vertical);
 
-      +footer {
+      + footer {
         margin-top: $widget-padding-vertical;
       }
     }
@@ -64,13 +65,13 @@
 .widgetBody {
   @include clearfix();
 
-  >footer {
+  > footer {
     margin: $spacer/2 (-$widget-padding-horizontal) (-$widget-padding-vertical);
     padding: 10px 20px;
   }
 }
 
-.widgetControls+.widgetBody {
+.widgetControls + .widgetBody {
   margin-top: $widget-padding-vertical;
 }
 
@@ -125,13 +126,13 @@
     margin: (-$widget-padding-vertical) (-$widget-padding-horizontal);
     border-radius: $border-radius;
 
-    >img {
+    > img {
       max-width: 100%;
       border-radius: $border-radius $border-radius 0 0;
       transition: transform 0.15s ease;
     }
 
-    &:hover>img {
+    &:hover > img {
       transform: scale(1.1, 1.1);
     }
 
@@ -182,7 +183,7 @@
     position: relative;
     margin: 0 (-$widget-padding-horizontal);
 
-    >img {
+    > img {
       max-width: 100%;
     }
   }
@@ -193,12 +194,12 @@
     border-top-right-radius: $border-radius;
     overflow: hidden;
 
-    >img {
+    > img {
       border-top-left-radius: $border-radius;
       border-top-right-radius: $border-radius;
     }
 
-    >.btn-toolbar {
+    > .btn-toolbar {
       position: absolute;
       top: 0;
       right: 0;

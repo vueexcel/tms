@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 
 import Layout from '@/components/Layout/Layout';
+import LayoutAdmin from '@/components/Layout/Layout';
 import Login from '@/pages/Login/Login';
 import ErrorPage from '@/pages/Error/Error';
 // Core
@@ -13,8 +14,14 @@ import TablesBasicPage from '@/pages/Tables/Basic';
 // Maps
 import GoogleMapPage from '@/pages/Maps/Google';
 
-// Main
-import AnalyticsPage from '@/pages/Dashboard/Dashboard';
+// === Main
+import Profile from '@/pages/Profile/Profile';
+import Checkin from '@/pages/Checkin/Checkin';
+import WeeklyReview from '@/pages/WeeklyReview/WeeklyReview';
+// --admin pages--
+import ManageEmployee from '@/pages/ManageEmployee/ManageEmployee';
+import ManageKPI from '@/pages/Kpi/Kpi';
+
 
 // Charts
 import ChartsPage from '@/pages/Charts/Charts';
@@ -29,7 +36,7 @@ Vue.use(Router);
 export default new Router({
   mode: 'history',
   routes: [
-    
+
     {
       path: '/',
       name: 'Login',
@@ -44,11 +51,20 @@ export default new Router({
       path: '/app',
       name: 'Layout',
       component: Layout,
-      children: [
+      children: [{
+          path: 'profile',
+          name: 'Profile',
+          component: Profile,
+        },
         {
-          path: 'dashboard',
-          name: 'AnalyticsPage',
-          component: AnalyticsPage,
+          path: 'checkin',
+          name: 'Checkin',
+          component: Checkin,
+        },
+        {
+          path: 'weeklyReview',
+          name: 'WeeklyReview',
+          component: WeeklyReview,
         },
         {
           path: 'typography',
@@ -79,6 +95,22 @@ export default new Router({
           path: 'components/maps',
           name: 'GoogleMapPage',
           component: GoogleMapPage,
+        },
+      ],
+    },
+    {
+      path: '/admin',
+      name: 'LayoutAdmin',
+      component: LayoutAdmin,
+      children: [{
+          path: 'manageKpi',
+          name: 'ManageKPI',
+          component: ManageKPI,
+        },
+        {
+          path: 'manageEmployee',
+          name: 'ManageEmployee',
+          component: ManageEmployee,
         },
       ],
     },
