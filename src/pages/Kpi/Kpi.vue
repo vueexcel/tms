@@ -4,11 +4,13 @@
       <b-breadcrumb-item>YOU ARE HERE</b-breadcrumb-item>
       <b-breadcrumb-item active>Manage Kpi's</b-breadcrumb-item>
     </b-breadcrumb>
-    <h1 class="page-title">
-      KPI Management
-      <a class="btn btn-success rounded-circle btn-sm" @click="addCreateNew = true">
+    <h1 class="page-title">KPI Management
+      <!-- <a class="btn btn-success rounded-circle btn-sm" @click="addCreateNew = true">
         <i class="fas fa-plus" style="color:white;"></i>
-      </a>
+      </a>-->
+      <span class="bg-success circle text-white" @click="addCreateNew = true">
+        <i class="la la-plus"></i>
+      </span>
     </h1>
     <b-container class="no-gutters p-0">
       <b-row>
@@ -158,8 +160,7 @@ export default {
           desc: this.kpiDescription
         });
       }
-      this.kpiHeading = "",
-      this.kpiDescription = ""
+      (this.kpiHeading = ""), (this.kpiDescription = "");
     },
     addEra: function(index) {
       console.log("inside add era block");
@@ -169,8 +170,7 @@ export default {
           desc: this.eraDescription
         });
       }
-      this.eraHeading = "", 
-      this.eraDescription = "";
+      (this.eraHeading = ""), (this.eraDescription = "");
     },
     addMember: function(i, index) {
       console.log(i, index, "===========", this.allMembers[i]);
