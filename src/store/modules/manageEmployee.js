@@ -11,32 +11,38 @@ const state = {
             manager: [{
                 image:'/img/a5.84f014f0.jpg',
                 img_id:'one',
-                name:'Mahima K'
+                name:'Mahima K',
+                work: 'VP Operations'
             },
             {
                 image:'/img/a3.f6dc73f2.jpg',
                 img_id:'two',
-                name: 'Manish'
+                name: 'Manish',
+                work: 'CEO'
             },
             {
                 image:'/img/a6.2966ab8e.jpg',
                 img_id:'three',
-                name: 'Manish'
+                name: 'Manish',
+                work: 'CEO'
             },
             {
                 image:'/img/a3.f6dc73f2.jpg',
                 img_id:'four',
-                name: 'Arun'
+                name: 'Arun',
+                work: 'Sr. MEAN Stack Developer'
             },
             {
                 image:'/img/a3.f6dc73f2.jpg',
                 img_id:'five',
-                name: 'Deepak'
+                name: 'Deepak',
+                work: 'Sr. Magento Developer'
             },
             {
                 image:'/img/a6.2966ab8e.jpg',
                 img_id:'six',
-                name: 'Mahima k'
+                name: 'Mahima k',
+                work: 'VP Operations'
             }
             ]
         },
@@ -49,17 +55,20 @@ const state = {
                 {
                     image:'/img/a3.f6dc73f2.jpg',
                     img_id:'seven',
-                    name: 'Arun'
+                    name: 'Arun',
+                    work: 'Sr. MEAN Stack Developer'
                 },
                 {
                     image:'/img/a3.f6dc73f2.jpg',
                     img_id:'eight',
-                    name: 'Deepak'
+                    name: 'Deepak',
+                    work: 'Sr. Magento Developer'
                 },
                 {
                     image:'/img/a6.2966ab8e.jpg',
                     img_id:'nine',
-                    name: 'Mahima k'
+                    name: 'Mahima k',
+                    work: 'VP Operations'
                 }   
             ]
         },
@@ -72,7 +81,8 @@ const state = {
                 {
                     image:'/img/a3.f6dc73f2.jpg',
                     img_id:'ten',
-                    name: 'Arun'
+                    name: 'Arun',
+                    work: 'Sr. MEAN Stack Developer'
                 },
             ]
         },
@@ -85,12 +95,14 @@ const state = {
                 {
                     image:'/img/a3.f6dc73f2.jpg',
                     img_id:'eleven',
-                    name: 'Deepak'
+                    name: 'Deepak',
+                    work: 'Sr. Magento Developer'
                 },
                 {
                     image:'/img/a6.2966ab8e.jpg',
                     img_id:'twelve',
-                    name: 'Mahima k'
+                    name: 'Mahima k',
+                    work: 'VP Operations'
                 }
             ]
         },
@@ -103,17 +115,20 @@ const state = {
                 {
                     image:'/img/a3.f6dc73f2.jpg',
                     img_id:'thirteen',
-                    name: 'Arun'
+                    name: 'Arun',
+                    work: 'Sr. MEAN Stack Developer'
                 },
                 {
                     image:'/img/a3.f6dc73f2.jpg',
                     img_id:'forteen',
-                    name: 'Deepak'
+                    name: 'Deepak',
+                    work: 'Sr. Magento Developer'
                 },
                 {
                     image:'/img/a6.2966ab8e.jpg',
                     img_id:'fifteen',
-                    name: 'Mahima k'
+                    name: 'Mahima k',
+                    work: 'VP Operations'
                 }   
             ]
         }
