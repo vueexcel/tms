@@ -3,7 +3,7 @@
     <div class="pb-xlg mb-0">
       <div class="h-100 bg-white p-2 border-round">
         <div class="float-right">
-          <i class="fa fa-pencil text-muted btn" v-if="!edit" @click="editEmployee(employee)" aria-hidden="true"></i>
+          <i class="fa fa-pencil btn" v-if="!edit" @click="editEmployee(employee)" aria-hidden="true"></i>
           <div class="text-center" v-else>
             <a href="#" class="btn btn-rounded-f button-for-employee" @click="saveEdit()">
               <div class="text-gray" style="font-size: 12px;">SAVE</div>
@@ -32,7 +32,7 @@
               class="fw-small text-primary employee-technology"
               v-if="!edit"
             >{{employee.technology}}</p>
-              <b-form-select v-else v-model="technology" :options="options" class="mb-3">
+              <b-form-select v-else v-model="selected" :options="options" class="mb-3">
               </b-form-select>
           </span>
         </div>
@@ -66,7 +66,7 @@
                   :id="'manager' +img.img_id"
                   v-if="manager.img_id === img.img_id"
                 >
-                  class="mt-2"
+                  <!-- class="mt-2" -->
                   <!-- <b-card> -->
                   <div style="display:flex">
                     <img
@@ -76,7 +76,7 @@
                       width="40"
                       height="40"
                     >
-                    <i class="fa fa-times-circle" aria-hidden="true"></i>
+                    <i class="fa fa-times-circle text-danger mt-4 close-collapse" aria-hidden="true"></i>
                     <span class="ml-3">
                       <p class="text-primary fw-semi-bold fs-larger manager-name">{{manager.name}}</p>
                       <p class="text-dark manager-work">{{manager.work}}</p>
@@ -145,7 +145,9 @@ export default {
     return {
       show: false,
       manager: {},
-      edit: false
+      edit: false,
+      selected: null,
+      technologySelect: ''
     };
   },
   props: {
@@ -182,19 +184,25 @@ export default {
       this.edit = true;
       this.name = employee.name
       this.options[0].text = employee.technology
+      this.technologySelect = employee.technology
     },
     saveEdit() {
       this.edit = false
-      this.saveEmployeeInfo({
-        name: this.name,
-        technology: this.technology,
-        id: this.employee.id
-      })
+      if (!this.selected){
+        this.saveEmployeeInfo({
+          name: this.name,
+          technology: this.technologySelect,
+          id: this.employee.id
+          })
+      } else {
+        this.saveEmployeeInfo({
+          name: this.name,
+          technology: this.selected,
+          id: this.employee.id
+        })
+      }
     }
   },
-  // components: {
-  //   Widget
-  // },
   mounted() {}
 };
 </script>

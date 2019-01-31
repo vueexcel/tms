@@ -137,7 +137,7 @@ const state = {
   options: [
     {value: null, text: ''},
     { value: 'MAGENTO', text: 'MAGENTO' },
-    { value: 'REACT', text: 'REACT' },
+    { value: 'REACT', text: 'R.E.A.C.T' },
     { value: 'ANGULAR', text: 'ANGULAR' },
     { value: 'VUE', text: 'VUE' },
     { value: 'NODE', text: 'NODE' },
@@ -150,13 +150,12 @@ const state = {
 const mutations = make.mutations(state);
 const actions = {
   ...make.actions(state),
-  saveEmployeeInfo({state,commit}, payload) {
-    state.employees.forEach(employee => {
+  saveEmployeeInfo({state}, payload) {
+    state.employees.forEach((employee, index) => {
       if (employee.id === payload.id) {
-        employee.name = payload.name,
-        employee.technology = payload.technology
+        state.employees[index].name = payload.name,
+        state.employees[index].technology = payload.technology
       }
-      
     });
   }
 };
