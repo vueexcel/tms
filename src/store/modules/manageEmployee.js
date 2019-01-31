@@ -137,7 +137,7 @@ const state = {
   options: [
     {value: null, text: ''},
     { value: 'MAGENTO', text: 'MAGENTO' },
-    { value: 'REACT', text: 'R.E.A.C.T' },
+    { value: 'R.E.A.C.T', text: 'R.E.A.C.T' },
     { value: 'ANGULAR', text: 'ANGULAR' },
     { value: 'VUE', text: 'VUE' },
     { value: 'NODE', text: 'NODE' },

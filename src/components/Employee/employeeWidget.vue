@@ -76,7 +76,7 @@
                       width="40"
                       height="40"
                     >
-                    <i class="fa fa-times-circle text-danger mt-4 close-collapse" aria-hidden="true"></i>
+                    <i class="fa fa-times-circle text-danger mt-4 close-collapse" aria-hidden="true" @click="closeCollapse"></i>
                     <span class="ml-3">
                       <p class="text-primary fw-semi-bold fs-larger manager-name">{{manager.name}}</p>
                       <p class="text-dark manager-work">{{manager.work}}</p>
@@ -201,6 +201,10 @@ export default {
           id: this.employee.id
         })
       }
+    },
+    closeCollapse () {
+      this.manager = {}
+      console.log(this.manager, '*******************')
     }
   },
   mounted() {}
