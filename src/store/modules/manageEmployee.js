@@ -11,37 +11,37 @@ const state = {
       manager: [
         {
           image: "/img/a5.84f014f0.jpg",
-          img_id: "one",
+          manager_id: "one",
           name: "Mahima K",
           work: "VP Operations"
         },
         {
           image: "/img/a3.f6dc73f2.jpg",
-          img_id: "two",
+          manager_id: "two",
           name: "Manish",
           work: "CEO"
         },
         {
           image: "/img/a6.2966ab8e.jpg",
-          img_id: "three",
+          manager_id: "three",
           name: "Manish",
           work: "CEO"
         },
         {
           image: "/img/a3.f6dc73f2.jpg",
-          img_id: "four",
+          manager_id: "four",
           name: "Arun",
           work: "Sr. MEAN Stack Developer"
         },
         {
           image: "/img/a3.f6dc73f2.jpg",
-          img_id: "five",
+          manager_id: "five",
           name: "Deepak",
           work: "Sr. Magento Developer"
         },
         {
           image: "/img/a6.2966ab8e.jpg",
-          img_id: "six",
+          manager_id: "six",
           name: "Mahima k",
           work: "VP Operations"
         }
@@ -55,19 +55,19 @@ const state = {
       manager: [
         {
           image: "/img/a3.f6dc73f2.jpg",
-          img_id: "seven",
+          manager_id: "seven",
           name: "Arun",
           work: "Sr. MEAN Stack Developer"
         },
         {
           image: "/img/a3.f6dc73f2.jpg",
-          img_id: "eight",
+          manager_id: "eight",
           name: "Deepak",
           work: "Sr. Magento Developer"
         },
         {
           image: "/img/a6.2966ab8e.jpg",
-          img_id: "nine",
+          manager_id: "nine",
           name: "Mahima k",
           work: "VP Operations"
         }
@@ -81,7 +81,7 @@ const state = {
       manager: [
         {
           image: "/img/a3.f6dc73f2.jpg",
-          img_id: "ten",
+          manager_id: "ten",
           name: "Arun",
           work: "Sr. MEAN Stack Developer"
         }
@@ -95,13 +95,13 @@ const state = {
       manager: [
         {
           image: "/img/a3.f6dc73f2.jpg",
-          img_id: "eleven",
+          manager_id: "eleven",
           name: "Deepak",
           work: "Sr. Magento Developer"
         },
         {
           image: "/img/a6.2966ab8e.jpg",
-          img_id: "twelve",
+          manager_id: "twelve",
           name: "Mahima k",
           work: "VP Operations"
         }
@@ -115,19 +115,19 @@ const state = {
       manager: [
         {
           image: "/img/a3.f6dc73f2.jpg",
-          img_id: "thirteen",
+          manager_id: "thirteen",
           name: "Arun",
           work: "Sr. MEAN Stack Developer"
         },
         {
           image: "/img/a3.f6dc73f2.jpg",
-          img_id: "forteen",
+          manager_id: "forteen",
           name: "Deepak",
           work: "Sr. Magento Developer"
         },
         {
           image: "/img/a6.2966ab8e.jpg",
-          img_id: "fifteen",
+          manager_id: "fifteen",
           name: "Mahima k",
           work: "VP Operations"
         }
@@ -153,10 +153,20 @@ const actions = {
   saveEmployeeInfo({state}, payload) {
     state.employees.forEach((employee, index) => {
       if (employee.id === payload.id) {
-        state.employees[index].name = payload.name,
         state.employees[index].technology = payload.technology
       }
     });
+  },
+  deleteManager({state}, payload) {
+    state.employees.forEach((employee, index) => {
+      if(state.employees[index].id === payload.employeeId) {
+        state.employees[index].manager.forEach((manager, managerIndex) => {
+          if (state.employees[index].manager[managerIndex].manager_id === payload.manager.manager_id){
+            state.employees[index].manager.splice(managerIndex, 1); 
+          }
+        })
+      }
+    })
   }
 };
 
