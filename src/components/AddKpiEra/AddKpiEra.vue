@@ -6,8 +6,9 @@
         <div class="pb-xlg">
           <Widget class="mb-0 p-0">
             <h4 class="pl-4 pt-3">{{ team.name }}</h4>
+            <hr>
             <b-container class="pb-5 pt-3" v-if="!(team.addNewKpi && team.addNewEra)">
-              <hr>
+              <!-- <hr> -->
               <b-row class="text-center">
                 <b-col v-if="!team.addNewKpi">
                   <h5 class="text-primary pb-2">Add KPI</h5>
@@ -31,11 +32,18 @@
             </b-container>
             <!--!@#$%^&*() ADD KPI DIV HERE @#$%^&*() -->
             <div class="mb-0 p-0" v-if="team.addNewKpi">
-              <hr>
+              <!-- <hr> -->
               <!-- <h4 class="pl-4 pt-3">Jr. Web Developer</h4> -->
-              <h5 class="pl-4 pt-3 fw-bold">KPI</h5>
-              <hr>
-              <form class="inline pl-4 pr-4 pt-2 pb-4" @submit.prevent>
+              <h5 class="pl-4 pt-3 fw-bold">
+                KPI
+                <span
+                  v-show="!showKpiform"
+                  @click="showKpiform = true"
+                  class="float-right mr-4 ml-1 circle bg-success text-white fw-bold"
+                >+</span>
+              </h5>
+              <hr class="ml-4 mr-4">
+              <form v-show="showKpiform" class="inline pl-4 pr-4 pt-2 pb-4" @submit.prevent>
                 <b-form-input name="text" placeholder="KPI Heading" v-model="kpiHeading"></b-form-input>
                 <br>
                 <b-form-textarea
@@ -45,36 +53,75 @@
                   :rows="3"
                   :max-rows="6"
                 ></b-form-textarea>
-                <a class="btn btn-default btn-sm mt-2 pl-4 pr-4" @click="addKpi(index)">
+                <a
+                  class="btn btn-default btn-sm mt-2 pl-4 pr-4"
+                  @click="addKpi(index); showKpiform = false"
+                >
                   <i class="fas fa-plus" style="color:green;"></i>&nbsp;&nbsp;
                   Add
                 </a>
+                <hr>
               </form>
             </div>
-            <!--!@#$%^%$#@!@#$%^%@#$%^!@#$%^%$#@!@#$%^
-             !@#$%$#@!@#$%^%$#@   KPI'S CLOSABLE WIDGET 
-            !@#$%^%$#@!@#$%^!@#$%^&*&^%$#@!@#$%^&-->
+            <!--=============================================== 
+              ============ KPI'S CLOSABLE WIDGET ==============
+            ===================================================-->
             <!-- title="<h5 class='text-primary'>LIGHT BLUE REACHED $300</h5>" -->
             <div v-if="team.kpiList.length">
-              <div v-for="(kpiera, index) in team.kpiList" :key="index">
-                <widget customHeader class="m-0 pb-5" close>
-                  <h5 class="text-primary">{{ kpiera.heading.toUpperCase() }}</h5>
+              <div v-for="(kpiera, indexkpi) in team.kpiList" :key="indexkpi">
+                <!-- <widget customHeader class="m-0 pb-5" close> -->
+                <!-- <hr> -->
+                <div class="container pl-4">
+                  <!-- <h5 class="text-primary">{{ kpiera.heading.toUpperCase() }}</h5> -->
+                  <span
+                    class="text-primary fs-larger"
+                    v-show="!kpiera.edit"
+                    @dblclick="kpiera.edit = true;"
+                  >{{kpiera.heading.toUpperCase()}}</span>
+                  <input
+                    v-model="kpiera.heading"
+                    v-show="kpiera.edit"
+                    id="user-name"
+                    type="text"
+                    class="form-control"
+                    @blur="kpiera.edit = false"
+                    @keypress.enter="kpiera.edit = false; editKpi(index, indexkpi, kpiera.heading)"
+                  >
                   <section class="bg-white">
-                    <div class="w-75">
+                    <div class="w-75" style="white-space: pre-line;">
                       <h4 class="text-primary"></h4>
-                      {{ kpiera.desc }}
+                      <!-- {{ kpiera.desc }} -->
+                      <span v-show="!kpiera.edit" @dblclick="kpiera.edit = true;">{{kpiera.desc}}</span>
+                      <b-form-textarea
+                        id="textarea1"
+                        v-model="kpiera.desc"
+                        v-show="kpiera.edit"
+                        @blur="kpiera.edit = false"
+                        @keypress.enter="kpiera.edit = false; editKpiDesc(index, indexkpi, kpiera.desc)"
+                        :rows="3"
+                        :max-rows="6"
+                      ></b-form-textarea>
                     </div>
                   </section>
-                </widget>
+                </div>
+                <hr>
+                <!-- </widget> -->
               </div>
             </div>
-            <!--!@#$%^%$#@!@#$%^%!@#$%^%$#@!@#$%^&* 
-              !@#$%^%$#@!@#$%^ KPI'S CLOSABLE WIDGET ENDS 
-            !@#$%^%$#@!@#$%^!@#$%^&^%$#@!@#$%^&*-->
+            <!--==================================================== 
+              ============ KPI'S CLOSABLE WIDGET ENDS ==============
+            =======================================================-->
             <div class="mb-0 p-0" v-if="team.addNewEra">
-              <h5 class="pl-4 pt-3 fw-bold">ERA</h5>
-              <hr>
-              <form class="inline pl-4 pr-4 pt-2 pb-4" @submit.prevent>
+              <h5 class="pl-4 pt-3 fw-bold">
+                ERA
+                <span
+                  v-show="!showEraform"
+                  @click="showEraform = true"
+                  class="float-right mr-4 ml-1 circle bg-success text-white fw-bold"
+                >+</span>
+              </h5>
+              <hr class="ml-4 mr-4">
+              <form v-show="showEraform" class="inline pl-4 pr-4 pt-2 pb-4" @submit.prevent>
                 <b-form-input name="text" placeholder="ERA Heading" v-model="eraHeading"></b-form-input>
                 <br>
                 <b-form-textarea
@@ -84,32 +131,63 @@
                   :rows="3"
                   :max-rows="6"
                 ></b-form-textarea>
-                <a class="btn btn-default btn-sm mt-2 pl-4 pr-4" @click="addEra(index)">
+                <a
+                  class="btn btn-default btn-sm mt-2 pl-4 pr-4"
+                  @click="addEra(index) ; showEraform = false"
+                >
                   <i class="fas fa-plus" style="color:green;"></i>&nbsp;&nbsp;
                   Add
                 </a>
+                <hr>
               </form>
             </div>
-            <!--!@#$%^%$#@!@#$%^%@#$%^!@#$%^%$#@!@#$%^
-             !@#$%$#@!@#$%^%$#@   ERA'S CLOSABLE WIDGET 
-            !@#$%^%$#@!@#$%^!@#$%^&*&^%$#@!@#$%^&-->
+            <!--===========================================
+               =========== ERA'S CLOSABLE WIDGET ===========
+            ================================================-->
             <!-- title="<h5 class='text-primary'>LIGHT BLUE REACHED $300</h5>" -->
             <div v-if="team.eraList.length">
-              <div v-for="(kpiera, index) in team.eraList" :key="index">
-                <widget customHeader class="m-0 pb-5" close>
-                  <h5 class="text-primary">{{ kpiera.heading.toUpperCase() }}</h5>
+              <div v-for="(kpiera, indexera) in team.eraList" :key="indexera">
+                <!-- <widget customHeader class="m-0 pb-5" close> -->
+                <div class="container pl-4">
+                  <!-- <h5 class="text-primary">{{ kpiera.heading.toUpperCase() }}</h5> -->
+                  <span
+                    class="text-primary fs-larger"
+                    v-show="!kpiera.edit"
+                    @dblclick="kpiera.edit = true;"
+                  >{{kpiera.heading.toUpperCase()}}</span>
+                  <input
+                    v-model="kpiera.heading"
+                    v-show="kpiera.edit"
+                    id="user-name"
+                    type="text"
+                    class="form-control"
+                    @blur="kpiera.edit = false"
+                    @keypress.enter="kpiera.edit = false; editEra(index, indexera, kpiera.heading)"
+                  >
                   <section class="bg-white">
-                    <div class="w-75">
+                    <div class="w-75" style="white-space: pre-line;">
                       <h4 class="text-primary"></h4>
-                      {{ kpiera.desc }}
+                      <!-- {{ kpiera.desc }} -->
+                      <span v-show="!kpiera.edit" @dblclick="kpiera.edit = true;">{{kpiera.desc}}</span>
+                      <b-form-textarea
+                        id="textarea1"
+                        v-model="kpiera.desc"
+                        v-show="kpiera.edit"
+                        @blur="kpiera.edit = false"
+                        @keypress.enter="kpiera.edit = false; editEraDesc(index, indexera, kpiera.desc)"
+                        :rows="3"
+                        :max-rows="6"
+                      ></b-form-textarea>
                     </div>
                   </section>
-                </widget>
+                </div>
+                <hr>
+                <!-- </widget> -->
               </div>
             </div>
-            <!--!@#$%^%$#@!@#$%^%!@#$%^%$#@!@#$%^&* 
-              !@#$%^%$#@!@#$%^ ERA'S CLOSABLE WIDGET ENDS 
-            !@#$%^%$#@!@#$%^!@#$%^&^%$#@!@#$%^&*-->
+            <!--===================================================
+               =========== ERA'S CLOSABLE WIDGET ENDS ===========
+            =======================================================-->
           </Widget>
         </div>
       </b-col>
@@ -133,13 +211,13 @@
             <b-container class="pb-4 pt-1" v-if="team.memberList.length">
               <b-row v-for="(member, key) in team.memberList" :key="key">
                 <b-col class="col-md-1">
-                  <span class="position-relative"  @click="removeMember(key, index)">
+                  <span class="position-relative" @click="removeMember(key, index)">
                     <img class="rounded-circle" :src="member.src" width="33" height="33" alt="...">
                     <b-badge
                       variant="danger"
-                      class="rounded-circle fs-sm position-absolute badgePosSelected"
+                      class="circle-2 fs-sm position-absolute badgePosSelected p-0"
                     >
-                      <i class="fas fa-times" style="color:white;"></i>
+                      <i class="fas fa-times" style="color:white; font-size:10px"></i>
                     </b-badge>
                   </span>
                 </b-col>
@@ -172,9 +250,9 @@
               >
               <b-badge
                 :variant="img.variant"
-                class="rounded-circle fs-sm position-absolute badgePos"
+                class="circle-2 position-absolute badgePos p-0"
               >
-                <i class="fas fa-plus" style="color:white;"></i>
+                <i class="fa fa-plus" style="color:white; font-size:10px"></i>
               </b-badge>
             </span>
             <!-- ============================
@@ -317,6 +395,17 @@ export default {
     }
   },
   mounted() {},
+  data() {
+    return {
+      showKpiform: false,
+      showEraform: false,
+      user: {
+        name: "",
+        email: ""
+      },
+      editField: ""
+    };
+  },
   methods: {
     getProfile: call("profile/getProfile"),
     get_profile: function() {
@@ -324,6 +413,15 @@ export default {
         Authorization: localStorage.getItem("authenticated")
       });
     },
+    //---- edit KPI/ERA on the fly
+    // focusField(name, index) {
+    //   console.log("inside focus field", name, index);
+    //   this.editField = name;
+    // },
+    // blurField() {
+    //   console.log("INSIDE BLUR FIELD =========");
+    //   this.editField = "";
+    // },
     addNewTeam_: function() {
       if (this.newTeamName !== "") {
         this.addNewTeam.push({
@@ -342,20 +440,39 @@ export default {
       if ((this.kpiHeading && this.kpiDescription) !== "") {
         this.addNewTeam[index].kpiList.push({
           heading: this.kpiHeading,
-          desc: this.kpiDescription
+          desc: this.kpiDescription,
+          edit: false
         });
       }
       (this.kpiHeading = ""), (this.kpiDescription = "");
+    },
+    editKpi: function(index, indexkpi, val) {
+      console.log("EDIT KPI", index, val);
+      this.addNewTeam[index].kpiList[indexkpi].heading = val;
+      // this.editField = "";
+    },
+    editKpiDesc: function(index, indexkpi, val) {
+      console.log("EDIT KPIDESCRIPTION", index, val);
+      this.addNewTeam[index].kpiList[indexkpi].desc = val;
     },
     addEra: function(index) {
       console.log("inside add era block");
       if ((this.eraHeading && this.eraDescription) !== "") {
         this.addNewTeam[index].eraList.push({
           heading: this.eraHeading,
-          desc: this.eraDescription
+          desc: this.eraDescription,
+          edit: false
         });
       }
       (this.eraHeading = ""), (this.eraDescription = "");
+    },
+    editEra: function(index, indexera, val) {
+      console.log("EDIT ERA", index, val);
+      this.addNewTeam[index].eraList[indexera].heading = val;
+    },
+    editEraDesc: function(index, indexera, val) {
+      console.log("EDIT ERADESCRIPTION", index, val);
+      this.addNewTeam[index].eraList[indexera].desc = val;
     },
     addMember: function(i, index, name) {
       for (let index = 0; index < this.allMembers.length; index++) {
@@ -368,7 +485,6 @@ export default {
       this.addNewTeam[index].memberList.push(addMemberToList);
     },
     removeMember: function(key, index) {
-      // console.log(key, index, "removed from remove member ");
       this.addNewTeam[index].memberList.splice(key, 1);
     }
   }

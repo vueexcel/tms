@@ -8,8 +8,13 @@
       <!-- <a class="btn btn-success rounded-circle btn-sm" @click="addCreateNew = true">
         <i class="fas fa-plus" style="color:white;"></i>
       </a>-->
-      <span class="bg-success circle text-white" @click="addCreateNew = true">
-        <i class="la la-plus"></i>
+      &nbsp;
+      <span
+        v-if="addCreateNew !== true"
+        class="circle bg-success text-white fs-larger align-middle"
+        @click="addCreateNew = true"
+      >
+        <i class="fas fa-plus fs-lg"></i>
       </span>
     </h1>
     <b-container class="no-gutters p-0">
