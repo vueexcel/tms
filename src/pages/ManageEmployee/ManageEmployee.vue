@@ -42,11 +42,12 @@ export default {
   },
   mounted() {
     // console.log(localStorage.getItem("authenticated"));
+    
     this.get_profile();
   },
   computed: {
     name: get("profile/name"),
-    emp_arr: get("manageEmployee/employees")
+    emp_arr: get("manageEmployee/employees"),
   },
   methods: {
     getProfile: call("profile/getProfile"),

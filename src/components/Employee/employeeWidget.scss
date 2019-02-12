@@ -1,4 +1,4 @@
-@import '../../styles/app';
+@import "../../styles/app";
 
 .title {
   margin-top: 0;
@@ -49,7 +49,8 @@
     }
 
     .widget-body.p-0 {
-      margin: $widget-padding-vertical (-$widget-padding-horizontal) (-$widget-padding-vertical);
+      margin: $widget-padding-vertical (-$widget-padding-horizontal)
+        (-$widget-padding-vertical);
 
       + footer {
         margin-top: $widget-padding-vertical;
@@ -60,6 +61,158 @@
   &:global.bg-transparent {
     box-shadow: none;
   }
+}
+
+.close-collapse {
+  font-size: 20px !important;
+  margin-left: -8px;
+}
+.employee-name {
+  font-weight: 400;
+}
+.employee-technology {
+  font-weight: 400;
+  font-size: 13.9px;
+}
+.managers {
+  font-size: 12px;
+  font-weight: 380;
+  margin-top: 5px;
+}
+.avatars {
+  .col-12 {
+    display: flex;
+  }
+  .avatar:not(:first-child) {
+    margin-left: -14px;
+  }
+  .avatar {
+    position: relative;
+    border: 1px solid #fff;
+    border-radius: 50%;
+  }
+}
+
+.border-name {
+  border-radius: 4px;
+}
+.manager-name {
+  margin-bottom: 0px;
+}
+.manager-work {
+  margin-top: -5px;
+}
+.border-round {
+  border: 1px solid #e1e4e873;
+  border-radius: 4px;
+  border-bottom: 0px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+.dropDown-button {
+  border-radius: 50px;
+}
+.btn-outline-secondary {
+  border-radius: 4px !important;
+  border: 1px solid #e6e6e6 !important;
+}
+.btn-outline-secondary:hover {
+  color: #798892 !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border-color: #798892 !important;
+}
+.show > .btn-outline-secondary.dropdown-toggle {
+  color: #798892 !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border-color: #798892 !important;
+}
+
+.border-managers-container {
+  border: 1px solid #e1e4e873;
+}
+
+.avatar img {
+  width: 40px;
+  height: 40px;
+}
+a.button-for-employee {
+  border: 1px solid #e6e6e6;
+}
+
+.progress-bar-employee {
+  margin-bottom: 0px;
+}
+.employee-progress {
+  margin-top: 10px;
+  font-size: 0.9rem;
+}
+.all-manager-div{
+  padding: 10px 0;
+}
+
+.all-manager{
+  position: relative;
+  // margin: 0 ;
+}
+.fa-plus-circle-altered {
+  position: absolute;
+  bottom: 0;
+  right: -5px;
+  background: #fff;
+  border-radius: 100%;
+  z-index: 1;
+}
+.card-footer-altered {
+  padding: 5px 10px;
+  background: #fafbff;
+  border-top: 1px solid #e1e4e873;
+}
+
+.list {
+  width: 15px;
+  height: 15px;
+  text-align: center;
+  line-height: 2em;
+  border-radius: 50%;
+  border: 5px solid #ffc247;
+  margin: 0 4px;
+  display: inline-block;
+  position: relative;
+}
+.list::before {
+  content: "";
+  position: absolute;
+  top: 2.5px;
+  left: -16px;
+  width: 15px;
+  height: 0.2em;
+  background: #ffc247;
+}
+
+.list:first-child {
+  margin-left: 0px;
+}
+
+.list:first-child::before {
+  display: none;
+}
+
+// .active {
+//   background: #ffc247;
+// }
+
+.active ~ .list {
+  border: 5px solid darkgray;
+}
+
+.active ~ .list::before {
+  background: darkgray;
+}
+
+.add-icon {
+  font-size: 15px;
 }
 
 .widgetBody {
@@ -170,7 +323,7 @@
   }
 
   .widget-padding-lg {
-    padding: $widget-padding-vertical*2 $widget-padding-horizontal*2;
+    padding: $widget-padding-vertical * 2 $widget-padding-horizontal * 2;
   }
 
   .widget-body-container {
