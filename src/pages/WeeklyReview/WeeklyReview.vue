@@ -128,13 +128,14 @@
                     <br>(i.e., if project work did you did was difficult and
                     required more effort than usual)
                   </label>
-                  <div class="col-md-8">
+                  <!-- <div class="col-md-8">
                     <i class="fas fa-star" style="font-size:20px; color:#FFDA3D;"></i>
                     <i class="fas fa-star" style="font-size:20px; color:#FFDA3D;"></i>
                     <i class="fas fa-star" style="font-size:20px; color:#FFDA3D;"></i>
                     <i class="fas fa-star-half-alt" style="font-size:20px; color:#FFDA3D;"></i>
                     <i class="fas fa-star" style="font-size:20px;"></i>
-                  </div>
+                  </div> -->
+                  <starRating/>
                 </div>
               </fieldset>
               <div class="form-actions">
@@ -160,12 +161,16 @@
 import "imports-loader?jQuery=jquery,this=>window!flot";
 import "imports-loader?jQuery=jquery,this=>window!flot/jquery.flot.pie";
 /* eslint-enable */
+import starRating from '@/components/Star/Star'
 import Widget from "@/components/Widget/Widget";
 import { sync, call, get } from "vuex-pathify";
 
 export default {
   name: "WeeklyReview",
-  components: { Widget },
+  components: { 
+    Widget,
+    starRating
+  },
   data() {
     return {
       selected: "kpi",
