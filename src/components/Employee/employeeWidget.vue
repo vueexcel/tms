@@ -4,7 +4,7 @@
       <div class="card-body text-center">
         <div class="float-right">
           <i
-            class="fa fa-pencil btn"
+            class="fas fa-edit edit-button"
             v-if="!edit"
             @click="editEmployee(employee)"
             aria-hidden="true"

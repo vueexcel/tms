@@ -93,6 +93,10 @@
   }
 }
 
+.edit-button{
+  cursor: pointer;
+}
+
 .border-name {
   border-radius: 4px;
 }
@@ -185,9 +189,9 @@ a.button-for-employee {
   content: "";
   position: absolute;
   top: 2.5px;
-  left: -16px;
-  width: 15px;
-  height: 0.2em;
+  left: -14px;
+  width: 14px;
+  height: .2em;
   background: #ffc247;
 }
 
