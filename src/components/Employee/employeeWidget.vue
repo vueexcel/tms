@@ -17,10 +17,9 @@
         </div>
         <div>
           <img
-            class="rounded-circle ml-5"
+            class="rounded-circle ml-5 h-auto"
             src="@/assets/people/a5.jpg"
             width="75"
-            height="75"
             alt="..."
           >
         </div>
@@ -57,12 +56,11 @@
                   <img
                     @click="showCollapse(img)"
                     v-b-toggle="'manager' +img.manager_id"
-                    class="rounded-circle"
+                    class="rounded-circle h-auto"
                     v-b-tooltip.hover
                     :title="img.name"
                     :src="img.image"
                     width="40"
-                    height="40"
                   >
                 </a>
               </div>
@@ -77,11 +75,10 @@
               >
                 <div style="display:flex">
                   <img
-                    class="rounded-circle"
+                    class="rounded-circle h-auto"
                     :title="img.name"
                     :src="manager.image"
                     width="40"
-                    height="40"
                   >
                   <i
                     class="fa fa-times-circle text-danger mt-4 close-collapse"
@@ -135,12 +132,11 @@
                         :key="img.manager_id"
                       >
                         <img
-                          class="rounded-circle"
+                          class="rounded-circle h-auto"
                           v-b-tooltip.hover
                           :title="img.name"
                           :src="img.image"
                           width="30"
-                          height="30"
                         >
                         <i class="fas fa-plus-circle fa-plus-circle-altered add-icon text-primary"></i>
                       </div>

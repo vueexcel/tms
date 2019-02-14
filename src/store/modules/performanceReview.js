@@ -33,19 +33,7 @@ const state = {
         post: 'Sr. Magento Developer',
         image: "/img/a3.f6dc73f2.jpg",
     }
-  ],
-//   options: [
-//     {value: null, text: ''},
-//     { value: 'MAGENTO', text: 'MAGENTO' },
-//     { value: 'R.E.A.C.T', text: 'R.E.A.C.T' },
-//     { value: 'ANGULAR', text: 'ANGULAR' },
-//     { value: 'VUE', text: 'VUE' },
-//     { value: 'NODE', text: 'NODE' },
-//     {value: 'LARAVEL', text: 'LARAVEL'}
-//   ],
-//   employeeName: '',
-//   employeeTechnology: "",
-//   employeePost: ""
+  ]
 };
 const mutations = make.mutations(state);
 const actions = {

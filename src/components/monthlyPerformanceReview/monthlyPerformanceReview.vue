@@ -3,12 +3,11 @@
     <div class="text-center employee"  @click="checkEmployee(employee)" v-bind:class="{activeClass : employee.id === activeId}">  
         <div>
           <img
-            class="rounded-circle mt-2 mb-2"
+            class="rounded-circle mt-2 mb-2 h-auto"
             v-b-tooltip.hover
             :title="employee.name"
             :src="employee.image"
             width="40"
-            height="40"
           >
           <div class="name">{{employee.name}}</div>
           <div class="post">{{employee.post}}</div>
