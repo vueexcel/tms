@@ -4,13 +4,11 @@
       <b-breadcrumb-item>YOU ARE HERE</b-breadcrumb-item>
       <b-breadcrumb-item active>Manage Kpi's</b-breadcrumb-item>
     </b-breadcrumb>
-    <h1 class="page-title">KPI Management
-      <!-- <a class="btn btn-success rounded-circle btn-sm" @click="addCreateNew = true">
-        <i class="fas fa-plus" style="color:white;"></i>
-      </a>-->
+    <h1 class="page-title">
+      KPI Management
       &nbsp;
       <span
-        v-if="addCreateNew !== true"
+        v-if="!addCreateNew"
         class="circle bg-success text-white fs-larger align-middle"
         @click="addCreateNew = true"
       >
@@ -155,6 +153,7 @@ export default {
           memberList: []
         });
         this.newTeamName = "";
+        this.addCreateNew = false;
       }
     },
     addKpi: function(index) {
