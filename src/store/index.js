@@ -9,7 +9,6 @@ import weeklyReview from "./modules/weeklyReview";
 import adminKPI from "./modules/adminKPI";
 import manageEmployee from "./modules/manageEmployee";
 import performanceReview from "./modules/performanceReview";
-import star from "./modules/star"
 
 import layout from "./layout";
 
@@ -26,6 +25,5 @@ export default new Vuex.Store({
     adminKPI,
     manageEmployee,
     performanceReview,
-    star
   }
 });

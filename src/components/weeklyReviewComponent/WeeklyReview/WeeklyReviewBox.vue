@@ -84,10 +84,8 @@ export default {
  name: 'PerformanceBox',
  data () {
     return {
+        text:''
     }
- },
- computed: {
-    text: sync('star/text')
  },
  components: {
     starRating
