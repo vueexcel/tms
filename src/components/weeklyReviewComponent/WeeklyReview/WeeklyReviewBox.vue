@@ -62,9 +62,9 @@
                     <div class='border-top'></div>
                     <div class="mt-2 font-weight">Based on Weekly Review</div>
                 </div>
-                <starRating class="border-bottom"/>
+                <starRating class="border-bottom" @starRating="starRatingValue"/>
                 <div class="mt-2 font-weight">Difficulty level of Project (if project work you did was difficult/required more effort)</div>
-                <starRating class="border-bottom"/>
+                <starRating class="border-bottom" @starRating="starRatingValue"/>
                 <div sm="6">
                     <h6 class="text-inverse">Comments</h6>
                 </div>
@@ -79,12 +79,12 @@
 
 <script>
 import starRating from '@/components/Star/Star'
-import {get, sync} from 'vuex-pathify'
 export default {
  name: 'PerformanceBox',
  data () {
     return {
-        text:''
+        text:'',
+        voting: null
     }
  },
  components: {
@@ -95,12 +95,13 @@ export default {
         this.vote = value
     },
     submit() {
-        this.vote = null,
-        this.text = '',
-        this.difficultyRating = null
+        this.text = ''
     },
     givingDiifcultyRating(value) {
         this.difficultyRating = value
+    },
+    starRatingValue(value) {
+        this.voting = value
     }
  }
 }

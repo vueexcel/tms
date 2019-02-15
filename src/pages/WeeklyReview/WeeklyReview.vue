@@ -135,7 +135,7 @@
                     <i class="fas fa-star-half-alt" style="font-size:20px; color:#FFDA3D;"></i>
                     <i class="fas fa-star" style="font-size:20px;"></i>
                   </div> -->
-                  <starRating/>
+                  <starRating @starRating="starRatingValue"/>
                 </div>
               </fieldset>
               <div class="form-actions">
@@ -163,7 +163,7 @@ import "imports-loader?jQuery=jquery,this=>window!flot/jquery.flot.pie";
 /* eslint-enable */
 import starRating from '@/components/Star/Star'
 import Widget from "@/components/Widget/Widget";
-import { sync, call, get } from "vuex-pathify";
+import { call } from "vuex-pathify";
 
 export default {
   name: "WeeklyReview",
@@ -173,6 +173,7 @@ export default {
   },
   data() {
     return {
+      voting:null,
       selected: "kpi",
       options: [
         { value: "kpi", text: "KPIs" }, 
@@ -200,6 +201,9 @@ export default {
         extra: this.extraWorkDescription,
         select_days: ["id1", "id2", "id3"]
       });
+    },
+    starRatingValue(value) {
+      this.voting = value
     }
   }
 };

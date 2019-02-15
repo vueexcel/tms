@@ -62,7 +62,7 @@
                     <div class='border-top'></div>
                     <div class="mt-2 font-weight">Based on Weekly Review</div>
                 </div>
-                <starRating/>
+                <starRating @starRating="starRatingValue"/>
                 <div sm="6">
                     <h6 class="text-inverse">Comments</h6>
                 </div>
@@ -82,7 +82,7 @@ export default {
  data () {
     return {
         star: [1,2,3,4,5],
-        vote: null,
+        voting: null,
         text: ''
     }
  },
@@ -93,6 +93,9 @@ export default {
     submit() {
         this.vote = null,
         this.text = ''
+    },
+    starRatingValue(value) {
+        this.voting = value
     }
  }
 }

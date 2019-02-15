@@ -21,6 +21,7 @@ export default {
     methods: {
         rating(value) {
             this.vote =  value
+            this.$emit('starRating', value)
         }
     }
 
