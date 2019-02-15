@@ -91,14 +91,8 @@ export default {
     starRating
  },
  methods:{
-    giveRating(value) {
-        this.vote = value
-    },
     submit() {
         this.text = ''
-    },
-    givingDiifcultyRating(value) {
-        this.difficultyRating = value
     },
     starRatingValue(value) {
         this.voting = value
