@@ -128,14 +128,7 @@
                     <br>(i.e., if project work did you did was difficult and
                     required more effort than usual)
                   </label>
-                  <!-- <div class="col-md-8">
-                    <i class="fas fa-star" style="font-size:20px; color:#FFDA3D;"></i>
-                    <i class="fas fa-star" style="font-size:20px; color:#FFDA3D;"></i>
-                    <i class="fas fa-star" style="font-size:20px; color:#FFDA3D;"></i>
-                    <i class="fas fa-star-half-alt" style="font-size:20px; color:#FFDA3D;"></i>
-                    <i class="fas fa-star" style="font-size:20px;"></i>
-                  </div> -->
-                  <starRating :displayStar="starRating_arr" :ratedStar="ratedStar" @starRatingSelected="submitStarRate"/>
+                  <starRating :displayStar="5" :ratedStar="ratedStar" @starRatingSelected="submitStarRate"/>
                 </div>
               </fieldset>
               <div class="form-actions">
@@ -174,7 +167,6 @@ export default {
   data() {
     return {
       ratedStar: 1,
-      starRating_arr : [1,2,3,4,5],
       selected: "kpi",
       options: [
         { value: "kpi", text: "KPIs" }, 

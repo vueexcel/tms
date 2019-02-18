@@ -63,12 +63,12 @@
                     <div class="mt-2 font-weight">Based on Weekly Review</div>
                 </div>
                 <starRating class="border-bottom"
-                 :displayStar="starRating_arrWeekly"
+                 :displayStar="10"
                   :ratedStar="ratedStarWeekly" 
                   @starRatingSelected="submitStarRateWeekly"/>
                 <div class="mt-2 font-weight">Difficulty level of Project (if project work you did was difficult/required more effort)</div>
                 <starRating class="border-bottom" 
-                :displayStar="starRating_arrDifficulty" 
+                :displayStar="5" 
                 :ratedStar="ratedStarDifficulty" 
                 @starRatingSelected="submitStarRateDifficulty"/>
                 <div sm="6">
@@ -90,8 +90,8 @@ export default {
  data () {
     return {
         text:'',
-        starRating_arrWeekly: [1,2,3,4,5,6,7,8,9,10],
-        starRating_arrDifficulty: [1,2,3,4,5],
+        starRating_arrWeekly: 10,
+        starRating_arrDifficulty: 5,
         ratedStarWeekly: 1,
         ratedStarDifficulty: 2
     }

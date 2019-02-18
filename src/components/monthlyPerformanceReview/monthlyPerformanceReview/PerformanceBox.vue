@@ -62,7 +62,7 @@
                     <div class='border-top'></div>
                     <div class="mt-2 font-weight">Based on Weekly Review</div>
                 </div>
-                <starRating :displayStar="starRating_arr" :ratedStar="ratedStar" @starRatingSelected="submitStarRate"/>
+                <starRating :displayStar="5" :ratedStar="ratedStar" @starRatingSelected="submitStarRate"/>
                 <div sm="6">
                     <h6 class="text-inverse">Comments</h6>
                 </div>
@@ -82,7 +82,6 @@ export default {
  data () {
     return {
         text: '',
-        starRating_arr: [1,2,3,4,5],
         ratedStar: 1
     }
  },
