@@ -135,13 +135,13 @@
                     <i class="fas fa-star-half-alt" style="font-size:20px; color:#FFDA3D;"></i>
                     <i class="fas fa-star" style="font-size:20px;"></i>
                   </div> -->
-                  <starRating @starRating="starRatingValue"/>
+                  <starRating :Rating="Rating" @StarRating="StarRating" ref="form"/>
                 </div>
               </fieldset>
               <div class="form-actions">
                 <div class="row">
                   <div class="col-md-4 col-12">
-                    <button type="submit" class="btn btn-danger">Submit</button>
+                    <button @click="submit" type="submit" class="btn btn-danger">Submit</button>
                   </div>
                 </div>
               </div>
@@ -173,7 +173,7 @@ export default {
   },
   data() {
     return {
-      voting:null,
+      Rating: 1,
       selected: "kpi",
       options: [
         { value: "kpi", text: "KPIs" }, 
@@ -202,8 +202,12 @@ export default {
         select_days: ["id1", "id2", "id3"]
       });
     },
-    starRatingValue(value) {
-      this.voting = value
+    StarRating(value) {
+      this.Rating = value
+    },
+    submit() {
+      this.Rating= 1
+      this.$refs.form.submit()
     }
   }
 };

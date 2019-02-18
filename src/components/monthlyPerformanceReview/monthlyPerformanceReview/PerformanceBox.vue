@@ -62,7 +62,7 @@
                     <div class='border-top'></div>
                     <div class="mt-2 font-weight">Based on Weekly Review</div>
                 </div>
-                <starRating @starRating="starRatingValue"/>
+                <starRating ref="form"/>
                 <div sm="6">
                     <h6 class="text-inverse">Comments</h6>
                 </div>
@@ -81,9 +81,7 @@ export default {
  name: 'PerformanceBox',
  data () {
     return {
-        star: [1,2,3,4,5],
-        voting: null,
-        text: ''
+        text: '',
     }
  },
  components: {
@@ -91,13 +89,10 @@ export default {
  },
  methods:{
     submit() {
-        this.vote = null,
         this.text = ''
+        this.$refs.form.submit()
     },
-    starRatingValue(value) {
-        this.voting = value
-    }
- }
+  }
 }
 </script>
 

@@ -2,7 +2,11 @@
     <div class="d-flex justify-content-between mb-lg">
         <div class="text-dark">
             <h2>
-                <i class="fa fa-star mr-xs pointer" v-for="starKey in star_arr" :key="starKey" @click="rating(starKey)"  v-bind:class="{'text-warning' : starKey <= vote}"/>
+                <i class="far fa-star text-warning mr-xs pointer" 
+                v-for="starKey in star_arr" :key="starKey" 
+                @click="rating(starKey)"
+                v-bind:class="{ 'fa' : starKey <=  vote}"
+                />
             </h2>
         </div>
     </div>
@@ -14,14 +18,19 @@ export default {
     name: "starRating",
     data() {
         return{
-            star_arr:[1,2,3,4,5],
-            vote: 1    
+            star_arr:[1,2,3,4,5,6,7,8,9,10],
+            vote: 1
         }
+    },
+    created(){
+        this.rating(1)
     },
     methods: {
         rating(value) {
             this.vote =  value
-            this.$emit('starRating', value)
+        },
+        submit() {
+            this.vote = 1
         }
     }
 

@@ -62,9 +62,9 @@
                     <div class='border-top'></div>
                     <div class="mt-2 font-weight">Based on Weekly Review</div>
                 </div>
-                <starRating class="border-bottom" @starRating="starRatingValue"/>
+                <starRating class="border-bottom" ref="form1"/>
                 <div class="mt-2 font-weight">Difficulty level of Project (if project work you did was difficult/required more effort)</div>
-                <starRating class="border-bottom" @starRating="starRatingValue"/>
+                <starRating class="border-bottom" ref="form2"/>
                 <div sm="6">
                     <h6 class="text-inverse">Comments</h6>
                 </div>
@@ -84,7 +84,6 @@ export default {
  data () {
     return {
         text:'',
-        voting: null
     }
  },
  components: {
@@ -93,9 +92,8 @@ export default {
  methods:{
     submit() {
         this.text = ''
-    },
-    starRatingValue(value) {
-        this.voting = value
+        this.$refs.form1.submit()
+        this.$refs.form2.submit()
     }
  }
 }
