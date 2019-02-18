@@ -135,7 +135,7 @@
                     <i class="fas fa-star-half-alt" style="font-size:20px; color:#FFDA3D;"></i>
                     <i class="fas fa-star" style="font-size:20px;"></i>
                   </div> -->
-                  <starRating :displayStar="starRating_arr" :ratedStar="ratedStar" @submitStarRate="submitStarRate"/>
+                  <starRating :displayStar="starRating_arr" :ratedStar="ratedStar" @starRatingSelected="submitStarRate"/>
                 </div>
               </fieldset>
               <div class="form-actions">

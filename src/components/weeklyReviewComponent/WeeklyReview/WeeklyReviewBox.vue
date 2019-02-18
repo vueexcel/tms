@@ -62,9 +62,15 @@
                     <div class='border-top'></div>
                     <div class="mt-2 font-weight">Based on Weekly Review</div>
                 </div>
-                <starRating class="border-bottom" :displayStar="starRating_arrWeekly" :ratedStar="ratedStarWeekly" @submitStarRate="submitStarRateWeekly"/>
+                <starRating class="border-bottom"
+                 :displayStar="starRating_arrWeekly"
+                  :ratedStar="ratedStarWeekly" 
+                  @starRatingSelected="submitStarRateWeekly"/>
                 <div class="mt-2 font-weight">Difficulty level of Project (if project work you did was difficult/required more effort)</div>
-                <starRating class="border-bottom" :displayStar="starRating_arrDifficulty" :ratedStar="ratedStarDifficulty" @submitStarRate="submitStarRateDifficulty"/>
+                <starRating class="border-bottom" 
+                :displayStar="starRating_arrDifficulty" 
+                :ratedStar="ratedStarDifficulty" 
+                @starRatingSelected="submitStarRateDifficulty"/>
                 <div sm="6">
                     <h6 class="text-inverse">Comments</h6>
                 </div>

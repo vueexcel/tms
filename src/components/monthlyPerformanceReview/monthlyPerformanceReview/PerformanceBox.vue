@@ -62,7 +62,7 @@
                     <div class='border-top'></div>
                     <div class="mt-2 font-weight">Based on Weekly Review</div>
                 </div>
-                <starRating :displayStar="starRating_arr" :ratedStar="ratedStar" @submitStarRate="submitStarRate"/>
+                <starRating :displayStar="starRating_arr" :ratedStar="ratedStar" @starRatingSelected="submitStarRate"/>
                 <div sm="6">
                     <h6 class="text-inverse">Comments</h6>
                 </div>
