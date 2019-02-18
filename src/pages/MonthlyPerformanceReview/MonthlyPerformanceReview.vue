@@ -8,9 +8,9 @@
     <h5 class="page-title ml-3 row" style="font-size: 24px;">Team View</h5>
     <b-container class="no-gutters">
       <b-row>
-        <div xs="12" class="column w-15 d-inline-block" v-for="employee in emp_arr" :key="employee.id">
+        <b-col xs="12" class="column" v-for="employee in emp_arr" :key="employee.id">
           <MonthlyPerformanceReviewComponent :employee="employee" @setActive="setActive" :activeId="activeId"/>
-        </div>
+        </b-col>
       </b-row>
     </b-container>
     <div class="container-fluid">
