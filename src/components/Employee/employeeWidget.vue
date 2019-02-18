@@ -75,10 +75,11 @@
               >
                 <div style="display:flex">
                   <img
-                    class="rounded-circle h-auto"
+                    class="rounded-circle "
                     :title="img.name"
                     :src="manager.image"
                     width="40"
+                    height="40"
                   >
                   <i
                     class="fa fa-times-circle text-danger mt-4 close-collapse"
@@ -119,6 +120,9 @@
                     </li>
                     <li class="list">
                       <div class="text-primary fw-semi-bold employee-progress">9</div>
+                    </li>
+                    <li class="list">
+                      <div class="text-primary fw-semi-bold employee-progress d-flex">9</div>
                     </li>
                   </ul>
                   <div class="all-manager-div">
