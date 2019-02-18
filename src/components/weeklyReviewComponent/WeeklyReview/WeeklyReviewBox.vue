@@ -90,8 +90,6 @@ export default {
  data () {
     return {
         text:'',
-        starRating_arrWeekly: 10,
-        starRating_arrDifficulty: 5,
         ratedStarWeekly: 1,
         ratedStarDifficulty: 2
     }
