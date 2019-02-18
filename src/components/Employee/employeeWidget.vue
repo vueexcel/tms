@@ -112,9 +112,6 @@ export default {
       }
     }
   },
-  // components: {
-  //   Widget
-  // },
   mounted() {}
 };
 </script>
