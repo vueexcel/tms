@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- {{ array_[0].memberList }} -->
     <b-row v-for="(team,index) in array_" :key="index">
       <b-col lg="8" xs="12">
         <div class="pb-xlg">
@@ -31,7 +32,7 @@
             <!--!@#$%^&*() ADD KPI DIV HERE @#$%^&*() -->
             <div class="mb-0 p-0" v-if="team.addNewKpi">
               <hr>
-              <h4 class="pl-4 pt-3">Jr. Web Developer</h4>
+              <!-- <h4 class="pl-4 pt-3">Jr. Web Developer</h4> -->
               <h5 class="pl-4 pt-3 fw-bold">KPI</h5>
               <hr>
               <form class="inline pl-4 pr-4 pt-2 pb-4" @submit.prevent>
@@ -56,7 +57,7 @@
             <!-- title="<h5 class='text-primary'>LIGHT BLUE REACHED $300</h5>" -->
             <div v-if="team.kpiList.length">
               <div v-for="(kpiera, index) in team.kpiList" :key="index">
-                <widget customHeader class="m-0 pb-5">
+                <widget customHeader class="m-0 pb-5" close>
                   <h5 class="text-primary">{{ kpiera.heading.toUpperCase() }}</h5>
                   <section class="bg-white">
                     <div class="w-75">
@@ -95,7 +96,7 @@
             <!-- title="<h5 class='text-primary'>LIGHT BLUE REACHED $300</h5>" -->
             <div v-if="team.eraList.length">
               <div v-for="(kpiera, index) in team.eraList" :key="index">
-                <widget customHeader class="m-0 pb-5">
+                <widget customHeader class="m-0 pb-5" close>
                   <h5 class="text-primary">{{ kpiera.heading.toUpperCase() }}</h5>
                   <section class="bg-white">
                     <div class="w-75">
@@ -118,7 +119,7 @@
           <div class="pb-1 bg-white">
             <h4 class="pl-4 pt-3">Group Involved</h4>
             <hr>
-            <b-container class="pb-3 pt-1">
+            <b-container class="pb-3 pt-1" v-if="false">
               <b-row class="text-center">
                 <b-col>
                   <h6 class="text-primary fw-normal fs-larger">Add Member</h6>
@@ -128,6 +129,27 @@
                 </b-col>
               </b-row>
             </b-container>
+            <!--@@@@@@@ ADDED MEMBERS CONTAINER @@@@@-->
+            <b-container class="pb-4 pt-1" v-if="team.memberList.length">
+              <b-row v-for="(member, key) in team.memberList" :key="key">
+                <b-col class="col-md-1">
+                  <span class="position-relative"  @click="removeMember(key, index)">
+                    <img class="rounded-circle" :src="member.src" width="33" height="33" alt="...">
+                    <b-badge
+                      variant="danger"
+                      class="rounded-circle fs-sm position-absolute badgePosSelected"
+                    >
+                      <i class="fas fa-times" style="color:white;"></i>
+                    </b-badge>
+                  </span>
+                </b-col>
+                <b-col class="ml-2">
+                  <span class="text-primary fs-larger fw-normal">{{ member.name }}</span>
+                  <h6>Vp Operations</h6>
+                </b-col>
+              </b-row>
+            </b-container>
+            <!--@@@@@@@ ADDED MEMBERS CONTAINER ENDS @@@@@-->
             <div class="pl-4 pr-4 pb-1">
               <b-form-input type="search" v-model="searchField" name="search" placeholder="Search"></b-form-input>
             </div>
@@ -162,7 +184,8 @@
         </div>
         <!--$%$%$%$%%$%$%$%$%%$#$%$ group involved for add new member here ENDS ##$%#$$$$%$%$%$%$%$%$%4-->
         <!--!@!@!@!@!@!@!@!@ WHEN GROUP INVOLVED MEMBERS WILL BE ADDED !@!@!@!@!@!@!@!@!@!@@!-->
-        <div class="h-auto mt-5" v-if="true">
+        <!--@@@@ (v-if) made false to turn of this div @@@@ -->
+        <div class="h-auto mt-5" v-if="false">
           <div class="pb-2 bg-white">
             <h5 class="pl-4 pt-3">Group Involved</h5>
             <hr>
@@ -254,7 +277,7 @@
               >
                 <i class="fas fa-check" style="color:white;"></i>
               </b-badge>
-            </span>           
+            </span>
           </div>
         </div>
         <!--!@!@!@!@!@!@!@!@ WHEN GROUP INVOLVED MEMBERS WILL BE ADDED !@!@!@!@!@!@!@@!-->
@@ -343,6 +366,10 @@ export default {
       }
       // this.addNewTeam[index].memberList.push(this.allMembers[i]);
       this.addNewTeam[index].memberList.push(addMemberToList);
+    },
+    removeMember: function(key, index) {
+      // console.log(key, index, "removed from remove member ");
+      this.addNewTeam[index].memberList.splice(key, 1);
     }
   }
 };
