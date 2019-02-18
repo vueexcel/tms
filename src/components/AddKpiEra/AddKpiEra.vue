@@ -1,12 +1,12 @@
 <template>
   <div>
-    <b-row v-for="(team,index) in array_" :key="index">
+    <b-row v-for="(team,index) in array_.slice().reverse()" :key="index">
       <b-col lg="8" xs="12">
         <div class="pb-xlg">
           <Widget class="mb-0 p-0">
             <h4 class="pl-4 pt-3">{{ team.name }}</h4>
-            <!-- <hr> -->
-            <b-container class="pb-5 pt-3">
+            <hr v-if="!team.addNewKpi">
+            <b-container class="pb-0 pl-0 pr-0">
               <b-row v-if="team.addNewKpi">
                 <b-col>
                   <!--=== KPI ADD BUTTON & FORM === -->
@@ -19,8 +19,7 @@
                         class="float-right mr-4 ml-1 circle bg-success text-white fw-bold"
                       >+</span>
                     </h5>
-                    <hr class="ml-4 mr-4">
-                    <form v-show="showKpiform" class="inline pl-4 pr-4 pt-2 pb-4" @submit.prevent>
+                    <form v-show="showKpiform" class="inline pl-4 pr-4 pt-2 pb-2" @submit.prevent>
                       <b-form-input name="text" placeholder="KPI Heading" v-model="kpiHeading"></b-form-input>
                       <br>
                       <b-form-textarea
@@ -37,7 +36,6 @@
                         <i class="fas fa-plus" style="color:green;"></i>&nbsp;&nbsp;
                         Add
                       </a>
-                      <hr>
                     </form>
                   </div>
                   <!--=== KPI ADD BUTTON & FORM ENDS=== -->
@@ -45,6 +43,7 @@
                   <div v-if="team.kpiList.length">
                     <div v-for="(kpiera, indexkpi) in team.kpiList" :key="indexkpi">
                       <div class="container pl-4">
+                        <hr v-show="!kpiera.edit">
                         <span
                           class="text-primary fs-larger"
                           v-show="!kpiera.edit"
@@ -78,9 +77,9 @@
                           </div>
                         </section>
                       </div>
-                      <hr>
                     </div>
                   </div>
+                  <hr>
                   <!--=== --- KPI HEADING & DESCRIPTION ENDS---=== -->
                 </b-col>
               </b-row>
@@ -96,8 +95,7 @@
                         class="float-right mr-4 ml-1 circle bg-success text-white fw-bold"
                       >+</span>
                     </h5>
-                    <hr class="ml-4 mr-4">
-                    <form v-show="showEraform" class="inline pl-4 pr-4 pt-2 pb-4" @submit.prevent>
+                    <form v-show="showEraform" class="inline pl-4 pr-4 pt-2 pb-3" @submit.prevent>
                       <b-form-input name="text" placeholder="ERA Heading" v-model="eraHeading"></b-form-input>
                       <br>
                       <b-form-textarea
@@ -114,14 +112,13 @@
                         <i class="fas fa-plus" style="color:green;"></i>&nbsp;&nbsp;
                         Add
                       </a>
-                      <hr>
                     </form>
                   </div>
                 </b-col>
               </b-row>
               <!-- ==== ROW FOR ERA (ADDED) ERA's ENDS ==== -->
               <b-row class="text-center">
-                <b-col v-if="!team.addNewKpi">
+                <b-col v-if="!team.addNewKpi" class="pb-4">
                   <h5 class="text-primary pb-2">Add KPI</h5>
                   <a
                     @click="team.addNewKpi = true"
@@ -130,7 +127,7 @@
                     <i class="fas fa-plus position-absolute customPosPlus" style="color:green;"></i>
                   </a>
                 </b-col>
-                <b-col v-if="!team.addNewEra">
+                <b-col v-if="!team.addNewEra" class="pb-4">
                   <h5 class="text-primary pb-2">Add ERA</h5>
                   <a
                     @click="team.addNewEra = true"
@@ -147,6 +144,7 @@
             ================================================-->
             <div v-if="team.eraList.length">
               <div v-for="(kpiera, indexera) in team.eraList" :key="indexera">
+                <hr class="ml-4 mr-4 mt-2">
                 <div class="container pl-4">
                   <span
                     class="text-primary fs-larger"
@@ -178,8 +176,8 @@
                     </div>
                   </section>
                 </div>
-                <hr>
               </div>
+              <hr>
             </div>
             <!--===================================================
                =========== ERA'S CLOSABLE WIDGET ENDS ===========
@@ -422,9 +420,8 @@ export default {
       }
     },
     addKpi: function(index) {
-      console.log("inside add kpi block");
       if ((this.kpiHeading && this.kpiDescription) !== "") {
-        this.addNewTeam[index].kpiList.push({
+        this.addNewTeam[this.$props.array_.length - 1 - index].kpiList.push({
           heading: this.kpiHeading,
           desc: this.kpiDescription,
           edit: false
@@ -433,17 +430,18 @@ export default {
       (this.kpiHeading = ""), (this.kpiDescription = "");
     },
     editKpi: function(index, indexkpi, val) {
-      console.log("EDIT KPI", index, val);
-      this.addNewTeam[index].kpiList[indexkpi].heading = val;
+      this.addNewTeam[this.$props.array_.length - 1 - index].kpiList[
+        indexkpi
+      ].heading = val;
     },
     editKpiDesc: function(index, indexkpi, val) {
-      console.log("EDIT KPIDESCRIPTION", index, val);
-      this.addNewTeam[index].kpiList[indexkpi].desc = val;
+      this.addNewTeam[this.$props.array_.length - 1 - index].kpiList[
+        indexkpi
+      ].desc = val;
     },
     addEra: function(index) {
-      console.log("inside add era block");
       if ((this.eraHeading && this.eraDescription) !== "") {
-        this.addNewTeam[index].eraList.push({
+        this.addNewTeam[this.$props.array_.length - 1 - index].eraList.push({
           heading: this.eraHeading,
           desc: this.eraDescription,
           edit: false
@@ -452,12 +450,14 @@ export default {
       (this.eraHeading = ""), (this.eraDescription = "");
     },
     editEra: function(index, indexera, val) {
-      console.log("EDIT ERA", index, val);
-      this.addNewTeam[index].eraList[indexera].heading = val;
+      this.addNewTeam[this.$props.array_.length - 1 - index].eraList[
+        indexera
+      ].heading = val;
     },
     editEraDesc: function(index, indexera, val) {
-      console.log("EDIT ERADESCRIPTION", index, val);
-      this.addNewTeam[index].eraList[indexera].desc = val;
+      this.addNewTeam[this.$props.array_.length - 1 - index].eraList[
+        indexera
+      ].desc = val;
     },
     addMember: function(i, index, name) {
       for (let index = 0; index < this.allMembers.length; index++) {
@@ -466,10 +466,15 @@ export default {
           var addMemberToList = this.allMembers[index];
         }
       }
-      this.addNewTeam[index].memberList.push(addMemberToList);
+      this.addNewTeam[this.$props.array_.length - 1 - index].memberList.push(
+        addMemberToList
+      );
     },
     removeMember: function(key, index) {
-      this.addNewTeam[index].memberList.splice(key, 1);
+      this.addNewTeam[this.$props.array_.length - 1 - index].memberList.splice(
+        key,
+        1
+      );
     }
   }
 };

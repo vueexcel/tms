@@ -15,7 +15,7 @@
         <i class="fas fa-plus fs-lg"></i>
       </span>
     </h1>
-    <b-container class="no-gutters p-0">
+    <b-container fluid class="p-0 m-0">
       <b-row>
         <b-col lg="8" xs="12">
           <!--=================== CREATE NEW ============================-->
@@ -157,7 +157,6 @@ export default {
       }
     },
     addKpi: function(index) {
-      console.log("inside add kpi block");
       if ((this.kpiHeading && this.kpiDescription) !== "") {
         this.addNewTeam[index].kpiList.push({
           heading: this.kpiHeading,
@@ -167,7 +166,6 @@ export default {
       (this.kpiHeading = ""), (this.kpiDescription = "");
     },
     addEra: function(index) {
-      console.log("inside add era block");
       if ((this.eraHeading && this.eraDescription) !== "") {
         this.addNewTeam[index].eraList.push({
           heading: this.eraHeading,
@@ -177,7 +175,6 @@ export default {
       (this.eraHeading = ""), (this.eraDescription = "");
     },
     addMember: function(i, index) {
-      console.log(i, index, "===========", this.allMembers[i]);
       this.addNewTeam[index].memberList.push(this.allMembers[i]);
     }
   }
