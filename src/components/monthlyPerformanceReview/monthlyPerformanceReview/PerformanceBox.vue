@@ -62,14 +62,7 @@
                     <div class='border-top'></div>
                     <div class="mt-2 font-weight">Based on Weekly Review</div>
                 </div>
-                <div class="d-flex justify-content-between mb-lg border-bottom">
-                    <div class="text-dark">
-                        <h2>
-                            <i class="fa fa-star mr-xs pointer" v-for="starKey in star" :key="starKey" @click="giveRating(starKey)"  v-bind:class="{'text-warning' : starKey <= vote}"/>
-                        </h2>
-                    </div>
-                    <span class="text-muted"><small>{{vote}}</small></span>
-                </div>
+                <starRating :displayStar="5" :ratedStar="ratedStar" @starRatingSelected="submitStarRate"/>
                 <div sm="6">
                     <h6 class="text-inverse">Comments</h6>
                 </div>
@@ -83,28 +76,27 @@
 </template>
 
 <script>
-import Widget from '@/components/Widget/Widget'
+import starRating from '@/components/Star/Star'
 export default {
  name: 'PerformanceBox',
  data () {
     return {
-        star: [1,2,3,4,5],
-        vote: null,
-        text: ''
+        text: '',
+        ratedStar: 1
     }
  },
- component: {
-    Widget
+ components: {
+    'starRating' : starRating
  },
  methods:{
-    giveRating(value) {
-        this.vote = value
-    },
     submit() {
-        this.vote = null,
         this.text = ''
+        this.ratedStar = 1
+    },
+    submitStarRate(value){
+        this.ratedStar = value
     }
- }
+  }
 }
 </script>
 

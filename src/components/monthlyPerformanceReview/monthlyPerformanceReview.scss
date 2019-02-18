@@ -101,6 +101,11 @@
 
 .pointer{
   cursor: pointer;
+  &.fa {
+    font-size: 30px;
+    transform: translateY(1px);
+    padding-right: 3.8px;
+  }
 }
 
 

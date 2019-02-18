@@ -62,23 +62,15 @@
                     <div class='border-top'></div>
                     <div class="mt-2 font-weight">Based on Weekly Review</div>
                 </div>
-                <div class="d-flex justify-content-between mb-lg border-bottom">
-                    <div class="text-dark">
-                        <h2>
-                            <i class="fa fa-star mr-xs pointer" v-for="starKey in star" :key="starKey" @click="giveRating(starKey)"  v-bind:class="{'text-warning' : starKey <= vote}"/>
-                        </h2>
-                    </div>
-                    <span class="text-muted"><small>{{vote}}</small></span>
-                </div>
+                <starRating class="border-bottom"
+                 :displayStar="10"
+                  :ratedStar="ratedStarWeekly" 
+                  @starRatingSelected="submitStarRateWeekly"/>
                 <div class="mt-2 font-weight">Difficulty level of Project (if project work you did was difficult/required more effort)</div>
-                <div class="d-flex justify-content-between mb-lg border-bottom">
-                    <div class="text-dark">
-                        <h2>
-                            <i class="fa fa-star mr-xs pointer" v-for="difficultRating in star" :key="difficultRating" @click="givingDiifcultyRating(difficultRating)" v-bind:class="{'text-warning' : difficultRating <= difficultyRating }"></i>
-                        </h2>
-                    </div>
-                    <span class="text-muted"><small>{{difficultyRating}}</small></span>
-                </div>
+                <starRating class="border-bottom" 
+                :displayStar="5" 
+                :ratedStar="ratedStarDifficulty" 
+                @starRatingSelected="submitStarRateDifficulty"/>
                 <div sm="6">
                     <h6 class="text-inverse">Comments</h6>
                 </div>
@@ -92,31 +84,30 @@
 </template>
 
 <script>
-import Widget from '@/components/Widget/Widget'
+import starRating from '@/components/Star/Star'
 export default {
  name: 'PerformanceBox',
  data () {
     return {
-        star: [1,2,3,4,5],
-        vote: null,
-        difficultyRating: null,
-        text: ''
+        text:'',
+        ratedStarWeekly: 1,
+        ratedStarDifficulty: 2
     }
  },
- component: {
-    Widget
+ components: {
+    starRating
  },
  methods:{
-    giveRating(value) {
-        this.vote = value
-    },
     submit() {
-        this.vote = null,
-        this.text = '',
-        this.difficultyRating = null
+        this.text = ''
+        this.ratedStarDifficulty = 1
+        this.ratedStarWeekly = 1
     },
-    givingDiifcultyRating(value) {
-        this.difficultyRating = value
+    submitStarRateWeekly(value){
+        this.ratedStarWeekly = value 
+    },
+    submitStarRateDifficulty(value) {
+        this.ratedStarDifficulty = value
     }
  }
 }
