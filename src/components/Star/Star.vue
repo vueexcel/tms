@@ -3,9 +3,9 @@
         <div class="text-dark">
             <h2>
                 <i class="far fa-star text-warning mr-xs pointer" 
-                v-for="starKey in star_arr" :key="starKey" 
+                v-for="starKey in displayStar" :key="starKey" 
                 @click="rating(starKey)"
-                v-bind:class="{ 'fa' : starKey <=  vote}"
+                v-bind:class="{ 'fa' : starKey <=  starRate}"
                 />
             </h2>
         </div>
@@ -18,8 +18,16 @@ export default {
     name: "starRating",
     data() {
         return{
-            star_arr:[1,2,3,4,5,6,7,8,9,10],
-            vote: 1
+            starRate: 1
+        }
+    },
+    props: {
+        displayStar:{ type: Array, default: [1,2,3,4,5]},
+        ratedStar: {type: Number, default: 1}
+    },
+    watch:{
+        ratedStar: function(newVal, oldVal) { // watch it
+            this.starRate = newVal
         }
     },
     created(){
@@ -27,10 +35,8 @@ export default {
     },
     methods: {
         rating(value) {
-            this.vote =  value
-        },
-        submit() {
-            this.vote = 1
+            this.starRate =  value
+            this.$emit('submitStarRate', this.starRate)
         }
     }
 

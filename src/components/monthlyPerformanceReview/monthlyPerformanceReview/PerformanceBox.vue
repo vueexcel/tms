@@ -62,7 +62,7 @@
                     <div class='border-top'></div>
                     <div class="mt-2 font-weight">Based on Weekly Review</div>
                 </div>
-                <starRating ref="form"/>
+                <starRating :displayStar="starRating_arr" :ratedStar="ratedStar" @submitStarRate="submitStarRate"/>
                 <div sm="6">
                     <h6 class="text-inverse">Comments</h6>
                 </div>
@@ -82,6 +82,8 @@ export default {
  data () {
     return {
         text: '',
+        starRating_arr: [1,2,3,4,5],
+        ratedStar: 1
     }
  },
  components: {
@@ -90,8 +92,11 @@ export default {
  methods:{
     submit() {
         this.text = ''
-        this.$refs.form.submit()
+        this.ratedStar = 1
     },
+    submitStarRate(value){
+        this.ratedStar = value
+    }
   }
 }
 </script>

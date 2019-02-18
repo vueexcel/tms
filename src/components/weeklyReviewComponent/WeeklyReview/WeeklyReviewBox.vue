@@ -62,9 +62,9 @@
                     <div class='border-top'></div>
                     <div class="mt-2 font-weight">Based on Weekly Review</div>
                 </div>
-                <starRating class="border-bottom" ref="form1"/>
+                <starRating class="border-bottom" :displayStar="starRating_arrWeekly" :ratedStar="ratedStarWeekly" @submitStarRate="submitStarRateWeekly"/>
                 <div class="mt-2 font-weight">Difficulty level of Project (if project work you did was difficult/required more effort)</div>
-                <starRating class="border-bottom" ref="form2"/>
+                <starRating class="border-bottom" :displayStar="starRating_arrDifficulty" :ratedStar="ratedStarDifficulty" @submitStarRate="submitStarRateDifficulty"/>
                 <div sm="6">
                     <h6 class="text-inverse">Comments</h6>
                 </div>
@@ -84,6 +84,10 @@ export default {
  data () {
     return {
         text:'',
+        starRating_arrWeekly: [1,2,3,4,5,6,7,8,9,10],
+        starRating_arrDifficulty: [1,2,3,4,5],
+        ratedStarWeekly: 1,
+        ratedStarDifficulty: 2
     }
  },
  components: {
@@ -92,8 +96,14 @@ export default {
  methods:{
     submit() {
         this.text = ''
-        this.$refs.form1.submit()
-        this.$refs.form2.submit()
+        this.ratedStarDifficulty = 1
+        this.ratedStarWeekly = 1
+    },
+    submitStarRateWeekly(value){
+        this.ratedStarWeekly = value 
+    },
+    submitStarRateDifficulty(value) {
+        this.ratedStarDifficulty = value
     }
  }
 }
