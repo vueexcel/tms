@@ -122,7 +122,7 @@
                       <div class="text-primary fw-semi-bold employee-progress">9</div>
                     </li>
                     <li class="list">
-                      <div class="text-primary fw-semi-bold employee-progress d-flex">9</div>
+                      <div class="text-primary fw-semi-bold employee-progress d-flex">10</div>
                     </li>
                   </ul>
                   <div class="all-manager-div">
