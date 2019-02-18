@@ -3,7 +3,7 @@
         <div class="text-dark">
             <h2>
                 <i class="far fa-star text-warning mr-xs pointer" 
-                v-for="starKey in displayStarValue" :key="starKey" 
+                v-for="starKey in displayStar" :key="starKey" 
                 @click="rating(starKey)"
                 v-bind:class="{ 'fa' : starKey <=  ratedStar}"
                 />
@@ -19,17 +19,6 @@ export default {
     props: {
         displayStar: {type: Number, default: 5},
         ratedStar: {type: Number, default: 1}
-    },
-    computed:{
-        displayStarValue() {
-            let array = []
-            let i = 1
-            while(i<=this.displayStar) {
-                array.push(i)
-                i++
-            }
-            return array
-        }
     },
     created(){
         this.rating(1)
