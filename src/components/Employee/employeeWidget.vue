@@ -27,9 +27,6 @@
         <div>
           <span class="fs-larger text-capitalize">
             <span class="employee-name">{{employee.name}}</span>
-            <!-- <div class="form-group" v-else>
-              <input type="text" class="border border-name text-secondary" id="name" v-model="name">
-            </div>-->
           </span>
           <span>
             <p
@@ -45,114 +42,7 @@
           </a>
         </div>
       </div>
-      <div class="card-footer-altered">
-        <b-row>
-        <b-container>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
-          <div class="managers">MANAGERS</div>
-          <b-row v-if="employee && employee.manager" class="avatars">
-            <div class="col-12">
-              <div v-for="img in employee.manager" :key="img.manager_id" class="avatar" xs="12">
-                <a>
-                  <img
-                    @click="showCollapse(img)"
-                    v-b-toggle="'manager' +img.manager_id"
-                    class="rounded-circle h-auto"
-                    v-b-tooltip.hover
-                    :title="img.name"
-                    :src="img.image"
-                    width="40"
-                  >
-                </a>
-              </div>
-            </div>
-          </b-row>
-          <!-- <b-row> -->
-            <br/>
-            <div v-for="img in employee.manager" :key="img.manager_id">
-              <b-collapse
-                :id="'manager' +manager.manager_id"
-                v-if="manager.manager_id === img.manager_id"
-              >
-                <div style="display:flex">
-                  <img
-                    class="rounded-circle "
-                    :title="img.name"
-                    :src="manager.image"
-                    width="40"
-                    height="40"
-                  >
-                  <i
-                    class="fa fa-times-circle text-danger mt-4 close-collapse"
-                    aria-hidden="true"
-                    @click="closeCollapse(manager)"
-                  ></i>
-                  <span class="ml-3">
-                    <p class="text-primary fw-semi-bold fs-larger manager-name">{{manager.name}}</p>
-                    <p class="text-dark manager-work">{{manager.work}}</p>
-                  </span>
-                </div>
-                <div>
-                  <p class="mt-2 mb-2 text-dark">Manager Weight:</p>
-                  <ul class="progress-bar-employee">
-                    <li class="list">
-                      <div class="text-primary fw-semi-bold employee-progress">1</div>
-                    </li>
-                    <li class="list">
-                      <div class="text-primary fw-semi-bold employee-progress">2</div>
-                    </li>
-                    <li class="list">
-                      <div class="text-primary fw-semi-bold employee-progress">3</div>
-                    </li>
-                    <li class="active list">
-                      <div class="text-primary fw-semi-bold employee-progress">4</div>
-                    </li>
-                    <li class="list">
-                      <div class="text-primary fw-semi-bold employee-progress">5</div>
-                    </li>
-                    <li class="list">
-                      <div class="text-primary fw-semi-bold employee-progress">6</div>
-                    </li>
-                    <li class="list">
-                      <div class="text-primary fw-semi-bold employee-progress">7</div>
-                    </li>
-                    <li class="list">
-                      <div class="text-primary fw-semi-bold employee-progress">8</div>
-                    </li>
-                    <li class="list">
-                      <div class="text-primary fw-semi-bold employee-progress">9</div>
-                    </li>
-                    <li class="list">
-                      <div class="text-primary fw-semi-bold employee-progress d-flex">10</div>
-                    </li>
-                  </ul>
-                  <div class="all-manager-div">
-                    <div class="w-100">
-                      <p class="block-example mt-2">All</p>
-                    </div>
-                    <div style="display: flex">
-                      <div
-                        class="all-manager"
-                        v-for="img in employee.manager"
-                        :key="img.manager_id"
-                      >
-                        <img
-                          class="rounded-circle h-auto"
-                          v-b-tooltip.hover
-                          :title="img.name"
-                          :src="img.image"
-                          width="30"
-                        >
-                        <i class="fas fa-plus-circle fa-plus-circle-altered add-icon text-primary"></i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </b-collapse>
-            </div>
-          <!-- </b-row> -->
-        </b-container>
-        </b-row>
-      </div>
+      <ManagerComponent :manager="employee.manager" :employeID="employee.id"/>
     </div>
     <!-- </Widget> -->
   </div>
@@ -161,11 +51,14 @@
 <script>
 import $ from "jquery";
 import "imports-loader?window.jQuery=jquery,this=>window!widgster"; // eslint-disable-line
-// import Widget from '@/components/Widget/Widget'
+import ManagerComponent from '@/components/Employee/ManagerComponent/ManagerComponent'
 import { get, call, sync } from "vuex-pathify";
 
 export default {
   name: "employeeWidget",
+  components: {
+    ManagerComponent
+  },
   data() {
     return {
       show: false,
@@ -179,7 +72,6 @@ export default {
     employee: { type: Object, default: () => ({}) }
   },
   computed: {
-    emp_arr: get("manageEmployee/employees"),
     name: sync("manageEmployee/employeeName"),
     technology: sync("manageEmployee/employeeTechnology"),
     options: sync("manageEmployee/options"),
@@ -226,13 +118,13 @@ export default {
         });
       }
     },
-    closeCollapse(manager) {
-      this.manager = {};
-      this.deleteManager({
-        manager: manager,
-        employeeId: this.employee.id
-      });
-    }
+    // deleteManager(manager) {
+    //   this.manager = {};
+    //   this.deleteManager({
+    //     manager: manager,
+    //     employeeId: this.employee.id
+    //   });
+    // }
   },
   mounted() {}
 };

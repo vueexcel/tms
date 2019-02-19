@@ -12,7 +12,7 @@
         <img class="pl-1 pr-4" src="@/images/X_logo.png" width="50px" alt="logo">
       </router-link>
     </header>
-    <ul class="nav" v-show="true" >
+    <ul class="nav" v-show="false" >
       <NavLink
         header="Dashboard"
         link="/app/profile"
@@ -63,7 +63,7 @@
         isHeader
       />
     </ul>
-    <ul class="nav" v-show="false" >
+    <ul class="nav" v-show="true" >
       <NavLink
         header="Manage KPI's"
         link="manageKpi"
@@ -85,7 +85,7 @@
         index="tables"
         isHeader
       />
-        header="View Weekly Report"
+        <!-- header="View Weekly Report" -->
       <NavLink
         link="/app/notifications"
         iconName="fas fa-calendar-minus"
