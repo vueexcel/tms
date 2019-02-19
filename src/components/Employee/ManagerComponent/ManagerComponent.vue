@@ -84,7 +84,6 @@
 </template>
 
 <script>
-import { call } from "vuex-pathify";
 
 export default {
   name: 'ManagerComponent',
@@ -95,11 +94,9 @@ export default {
     }
   },
   props:{
-    manager: {type : Array, default: []},
-    employeID: {type: Number, default: 1}
+    manager: {type : Array},
   },
   methods:{
-    deleteManager: call("manageEmployee/deleteManager"),
     showCollapse(value) {
       this.show = !this.show;
       if (value) {
@@ -107,10 +104,7 @@ export default {
       }
     },
     closeCollapse(manager) {
-      this.deleteManager({
-        manager: this.managerObj,
-        employeeId: this.employeID
-      });
+      this.$emit("deleteManager", manager)
       this.managerObj = {};
     }
   }
