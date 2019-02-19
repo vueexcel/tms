@@ -61,8 +61,6 @@ export default {
   },
   data() {
     return {
-      show: false,
-      manager: {},
       edit: false,
       selected: null,
       technologySelect: ""
@@ -91,14 +89,6 @@ export default {
   },
   methods: {
     saveEmployeeInfo: call("manageEmployee/saveEmployeeInfo"),
-    deleteManager: call("manageEmployee/deleteManager"),
-    showCollapse(value) {
-      var removed = [];
-      this.show = !this.show;
-      if (value) {
-        this.manager = value;
-      }
-    },
     editEmployee(employee) {
       this.edit = true;
       this.options[0].text = employee.technology;
@@ -117,14 +107,7 @@ export default {
           id: this.employee.id
         });
       }
-    },
-    // deleteManager(manager) {
-    //   this.manager = {};
-    //   this.deleteManager({
-    //     manager: manager,
-    //     employeeId: this.employee.id
-    //   });
-    // }
+    }
   },
   mounted() {}
 };

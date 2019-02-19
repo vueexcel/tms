@@ -4,9 +4,9 @@
         <b-row>
         <b-container>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
           <div class="managers">MANAGERS</div>
-          <b-row v-if="managerShowing && managerShowing.length" class="avatars">
+          <b-row v-if="manager && manager.length" class="avatars">
             <div class="col-12">
-              <div v-for="img in managerShowing" :key="img.manager_id" class="avatar" xs="12">
+              <div v-for="img in manager" :key="img.manager_id" class="avatar" xs="12">
                 <a>
                   <img
                     @click="showCollapse(img)"
@@ -22,7 +22,7 @@
             </div>
           </b-row>
             <br/>
-            <div v-for="img in managerShowing" :key="img.manager_id">
+            <div v-for="img in manager" :key="img.manager_id">
               <b-collapse
                 :id="'manager' + managerObj.manager_id"
                 v-if="managerObj.manager_id === img.manager_id"
@@ -59,7 +59,7 @@
                     <div style="display: flex">
                       <div
                         class="all-manager"
-                        v-for="img in managerShowing"
+                        v-for="img in manager"
                         :key="img.manager_id"
                       >
                         <img
@@ -84,7 +84,7 @@
 </template>
 
 <script>
-import { get, call, sync } from "vuex-pathify";
+import { call } from "vuex-pathify";
 
 export default {
   name: 'ManagerComponent',
@@ -92,18 +92,6 @@ export default {
     return { 
       show: false,
       managerObj: {}
-    }
-  },
-  computed: {
-    emp_arr: sync("manageEmployee/employees"),
-    managerShowing() {
-      let managers = []
-      this.emp_arr.forEach((element, index) => {
-        if (this.emp_arr[index].id === this.employeID) {
-          managers = this.emp_arr[index].manager 
-        }
-      })
-      return managers
     }
   },
   props:{
