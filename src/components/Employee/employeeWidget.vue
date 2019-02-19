@@ -42,7 +42,7 @@
           </a>
         </div>
       </div>
-      <ManagerComponent :manager="employee.manager" :employeID="employee.id"/>
+      <ManagerComponent :manager="employee.manager" @deleteManager="managerDelete"/>
     </div>
     <!-- </Widget> -->
   </div>
@@ -89,6 +89,7 @@ export default {
   },
   methods: {
     saveEmployeeInfo: call("manageEmployee/saveEmployeeInfo"),
+    deleteManager: call("manageEmployee/deleteManager"),
     editEmployee(employee) {
       this.edit = true;
       this.options[0].text = employee.technology;
@@ -107,6 +108,12 @@ export default {
           id: this.employee.id
         });
       }
+    },
+    managerDelete(value){
+      this.deleteManager({
+        manager: value,
+        employeeId: this.employee.id
+      })
     }
   },
   mounted() {}

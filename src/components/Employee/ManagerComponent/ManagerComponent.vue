@@ -28,13 +28,14 @@
                 v-if="managerObj.manager_id === img.manager_id"
               >
                 <div style="display:flex">
-                  <img
-                    class="rounded-circle"
-                    :title="img.name"
-                    :src="managerObj.image"
-                    width="40"
-                    height="40"
-                  >
+                  <div height="40">
+                    <img
+                      class="rounded-circle h-auto"
+                      :title="img.name"
+                      :src="managerObj.image"
+                      width="40"
+                    >
+                  </div>
                   <i
                     class="fa fa-times-circle text-danger mt-4 close-collapse"
                     aria-hidden="true"
@@ -84,7 +85,6 @@
 </template>
 
 <script>
-import { call } from "vuex-pathify";
 
 export default {
   name: 'ManagerComponent',
@@ -96,10 +96,8 @@ export default {
   },
   props:{
     manager: {type : Array, default: []},
-    employeID: {type: Number, default: 1}
   },
   methods:{
-    deleteManager: call("manageEmployee/deleteManager"),
     showCollapse(value) {
       this.show = !this.show;
       if (value) {
@@ -107,10 +105,7 @@ export default {
       }
     },
     closeCollapse(manager) {
-      this.deleteManager({
-        manager: this.managerObj,
-        employeeId: this.employeID
-      });
+      this.$emit('deleteManager', this.managerObj)
       this.managerObj = {};
     }
   }
