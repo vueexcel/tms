@@ -66,7 +66,7 @@
     <ul class="nav" v-show="true" >
       <NavLink
         header="Manage KPI's"
-        link="manageKpi"
+        link="/admin/manageKpi"
         iconName="fas fa-inbox"
         index="dashboard"
         isHeader
