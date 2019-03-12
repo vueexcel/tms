@@ -27,13 +27,12 @@
                 :id="'manager' + managerObj.manager_id"
                 v-if="managerObj.manager_id === img.manager_id"
               >
-                <div style="display:flex">
+                <div style="display:flex" class="set_height">
                   <img
-                    class="rounded-circle"
+                    class="rounded-circle h-auto"
                     :title="img.name"
                     :src="managerObj.image"
                     width="40"
-                    height="40"
                   >
                   <i
                     class="fa fa-times-circle text-danger mt-4 close-collapse"
@@ -111,6 +110,4 @@ export default {
 }
 </script>
 
-<style>
-
-</style>
+<style src="./../employeeWidget.scss" lang="scss" />
