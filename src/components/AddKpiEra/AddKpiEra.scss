@@ -224,13 +224,13 @@
 
 
 .badgePos {
-  font-size: 7px;
+  font-size: 3px;
   left: 14px;
-  bottom: -7px;
+  bottom: -10px;
 }
 
 .badgePosSelected {
-  font-size: 7px;
+  // font-size: 7px;
   left: 20px;
   bottom: -16px;
 }
@@ -241,6 +241,15 @@
 }
 
 .customPosPlus {
-  left: 23px;
-  bottom: 23px;
+  left: 18px;
+  bottom: 16px;
+  font-size: 26px;
+}
+
+.circle-2 {
+  border-radius: 50% !important;
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  text-align: center;
 }

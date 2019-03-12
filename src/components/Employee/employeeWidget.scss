@@ -7,6 +7,10 @@
   @include clearfix();
 }
 
+.set_height{
+  display: flex;
+  height: 40px;
+}
 .widget {
   display: block;
   position: relative;

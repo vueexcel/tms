@@ -4,15 +4,18 @@
       <b-breadcrumb-item>YOU ARE HERE</b-breadcrumb-item>
       <b-breadcrumb-item active>Manage Kpi's</b-breadcrumb-item>
     </b-breadcrumb>
-    <h1 class="page-title">KPI Management
-      <!-- <a class="btn btn-success rounded-circle btn-sm" @click="addCreateNew = true">
-        <i class="fas fa-plus" style="color:white;"></i>
-      </a>-->
-      <span class="bg-success circle text-white" @click="addCreateNew = true">
-        <i class="la la-plus"></i>
+    <h1 class="page-title">
+      KPI Management
+      &nbsp;
+      <span
+        v-if="!addCreateNew"
+        class="circle bg-success text-white fs-larger align-middle"
+        @click="addCreateNew = true"
+      >
+        <i class="fas fa-plus fs-lg"></i>
       </span>
     </h1>
-    <b-container class="no-gutters p-0">
+    <b-container fluid class="p-0 m-0">
       <b-row>
         <b-col lg="8" xs="12">
           <!--=================== CREATE NEW ============================-->
@@ -150,10 +153,10 @@ export default {
           memberList: []
         });
         this.newTeamName = "";
+        this.addCreateNew = false;
       }
     },
     addKpi: function(index) {
-      console.log("inside add kpi block");
       if ((this.kpiHeading && this.kpiDescription) !== "") {
         this.addNewTeam[index].kpiList.push({
           heading: this.kpiHeading,
@@ -163,7 +166,6 @@ export default {
       (this.kpiHeading = ""), (this.kpiDescription = "");
     },
     addEra: function(index) {
-      console.log("inside add era block");
       if ((this.eraHeading && this.eraDescription) !== "") {
         this.addNewTeam[index].eraList.push({
           heading: this.eraHeading,
@@ -173,7 +175,6 @@ export default {
       (this.eraHeading = ""), (this.eraDescription = "");
     },
     addMember: function(i, index) {
-      console.log(i, index, "===========", this.allMembers[i]);
       this.addNewTeam[index].memberList.push(this.allMembers[i]);
     }
   }

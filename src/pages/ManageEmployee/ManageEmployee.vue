@@ -25,7 +25,6 @@
 </template>
 
 <script>
-import $ from "jquery";
 /* eslint-disable */
 import "imports-loader?jQuery=jquery,this=>window!flot";
 import "imports-loader?jQuery=jquery,this=>window!flot/jquery.flot.pie";
@@ -39,8 +38,6 @@ export default {
     employeeWidget
   },
   mounted() {
-    // console.log(localStorage.getItem("authenticated"));
-    
     this.get_profile();
   },
   computed: {

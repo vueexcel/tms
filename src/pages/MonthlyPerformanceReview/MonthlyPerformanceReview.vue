@@ -7,10 +7,10 @@
     <span class="page-title ml-3 row" style="font-size: 43px;">Monthly Manager Review </span>
     <h5 class="page-title ml-3 row" style="font-size: 24px;">Team View</h5>
     <b-container class="no-gutters">
-      <b-row>
-        <b-col xs="12" class="column" v-for="employee in emp_arr" :key="employee.id">
+      <b-row class="row-altered">
+        <div class="members" v-for="employee in emp_arr" :key="employee.id">
           <MonthlyPerformanceReviewComponent :employee="employee" @setActive="setActive" :activeId="activeId"/>
-        </b-col>
+        </div>
       </b-row>
     </b-container>
     <div class="container-fluid">
