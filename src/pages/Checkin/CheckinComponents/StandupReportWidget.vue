@@ -9,22 +9,36 @@
         alt="..."
       >
       <span>
-        <span class="text-primary fs-larger fw-semi-bold">Jessica Smith</span>
+        <span class="text-primary fs-larger fw-semi-bold">{{ userName }}</span>
         <br>
-        <span>December 13,2018 at 8:03 PM</span>
+        <span>{{ date_Time }}</span>
       </span>
     </p>
-    <p>#report
-      <br>worked on singapp
-      <br>created login component
-      <br>installed vuex
-      <br>worked on HMG
-    </p>
+    <p>{{ userReport }}</p>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    imgSrc: {
+      type: String,
+      require: true
+    },
+    userName: {
+      type: String,
+      require: true
+    },
+    date_Time: {
+      type: String,
+      require: true
+    },
+    userReport: {
+      type: String,
+      require: true
+    }
+  }
+};
 </script>
 
 <style src="../Checkin.scss" lang="scss" scoped />

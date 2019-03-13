@@ -24,7 +24,7 @@
                         alt="..."
                       >
                       <span>
-                        <span class="text-primary fs-larger fw-semi-bold">Jessica Smith</span>
+                        <span class="text-primary fs-larger fw-semi-bold">Jessica Smith=======</span>
                         <br>
                         <span>
                           {{ report.created_at.slice(0,-12)}} at
@@ -45,9 +45,23 @@
               </ul>
               <ul>
                 <li class="c2">
-                  <StandUpWidget></StandUpWidget>
-                  <!-- ============ COMMENT ===========-->
-                  <Comments></Comments>
+                  <StandUpWidget
+                    imgSrc="./../../../static/people/a6.jpg"
+                    userName="Jessica Smith"
+                    date_Time="December 13,2018 at 8:03 PM"
+                    userReport="#report
+                              worked on singapp
+                              created login component
+                              installed vuex
+                              worked on HMG"
+                  ></StandUpWidget>
+                  <!-- ============ COMMENTS ===========-->
+                  <Comments
+                    userName="Ignacio Abad"
+                    commentTime="6 mins ago"
+                    comment="Hey, have you heard anything about that?"
+                    imgSrc="@/assets/people/a1.jpg"
+                  ></Comments>
                   <div class="time">
                     <h4>today
                       <br>9:41 am
@@ -57,28 +71,15 @@
               </ul>
               <ul>
                 <li class="c3">
-                  <div class="content p-0">
-                    <!-- <h3>What is Lorem Ispem?</h3> -->
-                    <p>
-                      <img
-                        class="rounded-circle mr-2 mt-1 float-left"
-                        src="@/assets/people/a6.jpg"
-                        width="35"
-                        height="35"
-                        alt="..."
-                      >
-                      <span>
-                        <span class="text-primary fs-larger fw-semi-bold">Jessica Smith</span>
-                        <br>
-                        <span>Today at 9:41 AM</span>
-                      </span>
-                    </p>
-                    <p>Standup
-                      <br>will work on
-                      <br>singapp ---> implement pathify
-                      <br>read more...
-                    </p>
-                  </div>
+                  <StandUpWidget
+                    imgSrc="@/assets/people/a6.jpg"
+                    userName="Jessica Smith"
+                    date_Time="Today at 9:41 AM"
+                    userReport="Standup
+                      will work on
+                      singapp ---> implement pathify
+                      read more..."
+                  ></StandUpWidget>                  
                   <div class="time">
                     <h4>today
                       <br>9:41 am

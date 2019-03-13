@@ -77,7 +77,44 @@
 </template>
 
 <script>
-export default {};
+import { sync, call, get } from "vuex-pathify";
+import Widget from "@/components/Widget/Widget";
+
+export default {
+  components: { Widget },
+  computed: {
+    status: sync("checkin/status"),
+    reason: sync("checkin/reason"),
+    reasonHighlight: sync("checkin/reasonHighlight"),
+    genReport: sync("checkin/genReport"),
+    genReportReason: sync("checkin/genReportReason"),
+    highlightTask: sync("checkin/highlightTask"),
+    highlightTaskReason: sync("checkin/highlightTaskReason"),
+    reports: get("checkin/reports")
+  },
+  mounted() {
+    this.getAllCheckinsAPI();
+  },
+  methods: {
+    dailyCheckin: call("checkin/dailyCheckin"),
+    getAllCheckins: call("checkin/getAllCheckins"),
+    formSubmit: function() {
+      this.dailyCheckin({
+        report: this.genReport,
+        task_completed: this.status,
+        task_not_completed_reason: this.genReportReason,
+        highlight: this.highlightTask
+      });
+      this.genReport = "";
+      this.status = "";
+      this.genReportReason = "";
+      this.highlightTask = "";
+    },
+    getAllCheckinsAPI: function() {
+      this.getAllCheckins();
+    }
+  }
+};
 </script>
 <style src="./Checkin.scss" lang="scss" scoped />
 
