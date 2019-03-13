@@ -128,19 +128,13 @@
                     <br>(i.e., if project work did you did was difficult and
                     required more effort than usual)
                   </label>
-                  <div class="col-md-8">
-                    <i class="fas fa-star" style="font-size:20px; color:#FFDA3D;"></i>
-                    <i class="fas fa-star" style="font-size:20px; color:#FFDA3D;"></i>
-                    <i class="fas fa-star" style="font-size:20px; color:#FFDA3D;"></i>
-                    <i class="fas fa-star-half-alt" style="font-size:20px; color:#FFDA3D;"></i>
-                    <i class="fas fa-star" style="font-size:20px;"></i>
-                  </div>
+                  <starRating :displayStar="5" :ratedStar="ratedStar" @starRatingSelected="submitStarRate"/>
                 </div>
               </fieldset>
               <div class="form-actions">
                 <div class="row">
                   <div class="col-md-4 col-12">
-                    <button type="submit" class="btn btn-danger">Submit</button>
+                    <button @click="submit" type="submit" class="btn btn-danger">Submit</button>
                   </div>
                 </div>
               </div>
@@ -160,14 +154,19 @@
 import "imports-loader?jQuery=jquery,this=>window!flot";
 import "imports-loader?jQuery=jquery,this=>window!flot/jquery.flot.pie";
 /* eslint-enable */
+import starRating from '@/components/Star/Star'
 import Widget from "@/components/Widget/Widget";
-import { sync, call, get } from "vuex-pathify";
+import { call } from "vuex-pathify";
 
 export default {
   name: "WeeklyReview",
-  components: { Widget },
+  components: { 
+    Widget,
+    starRating
+  },
   data() {
     return {
+      ratedStar: 1,
       selected: "kpi",
       options: [
         { value: "kpi", text: "KPIs" }, 
@@ -195,6 +194,12 @@ export default {
         extra: this.extraWorkDescription,
         select_days: ["id1", "id2", "id3"]
       });
+    },
+    submitStarRate(value) {
+      this.ratedStar = value
+    },
+    submit() {
+      this.ratedStar = 1
     }
   }
 };

@@ -12,7 +12,7 @@
         <img class="pl-1 pr-4" src="@/images/X_logo.png" width="50px" alt="logo">
       </router-link>
     </header>
-    <ul class="nav" v-show="false" >
+    <ul class="nav" v-show="true" >
       <NavLink
         header="Dashboard"
         link="/app/profile"
@@ -36,9 +36,16 @@
       />
       <NavLink
         header="Performance Review"
-        link="/app/notifications"
+        link="/app/PerformanceReview"
         iconName="fas fa-chart-line"
-        index="notifications"
+        index="performanceReview"
+        isHeader
+      />
+      <NavLink
+        header="Weekly Report Review"
+        link="/app/WeeklyReport"
+        iconName="fas fa-chart-line"
+        index="performanceReview"
         isHeader
       />
       <NavLink
@@ -56,7 +63,7 @@
         isHeader
       />
     </ul>
-    <ul class="nav" v-show="true" >
+    <ul class="nav" v-show="false" >
       <NavLink
         header="Manage KPI's"
         link="/admin/manageKpi"
@@ -78,8 +85,8 @@
         index="tables"
         isHeader
       />
+        <!-- header="View Weekly Report" -->
       <NavLink
-        header="View Weekly Report"
         link="/app/notifications"
         iconName="fas fa-calendar-minus"
         index="notifications"

@@ -8,6 +8,7 @@ import profile from "./modules/profile";
 import weeklyReview from "./modules/weeklyReview";
 import adminKPI from "./modules/adminKPI";
 import manageEmployee from "./modules/manageEmployee";
+import performanceReview from "./modules/performanceReview";
 
 import layout from "./layout";
 
@@ -21,6 +22,7 @@ export default new Vuex.Store({
     profile,
     weeklyReview,
     adminKPI,
-    manageEmployee
+    manageEmployee,
+    performanceReview,
   }
 });
