@@ -6,6 +6,7 @@
                 v-for="starKey in displayStar" :key="starKey" 
                 @click="rating(starKey)"
                 v-bind:class="{ 'fa' : starKey <=  ratedStar}"
+                :style="{'font-size' : `${starSize}`}"
                 />
             </h2>
         </div>
@@ -18,7 +19,8 @@ export default {
     name: "starRating",
     props: {
         displayStar: {type: Number, default: 5},
-        ratedStar: {type: Number, default: 1}
+        ratedStar: {type: Number, default: 1},
+        starSize: {type: String}
     },
     created(){
         this.rating(1)

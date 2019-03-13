@@ -188,7 +188,7 @@
                 </div>
               </div>
               <div class="fs-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.</div>
-              <starRating :displayStar="5" :ratedStar="ratedStar" @starRatingSelected="submitStarRateOne" />
+              <starRating :displayStar="5" :starSize="starSize" :ratedStar="ratedStar" @starRatingSelected="submitStarRateOne" />
             </widget>
           </div>
           <widget class="h-auto">
@@ -201,7 +201,7 @@
             <div
               class="fs-sm"
             >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</div>
-            <starRating :displayStar="5" :ratedStar="ratedStar" @starRatingSelected="submitStarRateTwo" />
+            <starRating :displayStar="5" :starSize="starSize" :ratedStar="two" @starRatingSelected="submitStarRateTwo" />
           </widget>
         </b-col>
       </b-row>
@@ -225,7 +225,8 @@ export default {
   data() {
     return {
       ratedStar: 1,
-      two: 1
+      two: 1,
+      starSize: '17px'
     }
   },
   components: { Widget, AreaComponent, starRating },
