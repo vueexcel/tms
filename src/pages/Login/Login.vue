@@ -48,33 +48,47 @@
 
 <script>
 import Widget from "@/components/Widget/Widget";
-import { get, call } from "vuex-pathify";
+import { get, call, sync } from "vuex-pathify";
 
 export default {
   name: "LoginPage",
   components: { Widget },
   computed: {
-    authenticated: get("login/authenticated")
+    authenticated: get("login/authenticated"),
     // loginfailed: get("login/loginfailed")
+    sidebar: sync("login/sidebar")
   },
   methods: {
     api: call("login/login_"),
+    // login() {
+    //   const username = this.$refs.username.value;
+    //   const password = this.$refs.password.value;
+
+    //   if (username.length !== 0 && password.length !== 0) {
+    //     this.api({
+    //       username: username,
+    //       password: password
+    //     });
+    //   }
+    // }
     login() {
       const username = this.$refs.username.value;
       const password = this.$refs.password.value;
-
-      if (username.length !== 0 && password.length !== 0) {
-        this.api({
-          username: username,
-          password: password
-        });
+      if ((username === "admin") & (password === "java@123")) {
+        this.sidebar = true;
+        this.$router.push("/admin/manageKpi");
+      } else if ((username === "user") & (password === "java@123")) {
+        this.sidebar = false;
+        this.$router.push("/app/profile");
+      } else {
+        alert("please make sure you entered correct user name & password");
       }
     }
   },
   created() {
     // if (window.localStorage.getItem("authenticated") !== null) {
     // this.$router.push("/app/profile");
-    this.$router.push("/admin/manageKpi"); //comment this to go to Login
+    // this.$router.push("/admin/manageKpi"); //comment this to go to Login
   }
 };
 // };

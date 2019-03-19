@@ -12,7 +12,8 @@
         <img class="pl-1 pr-4" src="@/images/X_logo.png" width="50px" alt="logo">
       </router-link>
     </header>
-    <ul class="nav" v-show="true" >
+    <!-- USER -->
+    <ul class="nav" v-if="!sidebar">
       <NavLink
         header="Dashboard"
         link="/app/profile"
@@ -63,7 +64,8 @@
         isHeader
       />
     </ul>
-    <ul class="nav" v-show="false" >
+    <!-- ADMIN -->
+    <ul class="nav" v-if="sidebar">
       <NavLink
         header="Manage KPI's"
         link="/admin/manageKpi"
@@ -78,14 +80,15 @@
         index="typography"
         isHeader
       />
+       <!-- link="/app/weeklyReview" -->
       <NavLink
         header="View Check-ins"
-        link="/app/weeklyReview"
+        link="/app/notifications"
         iconName="fas fa-bars"
         index="tables"
         isHeader
       />
-        <!-- header="View Weekly Report" -->
+      <!-- header="View Weekly Report" -->
       <NavLink
         link="/app/notifications"
         iconName="fas fa-calendar-minus"
@@ -107,6 +110,7 @@
 import { mapState, mapActions } from "vuex";
 import isScreen from "@/core/screenHelper";
 import NavLink from "./NavLink/NavLink";
+import { get } from "vuex-pathify";
 
 export default {
   name: "Sidebar",
@@ -153,13 +157,15 @@ export default {
   },
   created() {
     this.setActiveByRoute();
+    console.log(this.sidebar);
   },
   computed: {
     ...mapState("layout", {
       sidebarStatic: state => state.sidebarStatic,
       sidebarOpened: state => !state.sidebarClose,
       activeItem: state => state.sidebarActiveElement
-    })
+    }),
+    sidebar: get("login/sidebar")
   }
 };
 </script>
