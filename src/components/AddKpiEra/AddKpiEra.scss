@@ -226,13 +226,18 @@
 .badgePos {
   font-size: 3px;
   left: 14px;
+  cursor: pointer;
   bottom: -10px;
 }
 
 .badgePosSelected {
   // font-size: 7px;
-  left: 20px;
-  bottom: -16px;
+  left: 29px;
+  bottom: -8px;
+}
+
+.cursor{
+  cursor: pointer;
 }
 
 .btn-Custom {

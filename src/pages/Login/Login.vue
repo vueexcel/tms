@@ -1,47 +1,49 @@
 <template>
   <div class="login-page">
-    <b-container class="pt-1 pb-1 bg-white shadow w-50">
-      <Widget class="mx-auto" customHeader>
-        <h5 class="logo mb-5">
-          <img src="./../../images/logo.png" width="100%" alt="logo">
-        </h5>
-        <h6 class="mt-0 mb-5 text-center font-weight-bold">Enter Your ExcellenceHR Username to Login</h6>
-        <form class="mt-4" @submit.prevent="login">
-          <b-alert class="alert-sm" variant="danger">Wrong Credentials try again</b-alert>
-          <div class="form-group">
-            <input
-              class="form-control no-border"
-              ref="username"
-              required
-              type="text"
-              name="username"
-              placeholder="Username"
-              autofocus
-            >
-          </div>
-          <div class="form-group">
-            <input
-              class="form-control no-border"
-              ref="password"
-              required
-              type="password"
-              name="password"
-              placeholder="Password"
-            >
-          </div>
-          <div class="clearfix">
-            <div class="abc-checkbox float-left">
-              <input type="checkbox" id="checkbox">
-              <label for="checkbox" class="text-muted fs-sm">
-                <span class="align-text-middle">Keep me signed in</span>
-              </label>
+    <b-container class="pt-1 pb-1 bg-white shadow-sm w-50">
+      <div class="mx-auto" customHeader>
+        <div class="login_container pt-4 pb-5">
+          <h5 class="logo mb-5">
+            <img src="./../../images/logo.png" width="100%" alt="logo">
+          </h5>
+          <h6 class="mt-0 mb-5 text-center font-weight-bold">Enter Your ExcellenceHR Username to Login</h6>
+          <form class="mt-4" @submit.prevent="login">
+            <b-alert class="alert-sm" variant="danger">Wrong Credentials try again</b-alert>
+            <div class="form-group">
+              <input
+                class="form-control no-border"
+                ref="username"
+                required
+                type="text"
+                name="username"
+                placeholder="Username"
+                autofocus
+              >
             </div>
-            <div class="btn-toolbar float-right">
-              <b-button class="pr-4 pl-4" type="submit" size="sm" variant="inverse">Login</b-button>
+            <div class="form-group">
+              <input
+                class="form-control no-border"
+                ref="password"
+                required
+                type="password"
+                name="password"
+                placeholder="Password"
+              >
             </div>
-          </div>
-        </form>
-      </Widget>
+            <div class="clearfix">
+              <div class="abc-checkbox float-left">
+                <input type="checkbox" id="checkbox">
+                <label for="checkbox" class="text-muted fs-sm">
+                  <span class="align-text-middle">Keep me signed in</span>
+                </label>
+              </div>
+              <div class="btn-toolbar float-right">
+                <b-button class="pr-4 pl-4" type="submit" size="sm" variant="inverse">Login</b-button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
     </b-container>
   </div>
 </template>
