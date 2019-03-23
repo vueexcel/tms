@@ -19,12 +19,12 @@
                       <img
                         class="rounded-circle mr-2 mt-1 float-left"
                         src="@/assets/people/a6.jpg"
-                        width="35"
-                        height="35"
+                        width="25"
+                        height="25"
                         alt="..."
                       >
                       <span>
-                        <span class="text-primary fs-larger fw-semi-bold">Jessica Smith=======</span>
+                        <span class="text-primary fs-larger fw-semi-bold">Jessica Smith</span>
                         <br>
                         <span>
                           {{ report.created_at.slice(0,-12)}} at
@@ -63,8 +63,10 @@
                     imgSrc="@/assets/people/a1.jpg"
                   ></Comments>
                   <div class="time">
-                    <h4>today
-                      <br>9:41 am
+                    <h4>
+                      today
+                      <br>9:41
+                      <span class="fw-semi-bold">am</span>
                     </h4>
                   </div>
                 </li>
@@ -79,10 +81,12 @@
                       will work on
                       singapp ---> implement pathify
                       read more..."
-                  ></StandUpWidget>                  
+                  ></StandUpWidget>
                   <div class="time">
-                    <h4>today
-                      <br>9:41 am
+                    <h4>
+                      today
+                      <br>9:41
+                      <span class="fw-semi-bold">am</span>
                     </h4>
                   </div>
                 </li>

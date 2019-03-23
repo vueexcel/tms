@@ -44,6 +44,10 @@
                     <div v-for="(kpiera, indexkpi) in team.kpiList" :key="indexkpi">
                       <div class="container pl-4">
                         <hr v-show="!kpiera.edit">
+                        <i
+                          class="fas fa-times-circle text-secondary pull-right pt-1 pr-2"
+                          @click="deleteKpi(index, indexkpi, kpiera)"
+                        ></i>
                         <span
                           class="text-primary fs-larger"
                           v-show="!kpiera.edit"
@@ -146,6 +150,10 @@
               <div v-for="(kpiera, indexera) in team.eraList" :key="indexera">
                 <hr class="ml-4 mr-4 mt-2">
                 <div class="container pl-4">
+                  <i
+                    class="fas fa-times-circle text-secondary pull-right pt-1 pr-2"
+                    @click="deleteEra(index, indexera, kpiera)"
+                  ></i>
                   <span
                     class="text-primary fs-larger"
                     v-show="!kpiera.edit"
@@ -390,8 +398,8 @@ export default {
   mounted() {},
   data() {
     return {
-      showKpiform: true,
-      showEraform: true,
+      showKpiform: false, //previously true
+      showEraform: false, //previously true
       user: {
         name: "",
         email: ""
@@ -430,14 +438,28 @@ export default {
       (this.kpiHeading = ""), (this.kpiDescription = "");
     },
     editKpi: function(index, indexkpi, val) {
-      this.addNewTeam[this.$props.array_.length - 1 - index].kpiList[
-        indexkpi
-      ].heading = val;
+      if (val !== "") {
+        this.addNewTeam[this.$props.array_.length - 1 - index].kpiList[
+          indexkpi
+        ].heading = val;
+      } else {
+        this.addNewTeam[this.$props.array_.length - 1 - index].kpiList.splice(
+          indexkpi,
+          1
+        );
+      }
     },
     editKpiDesc: function(index, indexkpi, val) {
       this.addNewTeam[this.$props.array_.length - 1 - index].kpiList[
         indexkpi
       ].desc = val;
+    },
+    deleteKpi: function(index, indexkpi, val) {
+      console.log(index, indexkpi, val);
+      this.addNewTeam[this.$props.array_.length - 1 - index].kpiList.splice(
+        indexkpi,
+        1
+      );
     },
     addEra: function(index) {
       if ((this.eraHeading && this.eraDescription) !== "") {
@@ -450,14 +472,27 @@ export default {
       (this.eraHeading = ""), (this.eraDescription = "");
     },
     editEra: function(index, indexera, val) {
-      this.addNewTeam[this.$props.array_.length - 1 - index].eraList[
-        indexera
-      ].heading = val;
+      if (val !== "") {
+        this.addNewTeam[this.$props.array_.length - 1 - index].eraList[
+          indexera
+        ].heading = val;
+      } else {
+        this.addNewTeam[this.$props.array_.length - 1 - index].eraList.splice(
+          indexera,
+          1
+        );
+      }
     },
     editEraDesc: function(index, indexera, val) {
       this.addNewTeam[this.$props.array_.length - 1 - index].eraList[
         indexera
       ].desc = val;
+    },
+    deleteEra: function(index, indexera, val) {
+      this.addNewTeam[this.$props.array_.length - 1 - index].eraList.splice(
+        indexera,
+        1
+      );
     },
     addMember: function(i, index, name) {
       for (let index = 0; index < this.allMembers.length; index++) {
