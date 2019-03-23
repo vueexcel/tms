@@ -114,35 +114,7 @@
                       </a>
                     </form>
                   </div>
-                </b-col>
-              </b-row>
-              <!-- ==== ROW FOR ERA (ADDED) ERA's ENDS ==== -->
-              <b-row class="text-center">
-                <b-col v-if="!team.addNewKpi" class="pb-4">
-                  <h5 class="text-primary pb-2">Add KPI</h5>
-                  <a
-                    @click="team.addNewKpi = true"
-                    class="position-relative btn btn-outline-secondary rounded-circle fs-large btn-Custom"
-                  >
-                    <i class="fas fa-plus position-absolute customPosPlus text-success"></i>
-                  </a>
-                </b-col>
-                <b-col v-if="!team.addNewEra" class="pb-4">
-                  <h5 class="text-primary pb-2">Add ERA</h5>
-                  <a
-                    @click="team.addNewEra = true"
-                    class="position-relative btn btn-outline-secondary rounded-circle fs-large btn-Custom"
-                  >
-                    <i class="fas fa-plus position-absolute customPosPlus text-success"></i>
-                  </a>
-                </b-col>
-              </b-row>
-            </b-container>
-
-            <!--===========================================
-               =========== ERA'S CLOSABLE WIDGET ===========
-            ================================================-->
-            <div v-if="team.eraList.length">
+                  <div v-if="team.eraList.length">
               <div v-for="(kpiera, indexera) in team.eraList" :key="indexera">
                 <hr class="ml-4 mr-4 mt-2">
                 <div class="container pl-4">
@@ -179,7 +151,72 @@
               </div>
               <hr>
             </div>
-            <!--===================================================
+                </b-col>
+              </b-row>
+              <!-- ==== ROW FOR ERA (ADDED) ERA's ENDS ==== -->
+              <b-row class="text-center">
+                <b-col v-if="!team.addNewKpi" class="pb-4">
+                  <h5 class="text-primary pb-2">Add KPI</h5>
+                  <a
+                    @click="team.addNewKpi = true"
+                    class="position-relative btn btn-outline-secondary rounded-circle fs-large btn-Custom"
+                  >
+                    <i class="fas fa-plus position-absolute customPosPlus text-success"></i>
+                  </a>
+                </b-col>
+                <b-col v-if="!team.addNewEra" class="pb-4">
+                  <h5 class="text-primary pb-2">Add ERA</h5>
+                  <a
+                    @click="team.addNewEra = true"
+                    class="position-relative btn btn-outline-secondary rounded-circle fs-large btn-Custom"
+                  >
+                    <i class="fas fa-plus position-absolute customPosPlus text-success"></i>
+                  </a>
+                </b-col>
+              </b-row>
+            </b-container>
+
+            <!--===========================================
+               =========== ERA'S CLOSABLE WIDGET ===========
+            ================================================-->
+           <!-- <div v-if="team.eraList.length">
+              <div v-for="(kpiera, indexera) in team.eraList" :key="indexera">
+                <hr class="ml-4 mr-4 mt-2">
+                <div class="container pl-4">
+                  <span
+                    class="text-primary fs-larger"
+                    v-show="!kpiera.edit"
+                    @dblclick="kpiera.edit = true;"
+                  >{{kpiera.heading.toUpperCase()}}</span>
+                  <input
+                    v-model="kpiera.heading"
+                    v-show="kpiera.edit"
+                    id="user-name"
+                    type="text"
+                    class="form-control"
+                    @blur="kpiera.edit = false"
+                    @keypress.enter="kpiera.edit = false; editEra(index, indexera, kpiera.heading)"
+                  >
+                  <section class="bg-white">
+                    <div class="w-75" style="white-space: pre-line;">
+                      <h4 class="text-primary"></h4>
+                      <span v-show="!kpiera.edit" @dblclick="kpiera.edit = true;">{{kpiera.desc}}</span>
+                      <b-form-textarea
+                        id="textarea1"
+                        v-model="kpiera.desc"
+                        v-show="kpiera.edit"
+                        @blur="kpiera.edit = false"
+                        @keypress.enter="kpiera.edit = false; editEraDesc(index, indexera, kpiera.desc)"
+                        :rows="3"
+                        :max-rows="6"
+                      ></b-form-textarea>
+                    </div>
+                  </section>
+                </div>
+              </div>
+              <hr>
+            </div> -->
+             <!--===================================================
                =========== ERA'S CLOSABLE WIDGET ENDS ===========
             =======================================================-->
           </Widget>

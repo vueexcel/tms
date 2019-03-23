@@ -22,9 +22,9 @@
                     <b-badge
                       @click="removeMember(key, index)"
                       variant="danger"
-                      class="circle-2 fs-sm position-absolute badgePosSelected p-0"
+                      class="circle-2 fs-sm position-absolute badgePosSelected cursor p-0"
                     >
-                      <i class="fas fa-times" style="color:white; font-size:10px"></i>
+                      <i class="fas fa-times cursor" style="color:white; font-size:10px"></i>
                     </b-badge>
                   </span>
                 </b-col>

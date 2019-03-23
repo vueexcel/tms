@@ -97,7 +97,7 @@
       />
       <NavLink
         header="View Monthly Report"
-        link="/app/notifications"
+        link="/app/WeeklyReport"
         iconName="fas fa-calendar"
         index="notifications"
         isHeader
@@ -157,7 +157,7 @@ export default {
   },
   created() {
     this.setActiveByRoute();
-    console.log(this.sidebar);
+    // console.log(this.sidebar);
   },
   computed: {
     ...mapState("layout", {
