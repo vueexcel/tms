@@ -1,0 +1,120 @@
+<template>
+  <!--==================================================================== 
+          * Right general report
+  *=======================================================================-->
+  <div>
+    <b-form @submit.prevent="formSubmit">
+      <Widget>
+        <h5 class="pb-2">Write general report for the day</h5>
+        <b-form-textarea
+          id="genReport"
+          v-model="genReport"
+          placeholder="Report..."
+          :rows="3"
+          :max-rows="6"
+        ></b-form-textarea>
+        <b-form-checkbox
+          class="pt-3"
+          id="checkbox1"
+          v-model="status"
+        >Was task completed as per the standup</b-form-checkbox>
+        <b-alert class="alert alert-info alert-transparent alert-sm mt-3" show dismissible>
+          <span class="fw-bold">Info:</span>
+          <span class="fs-sm">&nbsp;If not why? /or if something went wrong!</span>
+          <a class="btn btn-default btn-xs float-md-right mr" @click="reason = false">Ignore</a>
+          <a class="btn btn-info btn-xs float-md-right mr-xs" @click="reason = true">Give Reason</a>
+        </b-alert>
+        <b-form-textarea
+          v-show="reason"
+          class="alert-info alert-transparent"
+          id="genReportReason"
+          v-model="genReportReason"
+          placeholder="Give reason, why was standup not completed..."
+          :rows="3"
+          :max-rows="6"
+        ></b-form-textarea>
+        <hr>
+        <h6 class="mb-3">
+          Any specific task/ thing which you want to
+          highlight towards your KPI/KRA
+        </h6>
+        <b-form-textarea
+          id="highlightTask"
+          v-model="highlightTask"
+          placeholder="Highlight task..."
+          :rows="3"
+          :max-rows="6"
+        ></b-form-textarea>
+        <b-alert class="alert alert-warning alert-transparent alert-sm mt-3" show dismissible>
+          <span class="fw-bold">Info:</span>
+          <span class="fs-sm">
+            Want to mention anything specific
+            which went wrong/ not correct which you like to improve
+            in future?
+          </span>
+          <a
+            class="btn btn-default btn-xs float-md-right mr"
+            @click="reasonHighlight = false"
+          >Ignore</a>
+          <a
+            class="btn btn-info btn-xs float-md-right mr-xs"
+            @click="reasonHighlight = true"
+          >Give Reason</a>
+        </b-alert>
+        <b-form-textarea
+          v-show="reasonHighlight"
+          class="alert alert-warning alert-transparent alert-sm"
+          id="highlightTaskReason"
+          v-model="highlightTaskReason"
+          placeholder="Write anything specific which went wrong/ not correct which you like to improve in future?"
+          :rows="3"
+          :max-rows="6"
+        ></b-form-textarea>
+        <button type="submit" class="btn btn-primary btn-lg mb-xs fs-sm pl-4 pr-4">SUBMIT</button>
+      </Widget>
+    </b-form>
+  </div>
+</template>
+
+<script>
+import { sync, call, get } from "vuex-pathify";
+import Widget from "@/components/Widget/Widget";
+
+export default {
+  components: { Widget },
+  computed: {
+    status: sync("checkin/status"),
+    reason: sync("checkin/reason"),
+    reasonHighlight: sync("checkin/reasonHighlight"),
+    genReport: sync("checkin/genReport"),
+    genReportReason: sync("checkin/genReportReason"),
+    highlightTask: sync("checkin/highlightTask"),
+    highlightTaskReason: sync("checkin/highlightTaskReason"),
+    reports: get("checkin/reports")
+  },
+  mounted() {
+    this.getAllCheckinsAPI();
+  },
+  methods: {
+    dailyCheckin: call("checkin/dailyCheckin"),
+    getAllCheckins: call("checkin/getAllCheckins"),
+    formSubmit: function() {
+      this.dailyCheckin({
+        report: this.genReport,
+        task_completed: this.status,
+        task_not_completed_reason: this.genReportReason,
+        highlight: this.highlightTask
+      });
+      this.genReport = "";
+      this.status = "";
+      this.genReportReason = "";
+      this.highlightTask = "";
+    },
+    getAllCheckinsAPI: function() {
+      this.getAllCheckins();
+    }
+  }
+};
+</script>
+<style src="./Checkin.scss" lang="scss" scoped />
+

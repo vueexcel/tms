@@ -47,7 +47,7 @@
                 <div>
                   <p class="mt-2 mb-2 text-dark">Manager Weight:</p>
                   <ul class="progress-bar-employee">
-                    <li class="list" v-for="index in 10" :key="index">
+                    <li class="list" v-for="index in 9" :key="index">
                       <div class="text-primary fw-semi-bold employee-progress d-flex">{{index}}</div>
                     </li>
                   </ul>

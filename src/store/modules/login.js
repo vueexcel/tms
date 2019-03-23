@@ -1,11 +1,12 @@
 import axios from 'axios'
-import {make} from 'vuex-pathify'
+import { make } from 'vuex-pathify'
 import router from './../../Routes'
 
 // setup store
 const state = {
     authenticated: null,
-    loginfailed: null
+    loginfailed: null,
+    sidebar: true
 }
 const mutations = make.mutations(state)
 const actions = {
