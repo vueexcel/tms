@@ -27,6 +27,7 @@
                 :id="'manager' + managerObj.manager_id"
                 v-if="managerObj.manager_id === img.manager_id"
               >
+            <div class="border-bottom line"></div>
                 <div style="display:flex" class="set_height">
                   <img
                     class="rounded-circle h-auto"
@@ -45,7 +46,7 @@
                   </span>
                 </div>
                 <div>
-                  <p class="mt-2 mb-2 text-dark">Manager Weight:</p>
+                  <p class="mt-4 mb-2 text-dark">Manager Weight:</p>
                   <ul class="progress-bar-employee">
                     <li class="list" v-for="index in 9" :key="index">
                       <div class="text-primary fw-semi-bold employee-progress d-flex">{{index}}</div>
@@ -57,7 +58,7 @@
                     </div>
                     <div style="display: flex">
                       <div
-                        class="all-manager"
+                        class="all-manager mr-1"
                         v-for="img in manager"
                         :key="img.manager_id"
                       >
@@ -83,13 +84,14 @@
 </template>
 
 <script>
-
+import members from './../../Group/allMembers.json'
 export default {
   name: 'ManagerComponent',
   data() {
     return { 
       show: false,
-      managerObj: {}
+      managerObj: {},
+      allManagers: []
     }
   },
   props:{
@@ -106,6 +108,10 @@ export default {
       this.$emit("deleteManager", manager)
       this.managerObj = {};
     }
+  },
+  created() {
+    this.allManagers = members
+    console.log(this.allManagers,'222222222222222')
   }
 }
 </script>

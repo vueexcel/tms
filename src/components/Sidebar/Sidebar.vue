@@ -14,7 +14,7 @@
     </header>
     <!-- USER -->
     <ul class="nav" v-if="!sidebar">
-      <NavLink
+      <!-- <NavLink
         header="Dashboard"
         link="/app/profile"
         iconName="fas fa-clone"
@@ -62,6 +62,50 @@
         iconName="fas fa-user-cog"
         index="notifications"
         isHeader
+      /> -->
+
+      <NavLink
+        header="Manage KPI's"
+        link="/admin/manageKpi"
+        iconName="fas fa-inbox"
+        index="dashboard"
+        isHeader
+      />
+      <NavLink
+        header="Manage Employees"
+        link="/admin/manageEmployee"
+        iconName="fas fa-users"
+        index="typography"
+        isHeader
+      />
+       <!-- link="/app/weeklyReview" -->
+      <NavLink
+        header="View Check-ins"
+        link="/app/checkin"
+        iconName="fas fa-bars"
+        index="tables"
+        isHeader
+      />
+      <!-- header="View Weekly Report" -->
+      <NavLink
+        header="Weekly Report Review"
+        link="/app/WeeklyReport"
+        iconName="fas fa-chart-line"
+        index="performanceReview"
+        isHeader
+      />
+      <!-- <NavLink
+        link="/app/notifications"
+        iconName="fas fa-calendar-minus"
+        index="notifications"
+        isHeader
+      /> -->
+      <NavLink
+        header="View Monthly Report"
+        link="/app/PerformanceReview"
+        iconName="fas fa-calendar"
+        index="notifications"
+        isHeader
       />
     </ul>
     <!-- ADMIN -->
@@ -83,21 +127,28 @@
        <!-- link="/app/weeklyReview" -->
       <NavLink
         header="View Check-ins"
-        link="/app/notifications"
+        link="/app/checkin"
         iconName="fas fa-bars"
         index="tables"
         isHeader
       />
       <!-- header="View Weekly Report" -->
       <NavLink
+        header="Weekly Report Review"
+        link="/app/WeeklyReport"
+        iconName="fas fa-chart-line"
+        index="performanceReview"
+        isHeader
+      />
+      <!-- <NavLink
         link="/app/notifications"
         iconName="fas fa-calendar-minus"
         index="notifications"
         isHeader
-      />
+      /> -->
       <NavLink
         header="View Monthly Report"
-        link="/app/WeeklyReport"
+        link="/app/PerformanceReview"
         iconName="fas fa-calendar"
         index="notifications"
         isHeader
