@@ -188,19 +188,19 @@ a.button-for-employee {
   text-align: center;
   line-height: 2em;
   border-radius: 50%;
-  border: 5px solid #ffc247;
-  margin: 0 4px;
+  border: 3.5px solid darkgray;
+  margin: 0 4.5px;
   display: inline-block;
   position: relative;
 }
 .list::before {
   content: "";
   position: absolute;
-  top: 2.5px;
+  top: 3.1px;
   left: -14px;
-  width: 14px;
+  width: 10px;
   height: .2em;
-  background: #ffc247;
+  background: darkgray;
 }
 
 .list:first-child {
@@ -215,18 +215,24 @@ a.button-for-employee {
 //   background: #ffc247;
 // }
 
-.active ~ .list {
-  border: 5px solid darkgray;
+.active{
+  border: 3.5px solid #ffc247;
 }
 
-.active ~ .list::before {
-  background: darkgray;
+.active.list::before {
+  background: #ffc247;
 }
 
 .add-icon {
   font-size: 15px;
+  cursor: pointer;
   bottom: -4px;
   right: -9px;
+}
+
+.all_managers{
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .widgetBody {

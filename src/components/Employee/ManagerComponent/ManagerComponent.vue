@@ -1,4 +1,4 @@
-<template>
+ll<template>
     <div>
         <div class="card-footer-altered">
         <b-row>
@@ -48,18 +48,19 @@
                 <div>
                   <p class="mt-4 mb-2 text-dark">Manager Weight:</p>
                   <ul class="progress-bar-employee">
-                    <li class="list" v-for="index in 9" :key="index">
-                      <div class="text-primary fw-semi-bold employee-progress d-flex">{{index}}</div>
+                    <li class="list" v-for="index in 10" :key="index" @click="weightRating(index)" v-bind:class="{ 'active' : index <=  ratedWeight}">
+                      <!-- <i class="fa fa-circle-o"></i> -->
+                      <div class="text-muted fw-semi-bold employee-progress d-flex" v-bind:class="{'text-primary': index <= ratedWeight}">{{index}}</div>
                     </li>
                   </ul>
                   <div class="all-manager-div">
                     <div class="w-100">
                       <p class="block-example mt-2">All</p>
                     </div>
-                    <div style="display: flex">
+                    <div class="all_managers">
                       <div
-                        class="all-manager mr-1"
-                        v-for="img in manager"
+                        class="all-manager mr-1 mb-3"
+                        v-for="img in allManagers"
                         :key="img.manager_id"
                       >
                         <img
@@ -69,7 +70,7 @@
                           :src="img.image"
                           width="30"
                         >
-                        <i class="fas fa-plus-circle fa-plus-circle-altered add-icon text-primary"></i>
+                        <i class="fas fa-plus-circle fa-plus-circle-altered add-icon text-primary" @click="addManager(img)"></i>
                       </div>
                     </div>
                   </div>
@@ -91,7 +92,8 @@ export default {
     return { 
       show: false,
       managerObj: {},
-      allManagers: []
+      allManagers: [],
+      ratedWeight: null
     }
   },
   props:{
@@ -100,18 +102,26 @@ export default {
   methods:{
     showCollapse(value) {
       this.show = !this.show;
+      this.ratedWeight = null
       if (value) {
         this.managerObj = value;
       }
     },
     closeCollapse(manager) {
       this.$emit("deleteManager", manager)
+      this.ratedWeight = null
       this.managerObj = {};
+    },
+    weightRating(index){
+      this.ratedWeight = index
+    },
+    addManager(managerToBeAdded){
+      this.manager.push(managerToBeAdded)
+      this.allManagers.splice(managerToBeAdded,1)
     }
   },
   created() {
     this.allManagers = members
-    console.log(this.allManagers,'222222222222222')
   }
 }
 </script>

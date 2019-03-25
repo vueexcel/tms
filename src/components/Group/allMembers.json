@@ -1,102 +1,142 @@
 [
     {
         "name": "Mahima",
-        "src": "/img/a5.84f014f0.jpg",
-        "variant": "primary"
+        "image": "/img/a5.84f014f0.jpg",
+        "variant": "primary",
+        "work": "VP Operations",
+        "manager_id": "one"
     },
     {
         "name": "Manish",
-        "src": "/img/a3.f6dc73f2.jpg",
-        "variant": "primary"
+        "image": "/img/a3.f6dc73f2.jpg",
+        "variant": "primary",
+        "work": "CEO",
+        "manager_id": "two"
     },
     {
-        "name": "Saurabh",
-        "src": "/img/a6.2966ab8e.jpg",
-        "variant": "primary"
+        "name": "Saurabh Khatri",
+        "image": "/img/a6.2966ab8e.jpg",
+        "variant": "primary",
+        "work": "Sr. Magento Developer",
+        "manager_id": "three"
     },
     {
         "name": "Manish Joy",
-        "src": "/img/a5.84f014f0.jpg",
-        "variant": "primary"
+        "image": "/img/a5.84f014f0.jpg",
+        "variant": "primary",
+        "work": "Sr. Magento Developer",
+        "manager_id": "four"
     },
     {
         "name": "Deepak Mishra",
-        "src": "/img/a5.84f014f0.jpg",
-        "variant": "primary"
+        "image": "/img/a5.84f014f0.jpg",
+        "variant": "primary",
+        "work": "Sr. Magento Developer",
+        "manager_id": "five"
     },
     {
         "name": "Prateek",
-        "src": "/img/a3.f6dc73f2.jpg",
-        "variant": "primary"
+        "image": "/img/a3.f6dc73f2.jpg",
+        "variant": "primary",
+        "work": "Angular Developer",
+        "manager_id": "six"
     },
     {
         "name": "Juhi",
-        "src": "/img/a5.84f014f0.jpg",
-        "variant": "primary"
+        "image": "/img/a5.84f014f0.jpg",
+        "variant": "primary",
+        "work": "HR",
+        "manager_id": "seven"
     },
     {
-        "name": "Shweta",
-        "src": "/img/a6.2966ab8e.jpg",
-        "variant": "primary"
+        "name": "Kumodi",
+        "image": "/img/a6.2966ab8e.jpg",
+        "variant": "primary",
+        "work": "Hr",
+        "manager_id": "eight"
     },
     {
         "name": "Kartik",
-        "src": "/img/a5.84f014f0.jpg",
-        "variant": "primary"
+        "image": "/img/a5.84f014f0.jpg",
+        "variant": "primary",
+        "work": "Magento Developer",
+        "manager_id": "nine"
     },
     {
         "name": "Nadeem",
-        "src": "/img/a3.f6dc73f2.jpg",
-        "variant": "primary"
+        "image": "/img/a3.f6dc73f2.jpg",
+        "variant": "primary",
+        "work": "Magento Developer",
+        "manager_id": "ten"
     },
     {
         "name": "Mridul",
-        "src": "/img/a5.84f014f0.jpg",
-        "variant": "primary"
+        "image": "/img/a5.84f014f0.jpg",
+        "variant": "primary",
+        "work": "Magento Developer",
+        "manager_id": "eleven"
     },
     {
         "name": "Vivek",
-        "src": "/img/a5.84f014f0.jpg",
-        "variant": "primary"
+        "image": "/img/a5.84f014f0.jpg",
+        "variant": "primary",
+        "work": "Magento Developer",
+        "manager_id": "twelve"
     },
     {
         "name": "Yogendra",
-        "src": "/img/a5.84f014f0.jpg",
-        "variant": "primary"
+        "image": "/img/a5.84f014f0.jpg",
+        "variant": "primary",
+        "work": "Magento Developer",
+        "manager_id": "thirteen"
     },
     {
         "name": "Rohit",
-        "src": "/img/a6.2966ab8e.jpg",
-        "variant": "primary"
+        "image": "/img/a6.2966ab8e.jpg",
+        "variant": "primary",
+        "work": "React Developer",
+        "manager_id": "forteen"
     },
     {
-        "name": "Ruchi",
-        "src": "/img/a5.84f014f0.jpg",
-        "variant": "primary"
+        "name": "Aditi",
+        "image": "/img/a5.84f014f0.jpg",
+        "variant": "primary",
+        "work": "Vue Developer",
+        "manager_id": "fifteen"
     },
     {
         "name": "Shraddha",
-        "src": "/img/a3.f6dc73f2.jpg",
-        "variant": "primary"
+        "image": "/img/a3.f6dc73f2.jpg",
+        "variant": "primary",
+        "work": "Wordpress Developer",
+        "manager_id": "sixteen"
     },
     {
         "name": "Arun",
-        "src": "/img/a5.84f014f0.jpg",
-        "variant": "primary"
+        "image": "/img/a5.84f014f0.jpg",
+        "variant": "primary",
+        "work": "Sr. React Developer",
+        "manager_id": "Seventeen"
     },
     {
         "name": "Sagar",
-        "src": "/img/a5.84f014f0.jpg",
-        "variant": "primary"
+        "image": "/img/a5.84f014f0.jpg",
+        "variant": "primary",
+        "work": "Magento Developer",
+        "manager_id": "eighteen"
     },
     {
         "name": "Ashutosh",
-        "src": "/img/a3.f6dc73f2.jpg",
-        "variant": "primary"
+        "image": "/img/a3.f6dc73f2.jpg",
+        "variant": "primary",
+        "work": "Node Developer",
+        "manager_id": "nineteen"
     },
     {
         "name": "Nitin",
-        "src": "/img/a6.2966ab8e.jpg",
-        "variant": "primary"
+        "image": "/img/a6.2966ab8e.jpg",
+        "variant": "primary",
+        "work": "React Developer",
+        "manager_id": "twenty"
     }
 ]

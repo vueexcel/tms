@@ -2,12 +2,12 @@
   <div>
     <b-row class="pb-5">
       <b-col xs="12" sm="6" class="rounded-left first-box">
-        <ExtraWorkFeedback :data="data"/>
+        <ExtraWorkFeedback :data="data" :variant="'#9964e3 !important'"/>
       </b-col>
       <b-col xs="12" sm="6" class="rounded-right">
         <b-alert
           show
-          class="Alert-class mt-3"
+          class="Alert-class"
         >Info: Overall rating/ comments mandatory for managers based on weekly report</b-alert>
         <div class="mb-3">
           <h6 class="rating-header mb-2">Overall Rating</h6>
@@ -16,8 +16,9 @@
         </div>
         <starRating
           class="border-bottom"
-          :displayStar="10"
+          :displayStar="5"
           :ratedStar="ratedStarWeekly"
+          :starSize="starSize"
           @starRatingSelected="submitStarRateWeekly"
         />
         <div
@@ -27,6 +28,7 @@
           class="border-bottom"
           :displayStar="5"
           :ratedStar="ratedStarDifficulty"
+          :starSize="starSize"
           @starRatingSelected="submitStarRateDifficulty"
         />
         <div sm="6">
@@ -55,6 +57,7 @@ export default {
   data() {
     return {
       text: "",
+      starSize: '20px',
       ratedStarWeekly: 1,
       ratedStarDifficulty: 2,
       data: {

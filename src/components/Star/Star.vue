@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex justify-content-between mb-lg">
+    <div class="d-flex justify-content-between mb-lg pb-2">
         <div class="text-dark">
             <h2>
                 <i class="far fa-star text-warning mr-xs pointer" 

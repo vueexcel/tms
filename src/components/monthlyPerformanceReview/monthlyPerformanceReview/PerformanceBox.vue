@@ -2,7 +2,7 @@
   <div>
     <b-row class="shadow">
       <b-col xs="12" sm="6" class="bg-warning rounded-left">
-        <ExtraWorkFeedback :data="data"/>
+        <ExtraWorkFeedback :data="data" :variant="'text-warning'"/>
       </b-col>
       <b-col xs="12" sm="6" class="rounded-right">
         <b-alert

@@ -14,7 +14,7 @@
         <span>{{ date_Time }}</span>
       </span>
     </p>
-    <p>{{ userReport }}</p>
+    <p class="pb-2">{{ report }}</p>
   </div>
 </template>
 
@@ -36,6 +36,19 @@ export default {
     userReport: {
       type: String,
       require: true
+    },
+    generatedReport: {
+      type: Object
+    }
+  },
+  computed:{
+    report() {
+      console.log(this.generatedReport,'4455545645')
+      if (this.generatedReport.genReport){
+        return this.generatedReport.genReport
+      } else {
+        return '#report worked on singapp created login component installed vuex worked on HMG'
+      }
     }
   }
 };

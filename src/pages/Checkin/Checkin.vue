@@ -2,7 +2,7 @@
   <div>
     <b-breadcrumb>
       <b-breadcrumb-item>YOU ARE HERE</b-breadcrumb-item>
-      <b-breadcrumb-item active>Check-ins</b-breadcrumb-item>
+      <b-breadcrumb-item class="active_class" >Check-ins</b-breadcrumb-item>
     </b-breadcrumb>
     <h1 class="page-title">Check-Ins</h1>
     <b-container class="no-gutters p-0">
@@ -44,32 +44,35 @@
                 </li>
               </ul>
               <ul>
-                <li class="c2">
-                  <StandUpWidget
-                    imgSrc="./../../../static/people/a6.jpg"
-                    userName="Jessica Smith"
-                    date_Time="December 13,2018 at 8:03 PM"
-                    userReport="#report
-                              worked on singapp
-                              created login component
-                              installed vuex
-                              worked on HMG"
-                  ></StandUpWidget>
-                  <!-- ============ COMMENTS ===========-->
-                  <Comments
-                    userName="Ignacio Abad"
-                    commentTime="6 mins ago"
-                    comment="Hey, have you heard anything about that?"
-                    imgSrc="@/assets/people/a1.jpg"
-                  ></Comments>
-                  <div class="time">
-                    <h4>
-                      today
-                      <br>9:41
-                      <span class="fw-semi-bold">am</span>
-                    </h4>
-                  </div>
-                </li>
+                <div v-for="(report,index) in generatedReport" :key="index">
+                  <li class="c2">
+                    <StandUpWidget
+                      imgSrc="./../../../static/people/a6.jpg"
+                      userName="Jessica Smith"
+                      date_Time="December 13,2018 at 8:03 PM" 
+                      :generatedReport="report"
+                      userReport="#report
+                                worked on singapp
+                                created login component
+                                installed vuex
+                                worked on HMG"
+                    ></StandUpWidget>
+                    <!-- ============ COMMENTS ===========-->
+                    <Comments
+                      userName="Ignacio Abad"
+                      commentTime="6 mins ago"
+                      comment="Hey, have you heard anything about that?"
+                      imgSrc="@/assets/people/a1.jpg"
+                    ></Comments>
+                    <div class="time">
+                      <h4>
+                        today
+                        <br>9:41
+                        <span class="fw-semi-bold">am</span>
+                      </h4>
+                    </div>
+                  </li>
+                </div>
               </ul>
               <ul>
                 <li class="c3">
@@ -100,7 +103,7 @@
           * Right general report
         *=======================================================================-->
         <b-col class="p-0">
-          <GenReport></GenReport>
+          <GenReport @report="report"></GenReport>
         </b-col>
       </b-row>
     </b-container>
@@ -121,6 +124,11 @@ import GenReport from "./GenReport";
 
 export default {
   name: "Checkin",
+  data() {
+    return {
+      generatedReport: []
+    }
+  },
   components: { Widget, StandUpWidget, Comments, GenReport },
   computed: {
     status: sync("checkin/status"),
@@ -152,6 +160,10 @@ export default {
     },
     getAllCheckinsAPI: function() {
       this.getAllCheckins();
+    },
+    report(report){
+      this.generatedReport.push(report)
+      console.log(this.generatedReport,'5555555555555555555')
     }
   }
 };

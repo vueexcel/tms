@@ -1,6 +1,12 @@
 <template>
   <div xs="12" sm="6">
-    <b-btn v-b-toggle="'collapse2'" class="m-1 mt-2 collapse-button h2">KPI</b-btn>
+    <b-btn
+      v-b-toggle="'collapse2'"
+      class="m-1 mt-2 collapse-button h2"
+      @mouseover="activeCollapse"
+      :class="{hover_variant : activeCollapse}"
+      v-bind:style="{'color': variant }"
+    >KPI</b-btn>
     <b-collapse id="collapse2">
       <b-container v-for="(kpi, index) in data.kpi" :key="index">
         <div class="mt-2">
@@ -10,7 +16,11 @@
         <div class="border-top text-light"></div>
       </b-container>
     </b-collapse>
-    <b-btn v-b-toggle="'collapse3'" class="m-1 collapse-button">ERA</b-btn>
+    <b-btn
+      v-b-toggle="'collapse3'"
+      class="m-1 collapse-button"
+      v-bind:style="{'color': variant }"
+    >ERA</b-btn>
     <b-collapse id="collapse3">
       <b-container v-for="(era, index) in data.era" :key="index">
         <div class="mt-2">
@@ -49,10 +59,17 @@ export default {
   props: {
     data: {
       type: Object
+    },
+    variant: {
+      type: String
     }
+  },
+  data() {
+    return {
+      activeCollapse: false
+    };
   }
 };
 </script>
 
-<style>
-</style>
+<style src="./ExtraWorkFeedback.scss" lang="scss" />

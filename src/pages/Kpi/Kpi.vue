@@ -2,7 +2,7 @@
   <div>
     <b-breadcrumb>
       <b-breadcrumb-item>YOU ARE HERE</b-breadcrumb-item>
-      <b-breadcrumb-item active>Manage Kpi's</b-breadcrumb-item>
+      <b-breadcrumb-item class="active_class">Manage Kpi's</b-breadcrumb-item>
     </b-breadcrumb>
     <h1 class="page-title">
       KPI Management

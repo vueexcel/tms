@@ -13,11 +13,15 @@
           :rows="3"
           :max-rows="6"
         ></b-form-textarea>
-        <b-form-checkbox
+        <div class="checkbox form-check-inline mt-3">
+          <input class="form-check-input" type="checkbox" id="inlineCheckbox3" v-model="status">
+          <label class="form-check-label" for="inlineCheckbox3">Was task completed as per the standup</label>
+        </div>
+        <!-- <b-form-checkbox
           class="pt-3"
           id="checkbox1"
           v-model="status"
-        >Was task completed as per the standup</b-form-checkbox>
+        ></b-form-checkbox> -->
         <b-alert class="alert alert-info alert-transparent alert-sm mt-3" show dismissible>
           <span class="fw-bold">Info:</span>
           <span class="fs-sm">&nbsp;If not why? /or if something went wrong!</span>
@@ -52,12 +56,12 @@
             which went wrong/ not correct which you like to improve
             in future?
           </span>
-          <a
+          <!-- <a
             class="btn btn-default btn-xs float-md-right mr"
             @click="reasonHighlight = false"
-          >Ignore</a>
+          >Ignore</a> -->
           <a
-            class="btn btn-info btn-xs float-md-right mr-xs"
+            class="btn btn-info btn-xs float-md-right mr-xs mt-1"
             @click="reasonHighlight = true"
           >Give Reason</a>
         </b-alert>
@@ -70,7 +74,7 @@
           :rows="3"
           :max-rows="6"
         ></b-form-textarea>
-        <button type="submit" class="btn btn-primary btn-lg mb-xs fs-sm pl-4 pr-4">SUBMIT</button>
+        <button type="submit" class="btn btn-primary btn-lg mb-xs fs-sm pl-4 pr-4" @click="submitReport">SUBMIT</button>
       </Widget>
     </b-form>
   </div>
@@ -112,6 +116,21 @@ export default {
     },
     getAllCheckinsAPI: function() {
       this.getAllCheckins();
+    },
+    submitReport(){
+      this.$emit('report',{
+        genReport : this.genReport, 
+        status: this.status, 
+        genReportReason : this.genReportReason,
+        highlighttask: this.highlightTask,
+        highlightTaskReason: this.highlightTaskReason
+      })
+      this.genReport = ''
+      this.status = false
+      this.genReportReason = ''
+      this.highlightTask = ''
+      this.highlightTaskReason = ''
+
     }
   }
 };

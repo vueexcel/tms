@@ -2,7 +2,7 @@
   <div class="charts-overview">
     <ol class="breadcrumb">
       <li class="breadcrumb-item">YOU ARE HERE</li>
-      <li class="breadcrumb-item active">Charts</li>
+      <li class="breadcrumb-item active_class">Charts</li>
     </ol>
     <h1 class="page-title">Visual - <span class="fw-semi-bold">Charts</span></h1>
     <div>

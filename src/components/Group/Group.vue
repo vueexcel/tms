@@ -18,7 +18,7 @@
               <b-row v-for="(member, key) in team.memberList" :key="key">
                 <b-col class="col-md-1">
                   <span class="position-relative">
-                    <img class="rounded-circle" :src="member.src" width="33" height="33" alt="...">
+                    <img class="rounded-circle" :src="member.image" width="33" height="33" alt="...">
                     <b-badge
                       @click="removeMember(key, index)"
                       variant="danger"
@@ -51,7 +51,7 @@
                 v-b-tooltip.hover
                 :title="img.name"
                 class="rounded-circle"
-                :src="img.src"
+                :src="img.image"
                 width="25"
                 height="25"
                 alt="..."

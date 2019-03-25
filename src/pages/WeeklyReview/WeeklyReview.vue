@@ -2,7 +2,7 @@
   <div>
     <b-breadcrumb>
       <b-breadcrumb-item>YOU ARE HERE</b-breadcrumb-item>
-      <b-breadcrumb-item active>WeeklyReview</b-breadcrumb-item>
+      <b-breadcrumb-item class="active_class">WeeklyReview</b-breadcrumb-item>
     </b-breadcrumb>
     <h1 class="page-title">WeeklyReview</h1>
     <b-container class="bg-white no-gutters p-4" fluid>

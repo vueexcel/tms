@@ -2,7 +2,7 @@
   <div>
     <b-breadcrumb class="ml-3">
       <b-breadcrumb-item>YOU ARE HERE</b-breadcrumb-item>
-      <b-breadcrumb-item active>Performance Review</b-breadcrumb-item>
+      <b-breadcrumb-item class="active_class">Performance Review</b-breadcrumb-item>
     </b-breadcrumb>
     <span class="page-title ml-3 row" style="font-size: 43px;">Weekly Report Review </span>
     <div class="shadow pt-4">
@@ -16,7 +16,9 @@
         </b-container>
         <div class="container-fluid">
         <div class="mt-5 mb-3 row">
-            <span style="font-size: 24px;">Business Development Executives</span>
+            <span style="font-size: 24px;">{{activeEmp.post}}</span>
+            <!-- <span style="font-size: 24px;">Hell</span> -->
+
         </div>
         <transition name="fade">
             <PerformanceBox v-if="show"/>
@@ -38,11 +40,15 @@ export default {
   data() {
     return {
       activeId: 1,
-      show: true
+      show: true,
+      activeEmp: null
     };
   },
   computed: {
     emp_arr: get("performanceReview/Employee_Array"),
+  },
+  created(){
+    this.activeEmp = this.emp_arr[0]
   },
   methods: {
     setActive(emp) {
@@ -51,6 +57,7 @@ export default {
         this.show = true
       },500)
       this.activeId = emp.id
+      this.activeEmp = emp
     }
   },
 };

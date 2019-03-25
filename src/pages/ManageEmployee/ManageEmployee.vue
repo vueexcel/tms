@@ -2,7 +2,7 @@
   <div>
     <b-breadcrumb>
       <b-breadcrumb-item>YOU ARE HERE</b-breadcrumb-item>
-      <b-breadcrumb-item active>Manage Employees</b-breadcrumb-item>
+      <b-breadcrumb-item class="active_class">Manage Employees</b-breadcrumb-item>
     </b-breadcrumb>
     <h1 class="page-title">Team Members</h1>
     <h4 class="page-title">Team Name</h4>
