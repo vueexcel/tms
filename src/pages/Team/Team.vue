@@ -1,15 +1,24 @@
 <template>
-    <div>
+  <div>
     <b-breadcrumb>
       <b-breadcrumb-item>YOU ARE HERE</b-breadcrumb-item>
       <b-breadcrumb-item class="active_class">Employee Profile</b-breadcrumb-item>
     </b-breadcrumb>
     <h1 class="page-title">Employee Team Page</h1>
-    <div class="color_line"><hr></div>
-    <div class="mt-3 margin"> 
-          <a href="#" class="btn btn-rounded-f button-for-employee mr-2 team_name pr-4 pl-4" @click="setTeam(teamName)" v-for="teamName in team" :key="teamName.Team_Id">
-            <div class="text-gray" style="font-size: 12px;">{{teamName.name}}</div>
-          </a>
+    <div class="color_line">
+      <hr>
+    </div>
+    <div class="mt-3 margin">
+      <a
+        href="#"
+        class="btn btn-rounded-f button-for-employee mr-2 team_name pr-4 pl-4"
+        @click="setTeam(teamName)"
+        v-for="teamName in team"
+        :key="teamName.Team_Id"
+        :class="{ selectedTab: teamName.Team_Id == selectedTeamId }"
+      >
+        <div class="text-gray" style="font-size: 12px;">{{teamName.name}}</div>
+      </a>
     </div>
     <b-container class="no-gutters p-0">
       <b-row>
@@ -18,7 +27,7 @@
         </b-col>
       </b-row>
     </b-container>
-  </div>    
+  </div>
 </template>
 
 <script>
@@ -28,18 +37,19 @@ import "imports-loader?jQuery=jquery,this=>window!flot/jquery.flot.pie";
 /* eslint-enable */
 import employeeWidget from "@/components/Employee/employeeWidget";
 import Team from "./Team.json";
-import Group from "@/components/Group/allMembers.json"
+import Group from "@/components/Group/allMembers.json";
 import { get, call } from "vuex-pathify";
 
 export default {
   name: "Team",
   data() {
-      return {
-        team: Team,
-        activeTeam: {
-            name: 'All'
-        }
-      }
+    return {
+      team: Team,
+      activeTeam: {
+        name: "All"
+      },
+      selectedTeamId: 1
+    };
   },
   components: {
     employeeWidget
@@ -50,24 +60,23 @@ export default {
   computed: {
     name: get("profile/name"),
     // emp_arr: get("manageEmployee/employees"),
-    emp_arr(){
+    emp_arr() {
+      Group.forEach(element => {
+        element["technology"] = element.team;
+        element["post"] = element.work;
+      });
+      if (this.activeTeam.name === "All") {
+        console.log;
+        return Group;
+      } else {
+        let team = [];
         Group.forEach(element => {
-            element['technology'] = element.team
-            element['post'] = element.work
+          if (this.activeTeam.name === element.team) {
+            team.push(element);
+          }
         });
-        if (this.activeTeam.name === 'All'){
-            console.log
-            return Group
-        } else {
-        let team = []
-            Group.forEach(element => {
-                if (this.activeTeam.name === element.team){
-                    team.push(element)
-                }
-            })
-            return team
-            
-        }
+        return team;
+      }
     }
   },
   methods: {
@@ -77,12 +86,12 @@ export default {
     //     Authorization: localStorage.getItem("authenticated")
     //   });
     // }
-    setTeam(team){
-        this.activeTeam = team
+    setTeam(team) {
+      this.activeTeam = team;
+      this.selectedTeamId = team.Team_Id;
     }
   }
 };
-
 </script>
 
 <style src="./Team.scss" lang="scss" scoped />
