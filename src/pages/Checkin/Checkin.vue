@@ -2,7 +2,7 @@
   <div>
     <b-breadcrumb>
       <b-breadcrumb-item>YOU ARE HERE</b-breadcrumb-item>
-      <b-breadcrumb-item active>Check-ins</b-breadcrumb-item>
+      <b-breadcrumb-item class="active_class" >Check-ins</b-breadcrumb-item>
     </b-breadcrumb>
     <h1 class="page-title">Check-Ins</h1>
     <b-container class="no-gutters p-0">
@@ -19,8 +19,8 @@
                       <img
                         class="rounded-circle mr-2 mt-1 float-left"
                         src="@/assets/people/a6.jpg"
-                        width="35"
-                        height="35"
+                        width="25"
+                        height="25"
                         alt="..."
                       >
                       <span>
@@ -44,84 +44,52 @@
                 </li>
               </ul>
               <ul>
-                <li class="c2">
-                  <div class="content p-0">
-                    <!-- <h3>What is Lorem Ispem?</h3> -->
-                    <p>
-                      <img
-                        class="rounded-circle mr-2 mt-1 float-left"
-                        src="@/assets/people/a6.jpg"
-                        width="35"
-                        height="35"
-                        alt="..."
-                      >
-                      <span>
-                        <span class="text-primary fs-larger fw-semi-bold">Jessica Smith</span>
-                        <br>
-                        <span>December 13,2018 at 8:03 PM</span>
-                      </span>
-                    </p>
-                    <p>#report
-                      <br>worked on singapp
-                      <br>created login component
-                      <br>installed vuex
-                      <br>worked on HMG
-                    </p>
-                  </div>
-                  <!-- ============ COMMENT ===========-->
-                  <div>
-                    <ul class="comments border-top">
-                      <li class="pl-3 pt-2 pb-2 pr-0">
-                        <img
-                          class="rounded-circle mr-2 mt-1 float-left"
-                          src="@/assets/people/a1.jpg"
-                          width="30"
-                          height="30"
-                          alt="..."
-                        >
-                        <span>
-                          <span class="text-primary fs-larger fw-semi-bold">Ignacio Abad</span>
-                          <span>6 mins ago</span>
-                          <br>
-                          <span>Hey, have you heard anything about that?</span>
-                        </span>
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="time">
-                    <h4>today
-                      <br>9:41 am
-                    </h4>
-                  </div>
-                </li>
+                <div v-for="(report,index) in generatedReport" :key="index">
+                  <li class="c2">
+                    <StandUpWidget
+                      imgSrc="./../../../static/people/a6.jpg"
+                      userName="Jessica Smith"
+                      date_Time="December 13,2018 at 8:03 PM" 
+                      :generatedReport="report"
+                      userReport="#report
+                                worked on singapp
+                                created login component
+                                installed vuex
+                                worked on HMG"
+                    ></StandUpWidget>
+                    <!-- ============ COMMENTS ===========-->
+                    <Comments
+                      userName="Ignacio Abad"
+                      commentTime="6 mins ago"
+                      comment="Hey, have you heard anything about that?"
+                      imgSrc="@/assets/people/a1.jpg"
+                    ></Comments>
+                    <div class="time">
+                      <h4>
+                        today
+                        <br>9:41
+                        <span class="fw-semi-bold">am</span>
+                      </h4>
+                    </div>
+                  </li>
+                </div>
               </ul>
               <ul>
                 <li class="c3">
-                  <div class="content p-0">
-                    <!-- <h3>What is Lorem Ispem?</h3> -->
-                    <p>
-                      <img
-                        class="rounded-circle mr-2 mt-1 float-left"
-                        src="@/assets/people/a6.jpg"
-                        width="35"
-                        height="35"
-                        alt="..."
-                      >
-                      <span>
-                        <span class="text-primary fs-larger fw-semi-bold">Jessica Smith</span>
-                        <br>
-                        <span>Today at 9:41 AM</span>
-                      </span>
-                    </p>
-                    <p>Standup
-                      <br>will work on
-                      <br>singapp ---> implement pathify
-                      <br>read more...
-                    </p>
-                  </div>
+                  <StandUpWidget
+                    imgSrc="@/assets/people/a6.jpg"
+                    userName="Jessica Smith"
+                    date_Time="Today at 9:41 AM"
+                    userReport="Standup
+                      will work on
+                      singapp ---> implement pathify
+                      read more..."
+                  ></StandUpWidget>
                   <div class="time">
-                    <h4>today
-                      <br>9:41 am
+                    <h4>
+                      today
+                      <br>9:41
+                      <span class="fw-semi-bold">am</span>
                     </h4>
                   </div>
                 </li>
@@ -135,85 +103,7 @@
           * Right general report
         *=======================================================================-->
         <b-col class="p-0">
-          <div>
-            <b-form @submit.prevent="formSubmit">
-              <Widget>
-                <h5 class="pb-2">Write general report for the day</h5>
-                <b-form-textarea
-                  id="genReport"
-                  v-model="genReport"
-                  placeholder="Report..."
-                  :rows="3"
-                  :max-rows="6"
-                ></b-form-textarea>
-                <b-form-checkbox
-                  class="pt-3"
-                  id="checkbox1"
-                  v-model="status"
-                >Was task completed as per the standup</b-form-checkbox>
-                <b-alert class="alert alert-info alert-transparent alert-sm mt-3" show dismissible>
-                  <span class="fw-bold">Info:</span>
-                  <span class="fs-sm">&nbsp;If not why? /or if something went wrong!</span>
-                  <a class="btn btn-default btn-xs float-md-right mr" @click="reason = false">Ignore</a>
-                  <a
-                    class="btn btn-info btn-xs float-md-right mr-xs"
-                    @click="reason = true"
-                  >Give Reason</a>
-                </b-alert>
-                <b-form-textarea
-                  v-show="reason"
-                  class="alert-info alert-transparent"
-                  id="genReportReason"
-                  v-model="genReportReason"
-                  placeholder="Give reason, why was standup not completed..."
-                  :rows="3"
-                  :max-rows="6"
-                ></b-form-textarea>
-                <hr>
-                <h6 class="mb-3">
-                  Any specific task/ thing which you want to
-                  highlight towards your KPI/KRA
-                </h6>
-                <b-form-textarea
-                  id="highlightTask"
-                  v-model="highlightTask"
-                  placeholder="Highlight task..."
-                  :rows="3"
-                  :max-rows="6"
-                ></b-form-textarea>
-                <b-alert
-                  class="alert alert-warning alert-transparent alert-sm mt-3"
-                  show
-                  dismissible
-                >
-                  <span class="fw-bold">Info:</span>
-                  <span class="fs-sm">
-                    Want to mention anything specific
-                    which went wrong/ not correct which you like to improve
-                    in future?
-                  </span>
-                  <a
-                    class="btn btn-default btn-xs float-md-right mr"
-                    @click="reasonHighlight = false"
-                  >Ignore</a>
-                  <a
-                    class="btn btn-info btn-xs float-md-right mr-xs"
-                    @click="reasonHighlight = true"
-                  >Give Reason</a>
-                </b-alert>
-                <b-form-textarea
-                  v-show="reasonHighlight"
-                  class="alert alert-warning alert-transparent alert-sm"
-                  id="highlightTaskReason"
-                  v-model="highlightTaskReason"
-                  placeholder="Write anything specific which went wrong/ not correct which you like to improve in future?"
-                  :rows="3"
-                  :max-rows="6"
-                ></b-form-textarea>
-                <button type="submit" class="btn btn-primary btn-lg mb-xs fs-sm pl-4 pr-4">SUBMIT</button>
-              </Widget>
-            </b-form>
-          </div>
+          <GenReport @report="report"></GenReport>
         </b-col>
       </b-row>
     </b-container>
@@ -228,10 +118,18 @@ import "imports-loader?jQuery=jquery,this=>window!flot/jquery.flot.pie";
 /* eslint-enable */
 import Widget from "@/components/Widget/Widget";
 import { sync, call, get } from "vuex-pathify";
+import StandUpWidget from "./CheckinComponents/StandupReportWidget";
+import Comments from "./CheckinComponents/Comments";
+import GenReport from "./GenReport";
 
 export default {
   name: "Checkin",
-  components: { Widget },
+  data() {
+    return {
+      generatedReport: []
+    }
+  },
+  components: { Widget, StandUpWidget, Comments, GenReport },
   computed: {
     status: sync("checkin/status"),
     reason: sync("checkin/reason"),
@@ -262,6 +160,10 @@ export default {
     },
     getAllCheckinsAPI: function() {
       this.getAllCheckins();
+    },
+    report(report){
+      this.generatedReport.push(report)
+      console.log(this.generatedReport,'5555555555555555555')
     }
   }
 };

@@ -18,6 +18,9 @@ import GoogleMapPage from '@/pages/Maps/Google';
 import Profile from '@/pages/Profile/Profile';
 import Checkin from '@/pages/Checkin/Checkin';
 import WeeklyReview from '@/pages/WeeklyReview/WeeklyReview';
+import WeeklyReport from '@/pages/WeeklyReportReview/WeeklyReport';
+import MonthlyPerformanceReview from '@/pages/MonthlyPerformanceReview/MonthlyPerformanceReview';
+import Team from '@/pages/Team/Team'
 // --admin pages--
 import ManageEmployee from '@/pages/ManageEmployee/ManageEmployee';
 import ManageKPI from '@/pages/Kpi/Kpi';
@@ -65,6 +68,21 @@ export default new Router({
           path: 'weeklyReview',
           name: 'WeeklyReview',
           component: WeeklyReview,
+        },
+        {
+          path: 'PerformanceReview',
+          name: 'MonthlyPerformanceReview',
+          component: MonthlyPerformanceReview
+        },
+        {
+          path: 'team',
+          name: 'Team',
+          component: Team
+        },
+        {
+          path: 'weeklyReport',
+          name: 'WeeklyReport',
+          component: WeeklyReport
         },
         {
           path: 'typography',

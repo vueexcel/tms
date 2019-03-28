@@ -1,71 +1,81 @@
 <template>
   <div>
-    <div class="pb-xlg mb-0">
-      <div class="h-100 bg-white p-2 border">
-        <div class="float-right">
-          <i class="fa fa-pencil text-light" aria-hidden="true"></i>
+    <div class="card mb-5">
+      <div class="card-body text-center">
+        <div class="float-right" v-if="showManager">
+          <i
+            class="fas fa-edit edit-button"
+            v-if="!edit"
+            @click="editEmployee(employee)"
+            aria-hidden="true"
+          ></i>
+          <div class="text-center" v-else>
+            <a href="#" class="btn btn-rounded-f button-for-employee" @click="saveEdit()">
+              <div class="text-gray" style="font-size: 12px;">SAVE</div>
+            </a>
+          </div>
         </div>
-        <div class="text-center pr-3 mt-2">
-          <img class="rounded-circle" src="@/assets/people/a5.jpg" width="75" height="75" alt="...">
+        <div>
+          <img
+            class="rounded-circle h-auto"
+            src="@/assets/people/a5.jpg"
+            width="75"
+            alt="..."
+          >
         </div>
 
-        <div class="pt-2 text-center">
+        <div>
           <span class="fs-larger text-capitalize">
-            <span>{{employee.name}}</span>
+            <span class="employee-name">{{employee.name}}</span>
           </span>
-          <p class="fw-small text-primary">{{employee.technology}}</p>
+          <span>
+            <p
+              class="fw-small text-primary employee-technology"
+              v-if="!edit"
+            >{{employee.technology}}</p>
+            <b-form-select v-else v-model="selected" :options="options" class="mb-3"></b-form-select>
+          </span>
         </div>
-        <div class="text-center">
-          <a href="#" class="btn btn-outline btn-rounded-f">
+        <div>
+          <a href="#" class="btn btn-rounded-f button-for-employee">
             <div class="text-gray" style="font-size: 12px;">{{employee.post}}</div>
           </a>
         </div>
       </div>
-      <div class="border">
-        <div class="ml-3">
-          <h6>MANAGERS</h6>
-        </div>
-        <div class="pr-3 ml-3 mb-2 mt-2">
-          <b-row v-if="employee && employee.manager">
-            <b-col v-for="(img, index) in employee.manager" :key="index" lg="1" xs="12">
-              <a>
-                <img
-                  class="rounded-circle"
-                  v-b-tooltip.hover
-                  :title="img.name"
-                  :src="img.image"
-                  width="40"
-                  height="40"
-                >
-              </a>
-            </b-col>
-          </b-row>
-          <!-- <b-collapse :id="img.img_id" class="mt-2">
-            <b-card>
-              <p class="card-text">Collapse contents Here</p>
-              <b-btn v-b-toggle.collapse1_inner size="sm">Toggle Inner Collapse</b-btn>
-              <b-collapse id="collapse1_inner" class="mt-2">
-                <b-card>Hello!</b-card>
-              </b-collapse>
-            </b-card>
-          </b-collapse> -->
-        </div>
-      </div>
-      <!-- </Widget> -->
+      <ManagerComponent v-if="showManager" :manager="employee.manager" :employeID="employee.id" @deleteManager="managerToBeDeleted"/>
     </div>
+    <!-- </Widget> -->
   </div>
 </template>
 
 <script>
 import $ from "jquery";
 import "imports-loader?window.jQuery=jquery,this=>window!widgster"; // eslint-disable-line
-// import Widget from '@/components/Widget/Widget'
+import ManagerComponent from '@/components/Employee/ManagerComponent/ManagerComponent'
+import { get, call, sync } from "vuex-pathify";
+
 export default {
   name: "employeeWidget",
+  components: {
+    ManagerComponent
+  },
+  data() {
+    return {
+      show: false,
+      manager: {},
+      edit: false,
+      selected: null,
+      technologySelect: ""
+    };
+  },
   props: {
-    employee: { type: Object, default: () => ({}) }
+    employee: { type: Object, default: () => ({}) },
+    showManager: {type: Boolean, default: true}
   },
   computed: {
+    name: sync("manageEmployee/employeeName"),
+    technology: sync("manageEmployee/employeeTechnology"),
+    options: sync("manageEmployee/options"),
     randomId() {
       return Math.floor(Math.random() * 100);
     },
@@ -80,9 +90,35 @@ export default {
       );
     }
   },
-  // components: {
-  //   Widget
-  // },
+  methods: {
+    saveEmployeeInfo: call("manageEmployee/saveEmployeeInfo"),
+    deleteManager: call("manageEmployee/deleteManager"),
+    editEmployee(employee) {
+      this.edit = true;
+      this.options[0].text = employee.technology;
+      this.technologySelect = employee.technology;
+    },
+    saveEdit() {
+      this.edit = false;
+      if (!this.selected) {
+        this.saveEmployeeInfo({
+          technology: this.technologySelect,
+          id: this.employee.id
+        });
+      } else {
+        this.saveEmployeeInfo({
+          technology: this.selected,
+          id: this.employee.id
+        });
+      }
+    },
+    managerToBeDeleted(value) {
+      this.deleteManager({
+        manager: value,
+        employeeId: this.employee.id
+      });
+    }
+  },
   mounted() {}
 };
 </script>

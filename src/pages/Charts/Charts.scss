@@ -19,6 +19,9 @@
     }
   }
 
+  .active_class{
+    color: #495057;
+  }
   svg text {
     font: $font-weight-base $font-size-sm $font-family-base;
     fill: $text-color;

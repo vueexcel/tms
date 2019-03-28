@@ -1,4 +1,4 @@
-@import '../../styles/app';
+@import "../../styles/app";
 
 .title {
   margin-top: 0;
@@ -7,6 +7,10 @@
   @include clearfix();
 }
 
+.set_height{
+  display: flex;
+  height: 40px;
+}
 .widget {
   display: block;
   position: relative;
@@ -49,7 +53,8 @@
     }
 
     .widget-body.p-0 {
-      margin: $widget-padding-vertical (-$widget-padding-horizontal) (-$widget-padding-vertical);
+      margin: $widget-padding-vertical (-$widget-padding-horizontal)
+        (-$widget-padding-vertical);
 
       + footer {
         margin-top: $widget-padding-vertical;
@@ -60,6 +65,174 @@
   &:global.bg-transparent {
     box-shadow: none;
   }
+}
+
+.close-collapse {
+  font-size: 20px !important;
+  margin-left: -8px;
+}
+.employee-name {
+  font-weight: 400;
+}
+.employee-technology {
+  font-weight: 400;
+  font-size: 13.9px;
+}
+.managers {
+  font-size: 12px;
+  font-weight: 380;
+  margin-top: 5px;
+}
+.avatars {
+  .col-12 {
+    display: flex;
+  }
+  .avatar:not(:first-child) {
+    margin-left: -14px;
+  }
+  .avatar {
+    position: relative;
+    border: 1px solid #fff;
+    border-radius: 50%;
+  }
+}
+
+.edit-button{
+  cursor: pointer;
+}
+
+.border-name {
+  border-radius: 4px;
+}
+.manager-name {
+  margin-bottom: 0px;
+}
+.manager-work {
+  margin-top: -5px;
+}
+.border-round {
+  border: 1px solid #e1e4e873;
+  border-radius: 4px;
+  border-bottom: 0px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+.dropDown-button {
+  border-radius: 50px;
+}
+.btn-outline-secondary {
+  border-radius: 4px !important;
+  border: 1px solid #e6e6e6 !important;
+}
+.btn-outline-secondary:hover {
+  color: #798892 !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border-color: #798892 !important;
+}
+.show > .btn-outline-secondary.dropdown-toggle {
+  color: #798892 !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border-color: #798892 !important;
+}
+
+.border-managers-container {
+  border: 1px solid #e1e4e873;
+}
+.line{
+  margin: 0 -10px;
+  margin-bottom: 10px;
+  color: #d6dee5;
+}
+.avatar img {
+  width: 40px;
+  height: auto;
+}
+a.button-for-employee {
+  border: 1px solid #e6e6e6;
+}
+
+.progress-bar-employee {
+  margin-bottom: 0px;
+}
+.employee-progress {
+  margin-top: 10px;
+  font-size: 0.9rem;
+}
+.all-manager-div{
+  padding: 10px 0;
+}
+
+.all-manager{
+  position: relative;
+  // margin: 0 ;
+}
+.fa-plus-circle-altered {
+  position: absolute;
+  bottom: 0;
+  right: -5px;
+  background: #fff;
+  border-radius: 100%;
+  z-index: 1;
+}
+.card-footer-altered {
+  padding: 5px 10px;
+  background: #fafbff;
+  border-top: 1px solid #e1e4e873;
+}
+
+.list {
+  width: 15px;
+  height: 15px;
+  text-align: center;
+  line-height: 2em;
+  border-radius: 50%;
+  border: 3.5px solid darkgray;
+  margin: 0 4.5px;
+  display: inline-block;
+  position: relative;
+}
+.list::before {
+  content: "";
+  position: absolute;
+  top: 3.1px;
+  left: -14px;
+  width: 10px;
+  height: .2em;
+  background: darkgray;
+}
+
+.list:first-child {
+  margin-left: 0px;
+}
+
+.list:first-child::before {
+  display: none;
+}
+
+// .active {
+//   background: #ffc247;
+// }
+
+.active{
+  border: 3.5px solid #ffc247;
+}
+
+.active.list::before {
+  background: #ffc247;
+}
+
+.add-icon {
+  font-size: 15px;
+  cursor: pointer;
+  bottom: -4px;
+  right: -9px;
+}
+
+.all_managers{
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .widgetBody {
@@ -170,7 +343,7 @@
   }
 
   .widget-padding-lg {
-    padding: $widget-padding-vertical*2 $widget-padding-horizontal*2;
+    padding: $widget-padding-vertical * 2 $widget-padding-horizontal * 2;
   }
 
   .widget-body-container {

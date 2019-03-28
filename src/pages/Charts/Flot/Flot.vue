@@ -3,7 +3,7 @@
     <b-breadcrumb>
       <b-breadcrumb-item>YOU ARE HERE</b-breadcrumb-item>
       <b-breadcrumb-item>Charts</b-breadcrumb-item>
-      <b-breadcrumb-item active>Flot</b-breadcrumb-item>
+      <b-breadcrumb-item class="active_class">Flot</b-breadcrumb-item>
     </b-breadcrumb>
     <h1 class="page-title">Visual - <span class="fw-semi-bold">Flot Charts</span></h1>
     <b-row>

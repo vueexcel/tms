@@ -38,7 +38,7 @@ import Messages from './NotificationsDemo/Messages';
 import Progress from './NotificationsDemo/Progress';
 
 export default {
-  name: 'Notification',
+  name: 'WeeklyReview',
   components: {
     NotifictionsList, NewNotifictionsList, Messages, Progress,
   },

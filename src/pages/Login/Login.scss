@@ -3,7 +3,11 @@
 .login-page {
   padding-top: 20vh;
   height: 100%;
-
+  .login_container{
+    max-width: 420px;
+    padding: 10px;
+    margin: 0 auto;
+  }
   .widget {
     max-width: 460px;
     padding: 30px !important;
