@@ -6,9 +6,12 @@
           <h5 class="logo mb-5">
             <img src="./../../images/logo.png" width="100%" alt="logo">
           </h5>
+          <div class="alert alert-danger alert-transparent alert-sm" v-if="loginfailed">
+            <button type="button" class="close" data-dismiss="alert" @click="closeError" aria-hidden="true">×</button>
+            {{loginError}}.
+          </div>
           <h6 class="mt-0 mb-5 text-center font-weight-bold">Enter Your ExcellenceHR Username to Login</h6>
           <form class="mt-4" @submit.prevent="login">
-            <b-alert class="alert-sm" variant="danger">Wrong Credentials try again</b-alert>
             <div class="form-group">
               <input
                 class="form-control no-border"
@@ -57,34 +60,29 @@ export default {
   components: { Widget },
   computed: {
     authenticated: get("login/authenticated"),
-    // loginfailed: get("login/loginfailed")
-    sidebar: sync("login/sidebar")
+    loginfailed: sync("login/loginfailed"),
+    sidebar: sync("login/sidebar"),
+    loginError() {
+      if(this.loginfailed){
+        return 'Wrong Credentials try again'
+      }
+    }
   },
   methods: {
     api: call("login/login_"),
-    // login() {
-    //   const username = this.$refs.username.value;
-    //   const password = this.$refs.password.value;
-
-    //   if (username.length !== 0 && password.length !== 0) {
-    //     this.api({
-    //       username: username,
-    //       password: password
-    //     });
-    //   }
-    // }
     login() {
       const username = this.$refs.username.value;
       const password = this.$refs.password.value;
-      if ((username === "admin") & (password === "java@123")) {
-        this.sidebar = true;
-        this.$router.push("/admin/manageKpi");
-      } else if ((username === "user") & (password === "java@123")) {
-        this.sidebar = false;
-        this.$router.push("/app/profile");
-      } else {
-        alert("please make sure you entered correct user name & password");
+
+      if (username.length !== 0 && password.length !== 0) {
+        this.api({
+          username: username,
+          password: password
+        });
       }
+    },
+    closeError() {
+      this.loginfailed = false
     }
   },
   created() {
