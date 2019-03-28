@@ -48,15 +48,9 @@
         iconName="fas fa-chart-line"
         index="performanceReview"
         isHeader
-      />
-      <NavLink
-        header="Your Team"
-        link="/app/notifications"
-        iconName="fas fa-users"
-        index="notifications"
-        isHeader
-      />
-      <NavLink
+      />-->
+      
+      <!--<NavLink
         header="Admin"
         link="/app/notifications"
         iconName="fas fa-user-cog"
@@ -69,13 +63,6 @@
         link="/admin/manageKpi"
         iconName="fas fa-inbox"
         index="dashboard"
-        isHeader
-      />
-      <NavLink
-        header="Manage Employees"
-        link="/admin/manageEmployee"
-        iconName="fas fa-users"
-        index="typography"
         isHeader
       />
        <!-- link="/app/weeklyReview" -->
@@ -92,6 +79,13 @@
         link="/app/WeeklyReport"
         iconName="fas fa-chart-line"
         index="performanceReview"
+        isHeader
+      />
+      <NavLink
+        header="Your Team"
+        link="/app/team"
+        iconName="fas fa-users"
+        index="notifications"
         isHeader
       />
       <!-- <NavLink

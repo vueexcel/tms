@@ -13,9 +13,9 @@
           :rows="3"
           :max-rows="6"
         ></b-form-textarea>
-        <div class="checkbox form-check-inline mt-3">
-          <input class="form-check-input" type="checkbox" id="inlineCheckbox3" v-model="status">
-          <label class="form-check-label" for="inlineCheckbox3">Was task completed as per the standup</label>
+        <div class="mt-3">
+		      <input type="checkbox" id="checkbox-1-1" class="regular-checkbox mr-2"  v-model="status" />
+		      <label class="checkbox_label">Was task completed as per the standup</label>
         </div>
         <!-- <b-form-checkbox
           class="pt-3"

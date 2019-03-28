@@ -2,7 +2,7 @@
   <div>
     <div class="card mb-5">
       <div class="card-body text-center">
-        <div class="float-right">
+        <div class="float-right" v-if="showManager">
           <i
             class="fas fa-edit edit-button"
             v-if="!edit"
@@ -17,7 +17,7 @@
         </div>
         <div>
           <img
-            class="rounded-circle ml-5 h-auto"
+            class="rounded-circle h-auto"
             src="@/assets/people/a5.jpg"
             width="75"
             alt="..."
@@ -42,7 +42,7 @@
           </a>
         </div>
       </div>
-      <ManagerComponent :manager="employee.manager" :employeID="employee.id" @deleteManager="managerToBeDeleted"/>
+      <ManagerComponent v-if="showManager" :manager="employee.manager" :employeID="employee.id" @deleteManager="managerToBeDeleted"/>
     </div>
     <!-- </Widget> -->
   </div>
@@ -69,7 +69,8 @@ export default {
     };
   },
   props: {
-    employee: { type: Object, default: () => ({}) }
+    employee: { type: Object, default: () => ({}) },
+    showManager: {type: Boolean, default: true}
   },
   computed: {
     name: sync("manageEmployee/employeeName"),

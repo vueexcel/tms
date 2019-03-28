@@ -20,7 +20,7 @@
                   <span class="position-relative">
                     <img class="rounded-circle" :src="member.image" width="33" height="33" alt="...">
                     <b-badge
-                      @click="removeMember(key, index)"
+                      @click="removeMember(key, index, member.name)"
                       variant="danger"
                       class="circle-2 fs-sm position-absolute badgePosSelected cursor p-0"
                     >
@@ -46,7 +46,7 @@
             <!-- ============================
               ======= MEMBER Image with badge (loop)
             ==================================-->
-            <span class="position-relative ml-1" v-for="(img, i) in searchFilter" :key="i">
+            <span class="position-relative ml-1 d-inline-block mb-2" v-for="(img, i) in searchFilter" :key="i">
               <img
                 v-b-tooltip.hover
                 :title="img.name"
@@ -56,8 +56,11 @@
                 height="25"
                 alt="..."
               >
-              <b-badge @click="addMember(i, index, img.name)" :variant="img.variant" class="circle-2 position-absolute badgePos p-0">
+              <b-badge @click="addMember(i, index, img.name)" v-if="!img.added" :variant="img.variant" class="circle-2 position-absolute badgePos p-0 top">
                 <i class="fa fa-plus" style="color:white; font-size:10px"></i>
+              </b-badge>
+              <b-badge @click="addMember(i, index, img.name)" v-if="img.added" class="circle-2 position-absolute badgePos p-0 top">
+                <i class="fa fa-check-circle bg-white text-success" ></i>
               </b-badge>
             </span>
             <!-- ============================
@@ -90,6 +93,7 @@ export default {
       for (let index = 0; index < this.allMembersArray.length; index++) {
         if (this.allMembersArray[index].name == name) {
           var addMemberToList = this.allMembersArray[index];
+          this.allMembersArray[index]['added'] = true
         }
       }
       this.addNewTeam[this.$props.array_.length - 1 - index].memberList.push(
@@ -97,7 +101,12 @@ export default {
       );
       this.searchField=''
     },
-    removeMember: function(key, index) {
+    removeMember: function(key, index, name) {
+      for (let index = 0; index < this.allMembersArray.length; index++) {
+        if (this.allMembersArray[index].name == name) {
+          this.allMembersArray[index]['added'] = false
+        }
+      }
       this.addNewTeam[this.$props.array_.length - 1 - index].memberList.splice(
         key,
         1
@@ -115,6 +124,4 @@ export default {
 }
 </script>
 
-<style>
-
-</style>
+<style src="./Group.scss" lang="scss" />

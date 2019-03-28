@@ -20,6 +20,7 @@ import Checkin from '@/pages/Checkin/Checkin';
 import WeeklyReview from '@/pages/WeeklyReview/WeeklyReview';
 import WeeklyReport from '@/pages/WeeklyReportReview/WeeklyReport';
 import MonthlyPerformanceReview from '@/pages/MonthlyPerformanceReview/MonthlyPerformanceReview';
+import Team from '@/pages/Team/Team'
 // --admin pages--
 import ManageEmployee from '@/pages/ManageEmployee/ManageEmployee';
 import ManageKPI from '@/pages/Kpi/Kpi';
@@ -72,6 +73,11 @@ export default new Router({
           path: 'PerformanceReview',
           name: 'MonthlyPerformanceReview',
           component: MonthlyPerformanceReview
+        },
+        {
+          path: 'team',
+          name: 'Team',
+          component: Team
         },
         {
           path: 'weeklyReport',
