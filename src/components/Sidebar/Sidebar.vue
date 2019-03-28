@@ -12,8 +12,9 @@
         <img class="pl-1 pr-4" src="@/images/X_logo.png" width="50px" alt="logo">
       </router-link>
     </header>
-    <ul class="nav" v-show="false" >
-      <NavLink
+    <!-- USER -->
+    <ul class="nav" v-if="!sidebar">
+      <!-- <NavLink
         header="Dashboard"
         link="/app/profile"
         iconName="fas fa-clone"
@@ -36,58 +37,112 @@
       />
       <NavLink
         header="Performance Review"
-        link="/app/notifications"
+        link="/app/PerformanceReview"
         iconName="fas fa-chart-line"
-        index="notifications"
+        index="performanceReview"
         isHeader
       />
       <NavLink
-        header="Your Team"
-        link="/app/notifications"
-        iconName="fas fa-users"
-        index="notifications"
+        header="Weekly Report Review"
+        link="/app/WeeklyReport"
+        iconName="fas fa-chart-line"
+        index="performanceReview"
         isHeader
-      />
-      <NavLink
+      />-->
+      
+      <!--<NavLink
         header="Admin"
         link="/app/notifications"
         iconName="fas fa-user-cog"
         index="notifications"
         isHeader
-      />
-    </ul>
-    <ul class="nav" v-show="true" >
+      /> -->
+      
       <NavLink
         header="Manage KPI's"
-        link="/app/profile"
+        link="/admin/manageKpi"
+        iconName="fas fa-inbox"
+        index="dashboard"
+        isHeader
+      />
+       <!-- link="/app/weeklyReview" -->
+      <NavLink
+        header="View Check-ins"
+        link="/app/checkin"
+        iconName="fas fa-bars"
+        index="tables"
+        isHeader
+      />
+      <!-- header="View Weekly Report" -->
+      <NavLink
+        header="Weekly Report Review"
+        link="/app/WeeklyReport"
+        iconName="fas fa-chart-line"
+        index="performanceReview"
+        isHeader
+      />
+      <NavLink
+        header="Your Team"
+        link="/app/team"
+        iconName="fas fa-users"
+        index="notifications"
+        isHeader
+      />
+      <!-- <NavLink
+        link="/app/notifications"
+        iconName="fas fa-calendar-minus"
+        index="notifications"
+        isHeader
+      /> -->
+      <NavLink
+        header="View Monthly Report"
+        link="/app/PerformanceReview"
+        iconName="fas fa-calendar"
+        index="notifications"
+        isHeader
+      />
+    </ul>
+    <!-- ADMIN -->
+    <ul class="nav" v-if="sidebar">
+      <NavLink
+        header="Manage KPI's"
+        link="/admin/manageKpi"
         iconName="fas fa-inbox"
         index="dashboard"
         isHeader
       />
       <NavLink
         header="Manage Employees"
-        link="/app/checkin"
+        link="/admin/manageEmployee"
         iconName="fas fa-users"
         index="typography"
         isHeader
       />
+       <!-- link="/app/weeklyReview" -->
       <NavLink
         header="View Check-ins"
-        link="/app/weeklyReview"
+        link="/app/checkin"
         iconName="fas fa-bars"
         index="tables"
         isHeader
       />
+      <!-- header="View Weekly Report" -->
       <NavLink
-        header="View Weekly Report"
+        header="Weekly Report Review"
+        link="/app/WeeklyReport"
+        iconName="fas fa-chart-line"
+        index="performanceReview"
+        isHeader
+      />
+      <!-- <NavLink
         link="/app/notifications"
         iconName="fas fa-calendar-minus"
         index="notifications"
         isHeader
-      />
+      /> -->
       <NavLink
         header="View Monthly Report"
-        link="/app/notifications"
+        link="/app/PerformanceReview"
         iconName="fas fa-calendar"
         index="notifications"
         isHeader
@@ -100,6 +155,7 @@
 import { mapState, mapActions } from "vuex";
 import isScreen from "@/core/screenHelper";
 import NavLink from "./NavLink/NavLink";
+import { get } from "vuex-pathify";
 
 export default {
   name: "Sidebar",
@@ -146,13 +202,15 @@ export default {
   },
   created() {
     this.setActiveByRoute();
+    // console.log(this.sidebar);
   },
   computed: {
     ...mapState("layout", {
       sidebarStatic: state => state.sidebarStatic,
       sidebarOpened: state => !state.sidebarClose,
       activeItem: state => state.sidebarActiveElement
-    })
+    }),
+    sidebar: get("login/sidebar")
   }
 };
 </script>

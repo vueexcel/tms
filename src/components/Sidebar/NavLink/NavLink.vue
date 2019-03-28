@@ -19,7 +19,7 @@
           <i class="fa fa-angle-left" />
         </div>
       </router-link>
-    </div>
+    </div> {{link}}
     <b-collapse :id="'collapse' + index" :visible="isActive">
       <ul>
         <NavLink v-for="link in childrenLinks"

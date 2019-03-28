@@ -1,0 +1,178 @@
+[
+    {
+        "name": "Mahima",
+        "image": "/img/a5.84f014f0.jpg",
+        "variant": "primary",
+        "work": "VP Operations",
+        "manager_id": "one",
+        "team": "HR & Admin"
+    },
+    {
+        "name": "Manish",
+        "image": "/img/a3.f6dc73f2.jpg",
+        "variant": "primary",
+        "work": "CEO",
+        "manager_id": "two",
+        "team": "HR & Admin"
+    },
+    {
+        "name": "Saurabh Khatri",
+        "image": "/img/a6.2966ab8e.jpg",
+        "variant": "primary",
+        "work": "Sr. Magento Developer",
+        "manager_id": "three",
+        "team": "Magento"
+    },
+    {
+        "name": "Manish Joy",
+        "image": "/img/a5.84f014f0.jpg",
+        "variant": "primary",
+        "work": "Sr. Magento Developer",
+        "manager_id": "four",
+        "team": "Magento"
+    },
+    {
+        "name": "Deepak Mishra",
+        "image": "/img/a5.84f014f0.jpg",
+        "variant": "primary",
+        "work": "Sr. Magento Developer",
+        "manager_id": "five",
+        "team": "Magento"
+    },
+    {
+        "name": "Prateek",
+        "image": "/img/a3.f6dc73f2.jpg",
+        "variant": "primary",
+        "work": "Angular Developer",
+        "manager_id": "six",
+        "team": "Angular"
+    },
+    {
+        "name": "Juhi",
+        "image": "/img/a5.84f014f0.jpg",
+        "variant": "primary",
+        "work": "HR",
+        "manager_id": "seven",
+        "team": "HR & Admin"
+    },
+    {
+        "name": "Kumodi",
+        "image": "/img/a6.2966ab8e.jpg",
+        "variant": "primary",
+        "work": "Hr",
+        "manager_id": "eight",
+        "team": "HR & Admin"
+    },
+    {
+        "name": "Kartik",
+        "image": "/img/a5.84f014f0.jpg",
+        "variant": "primary",
+        "work": "Magento Developer",
+        "manager_id": "nine",
+        "team": "Magento"
+    },
+    {
+        "name": "Nadeem",
+        "image": "/img/a3.f6dc73f2.jpg",
+        "variant": "primary",
+        "work": "Magento Developer",
+        "manager_id": "ten",
+        "team": "Magento"
+    },
+    {
+        "name": "Mridul",
+        "image": "/img/a5.84f014f0.jpg",
+        "variant": "primary",
+        "work": "Magento Developer",
+        "manager_id": "eleven",
+        "team": "Magento"
+    },
+    {
+        "name": "Vivek",
+        "image": "/img/a5.84f014f0.jpg",
+        "variant": "primary",
+        "work": "Magento Developer",
+        "manager_id": "twelve",
+        "team": "Magento"
+    },
+    {
+        "name": "Yogendra",
+        "image": "/img/a5.84f014f0.jpg",
+        "variant": "primary",
+        "work": "Magento Developer",
+        "manager_id": "thirteen",
+        "team": "Magento"
+    },
+    {
+        "name": "Rohit",
+        "image": "/img/a6.2966ab8e.jpg",
+        "variant": "primary",
+        "work": "React Developer",
+        "manager_id": "forteen",
+        "team": "React"
+    },
+    {
+        "name": "Aditi",
+        "image": "/img/a5.84f014f0.jpg",
+        "variant": "primary",
+        "work": "Vue Developer",
+        "manager_id": "fifteen",
+        "team": "Vue"
+    },
+    {
+        "name": "Shraddha",
+        "image": "/img/a3.f6dc73f2.jpg",
+        "variant": "primary",
+        "work": "Wordpress Developer",
+        "manager_id": "sixteen",
+        "team": "Magento"
+    },
+    {
+        "name": "Arun",
+        "image": "/img/a5.84f014f0.jpg",
+        "variant": "primary",
+        "work": "Sr. React Developer",
+        "manager_id": "Seventeen",
+        "team": "React"
+    },
+    {
+        "name": "Sagar",
+        "image": "/img/a5.84f014f0.jpg",
+        "variant": "primary",
+        "work": "Magento Developer",
+        "manager_id": "eighteen",
+        "team": "Magento"
+    },
+    {
+        "name": "Ashutosh",
+        "image": "/img/a3.f6dc73f2.jpg",
+        "variant": "primary",
+        "work": "Node Developer",
+        "manager_id": "nineteen",
+        "team": "Node"
+    },
+    {
+        "name": "Nitin",
+        "image": "/img/a6.2966ab8e.jpg",
+        "variant": "primary",
+        "work": "React Developer",
+        "manager_id": "twenty",
+        "team": "React"
+    },
+    {
+        "name": "Puneet Sharma",
+        "image": "/img/a6.2966ab8e.jpg",
+        "variant": "primary",
+        "work": "Business Development",
+        "manager_id": "twenty one",
+        "team": "Sales"
+    },
+    {
+        "name": "Anuj",
+        "image": "/img/a6.2966ab8e.jpg",
+        "variant": "primary",
+        "work": "Business Development",
+        "manager_id": "twenty two",
+        "team": "Sales"
+    }
+]
