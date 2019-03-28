@@ -1,155 +1,151 @@
 <template>
   <div>
-    <!-- {{ array_[0].memberList }} -->
-    <b-row v-for="(team,index) in array_" :key="index">
+    <b-row v-for="(team,index) in array_.slice().reverse()" :key="index">
       <b-col lg="8" xs="12">
         <div class="pb-xlg">
           <Widget class="mb-0 p-0">
             <h4 class="pl-4 pt-3">{{ team.name }}</h4>
-            <hr>
-            <b-container class="pb-5 pt-3" v-if="!(team.addNewKpi && team.addNewEra)">
-              <!-- <hr> -->
+            <hr v-if="!team.addNewKpi">
+            <b-container class="pb-0 pl-0 pr-0">
+              <b-row v-if="team.addNewKpi">
+                <b-col>
+                  <!--=== KPI ADD BUTTON & FORM === -->
+                  <div class="mb-0 p-0">
+                    <h5 class="pl-4 pt-3 fw-bold">
+                      KPI
+                      <span
+                        v-show="!showKpiform"
+                        @click="showKpiform = true"
+                        class="float-right mr-4 ml-1 circle bg-success text-white fw-bold"
+                      >+</span>
+                    </h5>
+                    <form v-show="showKpiform" class="inline pl-4 pr-4 pt-2 pb-2" @submit.prevent>
+                      <b-form-input name="text" placeholder="KPI Heading" v-model="kpiHeading"></b-form-input>
+                      <br>
+                      <b-form-textarea
+                        id="textarea1"
+                        v-model="kpiDescription"
+                        placeholder="Description..."
+                        :rows="3"
+                        :max-rows="6"
+                      ></b-form-textarea>
+                      <a
+                        class="btn btn-default btn-sm mt-2 pl-4 pr-4"
+                        @click="addKpi(index); showKpiform = false"
+                      >
+                        <i class="fas fa-plus" style="color:green;"></i>&nbsp;&nbsp;
+                        Add
+                      </a>
+                    </form>
+                  </div>
+                  <!--=== KPI ADD BUTTON & FORM ENDS=== -->
+                  <!--=== --- KPI HEADING & DESCRIPTION ---=== -->
+                  <div v-if="team.kpiList.length">
+                    <div v-for="(kpiera, indexkpi) in team.kpiList" :key="indexkpi">
+                      <div class="container pl-4">
+                        <hr v-show="!kpiera.edit">
+                        <span
+                          class="text-primary fs-larger"
+                          v-show="!kpiera.edit"
+                          @dblclick="kpiera.edit = true;"
+                        >{{kpiera.heading.toUpperCase()}}</span>
+                        <input
+                          v-model="kpiera.heading"
+                          v-show="kpiera.edit"
+                          id="user-name"
+                          type="text"
+                          class="form-control"
+                          @blur="kpiera.edit = false"
+                          @keypress.enter="kpiera.edit = false; editKpi(index, indexkpi, kpiera.heading)"
+                        >
+                        <section class="bg-white">
+                          <div class="w-75" style="white-space: pre-line;">
+                            <h4 class="text-primary"></h4>
+                            <span
+                              v-show="!kpiera.edit"
+                              @dblclick="kpiera.edit = true;"
+                            >{{kpiera.desc}}</span>
+                            <b-form-textarea
+                              id="textarea1"
+                              v-model="kpiera.desc"
+                              v-show="kpiera.edit"
+                              @blur="kpiera.edit = false"
+                              @keypress.enter="kpiera.edit = false; editKpiDesc(index, indexkpi, kpiera.desc)"
+                              :rows="3"
+                              :max-rows="6"
+                            ></b-form-textarea>
+                          </div>
+                        </section>
+                      </div>
+                    </div>
+                  </div>
+                  <hr>
+                  <!--=== --- KPI HEADING & DESCRIPTION ENDS---=== -->
+                </b-col>
+              </b-row>
+              <!-- ==== ROW FOR ERA (ADDED) ERA's ==== -->
+              <b-row v-if="team.addNewEra">
+                <b-col>
+                  <div class="mb-0 p-0">
+                    <h5 class="pl-4 pt-3 fw-bold">
+                      ERA
+                      <span
+                        v-show="!showEraform"
+                        @click="showEraform = true"
+                        class="float-right mr-4 ml-1 circle bg-success text-white fw-bold"
+                      >+</span>
+                    </h5>
+                    <form v-show="showEraform" class="inline pl-4 pr-4 pt-2 pb-3" @submit.prevent>
+                      <b-form-input name="text" placeholder="ERA Heading" v-model="eraHeading"></b-form-input>
+                      <br>
+                      <b-form-textarea
+                        id="textarea1"
+                        v-model="eraDescription"
+                        placeholder="Description..."
+                        :rows="3"
+                        :max-rows="6"
+                      ></b-form-textarea>
+                      <a
+                        class="btn btn-default btn-sm mt-2 pl-4 pr-4"
+                        @click="addEra(index) ; showEraform = false"
+                      >
+                        <i class="fas fa-plus" style="color:green;"></i>&nbsp;&nbsp;
+                        Add
+                      </a>
+                    </form>
+                  </div>
+                </b-col>
+              </b-row>
+              <!-- ==== ROW FOR ERA (ADDED) ERA's ENDS ==== -->
               <b-row class="text-center">
-                <b-col v-if="!team.addNewKpi">
+                <b-col v-if="!team.addNewKpi" class="pb-4">
                   <h5 class="text-primary pb-2">Add KPI</h5>
                   <a
                     @click="team.addNewKpi = true"
-                    class="position-relative btn btn-outline-success rounded-circle fs-large btn-Custom"
+                    class="position-relative btn btn-outline-secondary rounded-circle fs-large btn-Custom"
                   >
                     <i class="fas fa-plus position-absolute customPosPlus" style="color:green;"></i>
                   </a>
                 </b-col>
-                <b-col v-if="!team.addNewEra">
+                <b-col v-if="!team.addNewEra" class="pb-4">
                   <h5 class="text-primary pb-2">Add ERA</h5>
                   <a
                     @click="team.addNewEra = true"
-                    class="position-relative btn btn-outline-success rounded-circle fs-large btn-Custom"
+                    class="position-relative btn btn-outline-secondary rounded-circle fs-large btn-Custom"
                   >
                     <i class="fas fa-plus position-absolute customPosPlus" style="color:green;"></i>
                   </a>
                 </b-col>
               </b-row>
             </b-container>
-            <!--!@#$%^&*() ADD KPI DIV HERE @#$%^&*() -->
-            <div class="mb-0 p-0" v-if="team.addNewKpi">
-              <!-- <hr> -->
-              <!-- <h4 class="pl-4 pt-3">Jr. Web Developer</h4> -->
-              <h5 class="pl-4 pt-3 fw-bold">
-                KPI
-                <span
-                  v-show="!showKpiform"
-                  @click="showKpiform = true"
-                  class="float-right mr-4 ml-1 circle bg-success text-white fw-bold"
-                >+</span>
-              </h5>
-              <hr class="ml-4 mr-4">
-              <form v-show="showKpiform" class="inline pl-4 pr-4 pt-2 pb-4" @submit.prevent>
-                <b-form-input name="text" placeholder="KPI Heading" v-model="kpiHeading"></b-form-input>
-                <br>
-                <b-form-textarea
-                  id="textarea1"
-                  v-model="kpiDescription"
-                  placeholder="Description..."
-                  :rows="3"
-                  :max-rows="6"
-                ></b-form-textarea>
-                <a
-                  class="btn btn-default btn-sm mt-2 pl-4 pr-4"
-                  @click="addKpi(index); showKpiform = false"
-                >
-                  <i class="fas fa-plus" style="color:green;"></i>&nbsp;&nbsp;
-                  Add
-                </a>
-                <hr>
-              </form>
-            </div>
-            <!--=============================================== 
-              ============ KPI'S CLOSABLE WIDGET ==============
-            ===================================================-->
-            <!-- title="<h5 class='text-primary'>LIGHT BLUE REACHED $300</h5>" -->
-            <div v-if="team.kpiList.length">
-              <div v-for="(kpiera, indexkpi) in team.kpiList" :key="indexkpi">
-                <!-- <widget customHeader class="m-0 pb-5" close> -->
-                <!-- <hr> -->
-                <div class="container pl-4">
-                  <!-- <h5 class="text-primary">{{ kpiera.heading.toUpperCase() }}</h5> -->
-                  <span
-                    class="text-primary fs-larger"
-                    v-show="!kpiera.edit"
-                    @dblclick="kpiera.edit = true;"
-                  >{{kpiera.heading.toUpperCase()}}</span>
-                  <input
-                    v-model="kpiera.heading"
-                    v-show="kpiera.edit"
-                    id="user-name"
-                    type="text"
-                    class="form-control"
-                    @blur="kpiera.edit = false"
-                    @keypress.enter="kpiera.edit = false; editKpi(index, indexkpi, kpiera.heading)"
-                  >
-                  <section class="bg-white">
-                    <div class="w-75" style="white-space: pre-line;">
-                      <h4 class="text-primary"></h4>
-                      <!-- {{ kpiera.desc }} -->
-                      <span v-show="!kpiera.edit" @dblclick="kpiera.edit = true;">{{kpiera.desc}}</span>
-                      <b-form-textarea
-                        id="textarea1"
-                        v-model="kpiera.desc"
-                        v-show="kpiera.edit"
-                        @blur="kpiera.edit = false"
-                        @keypress.enter="kpiera.edit = false; editKpiDesc(index, indexkpi, kpiera.desc)"
-                        :rows="3"
-                        :max-rows="6"
-                      ></b-form-textarea>
-                    </div>
-                  </section>
-                </div>
-                <hr>
-                <!-- </widget> -->
-              </div>
-            </div>
-            <!--==================================================== 
-              ============ KPI'S CLOSABLE WIDGET ENDS ==============
-            =======================================================-->
-            <div class="mb-0 p-0" v-if="team.addNewEra">
-              <h5 class="pl-4 pt-3 fw-bold">
-                ERA
-                <span
-                  v-show="!showEraform"
-                  @click="showEraform = true"
-                  class="float-right mr-4 ml-1 circle bg-success text-white fw-bold"
-                >+</span>
-              </h5>
-              <hr class="ml-4 mr-4">
-              <form v-show="showEraform" class="inline pl-4 pr-4 pt-2 pb-4" @submit.prevent>
-                <b-form-input name="text" placeholder="ERA Heading" v-model="eraHeading"></b-form-input>
-                <br>
-                <b-form-textarea
-                  id="textarea1"
-                  v-model="eraDescription"
-                  placeholder="Description..."
-                  :rows="3"
-                  :max-rows="6"
-                ></b-form-textarea>
-                <a
-                  class="btn btn-default btn-sm mt-2 pl-4 pr-4"
-                  @click="addEra(index) ; showEraform = false"
-                >
-                  <i class="fas fa-plus" style="color:green;"></i>&nbsp;&nbsp;
-                  Add
-                </a>
-                <hr>
-              </form>
-            </div>
+
             <!--===========================================
                =========== ERA'S CLOSABLE WIDGET ===========
             ================================================-->
-            <!-- title="<h5 class='text-primary'>LIGHT BLUE REACHED $300</h5>" -->
             <div v-if="team.eraList.length">
               <div v-for="(kpiera, indexera) in team.eraList" :key="indexera">
-                <!-- <widget customHeader class="m-0 pb-5" close> -->
+                <hr class="ml-4 mr-4 mt-2">
                 <div class="container pl-4">
-                  <!-- <h5 class="text-primary">{{ kpiera.heading.toUpperCase() }}</h5> -->
                   <span
                     class="text-primary fs-larger"
                     v-show="!kpiera.edit"
@@ -167,7 +163,6 @@
                   <section class="bg-white">
                     <div class="w-75" style="white-space: pre-line;">
                       <h4 class="text-primary"></h4>
-                      <!-- {{ kpiera.desc }} -->
                       <span v-show="!kpiera.edit" @dblclick="kpiera.edit = true;">{{kpiera.desc}}</span>
                       <b-form-textarea
                         id="textarea1"
@@ -181,9 +176,8 @@
                     </div>
                   </section>
                 </div>
-                <hr>
-                <!-- </widget> -->
               </div>
+              <hr>
             </div>
             <!--===================================================
                =========== ERA'S CLOSABLE WIDGET ENDS ===========
@@ -192,7 +186,7 @@
         </div>
       </b-col>
       <b-col lg="4" xs="12">
-        <!--$%$%$%$%%$%$%$%$%%$#$%$ group involved for add new member here ##$%#$$$$%$%$%$%$%$%$%4-->
+        <!--##=== group involved for add new member here ===##-->
         <div class="h-auto pb-3" lg="4" xs="12">
           <div class="pb-1 bg-white">
             <h4 class="pl-4 pt-3">Group Involved</h4>
@@ -207,7 +201,7 @@
                 </b-col>
               </b-row>
             </b-container>
-            <!--@@@@@@@ ADDED MEMBERS CONTAINER @@@@@-->
+            <!--@@@ ADDED MEMBERS CONTAINER @@@-->
             <b-container class="pb-4 pt-1" v-if="team.memberList.length">
               <b-row v-for="(member, key) in team.memberList" :key="key">
                 <b-col class="col-md-1">
@@ -227,7 +221,7 @@
                 </b-col>
               </b-row>
             </b-container>
-            <!--@@@@@@@ ADDED MEMBERS CONTAINER ENDS @@@@@-->
+            <!--@@@ ADDED MEMBERS CONTAINER ENDS @@@-->
             <div class="pl-4 pr-4 pb-1">
               <b-form-input type="search" v-model="searchField" name="search" placeholder="Search"></b-form-input>
             </div>
@@ -242,16 +236,15 @@
             <span class="position-relative ml-1" v-for="(img, i) in searchFilter" :key="i">
               <img
                 @click="addMember(i, index, img.name)"
+                v-b-tooltip.hover
+                :title="img.name"
                 class="rounded-circle"
                 :src="img.src"
                 width="25"
                 height="25"
                 alt="..."
               >
-              <b-badge
-                :variant="img.variant"
-                class="circle-2 position-absolute badgePos p-0"
-              >
+              <b-badge :variant="img.variant" class="circle-2 position-absolute badgePos p-0">
                 <i class="fa fa-plus" style="color:white; font-size:10px"></i>
               </b-badge>
             </span>
@@ -260,9 +253,9 @@
             ==================================-->
           </div>
         </div>
-        <!--$%$%$%$%%$%$%$%$%%$#$%$ group involved for add new member here ENDS ##$%#$$$$%$%$%$%$%$%$%4-->
-        <!--!@!@!@!@!@!@!@!@ WHEN GROUP INVOLVED MEMBERS WILL BE ADDED !@!@!@!@!@!@!@!@!@!@@!-->
-        <!--@@@@ (v-if) made false to turn of this div @@@@ -->
+        <!--##=== group involved for add new member here ENDS ===##-->
+        <!--!@!@ WHEN GROUP INVOLVED MEMBERS WILL BE ADDED @!@!-->
+        <!--@@@ (v-if) made false to turn of this div @@@ -->
         <div class="h-auto mt-5" v-if="false">
           <div class="pb-2 bg-white">
             <h5 class="pl-4 pt-3">Group Involved</h5>
@@ -358,7 +351,7 @@
             </span>
           </div>
         </div>
-        <!--!@!@!@!@!@!@!@!@ WHEN GROUP INVOLVED MEMBERS WILL BE ADDED !@!@!@!@!@!@!@@!-->
+        <!--!@!@ WHEN GROUP INVOLVED MEMBERS WILL BE ADDED @!@!-->
       </b-col>
     </b-row>
   </div>
@@ -397,8 +390,8 @@ export default {
   mounted() {},
   data() {
     return {
-      showKpiform: false,
-      showEraform: false,
+      showKpiform: true,
+      showEraform: true,
       user: {
         name: "",
         email: ""
@@ -413,15 +406,6 @@ export default {
         Authorization: localStorage.getItem("authenticated")
       });
     },
-    //---- edit KPI/ERA on the fly
-    // focusField(name, index) {
-    //   console.log("inside focus field", name, index);
-    //   this.editField = name;
-    // },
-    // blurField() {
-    //   console.log("INSIDE BLUR FIELD =========");
-    //   this.editField = "";
-    // },
     addNewTeam_: function() {
       if (this.newTeamName !== "") {
         this.addNewTeam.push({
@@ -436,9 +420,8 @@ export default {
       }
     },
     addKpi: function(index) {
-      console.log("inside add kpi block");
       if ((this.kpiHeading && this.kpiDescription) !== "") {
-        this.addNewTeam[index].kpiList.push({
+        this.addNewTeam[this.$props.array_.length - 1 - index].kpiList.push({
           heading: this.kpiHeading,
           desc: this.kpiDescription,
           edit: false
@@ -447,18 +430,18 @@ export default {
       (this.kpiHeading = ""), (this.kpiDescription = "");
     },
     editKpi: function(index, indexkpi, val) {
-      console.log("EDIT KPI", index, val);
-      this.addNewTeam[index].kpiList[indexkpi].heading = val;
-      // this.editField = "";
+      this.addNewTeam[this.$props.array_.length - 1 - index].kpiList[
+        indexkpi
+      ].heading = val;
     },
     editKpiDesc: function(index, indexkpi, val) {
-      console.log("EDIT KPIDESCRIPTION", index, val);
-      this.addNewTeam[index].kpiList[indexkpi].desc = val;
+      this.addNewTeam[this.$props.array_.length - 1 - index].kpiList[
+        indexkpi
+      ].desc = val;
     },
     addEra: function(index) {
-      console.log("inside add era block");
       if ((this.eraHeading && this.eraDescription) !== "") {
-        this.addNewTeam[index].eraList.push({
+        this.addNewTeam[this.$props.array_.length - 1 - index].eraList.push({
           heading: this.eraHeading,
           desc: this.eraDescription,
           edit: false
@@ -467,12 +450,14 @@ export default {
       (this.eraHeading = ""), (this.eraDescription = "");
     },
     editEra: function(index, indexera, val) {
-      console.log("EDIT ERA", index, val);
-      this.addNewTeam[index].eraList[indexera].heading = val;
+      this.addNewTeam[this.$props.array_.length - 1 - index].eraList[
+        indexera
+      ].heading = val;
     },
     editEraDesc: function(index, indexera, val) {
-      console.log("EDIT ERADESCRIPTION", index, val);
-      this.addNewTeam[index].eraList[indexera].desc = val;
+      this.addNewTeam[this.$props.array_.length - 1 - index].eraList[
+        indexera
+      ].desc = val;
     },
     addMember: function(i, index, name) {
       for (let index = 0; index < this.allMembers.length; index++) {
@@ -481,11 +466,15 @@ export default {
           var addMemberToList = this.allMembers[index];
         }
       }
-      // this.addNewTeam[index].memberList.push(this.allMembers[i]);
-      this.addNewTeam[index].memberList.push(addMemberToList);
+      this.addNewTeam[this.$props.array_.length - 1 - index].memberList.push(
+        addMemberToList
+      );
     },
     removeMember: function(key, index) {
-      this.addNewTeam[index].memberList.splice(key, 1);
+      this.addNewTeam[this.$props.array_.length - 1 - index].memberList.splice(
+        key,
+        1
+      );
     }
   }
 };

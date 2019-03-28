@@ -5,7 +5,7 @@ import {
 
 // setup store
 const state = {
-    addCreateNew: false,
+    addCreateNew: true,
     newTeamName: '',
     addNewTeam: [],
     kpiHeading: '',
