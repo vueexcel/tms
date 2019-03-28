@@ -5,23 +5,24 @@ import router from './../../Routes'
 // setup store
 const state = {
     authenticated: null,
-    loginfailed: null,
+    loginfailed: false,
     sidebar: true
 }
 const mutations = make.mutations(state)
 const actions = {
     ...make.actions(state),
-    // async login_({state,commit}, payload) {
-    //     let response = await axios
-    //         .post('http://127.0.0.1:5000/login', payload)
-    //         .then((response) => {
-    //             commit('authenticated', response.data.access_token)
-    //             window.localStorage.setItem("authenticated", response.data.access_token);
-    //             router.push("/admin/manageKpi");
-    //         }).catch ((err) => {
-    //             commit('loginfailed', err)
-    //         })
-    // }
+    async login_({state,commit}, payload) {
+        await axios
+        .post('http://5.9.144.226:8000/auth/login', payload)
+        .then((response) => {
+                commit('authenticated', response.data.access_token)
+                commit('loginfailed', false)
+                window.localStorage.setItem("authenticated", response.data.access_token);
+                router.push("/admin/manageKpi");
+            }).catch ((err) => {
+                commit('loginfailed', true)
+            })
+    }
 }
 
 // create store

@@ -10,7 +10,7 @@
         <b-container class="no-gutters">
         <b-row>
             <b-col xs="12" class="column" v-for="employee in emp_arr" :key="employee.id">
-            <WeeklyReviewComponent :employee="employee" @setActive="setActive" :activeId="activeId"/>
+            <WeeklyReviewComponent :employee="employee" @setActive="setActive" :activeId="activeId" :style_variant="variant" :activeClass="activeClass"/>
             </b-col>
         </b-row>
         </b-container>
@@ -41,7 +41,16 @@ export default {
     return {
       activeId: 1,
       show: true,
-      activeEmp: null
+      activeEmp: null,
+      variant:{
+        background_color: '#fafbff !important',
+        border: '1px solid #c1ccd3',
+        color: '#343a40'
+      },
+      activeClass: {
+        'background-color': '#e5D8F8',
+        'border': '9964e3'
+      }
     };
   },
   computed: {
