@@ -41,7 +41,7 @@
             id="default-textarea"
             placeholder="Performance or general comments (if any)..."
           />
-          <b-button variant="primary" class="width-100 mb-xs mr-xs mt-4" @click="submit">Submit</b-button>
+          <b-button class="btn btn-default btn-lg mb-xs bg-primary text-white mt-4" @click="submit">Submit</b-button>
         </b-form>
       </b-col>
     </b-row>

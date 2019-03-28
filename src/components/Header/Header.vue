@@ -39,8 +39,8 @@
             <img class="rounded-circle" src="../../assets/people/a5.jpg" alt="...">
           </span>
           <span class="small">
-            Philip
-            <span class="fw-semi-bold">Smith</span>
+            <span class="fw-semi-bold">{{user.username}}
+          </span>
           </span>
           <span class="ml-1 circle bg-warning text-white fw-bold">13</span>
         </template>
@@ -96,6 +96,7 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
+import { get, call, sync } from "vuex-pathify";
 import $ from "jquery";
 import Notifications from "@/components/Notifications/Notifications";
 
@@ -103,6 +104,7 @@ export default {
   name: "Headed",
   components: { Notifications },
   computed: {
+    user: get("profile/user"),
     ...mapState("layout", {
       sidebarClose: state => state.sidebarClose,
       sidebarStatic: state => state.sidebarStatic
@@ -145,6 +147,7 @@ export default {
     }
   },
   created() {
+    console.log(localStorage.getItem('loggedInUser'))
     if (window.innerWidth > 576) {
       setTimeout(() => {
         const $chatNotification = $("#chat-notification");

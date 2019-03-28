@@ -11,7 +11,7 @@ const state = {
 const mutations = make.mutations(state)
 const actions = {
     ...make.actions(state),
-    async login_({state,commit}, payload) {
+    async login_({state,commit, dispatch}, payload) {
         await axios
         .post('http://5.9.144.226:8000/auth/login', payload)
         .then((response) => {

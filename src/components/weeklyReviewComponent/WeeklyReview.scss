@@ -13,7 +13,6 @@
 
 .employee {
   border-radius: 8px;
-  background-color: #fff3da !important;
   color: #343a40;
 }
 
@@ -28,10 +27,12 @@
   background: yellow;
 }
 
-.Alert-class {
-  background-color: #9964e3 !important;
-  color: white;
+.activeClassWeekly{
+  border: 1px solid #9964e3 !important;
+  color: #9964e3;
+  background-color: #e5d8f8 !important; 
 }
+
 .close {
   color: white;
 }

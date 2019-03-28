@@ -1,8 +1,8 @@
 <template>
   <section>
-    <div class="text-center employee"  @click="checkEmployee(employee)" v-bind:class="{activeClass : employee.id === activeId}"
-    >  
-    <!-- :style="{'background-color': style_variant.background_color, 'border': style_variant.border, 'color': style_variant.color  }" -->
+    <div class="text-center"  @click="checkEmployee(employee)" v-bind:class="{activeClassWeekly : employee.id === activeId && page === 'Weekly' , activeClass : employee.id === activeId && page != 'Weekly' }"
+    :style="{'background-color': backgroungColor, 'border': borderColor, 'border-radius': '8px' }"
+    > 
         <div>
           <img
             class="rounded-circle mt-2 mb-2"
@@ -27,12 +27,11 @@ export default {
   props: {
     employee: { type: Object, default: () => ({}) },
     activeId: {type: Number, default: ''},
-    style_variant: {type: Object},
-    activeClass: {type: Object}
+    activeClass: {type: Object},
+    page : {type: String}
   },
   data() {
     return {
-      // activeClass: this.activeClass
     };
   },
   methods: {
@@ -40,8 +39,13 @@ export default {
       this.$emit('setActive', this.employee)
     }
   },
-  created(){
-    console.log(this.activeClass)
+  computed:{
+    backgroungColor() {
+      return '#' + this.activeClass.background_color
+    },
+    borderColor() {
+      return '1px solid #' +this.activeClass.border
+    }
   }
 };
 </script>
