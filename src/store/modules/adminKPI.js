@@ -1,7 +1,6 @@
 // import axios from 'axios'
-import {
-    make
-} from 'vuex-pathify'
+import {make} from 'vuex-pathify'
+import axios from 'axios'
 
 // setup store
 const state = {
@@ -197,12 +196,47 @@ const state = {
     ]
 }
 const mutations = make.mutations(state)
-// const actions = {}
+const actions = {
+    async addManagement( {commit,dispatch}, payload){
+        let data = {
+            kpi_name:payload.kpi_name,
+            kpi_json : [
+                {
+                    title : "xxxx",
+                    desc  : "xxxx"
+                }
+            ],
+            kra_json : [
+                {
+                    title : "xxxx",
+                    desc  : "xxxx"
+                }
+            ]
+        }
+        await axios.post('http://5.9.144.226:8000/kpi',data,{
+            headers:{
+                "Content-Type" : 'application/json',
+                "Authorization" : `Bearer ${payload.token}`
+            }
+        }).then(response => {
+            dispatch('getKpiEra', {kpiEraId:response.data, token: payload.token})
+        })
+    },
+    async getKpiEra({commit},data){
+        await axios.get('http://5.9.144.226:8000/kpi',{
+            headers:{
+                "Authorization" : `Bearer ${data.token}`
+            }
+        }).then(response => {
+            commit('addNewTeam',response.data)
+        })
+    }
+}
 
 // create store
 export default ({
     namespaced: true,
     state,
     mutations,
-    // actions
+    actions
 })

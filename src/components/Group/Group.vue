@@ -14,8 +14,8 @@
               </b-row>
             </b-container>
             <!--@@@ ADDED MEMBERS CONTAINER @@@-->
-            <b-container class="pb-4 pt-1" v-if="team.memberList.length">
-              <b-row v-for="(member, key) in team.memberList" :key="key">
+            <b-container class="pb-4 pt-1" v-if="team.memberList && team.memberList.length">
+              <b-row v-for="(member, key) in team.memberList" :key="key"> 
                 <b-col class="col-md-1">
                   <span class="position-relative">
                     <img class="rounded-circle" :src="member.image" width="33" height="33" alt="...">
