@@ -17,7 +17,9 @@
                         v-show="!showKpiform"
                         @click="showKpiform = true"
                         class="float-right mr-4 ml-1 circle bg-success text-white fw-bold"
-                      ><i class="fas fa-plus fs-lg"></i></span>
+                      >
+                        <i class="fas fa-plus fs-lg"></i>
+                      </span>
                     </h5>
                     <form v-show="showKpiform" class="inline pl-4 pr-4 pt-2 pb-2" @submit.prevent>
                       <b-form-input name="text" placeholder="KPI Heading" v-model="kpiHeading"></b-form-input>
@@ -81,8 +83,8 @@
                             ></b-form-textarea>
                           </div>
                         </section>
-                    </div>
                       </div>
+                    </div>
                   </div>
                   <hr>
                   <!--=== --- KPI HEADING & DESCRIPTION ENDS---=== -->
@@ -98,7 +100,9 @@
                         v-show="!showEraform"
                         @click="showEraform = true"
                         class="float-right mr-4 ml-1 circle bg-success text-white fw-bold"
-                      ><i class="fas fa-plus fs-lg"></i></span>
+                      >
+                        <i class="fas fa-plus fs-lg"></i>
+                      </span>
                     </h5>
                     <form v-show="showEraform" class="inline pl-4 pr-4 pt-2 pb-3" @submit.prevent>
                       <b-form-input name="text" placeholder="ERA Heading" v-model="eraHeading"></b-form-input>
@@ -211,7 +215,7 @@ import { get, call, sync } from "vuex-pathify";
 export default {
   name: "AddKpiEra",
   props: { array_: { type: Array } },
-  components: { Widget, Group},
+  components: { Widget, Group },
   computed: {
     // name: get("profile/name"),
     // imgData: get("adminKPI/groupInvolvedImg"),
@@ -222,7 +226,7 @@ export default {
     kpiDescription: sync("adminKPI/kpiDescription"), //v-model
     eraHeading: sync("adminKPI/eraHeading"), //v-model
     eraDescription: sync("adminKPI/eraDescription"), //v-model
-    searchField: sync("adminKPI/searchField"), //v-model
+    searchField: sync("adminKPI/searchField") //v-model
   },
   mounted() {},
   data() {
@@ -238,6 +242,7 @@ export default {
   },
   methods: {
     getProfile: call("profile/getProfile"),
+    api_AddKpi: call("adminKPI/addKpi"),
     get_profile: function() {
       this.getProfile({
         Authorization: localStorage.getItem("authenticated")
@@ -245,11 +250,27 @@ export default {
     },
     addKpi: function(index) {
       if ((this.kpiHeading && this.kpiDescription) !== "") {
-        this.addNewTeam[this.$props.array_.length - 1 - index].kpiList.push({
-          heading: this.kpiHeading,
-          desc: this.kpiDescription,
-          edit: false
+        this.api_AddKpi({
+          kpi_name: "Angular",
+          kpi_json: [
+            {
+              title: this.kpiHeading,
+              desc: this.kpiDescription
+            }
+          ],
+          kra_json: [
+            {
+              title: "xxxx",
+              desc: "xxxx"
+            }
+          ]
         });
+
+        // this.addNewTeam[this.$props.array_.length - 1 - index].kpiList.push({
+        //   heading: this.kpiHeading,
+        //   desc: this.kpiDescription,
+        //   edit: false
+        // });
       }
       (this.kpiHeading = ""), (this.kpiDescription = "");
     },
