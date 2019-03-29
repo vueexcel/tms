@@ -118,6 +118,7 @@ export default {
     this.get_profile();
   },
   computed: {
+    authenticated: sync("login/authenticated"), //login page authentication token
     addCreateNew: sync("adminKPI/addCreateNew"), //create New Button
     newTeamName: sync("adminKPI/newTeamName"), //v-model
     addNewTeam: sync("adminKPI/addNewTeam"), //array,
@@ -128,6 +129,11 @@ export default {
       return this.allMembers.filter(item => {
         return item.name.toLowerCase().includes(this.searchField.toLowerCase());
       });
+    }
+  },
+  created() {
+    if (window.localStorage.getItem("authenticated") && this.authenticated == null) {
+      this.authenticated = window.localStorage.getItem("authenticated");
     }
   },
   methods: {
