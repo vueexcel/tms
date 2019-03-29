@@ -19,6 +19,7 @@ const actions = {
             // commit('loginfailed', err)
         })
     }
+    
 }
 
 // create store

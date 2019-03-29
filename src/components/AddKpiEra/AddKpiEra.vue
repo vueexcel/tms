@@ -4,10 +4,10 @@
       <b-col lg="8" xs="12">
         <div class="pb-xlg">
           <Widget class="mb-0 p-0">
-            <h4 class="pl-4 pt-3">{{ team.name }}</h4>
-            <hr v-if="!team.addNewKpi">
+            <h4 class="pl-4 pt-3">{{ team.kpi_name }}</h4>
+            <hr v-if="!team.kpi_json">
             <b-container class="pb-0 pl-0 pr-0">
-              <b-row v-if="team.addNewKpi">
+              <b-row v-if="team.kpi_json">
                 <b-col>
                   <!--=== KPI ADD BUTTON & FORM === -->
                   <div class="mb-0 p-0">
@@ -42,8 +42,8 @@
                   </div>
                   <!--=== KPI ADD BUTTON & FORM ENDS=== -->
                   <!--=== --- KPI HEADING & DESCRIPTION ---=== -->
-                  <div v-if="team.kpiList.length" class="mb-5">
-                    <div v-for="(kpiera, indexkpi) in team.kpiList" :key="indexkpi">
+                  <div v-if="team.kpi_json.length" class="mb-5">
+                    <div v-for="(kpiera, indexkpi) in team.kpi_json" :key="indexkpi">
                       <div class="container pl-4">
                         <hr v-show="!kpiera.edit">
                         <i
@@ -54,7 +54,8 @@
                           class="text-primary fs-larger"
                           v-show="!kpiera.edit"
                           @dblclick="kpiera.edit = true;"
-                        >{{kpiera.heading.toUpperCase()}}</span>
+                        >{{kpiera.title}}</span>
+                        <!-- .title.toUpperCase() -->
                         <input
                           v-model="kpiera.heading"
                           v-show="kpiera.edit"
@@ -90,7 +91,7 @@
                 </b-col>
               </b-row>
               <!-- ==== ROW FOR ERA (ADDED) ERA's ==== -->
-              <b-row v-if="team.addNewEra">
+              <b-row v-if="team.kra_json">
                 <b-col>
                   <div class="mb-0 p-0">
                     <h5 class="pl-4 pt-3 fw-bold">
@@ -122,8 +123,8 @@
                       </a>
                     </form>
                   </div>
-                  <div v-if="team.eraList.length">
-                    <div class="mb-3" v-for="(kpiera, indexera) in team.eraList" :key="indexera">
+                  <div v-if="team.kra_json.length">
+                    <div class="mb-3" v-for="(kpiera, indexera) in team.kra_json" :key="indexera">
                       <hr class="ml-4 mr-4">
                       <div class="container pl-4">
                         <i
@@ -134,38 +135,37 @@
                           class="text-primary fs-larger"
                           v-show="!kpiera.edit"
                           @dblclick="kpiera.edit = true;"
-                        >{{kpiera.heading.toUpperCase()}}</span>
+                        >{{kpiera.title.toUpperCase()}}</span>
                         <input
-                          v-model="kpiera.heading"
+                          v-model="kpiera.title"
                           v-show="kpiera.edit"
                           id="user-name"
                           type="text"
                           class="form-control"
                           @blur="kpiera.edit = false"
-                          @keypress.enter="kpiera.edit = false; editEra(index, indexera, kpiera.heading)"
+                          @keypress.enter="kpiera.edit = false; editEra(index, indexera, kpiera.title)"
                         >
-                        <section class="bg-white">
-                          <div class="w-75" style="white-space: pre-line;">
-                            <h4 class="text-primary"></h4>
-                            <span
-                              v-show="!kpiera.edit"
-                              @dblclick="kpiera.edit = true;"
-                            >{{kpiera.desc}}</span>
-                            <b-form-textarea
-                              id="textarea1"
-                              v-model="kpiera.desc"
-                              v-show="kpiera.edit"
-                              @blur="kpiera.edit = false"
-                              @keypress.enter="kpiera.edit = false; editEraDesc(index, indexera, kpiera.desc)"
-                              :rows="3"
-                              :max-rows="6"
-                            ></b-form-textarea>
-                          </div>
-                        </section>
-                      </div>
+                      <section class="bg-white">
+                        <div class="w-75" style="white-space: pre-line;">
+                          <h4 class="text-primary"></h4>
+                          <span v-show="!kpiera.edit" @dblclick="kpiera.edit = true;">
+                            {{kpiera.desc}}
+                          </span>
+                          <b-form-textarea
+                            id="textarea1"
+                            v-model="kpiera.desc"
+                            v-show="kpiera.edit"
+                            @blur="kpiera.edit = false"
+                            @keypress.enter="kpiera.edit = false; editEraDesc(index, indexera, kpiera.desc)"
+                            :rows="3"
+                            :max-rows="6"
+                          ></b-form-textarea>
+                        </div>
+                      </section>
                     </div>
-                    <!-- <hr> -->
-                  </div>
+                 </div>
+              <!-- <hr> -->
+            </div>
                 </b-col>
               </b-row>
               <div class="mb-4"></div>
@@ -218,9 +218,9 @@ export default {
   components: { Widget, Group },
   computed: {
     // name: get("profile/name"),
-    imgData: get("adminKPI/groupInvolvedImg"),
-    addCreateNew: sync("adminKPI/addCreateNew"), //create New Button
-    newTeamName: sync("adminKPI/newTeamName"), //v-model
+    // imgData: get("adminKPI/groupInvolvedImg"),
+    // addCreateNew: sync("adminKPI/addCreateNew"), //create New Button
+    // newTeamName: sync("adminKPI/newTeamName"), //v-model
     addNewTeam: sync("adminKPI/addNewTeam"), //array
     kpiHeading: sync("adminKPI/kpiHeading"), //v-model
     kpiDescription: sync("adminKPI/kpiDescription"), //v-model

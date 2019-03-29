@@ -39,8 +39,8 @@
         </b-col>
       </b-row>
       <!--############### ROW FOR REACT DEV add KPI/ERA ############ -->
-      <AddKpiEra :array_="addNewTeam"/>
-      <b-row v-if="false">
+      <AddKpiEra :array_="addNewTeamValue"/>
+      <!-- <b-row v-if="false">
         <b-col lg="8" xs="12">
           <div class="pb-xlg">
             <Widget class="mb-0 p-0">
@@ -95,7 +95,7 @@
             </Widget>
           </div>
         </b-col>
-      </b-row>
+      </b-row> -->
     </b-container>
   </div>
 </template>
@@ -118,18 +118,13 @@ export default {
     this.get_profile();
   },
   computed: {
-    // name: get("profile/name"),
-    imgData: get("adminKPI/groupInvolvedImg"),
+    authenticated: sync("login/authenticated"), //login page authentication token
     addCreateNew: sync("adminKPI/addCreateNew"), //create New Button
     newTeamName: sync("adminKPI/newTeamName"), //v-model
-    addNewTeam: sync("adminKPI/addNewTeam"), //array
-    kpiHeading: sync("adminKPI/kpiHeading"), //v-model
-    kpiDescription: sync("adminKPI/kpiDescription"), //v-model
-    eraHeading: sync("adminKPI/eraHeading"), //v-model
-    eraDescription: sync("adminKPI/eraDescription"), //v-model
-    searchField: sync("adminKPI/searchField"), //v-model
-    allMembers: sync("adminKPI/allMembers"), //array
-    authenticated: sync("login/authenticated"), //login page authentication token
+    addNewTeam: sync("adminKPI/addNewTeam"), //array,
+    addNewTeamValue(){
+      return this.addNewTeam
+    },
     searchFilter: function() {
       return this.allMembers.filter(item => {
         return item.name.toLowerCase().includes(this.searchField.toLowerCase());
@@ -143,6 +138,8 @@ export default {
   },
   methods: {
     getProfile: call("profile/getProfile"),
+    addManagement: call("adminKPI/addManagement"),
+    getKpiEra: call("adminKPI/getKpiEra"),
     get_profile: function() {
       this.getProfile({
         Authorization: localStorage.getItem("authenticated")
@@ -150,39 +147,39 @@ export default {
     },
     addNewTeam_: function() {
       if (this.newTeamName !== "") {
-        this.addNewTeam.push({
-          name: this.newTeamName,
-          addNewKpi: false,
-          addNewEra: false,
-          kpiList: [],
-          eraList: [],
-          memberList: []
-        });
+        let data = {
+          kpi_name : this.newTeamName,
+          token: localStorage.getItem('authenticated')
+        }
+        this.addManagement(data)
         this.newTeamName = "";
         this.addCreateNew = false;
       }
     },
-    addKpi: function(index) {
-      if ((this.kpiHeading && this.kpiDescription) !== "") {
-        this.addNewTeam[index].kpiList.push({
-          heading: this.kpiHeading,
-          desc: this.kpiDescription
-        });
-      }
-      (this.kpiHeading = ""), (this.kpiDescription = "");
-    },
-    addEra: function(index) {
-      if ((this.eraHeading && this.eraDescription) !== "") {
-        this.addNewTeam[index].eraList.push({
-          heading: this.eraHeading,
-          desc: this.eraDescription
-        });
-      }
-      (this.eraHeading = ""), (this.eraDescription = "");
-    },
-    addMember: function(i, index) {
-      this.addNewTeam[index].memberList.push(this.allMembers[i]);
+    getAllKpiEra(token){
+      this.getKpiEra({token: token})
     }
+    // addKpi: function(index) {
+    //   if ((this.kpiHeading && this.kpiDescription) !== "") {
+    //     this.addNewTeam[index].kpiList.push({
+    //       heading: this.kpiHeading,
+    //       desc: this.kpiDescription
+    //     });
+    //   }
+    //   (this.kpiHeading = ""), (this.kpiDescription = "");
+    // },
+    // addEra: function(index) {
+    //   if ((this.eraHeading && this.eraDescription) !== "") {
+    //     this.addNewTeam[index].eraList.push({
+    //       heading: this.eraHeading,
+    //       desc: this.eraDescription
+    //     });
+    //   }
+    //   (this.eraHeading = ""), (this.eraDescription = "");
+    // },
+  },
+  created(){
+    this.getAllKpiEra(localStorage.getItem('authenticated'))
   }
 };
 </script>
