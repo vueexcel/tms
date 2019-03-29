@@ -11,15 +11,15 @@ const state = {
 const mutations = make.mutations(state)
 const actions = {
     ...make.actions(state),
-    async login_({state,commit}, payload) {
+    async login_({ state, commit }, payload) {
         await axios
-        .post('http://5.9.144.226:8000/auth/login', payload)
-        .then((response) => {
+            .post('http://5.9.144.226:8000/auth/login', payload)
+            .then((response) => {
                 commit('authenticated', response.data.access_token)
                 commit('loginfailed', false)
                 window.localStorage.setItem("authenticated", response.data.access_token);
                 router.push("/admin/manageKpi");
-            }).catch ((err) => {
+            }).catch((err) => {
                 commit('loginfailed', true)
             })
     }

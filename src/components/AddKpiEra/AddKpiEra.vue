@@ -17,7 +17,9 @@
                         v-show="!showKpiform"
                         @click="showKpiform = true"
                         class="float-right mr-4 ml-1 circle bg-success text-white fw-bold"
-                      ><i class="fas fa-plus fs-lg"></i></span>
+                      >
+                        <i class="fas fa-plus fs-lg"></i>
+                      </span>
                     </h5>
                     <form v-show="showKpiform" class="inline pl-4 pr-4 pt-2 pb-2" @submit.prevent>
                       <b-form-input name="text" placeholder="KPI Heading" v-model="kpiHeading"></b-form-input>
@@ -80,8 +82,8 @@
                             ></b-form-textarea>
                           </div>
                         </section>
-                    </div>
                       </div>
+                    </div>
                   </div>
                   <hr>
                   <!--=== --- KPI HEADING & DESCRIPTION ENDS---=== -->
@@ -97,7 +99,9 @@
                         v-show="!showEraform"
                         @click="showEraform = true"
                         class="float-right mr-4 ml-1 circle bg-success text-white fw-bold"
-                      ><i class="fas fa-plus fs-lg"></i></span>
+                      >
+                        <i class="fas fa-plus fs-lg"></i>
+                      </span>
                     </h5>
                     <form v-show="showEraform" class="inline pl-4 pr-4 pt-2 pb-3" @submit.prevent>
                       <b-form-input name="text" placeholder="ERA Heading" v-model="eraHeading"></b-form-input>
@@ -119,46 +123,49 @@
                     </form>
                   </div>
                   <div v-if="team.eraList.length">
-              <div class="mb-3" v-for="(kpiera, indexera) in team.eraList" :key="indexera">
-                <hr class="ml-4 mr-4">
-                <div class="container pl-4">
-                  <i
+                    <div class="mb-3" v-for="(kpiera, indexera) in team.eraList" :key="indexera">
+                      <hr class="ml-4 mr-4">
+                      <div class="container pl-4">
+                        <i
                           class="fas fa-times-circle text-secondary pull-right pt-1 pr-3"
                           @click="deleteEra(index, indexera, kpiera)"
                         ></i>
-                  <span
-                    class="text-primary fs-larger"
-                    v-show="!kpiera.edit"
-                    @dblclick="kpiera.edit = true;"
-                  >{{kpiera.heading.toUpperCase()}}</span>
-                  <input
-                    v-model="kpiera.heading"
-                    v-show="kpiera.edit"
-                    id="user-name"
-                    type="text"
-                    class="form-control"
-                    @blur="kpiera.edit = false"
-                    @keypress.enter="kpiera.edit = false; editEra(index, indexera, kpiera.heading)"
-                  >
-                  <section class="bg-white">
-                    <div class="w-75" style="white-space: pre-line;">
-                      <h4 class="text-primary"></h4>
-                      <span v-show="!kpiera.edit" @dblclick="kpiera.edit = true;">{{kpiera.desc}}</span>
-                      <b-form-textarea
-                        id="textarea1"
-                        v-model="kpiera.desc"
-                        v-show="kpiera.edit"
-                        @blur="kpiera.edit = false"
-                        @keypress.enter="kpiera.edit = false; editEraDesc(index, indexera, kpiera.desc)"
-                        :rows="3"
-                        :max-rows="6"
-                      ></b-form-textarea>
+                        <span
+                          class="text-primary fs-larger"
+                          v-show="!kpiera.edit"
+                          @dblclick="kpiera.edit = true;"
+                        >{{kpiera.heading.toUpperCase()}}</span>
+                        <input
+                          v-model="kpiera.heading"
+                          v-show="kpiera.edit"
+                          id="user-name"
+                          type="text"
+                          class="form-control"
+                          @blur="kpiera.edit = false"
+                          @keypress.enter="kpiera.edit = false; editEra(index, indexera, kpiera.heading)"
+                        >
+                        <section class="bg-white">
+                          <div class="w-75" style="white-space: pre-line;">
+                            <h4 class="text-primary"></h4>
+                            <span
+                              v-show="!kpiera.edit"
+                              @dblclick="kpiera.edit = true;"
+                            >{{kpiera.desc}}</span>
+                            <b-form-textarea
+                              id="textarea1"
+                              v-model="kpiera.desc"
+                              v-show="kpiera.edit"
+                              @blur="kpiera.edit = false"
+                              @keypress.enter="kpiera.edit = false; editEraDesc(index, indexera, kpiera.desc)"
+                              :rows="3"
+                              :max-rows="6"
+                            ></b-form-textarea>
+                          </div>
+                        </section>
+                      </div>
                     </div>
-                  </section>
-                </div>
-              </div>
-              <!-- <hr> -->
-            </div>
+                    <!-- <hr> -->
+                  </div>
                 </b-col>
               </b-row>
               <div class="mb-4"></div>
@@ -208,7 +215,7 @@ import { get, call, sync } from "vuex-pathify";
 export default {
   name: "AddKpiEra",
   props: { array_: { type: Array } },
-  components: { Widget, Group},
+  components: { Widget, Group },
   computed: {
     name: get("profile/name"),
     imgData: get("adminKPI/groupInvolvedImg"),
@@ -219,7 +226,7 @@ export default {
     kpiDescription: sync("adminKPI/kpiDescription"), //v-model
     eraHeading: sync("adminKPI/eraHeading"), //v-model
     eraDescription: sync("adminKPI/eraDescription"), //v-model
-    searchField: sync("adminKPI/searchField"), //v-model
+    searchField: sync("adminKPI/searchField") //v-model
   },
   mounted() {},
   data() {
@@ -235,6 +242,7 @@ export default {
   },
   methods: {
     getProfile: call("profile/getProfile"),
+    api_AddKpi: call("adminKPI/addKpi"),
     get_profile: function() {
       this.getProfile({
         Authorization: localStorage.getItem("authenticated")
@@ -242,11 +250,27 @@ export default {
     },
     addKpi: function(index) {
       if ((this.kpiHeading && this.kpiDescription) !== "") {
-        this.addNewTeam[this.$props.array_.length - 1 - index].kpiList.push({
-          heading: this.kpiHeading,
-          desc: this.kpiDescription,
-          edit: false
+        this.api_AddKpi({
+          kpi_name: "Angular",
+          kpi_json: [
+            {
+              title: this.kpiHeading,
+              desc: this.kpiDescription
+            }
+          ],
+          kra_json: [
+            {
+              title: "xxxx",
+              desc: "xxxx"
+            }
+          ]
         });
+
+        // this.addNewTeam[this.$props.array_.length - 1 - index].kpiList.push({
+        //   heading: this.kpiHeading,
+        //   desc: this.kpiDescription,
+        //   edit: false
+        // });
       }
       (this.kpiHeading = ""), (this.kpiDescription = "");
     },
