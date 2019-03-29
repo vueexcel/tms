@@ -83,7 +83,21 @@ export default {
     },
     closeError() {
       this.loginfailed = false
-    }
+    },
+    
+    // login() {
+    //   const username = this.$refs.username.value;
+    //   const password = this.$refs.password.value;
+    //   if ((username === "admin") & (password === "java@123")) {
+    //     this.sidebar = true;
+    //     this.$router.push("/admin/manageKpi");
+    //   } else if ((username === "user") & (password === "java@123")) {
+    //     this.sidebar = false;
+    //     this.$router.push("/app/profile");
+    //   } else {
+    //     alert("please make sure you entered correct user name & password");
+    //   }
+    // }
   },
   created() {
     // if (window.localStorage.getItem("authenticated") !== null) {

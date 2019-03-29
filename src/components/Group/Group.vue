@@ -59,9 +59,9 @@
               <b-badge @click="addMember(i, index, img.name)" v-if="!img.added" :variant="img.variant" class="circle-2 position-absolute badgePos p-0 top">
                 <i class="fa fa-plus" style="color:white; font-size:10px"></i>
               </b-badge>
-              <span class="top">
-                <i class="fa fa-check-circle bg-white text-success" v-if="img.added" ></i>
-              </span>
+                <b-badge class="badge circle-2 position-absolute badgePos p-0 top badge-white">
+                  <i class="fa fa-check-circle text-success" v-if="img.added" ></i>
+                </b-badge>
             </span>
             <!-- ============================
               ======= MEMBER Image with badge (loop) ends
