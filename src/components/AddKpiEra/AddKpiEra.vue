@@ -10,7 +10,7 @@
               <b-row v-if="team.kpi_json">
                 <b-col>
                   <!--=== KPI ADD BUTTON & FORM === -->
-                  <div class="mb-0 p-0">
+                  <div class="mb-0 p-0" v-if="team.kpi_json[0].title !== ' '" >
                     <h5 class="pl-4 pt-3 fw-bold">
                       KPI
                       <span
@@ -41,7 +41,7 @@
                     </form>
                   </div>
                   <!--=== KPI ADD BUTTON & FORM ENDS=== -->
-                  <!--=== --- KPI HEADING & DESCRIPTION ---=== -->
+                  <!--=== --- KPI HEADING & DESCRIPTION---=== -->
                   <div v-if="team.kpi_json.length" class="mb-5">
                     <div v-for="(kpiera, indexkpi) in team.kpi_json" :key="indexkpi">
                       <div class="container pl-4">
@@ -93,7 +93,7 @@
               <!-- ==== ROW FOR ERA (ADDED) ERA's ==== -->
               <b-row v-if="team.kra_json">
                 <b-col>
-                  <div class="mb-0 p-0">
+                  <div class="mb-0 p-0"  v-if="team.kra_json[0].title !== ' '" >
                     <h5 class="pl-4 pt-3 fw-bold">
                       ERA
                       <span
@@ -145,33 +145,34 @@
                           @blur="kpiera.edit = false"
                           @keypress.enter="kpiera.edit = false; editEra(index, indexera, kpiera.title)"
                         >
-                      <section class="bg-white">
-                        <div class="w-75" style="white-space: pre-line;">
-                          <h4 class="text-primary"></h4>
-                          <span v-show="!kpiera.edit" @dblclick="kpiera.edit = true;">
-                            {{kpiera.desc}}
-                          </span>
-                          <b-form-textarea
-                            id="textarea1"
-                            v-model="kpiera.desc"
-                            v-show="kpiera.edit"
-                            @blur="kpiera.edit = false"
-                            @keypress.enter="kpiera.edit = false; editEraDesc(index, indexera, kpiera.desc)"
-                            :rows="3"
-                            :max-rows="6"
-                          ></b-form-textarea>
-                        </div>
-                      </section>
+                        <section class="bg-white">
+                          <div class="w-75" style="white-space: pre-line;">
+                            <h4 class="text-primary"></h4>
+                            <span
+                              v-show="!kpiera.edit"
+                              @dblclick="kpiera.edit = true;"
+                            >{{kpiera.desc}}</span>
+                            <b-form-textarea
+                              id="textarea1"
+                              v-model="kpiera.desc"
+                              v-show="kpiera.edit"
+                              @blur="kpiera.edit = false"
+                              @keypress.enter="kpiera.edit = false; editEraDesc(index, indexera, kpiera.desc)"
+                              :rows="3"
+                              :max-rows="6"
+                            ></b-form-textarea>
+                          </div>
+                        </section>
+                      </div>
                     </div>
-                 </div>
-              <!-- <hr> -->
-            </div>
+                    <!-- <hr> -->
+                  </div>
                 </b-col>
               </b-row>
               <div class="mb-4"></div>
               <!-- ==== ROW FOR ERA (ADDED) ERA's ENDS ==== -->
               <b-row class="text-center">
-                <b-col v-if="!team.addNewKpi" class="pb-4">
+                <b-col v-if="team.kpi_json[0].title === ' '" class="pb-4">
                   <h5 class="text-primary pb-2">Add KPI</h5>
                   <a
                     @click="team.addNewKpi = true"
@@ -180,7 +181,7 @@
                     <i class="fas fa-plus position-absolute customPosPlus text-success"></i>
                   </a>
                 </b-col>
-                <b-col v-if="!team.addNewEra" class="pb-4">
+                <b-col v-if="team.kra_json[0].title === ' '" class="pb-4">
                   <h5 class="text-primary pb-2">Add ERA</h5>
                   <a
                     @click="team.addNewEra = true"
@@ -249,6 +250,7 @@ export default {
       });
     },
     addKpi: function(index) {
+      // update API needs to be called everyTime
       if ((this.kpiHeading && this.kpiDescription) !== "") {
         this.api_AddKpi({
           kpi_name: "Angular",
@@ -260,8 +262,8 @@ export default {
           ],
           kra_json: [
             {
-              title: "xxxx",
-              desc: "xxxx"
+              title: " ",
+              desc: " "
             }
           ]
         });
