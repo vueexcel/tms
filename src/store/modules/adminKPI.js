@@ -202,14 +202,14 @@ const actions = {
             kpi_name:payload.kpi_name,
             kpi_json : [
                 {
-                    title : "xxxx",
-                    desc  : "xxxx"
+                    title : " ",
+                    desc  : " "
                 }
             ],
             kra_json : [
                 {
-                    title : "xxxx",
-                    desc  : "xxxx"
+                    title : " ",
+                    desc  : " "
                 }
             ]
         }
