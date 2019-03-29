@@ -128,6 +128,7 @@
                       <hr class="ml-4 mr-4">
                       <div class="container pl-4">
                         <i
+                         v-if="team.kra_json[0].title !== ' '" 
                           class="fas fa-times-circle text-secondary pull-right pt-1 pr-3"
                           @click="deleteEra(index, indexera, kpiera)"
                         ></i>
