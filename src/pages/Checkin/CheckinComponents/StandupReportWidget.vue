@@ -38,16 +38,20 @@ export default {
       require: true
     },
     generatedReport: {
-      type: Object
+      type: Object,
+      default: function() {
+        return { message: "default" };
+      }
     }
   },
-  computed:{
+  computed: {
     report() {
-      console.log(this.generatedReport,'4455545645')
-      if (this.generatedReport.genReport){
-        return this.generatedReport.genReport
+      console.log(this.$props.generatedReport, " < ======== >");
+
+      if (this.$props.generatedReport.genReport) {
+        return this.$props.generatedReport.genReport;
       } else {
-        return '#report worked on singapp created login component installed vuex worked on HMG'
+        return "#report worked on singapp created login component installed vuex worked on HMG";
       }
     }
   }

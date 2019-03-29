@@ -6,3 +6,17 @@ module.exports = {
         // proxy: 'http://localhost:8080'
     }
 }
+
+
+
+
+// module.exports = {
+//     configureWebpack: {
+//         devServer: {
+//             clientLogLevel: 'info',
+//             watchOptions: {
+//                 poll: true
+//             }
+//         }
+//     }
+// }

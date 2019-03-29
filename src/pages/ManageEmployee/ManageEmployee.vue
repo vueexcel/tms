@@ -8,7 +8,7 @@
     <h4 class="page-title">Team Name</h4>
     <b-container class="no-gutters p-0">
       <b-row>
-        <b-col lg="3" xs="12" v-for="employee in emp_arr" :key="employee.id">
+        <b-col lg="3" xs="12" v-for="(employee, index) in emp_arr" :key="index">
           <employeeWidget :employee="employee"/>
         </b-col>
       </b-row>
@@ -16,7 +16,7 @@
     <h4 class="page-title">Team Name</h4>
     <b-container class="no-gutters p-0">
       <b-row>
-        <b-col lg="3" xs="12" v-for="employee in emp_arr" :key="employee.id">
+        <b-col lg="3" xs="12" v-for="(employee, index) in emp_arr" :key="index">
           <employeeWidget :employee="employee"/>
         </b-col>
       </b-row>
@@ -41,8 +41,8 @@ export default {
     this.get_profile();
   },
   computed: {
-    name: get("profile/name"),
-    emp_arr: get("manageEmployee/employees"),
+    // name: get("profile/name"),
+    emp_arr: get("manageEmployee/employees")
   },
   methods: {
     getProfile: call("profile/getProfile"),

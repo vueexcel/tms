@@ -58,7 +58,7 @@ export default {
     // this.get_profile();
   },
   computed: {
-    name: get("profile/name"),
+    // name: get("profile/name"),
     // emp_arr: get("manageEmployee/employees"),
     emp_arr() {
       Group.forEach(element => {

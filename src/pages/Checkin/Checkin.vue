@@ -2,7 +2,7 @@
   <div>
     <b-breadcrumb>
       <b-breadcrumb-item>YOU ARE HERE</b-breadcrumb-item>
-      <b-breadcrumb-item class="active_class" >Check-ins</b-breadcrumb-item>
+      <b-breadcrumb-item class="active_class">Check-ins</b-breadcrumb-item>
     </b-breadcrumb>
     <h1 class="page-title">Check-Ins</h1>
     <b-container class="no-gutters p-0">
@@ -24,7 +24,7 @@
                         alt="..."
                       >
                       <span>
-                        <span class="text-primary fs-larger fw-semi-bold">Jessica Smith</span>
+                        <span class="text-primary fs-larger fw-semi-bold"> {{ report.user }} </span>
                         <br>
                         <span>
                           {{ report.created_at.slice(0,-12)}} at
@@ -47,9 +47,10 @@
                 <div v-for="(report,index) in generatedReport" :key="index">
                   <li class="c2">
                     <StandUpWidget
+                      v-if="true"
                       imgSrc="./../../../static/people/a6.jpg"
                       userName="Jessica Smith"
-                      date_Time="December 13,2018 at 8:03 PM" 
+                      date_Time="December 13,2018 at 8:03 PM"
                       :generatedReport="report"
                       userReport="#report
                                 worked on singapp
@@ -77,6 +78,7 @@
               <ul>
                 <li class="c3">
                   <StandUpWidget
+                    v-if="false"
                     imgSrc="@/assets/people/a6.jpg"
                     userName="Jessica Smith"
                     date_Time="Today at 9:41 AM"
@@ -127,7 +129,7 @@ export default {
   data() {
     return {
       generatedReport: []
-    }
+    };
   },
   components: { Widget, StandUpWidget, Comments, GenReport },
   computed: {
@@ -138,7 +140,7 @@ export default {
     genReportReason: sync("checkin/genReportReason"),
     highlightTask: sync("checkin/highlightTask"),
     highlightTaskReason: sync("checkin/highlightTaskReason"),
-    reports: get("checkin/reports")
+    reports: get("checkin/reports") //data from API getAllCheckins
   },
   mounted() {
     this.getAllCheckinsAPI();
@@ -161,9 +163,11 @@ export default {
     getAllCheckinsAPI: function() {
       this.getAllCheckins();
     },
-    report(report){
-      this.generatedReport.push(report)
-      console.log(this.generatedReport,'5555555555555555555')
+    report(report) {
+      console.log(report, "from checkinPage Report Function");
+
+      this.generatedReport.push(report);
+      console.log(this.generatedReport, "5555555555555555555");
     }
   }
 };

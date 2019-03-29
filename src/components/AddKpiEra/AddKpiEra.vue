@@ -217,7 +217,7 @@ export default {
   props: { array_: { type: Array } },
   components: { Widget, Group },
   computed: {
-    name: get("profile/name"),
+    // name: get("profile/name"),
     imgData: get("adminKPI/groupInvolvedImg"),
     addCreateNew: sync("adminKPI/addCreateNew"), //create New Button
     newTeamName: sync("adminKPI/newTeamName"), //v-model
