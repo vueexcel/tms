@@ -2,8 +2,8 @@
   <div class="content p-0">
     <p>
       <img
-        class="rounded-circle mr-2 mt-1 float-left"
         src="@/assets/people/a6.jpg"
+        class="rounded-circle mr-2 mt-1 float-left"
         width="35"
         height="35"
         alt="..."
@@ -38,20 +38,18 @@ export default {
       require: true
     },
     generatedReport: {
-      type: Object,
-      default: function() {
-        return { message: "default" };
-      }
+      type: String,
+    },
+    highlight:{
+      type:String
     }
   },
   computed: {
     report() {
-      console.log(this.$props.generatedReport, " < ======== >");
-
-      if (this.$props.generatedReport.genReport) {
-        return this.$props.generatedReport.genReport;
+      if (this.$props.generatedReport)  {
+        return this.$props.generatedReport + ' ' + this.$props.highlight;
       } else {
-        return "#report worked on singapp created login component installed vuex worked on HMG";
+        return "Report Not Submitted";
       }
     }
   }
