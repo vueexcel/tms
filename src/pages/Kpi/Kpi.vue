@@ -99,12 +99,14 @@ export default {
         this.addCreateNew = false;
       }
     },
-    getAllKpiEra(token) {
-      this.getKpiEra({ token: token });
+    getAllKpiEra() {
+      this.getKpiEra();
     }
   },
   created() {
-    this.getAllKpiEra(localStorage.getItem("authenticated"));
+    if(localStorage.getItem("authenticated")){
+      this.getAllKpiEra();
+    }
   }
 };
 </script>

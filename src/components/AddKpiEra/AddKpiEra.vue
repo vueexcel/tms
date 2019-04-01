@@ -53,12 +53,12 @@
                       <div class="container pl-4">
                         <hr>
                         <i
-                          v-show="kpiera.edit == 'false'"
+                          v-show="kpiera.edit == false"
                           class="fas fa-times-circle text-secondary cursor pull-right pt-1 pr-3"
                           @click="deleteKpi(team)"
                         ></i>
                         <span
-                          v-show="kpiera.edit == 'false'"
+                          v-if="kpiera.edit == false"
                           class="text-primary fs-larger"
                           @dblclick="editKPI(indexkpi, team)"
                         >{{kpiera.title}}</span>
@@ -73,7 +73,7 @@
                         <section class="bg-white">
                           <div class="w-75" style="white-space: pre-line;">
                             <h4 class="text-primary"></h4>
-                            <span v-show="kpiera.edit == 'false'">{{kpiera.desc}}</span>
+                            <span  v-show="kpiera.edit == false">{{kpiera.desc}}</span>
                             <b-form-textarea
                               id="textarea1"
                               v-show="kpiera.edit == 'true'"
@@ -120,7 +120,7 @@
                       ></b-form-textarea>
                       <a
                         class="btn btn-default btn-sm mt-2 pl-4 pr-4"
-                        @click="addEra(index); showEraform = -1"
+                        @click="addEra(index,team); showEraform = -1"
                       >
                         <i class="fas fa-plus" style="color:green;"></i>&nbsp;&nbsp;
                         Add
@@ -133,26 +133,28 @@
                       <hr class="ml-4 mr-4">
                       <div class="container pl-4">
                         <i
-                          v-show="kpiera.edit == 'false'"
+                          v-show="kpiera.edit == false"
                           class="fas fa-times-circle text-secondary cursor pull-right pt-1 pr-3"
                           @click="deleteEra(kpiera)"
                         ></i>
                         <span
-                          v-show="kpiera.edit == 'false'"
+                          v-if="kpiera.edit == false"
                           @dblclick="editERA(indexera, team)"
                           class="text-primary fs-larger"
                         >{{kpiera.title.toUpperCase()}}</span>
                         <input
-                          v-model="kpiera.title"
                           v-show="kpiera.edit == 'true'"
+                          v-on:keyup.enter="updateEra(indexera, team)"
+                          v-model="kpiera.title"
                           id="user-name"
                           type="text"
                           class="form-control"
                         >
+                          
                         <section class="bg-white">
                           <div class="w-75" style="white-space: pre-line;">
                             <h4 class="text-primary"></h4>
-                            <span v-show="kpiera.edit == 'false'">{{kpiera.desc}}</span>
+                            <span v-show="kpiera.edit == false" >{{kpiera.desc}}</span>
                             <b-form-textarea
                               id="textarea1"
                               v-show="kpiera.edit == 'true'"
@@ -242,7 +244,6 @@ export default {
       console.log(e);
       if (e.keyCode === 13 && !e.shiftKey) {
         e.preventDefault();
-        // this.submitForm();
       }
     },
     get_profile: function() {
@@ -253,30 +254,35 @@ export default {
     addKpi: function(index, team_) {
       // update API needs to be called everyTime
       let team = {
+        addKpi: true,
         _id: team_._id,
         kpi_name: team_.kpi_name,
         kpi_json: [{ title: this.kpiHeading, desc: this.kpiDescription }]
       };
       this.api_updateKpi({
         data: team,
-        Authorization: window.localStorage.getItem("authenticated")
       });
       (this.kpiHeading = ""), (this.kpiDescription = "");
     },
     editKPI: function(index, val) {
-      console.log(index, val.kpi_json[0], val._id);
       val.kpi_json[0].edit = "true";
     },
     updateKpi: function(index, team) {
+      team['addKpi'] = true
       this.api_updateKpi({
-        data: team,
-        Authorization: window.localStorage.getItem("authenticated")
+        data: team
       });
       team.kpi_json[0].edit = "false";
     },
     editERA: function(index, val) {
-      console.log(index, val.kpi_json[0], val._id);
       val.kra_json[0].edit = "true";
+    },
+    updateEra(index, team){
+      team['addEra'] = true
+      team['era_json'] = team['kra_json']
+      this.api_updateKpi({
+        data:team
+      })
     },
     editKpiDesc: function(index, indexkpi, val) {
       this.addNewTeam[this.$props.array_.length - 1 - index].kpiList[
@@ -290,14 +296,24 @@ export default {
         id: team._id
       });
     },
-    addEra: function(index) {
-      if ((this.eraHeading && this.eraDescription) !== "") {
-        this.addNewTeam[this.$props.array_.length - 1 - index].eraList.push({
-          heading: this.eraHeading,
-          desc: this.eraDescription,
-          edit: false
-        });
-      }
+    addEra: function(index, team_) {
+      let eraData = {
+        addEra : true,
+        _id: team_._id,
+        kpi_name: team_.kpi_name,
+        era_json: [{ title: this.eraHeading, desc: this.eraDescription }]
+      };
+      this.api_updateKpi({
+        data: eraData,
+      });
+
+      // if ((this.eraHeading && this.eraDescription) !== "") {
+      //   this.addNewTeam[this.$props.array_.length - 1 - index].eraList.push({
+      //     heading: this.eraHeading,
+      //     desc: this.eraDescription,
+      //     edit: false
+      //   });
+      // }
       (this.eraHeading = ""), (this.eraDescription = "");
     },
     editEra: function(index, indexera, val) {

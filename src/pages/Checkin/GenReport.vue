@@ -74,7 +74,7 @@
           :rows="3"
           :max-rows="6"
         ></b-form-textarea>
-        <button type="submit" class="btn btn-primary btn-lg mb-xs fs-sm pl-4 pr-4" @click="">SUBMIT</button>
+        <button type="submit" class="btn btn-primary btn-lg mb-xs fs-sm pl-4 pr-4" >SUBMIT</button>
       </Widget>
     </b-form>
   </div>

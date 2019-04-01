@@ -2,7 +2,6 @@ import axios from 'axios'
 import { make } from 'vuex-pathify'
 import router from './../../Routes'
 
-// setup store
 const state = {
     authenticated: null,
     loginfailed: false,
@@ -13,7 +12,7 @@ const actions = {
     ...make.actions(state),
     async login_({ state, commit }, payload) {
         await axios
-            .post('http://5.9.144.226:8000/auth/login', payload)
+            .post(process.env.VUE_APP_ROOT_API+'/auth/login', payload)
             .then((response) => {
                 commit('authenticated', response.data.access_token)
                 commit('loginfailed', false)
