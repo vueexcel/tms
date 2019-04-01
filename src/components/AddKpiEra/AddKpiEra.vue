@@ -135,7 +135,7 @@
                         <i
                           v-show="kpiera.edit == false"
                           class="fas fa-times-circle text-secondary cursor pull-right pt-1 pr-3"
-                          @click="deleteEra(kpiera)"
+                          @click="deleteEra(kpiera, team)"
                         ></i>
                         <span
                           v-if="kpiera.edit == false"
@@ -290,9 +290,7 @@ export default {
       ].desc = val;
     },
     deleteKpi: function(team) {
-      console.log(team._id);
       this.api_delKpi({
-        Authorization: localStorage.getItem("authenticated"),
         id: team._id
       });
     },
@@ -306,14 +304,6 @@ export default {
       this.api_updateKpi({
         data: eraData,
       });
-
-      // if ((this.eraHeading && this.eraDescription) !== "") {
-      //   this.addNewTeam[this.$props.array_.length - 1 - index].eraList.push({
-      //     heading: this.eraHeading,
-      //     desc: this.eraDescription,
-      //     edit: false
-      //   });
-      // }
       (this.eraHeading = ""), (this.eraDescription = "");
     },
     editEra: function(index, indexera, val) {
@@ -328,16 +318,10 @@ export default {
         );
       }
     },
-    editEraDesc: function(index, indexera, val) {
-      this.addNewTeam[this.$props.array_.length - 1 - index].eraList[
-        indexera
-      ].desc = val;
-    },
-    deleteEra: function(index, indexera, val) {
-      this.addNewTeam[this.$props.array_.length - 1 - index].eraList.splice(
-        indexera,
-        1
-      );
+    deleteEra: function(index,team) {
+      this.api_delKpi({
+        id: team._id
+      });
     },
     addMember: function(i, index, name) {
       for (let index = 0; index < this.allMembers.length; index++) {
