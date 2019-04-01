@@ -19,16 +19,16 @@ const state = {
 const mutations = make.mutations(state)
 const actions = {
     ...make.actions(state),
-    async dailyCheckin({ state, commit }, payload) {
-        let res = await axios
+    async dailyCheckin({ commit, dispatch }, payload) {
+        let token = localStorage.getItem('authenticated') 
+        await axios
             .post('http://5.9.144.226:8000/checkin', payload, {
                 headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('authenticated')
+                    'Authorization': 'Bearer ' + token
                 },
             })
             .then((res) => {
-                console.log(res, 'daily checkin added success')
-                alert('data submitted success')
+                dispatch('getAllCheckins',token)
             })
             .catch((err) => {
                 console.log(err, 'daily checkin addition failed')
@@ -39,13 +39,11 @@ const actions = {
         let res = await axios
             .get('http://5.9.144.226:8000/reports', {
                 headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('authenticated')
+                    'Authorization': 'Bearer ' + payload
                 },
             })
             .then((res) => {
-                console.log(res.data, 'get all checkins fetched')
                 commit('reports', res.data)
-                // alert('data submitted success')
             })
             .catch((err) => {
                 console.log(err, 'get all checkins error code')
