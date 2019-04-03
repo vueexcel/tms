@@ -21,11 +21,7 @@
                         <i class="fas fa-plus fs-lg"></i>
                       </span>
                     </h5>
-                    <form
-                      v-show="index == showKpiform"
-                      class="inline pl-4 pr-4 pt-2 pb-2"
-                      @submit.prevent
-                    >
+                    <form v-show="index == showKpiform" class="inline pl-4 pr-4 pt-2 pb-2" @submit.prevent>
                       <b-form-input name="text" placeholder="KPI Heading" v-model="kpiHeading"></b-form-input>
                       <br>
                       <!-- <textarea id="textarea1" @keydown="inputHandler" rows="6"></textarea> -->
@@ -51,21 +47,21 @@
                   <div class="mb-5">
                     <div v-for="(kpiera, indexkpi) in team.kpi_json" :key="indexkpi">
                       <div class="container pl-4">
-                        <hr>
+                        <hr v-if="kpiera.title !== ''">
                         <i
-                          v-show="kpiera.edit == false"
+                          v-show="kpiera.edit == false &&  kpiera.title !== ' '"
                           class="fas fa-times-circle text-secondary cursor pull-right pt-1 pr-3"
                           @click="deleteKpi(team)"
                         ></i>
                         <span
-                          v-if="kpiera.edit == false"
+                          v-if="kpiera.edit == false && kpiera.title !== ''"
                           class="text-primary fs-larger"
                           @dblclick="editKPI(indexkpi, team)"
                         >{{kpiera.title}}</span>
                         <input
                           v-on:keyup.enter="updateKpi(indexkpi, team)"
                           v-model="kpiera.title"
-                          v-show="kpiera.edit == 'true'"
+                          v-show="kpiera.edit == true"
                           id="user-name"
                           type="text"
                           class="form-control"
@@ -73,10 +69,10 @@
                         <section class="bg-white">
                           <div class="w-75" style="white-space: pre-line;">
                             <h4 class="text-primary"></h4>
-                            <span  v-show="kpiera.edit == false">{{kpiera.desc}}</span>
+                            <span  v-show="kpiera.edit == false && kpiera.desc!==''">{{kpiera.desc}}</span>
                             <b-form-textarea
                               id="textarea1"
-                              v-show="kpiera.edit == 'true'"
+                              v-show="kpiera.edit == true"
                               v-model="kpiera.desc"
                               :rows="3"
                               :max-rows="6"
@@ -91,7 +87,7 @@
                 </b-col>
               </b-row>
               <!-- ==== ROW FOR ERA (ADDED) ERA's ==== -->
-              <b-row v-if="!team.kra_json[0].addEra">
+              <b-row v-if="!team.era_json[0].addEra">
                 <b-col>
                   <div class="mb-0 p-0">
                     <h5 class="pl-4 pt-3 fw-bold">
@@ -129,8 +125,8 @@
                   </div>
                   <div>
                     <!--=== --- ERA HEADING & DESCRIPTION ---=== -->
-                    <div class="mb-3" v-for="(kpiera, indexera) in team.kra_json" :key="indexera">
-                      <hr class="ml-4 mr-4">
+                    <div class="mb-3" v-for="(kpiera, indexera) in team.era_json" :key="indexera">
+                      <hr class="ml-4 mr-4" v-if="kpiera.title !== '' && kpiera.desc !== ''">
                       <div class="container pl-4">
                         <i
                           v-show="kpiera.edit == false"
@@ -138,12 +134,12 @@
                           @click="deleteEra(kpiera, team)"
                         ></i>
                         <span
-                          v-if="kpiera.edit == false"
+                          v-if="kpiera.edit == false && kpiera.title !== ''"
                           @dblclick="editERA(indexera, team)"
                           class="text-primary fs-larger"
                         >{{kpiera.title.toUpperCase()}}</span>
                         <input
-                          v-show="kpiera.edit == 'true'"
+                          v-show="kpiera.edit == true"
                           v-on:keyup.enter="updateEra(indexera, team)"
                           v-model="kpiera.title"
                           id="user-name"
@@ -154,10 +150,10 @@
                         <section class="bg-white">
                           <div class="w-75" style="white-space: pre-line;">
                             <h4 class="text-primary"></h4>
-                            <span v-show="kpiera.edit == false" >{{kpiera.desc}}</span>
+                            <span v-show="kpiera.edit == false && kpiera.desc !== ''" >{{kpiera.desc}}</span>
                             <b-form-textarea
                               id="textarea1"
-                              v-show="kpiera.edit == 'true'"
+                              v-show="kpiera.edit == true"
                               v-model="kpiera.desc"
                               :rows="3"
                               :max-rows="6"
@@ -173,7 +169,7 @@
               <div class="mb-4"></div>
               <!-- ==== ROW FOR ERA (ADDED) ERA's ENDS ==== -->
               <!-- ####################### AddKPI/ERA BIG BUTTONS ################################ -->
-              <b-row v-if="team.kpi_json[0].addKpi || team.kra_json[0].addEra" class="text-center">
+              <b-row v-if="team.kpi_json[0].addKpi || team.era_json[0].addEra" class="text-center">
                 <b-col v-if="team.kpi_json[0].addKpi" class="pb-4">
                   <h5 class="text-primary pb-2">Add KPI</h5>
                   <a
@@ -183,7 +179,7 @@
                     <i class="fas fa-plus position-absolute customPosPlus text-success"></i>
                   </a>
                 </b-col>
-                <b-col v-if="team.kra_json[0].addEra" class="pb-4">
+                <b-col v-if="team.era_json[0].addEra" class="pb-4">
                   <h5 class="text-primary pb-2">Add ERA</h5>
                   <a
                     @click="addNewERA(index, team)"
@@ -241,7 +237,6 @@ export default {
     api_delKpi: call("adminKPI/delKpi"),
     api_updateKpi: call("adminKPI/updateKpi"),
     inputHandler(e) {
-      console.log(e);
       if (e.keyCode === 13 && !e.shiftKey) {
         e.preventDefault();
       }
@@ -265,24 +260,24 @@ export default {
       (this.kpiHeading = ""), (this.kpiDescription = "");
     },
     editKPI: function(index, val) {
-      val.kpi_json[0].edit = "true";
+      val.kpi_json[index].edit = true;
     },
     updateKpi: function(index, team) {
       team['addKpi'] = true
       this.api_updateKpi({
         data: team
       });
-      team.kpi_json[0].edit = "false";
+      team.kpi_json[index].edit = false;
     },
     editERA: function(index, val) {
-      val.kra_json[0].edit = "true";
+      val.era_json[index].edit = true;
     },
     updateEra(index, team){
       team['addEra'] = true
-      team['era_json'] = team['kra_json']
       this.api_updateKpi({
         data:team
       })
+      team.era_json[index].edit = false
     },
     editKpiDesc: function(index, indexkpi, val) {
       this.addNewTeam[this.$props.array_.length - 1 - index].kpiList[
@@ -306,18 +301,18 @@ export default {
       });
       (this.eraHeading = ""), (this.eraDescription = "");
     },
-    editEra: function(index, indexera, val) {
-      if (val !== "") {
-        this.addNewTeam[this.$props.array_.length - 1 - index].eraList[
-          indexera
-        ].heading = val;
-      } else {
-        this.addNewTeam[this.$props.array_.length - 1 - index].eraList.splice(
-          indexera,
-          1
-        );
-      }
-    },
+    // editEra: function(index, indexera, val) {
+    //   if (val !== "") {
+    //     this.addNewTeam[this.$props.array_.length - 1 - index].eraList[
+    //       indexera
+    //     ].heading = val;
+    //   } else {
+    //     this.addNewTeam[this.$props.array_.length - 1 - index].eraList.splice(
+    //       indexera,
+    //       1
+    //     );
+    //   }
+    // },
     deleteEra: function(index,team) {
       this.api_delKpi({
         id: team._id
@@ -346,7 +341,7 @@ export default {
     },
     addNewERA(index, team) {
       // console.log(index, (team.kpi_json[0].addKpi = false));
-      team.kra_json[0].addEra = false;
+      team.era_json[0].addEra = false;
     }
   }
 };

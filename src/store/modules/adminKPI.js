@@ -1,11 +1,7 @@
 // import axios from 'axios'
 import { make } from 'vuex-pathify'
-import axios from 'axios'
-
-axios.defaults.headers.common = {
-    "Content-Type": 'application/json',
-    "Authorization": 'Bearer ' + localStorage.getItem('authenticated'),
-};
+import axios from './../axios'
+import { log } from 'util';
 
 // setup store
 const state = {
@@ -237,42 +233,63 @@ const actions = {
             commit('addNewTeam', response.data)
         })
     },
+    checkValidPayload({commit}, payload){
+        let kpiEraArray = []
+        if(payload.data.addKpi){
+            payload.data.kpi_json.map(kpi =>{
+                if(kpi.title !== ' ' && kpi.desc !== ' '){
+                    kpiEraArray.push(kpi)
+                }
+            })
+            payload.data.kpi_json = kpiEraArray
+        } else{
+            payload.data.era_json.map(kpi =>{
+                if(kpi.title !== ' ' && kpi.desc !== ' '){
+                    kpiEraArray.push(kpi)
+                }
+            })
+            payload.data.era_json = kpiEraArray
+        }
+        return payload        
+    },
     async updateKpi({ state,commit, dispatch }, payload) {
         let data = {}
-        state.addNewTeam.map(team => {
-            if(team._id === payload.data._id){
-                if(payload.data.addKpi === true){
-                    if(team.kra_json.length !== 0 ){
-                        payload['isKraJson'] = true
-                    } else{
-                        payload['isKraJson'] = false
-                    }
-                    dispatch('getKpiData',payload).then(resp =>{
-                        if(resp){
-                            data = resp
-                            data['_id'] = payload.data._id
-                            dispatch('updateKpiEra',data)
+        dispatch('checkValidPayload',payload).then(validPayload =>{
+            state.addNewTeam.map(team => {
+                if(team._id === validPayload.data._id){
+                    if(payload.data.addKpi === true){
+                        if(team.kra_json.length !== 0 ){
+                            payload['isKraJson'] = true
+                        } else{
+                            payload['isKraJson'] = false
                         }
-                    })
-                } else {
-                    if(team.kpi_json !==0){
-                        payload['isKpiJson'] = true
-                    } else{
-                        payload['isKpiJson'] = false
-                    }
-                    dispatch('getEraData',payload).then(resp =>{
-                        if(resp){
-                            data = resp
-                            data['_id'] = payload.data._id
-                            dispatch('updateKpiEra',data)
+                        dispatch('getKpiData',payload).then(resp =>{
+                            if(resp){
+                                data = resp
+                                data['_id'] = payload.data._id
+                                console.log(data,'555555555555555555')
+                                // dispatch('updateKpiEra',data)
+                            }
+                        })
+                    } else {
+                        if(team.kpi_json !==0){
+                            payload['isKpiJson'] = true
+                        } else{
+                            payload['isKpiJson'] = false
                         }
-                    })
+                        dispatch('getEraData',payload).then(resp =>{
+                            if(resp){
+                                data = resp
+                                data['_id'] = payload.data._id
+                                console.log(data,'bbbbbbbbbbbbbbb');
+                                
+                                // dispatch('updateKpiEra',data)
+                            }
+                        })
+                    }
                 }
-                
-            }
-        }) 
-        
-        
+            }) 
+        })
     },
     async updateKpiEra({commit,dispatch},payload){
         await axios.put(process.env.VUE_APP_ROOT_API+`/kpi/${payload._id}`, payload).then(response => {
@@ -280,11 +297,16 @@ const actions = {
             }).catch(e => {
         })
     },
-    getKpiData({state},payload){
+    getKpiData({state,dispatch},payload){
         let data = {}
         state.addNewTeam.map(team => {
             if(team._id === payload.data._id){
+                team['data'] = team
                 if(team.kpi_json.length !== 0){
+                    team['addKpi'] = true
+                    dispatch('checkValidPayload',team).then(response =>{
+                        team = response
+                    })
                     team.kpi_json.push({
                         title: payload.data.kpi_json[0].title,
                         desc: payload.data.kpi_json[0].desc,
@@ -313,7 +335,7 @@ const actions = {
         })
         return data
     },
-    getEraData({state},payload){
+    getEraData({state,dispatch},payload){
         let data ={}
         state.addNewTeam.map(team =>{
             if(team._id === payload.data._id){
