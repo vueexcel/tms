@@ -4,6 +4,11 @@ import {
 import axios from 'axios'
 
 // setup store
+axios.defaults.headers.common = {
+    "Authorization": 'Bearer ' + localStorage.getItem('authenticated'),
+};
+
+
 const state = {
     status: '',
     reason: false,
@@ -19,29 +24,20 @@ const state = {
 const mutations = make.mutations(state)
 const actions = {
     ...make.actions(state),
-    async dailyCheckin({ commit, dispatch }, payload) {
-        let token = localStorage.getItem('authenticated') 
+    async dailyCheckin({ commit, dispatch }, payload) { 
         await axios
-            .post('http://5.9.144.226:8000/checkin', payload, {
-                headers: {
-                    'Authorization': 'Bearer ' + token
-                },
-            })
+            .post(process.env.VUE_APP_ROOT_API+'/checkin', payload)
             .then((res) => {
-                dispatch('getAllCheckins',token)
+                dispatch('getAllCheckins')
             })
             .catch((err) => {
                 console.log(err, 'daily checkin addition failed')
             })
     },
 
-    async getAllCheckins({ state, commit }, payload) {
+    async getAllCheckins({ state, commit }) {
         let res = await axios
-            .get('http://5.9.144.226:8000/reports', {
-                headers: {
-                    'Authorization': 'Bearer ' + payload
-                },
-            })
+            .get(process.env.VUE_APP_ROOT_API+'/reports')
             .then((res) => {
                 commit('reports', res.data)
             })
