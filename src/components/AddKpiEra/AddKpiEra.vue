@@ -138,7 +138,7 @@
                           @click="deleteEra(kpiera)"
                         ></i>
                         <span
-                          v-show="kpiera.edit == 'false'"
+                          v-if="kpiera.edit == 'false'"
                           @dblclick="editERA(indexera, team)"
                           class="text-primary fs-larger"
                         >{{kpiera.title.toUpperCase()}}</span>
