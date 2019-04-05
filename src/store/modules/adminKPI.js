@@ -257,39 +257,44 @@ const actions = {
     },
     //########### every time when we ADD new KPI/ERA #########
     async updateKpi({ state, commit, dispatch }, payload) {
-        let addNewTeam = state.addNewTeam.slice().reverse()
-        //         if (team._id === validPayload.data._id) {
-        //             if (payload.data.addKpi === true) {
-        //                 if (team.era_json.length !== 0) {
-        //                     payload['isKraJson'] = true
-        //                 } else {
-        //                     payload['isKraJson'] = false
-        //                 }
-        //                 dispatch('getKpiData', payload).then(resp => {
-        //                     console.log(resp, 'ye kya scene hai ab');
+        console.log(payload, 'kya aa raha hai payload me yaha update kPI');
+        if (payload.data.updateKpi && payload.data.updateKpi === true) {
+            let addNewTeam = state.addNewTeam.slice().reverse()
+            dispatch('updateKpiEra', addNewTeam[payload.indexOfMainArray])
+        } else {
+            if (team._id === validPayload.data._id) {
+                if (payload.data.addKpi === true) {
+                    if (team.era_json.length !== 0) {
+                        payload['isKraJson'] = true
+                    } else {
+                        payload['isKraJson'] = false
+                    }
+                    dispatch('getKpiData', payload).then(resp => {
+                        console.log(resp, 'ye kya scene hai ab');
 
-        //                     if (resp) {
-        //                         data = resp
-        //                         data['_id'] = payload.data._id
-        //                         console.log(data, '555555555555555555')
-                                dispatch('updateKpiEra', addNewTeam[payload.indexOfMainArray])
-        //                     }
-        //                 })
-        //             } else {
-        //                 if (team.kpi_json !== 0) {
-        //                     payload['isKpiJson'] = true
-        //                 } else {
-        //                     payload['isKpiJson'] = false
-        //                 }
-        //                 dispatch('getEraData', payload).then(resp => {
-        //                     if (resp) {
-        //                         data = resp
-        //                         data['_id'] = payload.data._id
-        //                         console.log(data, 'bbbbbbbbbbbbbbb');
-        //                         dispatch('updateKpiEra', data)
-        //                     }
-        //                 })
-        //             }
+                        if (resp) {
+                            data = resp
+                            data['_id'] = payload.data._id
+                            console.log(data, '555555555555555555')
+                        }
+                    })
+                } else {
+                    if (team.kpi_json !== 0) {
+                        payload['isKpiJson'] = true
+                    } else {
+                        payload['isKpiJson'] = false
+                    }
+                    dispatch('getEraData', payload).then(resp => {
+                        if (resp) {
+                            data = resp
+                            data['_id'] = payload.data._id
+                            console.log(data, 'bbbbbbbbbbbbbbb');
+                            dispatch('updateKpiEra', data)
+                        }
+                    })
+                }
+            }
+        }
     },
     async updateKpiEra({ commit, dispatch }, payload) {
         await axios.put(process.env.VUE_APP_ROOT_API + `/kpi/${payload._id}`, payload).then(response => {
@@ -298,37 +303,35 @@ const actions = {
         })
     },
     getKpiData({ state, dispatch }, payload) {
-        // console.log(payload, 'yaha thik hai maybe');
         let data = {}
-        // state.addNewTeam.map(team => {
-        //     if (team._id === payload.data._id) {
-        //         if (team.kpi_json.length !== 0) {
-        //             team.kpi_json.push({
-        //                 title: payload.data.kpi_json[0].title,
-        //                 desc: payload.data.kpi_json[0].desc,
-        //                 edit: false
-        //             })
-        //             if (payload.isKraJson === true) {
-        //                 data = {
-        //                     kpi_name: payload.data.kpi_name,
-        //                     kpi_json: team.kpi_json,
-        //                     era_json: team.era_json
-        //                 }
-        //             } else {
-        //                 data = {
-        //                     kpi_name: payload.data.kpi_name,
-        //                     kpi_json: team.kpi_json,
-        //                     era_json: [{
-        //                         title: "",
-        //                         desc: "",
-        //                         edit: false
-        //                     }]
-        //                 }
-        //             }
-        //         }
-        //     }
-        // })
-        console.log(state.addNewTeam, 'before')
+        state.addNewTeam.map(team => {
+            if (team._id === payload.data._id) {
+                if (team.kpi_json.length !== 0) {
+                    team.kpi_json.push({
+                        title: payload.data.kpi_json[0].title,
+                        desc: payload.data.kpi_json[0].desc,
+                        edit: false
+                    })
+                    if (payload.isKraJson === true) {
+                        data = {
+                            kpi_name: payload.data.kpi_name,
+                            kpi_json: team.kpi_json,
+                            era_json: team.era_json
+                        }
+                    } else {
+                        data = {
+                            kpi_name: payload.data.kpi_name,
+                            kpi_json: team.kpi_json,
+                            era_json: [{
+                                title: "",
+                                desc: "",
+                                edit: false
+                            }]
+                        }
+                    }
+                }
+            }
+        })
         // if (payload.data.updateKpi == true) {
         //     // console.log(state.addNewTeam[0].kpi_json.length);
         //     for (let index = 0; index < state.addNewTeam[0].kpi_json.length; index++) {
@@ -345,12 +348,11 @@ const actions = {
         //     }
 
         // }
-        console.log(state.addNewTeam, 'after')
-        data = {
-            kpi_name: state.addNewTeam[0].kpi_name,
-            kpi_json: state.addNewTeam[0].kpi_json,
-            era_json: state.addNewTeam[0].era_json
-        }
+        // data = {
+        //     kpi_name: state.addNewTeam[0].kpi_name,
+        //     kpi_json: state.addNewTeam[0].kpi_json,
+        //     era_json: state.addNewTeam[0].era_json
+        // }
         return data
     },
     getEraData({ state, dispatch }, payload) {
