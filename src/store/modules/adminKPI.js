@@ -234,9 +234,6 @@ const actions = {
         })
     },
     checkValidPayload({ commit }, payload) {
-        console.log(payload, 'checkingvalidPayload===');
-
-
         let kpiEraArray = []
         if (payload.data.addKpi) {
             payload.data.kpi_json.map(kpi => {
@@ -257,39 +254,42 @@ const actions = {
     },
     //########### every time when we ADD new KPI/ERA #########
     async updateKpi({ state, commit, dispatch }, payload) {
-        let addNewTeam = state.addNewTeam.slice().reverse()
-        //         if (team._id === validPayload.data._id) {
-        //             if (payload.data.addKpi === true) {
-        //                 if (team.era_json.length !== 0) {
-        //                     payload['isKraJson'] = true
-        //                 } else {
-        //                     payload['isKraJson'] = false
-        //                 }
-        //                 dispatch('getKpiData', payload).then(resp => {
-        //                     console.log(resp, 'ye kya scene hai ab');
+        if (payload.data.updateKpi && payload.data.updateKpi === true) {
+            let addNewTeam = state.addNewTeam.slice().reverse()
+            dispatch('updateKpiEra', addNewTeam[payload.indexOfMainArray])
+        } else {
+            state.addNewTeam.map(team => {
+                if (team._id === payload.data._id) {
+                    if (payload.data.addKpi === true) {
+                        if (team.era_json.length !== 0) {
+                            payload['isKraJson'] = true
+                        } else {
+                            payload['isKraJson'] = false
+                        }
+                        dispatch('getKpiData', payload).then(resp => {
+                            if (resp) {
+                                resp['_id'] = payload.data._id
+                                dispatch('updateKpiEra', resp)
+                            }
+                        })
+                    } else {
+                        if (team.kpi_json !== 0) {
+                            payload['isKpiJson'] = true
+                        } else {
+                            payload['isKpiJson'] = false
+                        }
+                        dispatch('getEraData', payload).then(resp => {
+                            if (resp) {
+                                resp['_id'] = payload.data._id
+                                dispatch('updateKpiEra', resp)
+                            }
+                        })
+                    }
+                }
 
-        //                     if (resp) {
-        //                         data = resp
-        //                         data['_id'] = payload.data._id
-        //                         console.log(data, '555555555555555555')
-                                dispatch('updateKpiEra', addNewTeam[payload.indexOfMainArray])
-        //                     }
-        //                 })
-        //             } else {
-        //                 if (team.kpi_json !== 0) {
-        //                     payload['isKpiJson'] = true
-        //                 } else {
-        //                     payload['isKpiJson'] = false
-        //                 }
-        //                 dispatch('getEraData', payload).then(resp => {
-        //                     if (resp) {
-        //                         data = resp
-        //                         data['_id'] = payload.data._id
-        //                         console.log(data, 'bbbbbbbbbbbbbbb');
-        //                         dispatch('updateKpiEra', data)
-        //                     }
-        //                 })
-        //             }
+            })
+
+        }
     },
     async updateKpiEra({ commit, dispatch }, payload) {
         await axios.put(process.env.VUE_APP_ROOT_API + `/kpi/${payload._id}`, payload).then(response => {
@@ -298,59 +298,38 @@ const actions = {
         })
     },
     getKpiData({ state, dispatch }, payload) {
-        // console.log(payload, 'yaha thik hai maybe');
         let data = {}
-        // state.addNewTeam.map(team => {
-        //     if (team._id === payload.data._id) {
-        //         if (team.kpi_json.length !== 0) {
-        //             team.kpi_json.push({
-        //                 title: payload.data.kpi_json[0].title,
-        //                 desc: payload.data.kpi_json[0].desc,
-        //                 edit: false
-        //             })
-        //             if (payload.isKraJson === true) {
-        //                 data = {
-        //                     kpi_name: payload.data.kpi_name,
-        //                     kpi_json: team.kpi_json,
-        //                     era_json: team.era_json
-        //                 }
-        //             } else {
-        //                 data = {
-        //                     kpi_name: payload.data.kpi_name,
-        //                     kpi_json: team.kpi_json,
-        //                     era_json: [{
-        //                         title: "",
-        //                         desc: "",
-        //                         edit: false
-        //                     }]
-        //                 }
-        //             }
-        //         }
-        //     }
-        // })
-        console.log(state.addNewTeam, 'before')
-        // if (payload.data.updateKpi == true) {
-        //     // console.log(state.addNewTeam[0].kpi_json.length);
-        //     for (let index = 0; index < state.addNewTeam[0].kpi_json.length; index++) {
-        //         const element = state.addNewTeam[0].kpi_json;
-        //         // console.log(element, payload, index);
-        //         for (let i = 0; i < element.length; i++) {
-        //             if (element[i].title === payload.data.kpi_json[0].title) {
-        //                 // console.log(element[i], i, payload);
-        //                 state.addNewTeam[0].kpi_json[i] = payload.data.kpi_json[0]
-        //             }
-        //             // const element = element.kpi_json[i];
-        //             // console.log(element.kpi_json[i].title);
-        //         }
-        //     }
-
-        // }
-        console.log(state.addNewTeam, 'after')
-        data = {
-            kpi_name: state.addNewTeam[0].kpi_name,
-            kpi_json: state.addNewTeam[0].kpi_json,
-            era_json: state.addNewTeam[0].era_json
-        }
+        state.addNewTeam.map(team => {
+            if (team._id === payload.data._id) {
+                if (team.kpi_json.length !== 0) {
+                    team.kpi_json.push({
+                        title: payload.data.kpi_json[0].title,
+                        desc: payload.data.kpi_json[0].desc,
+                        edit: false
+                    })
+                    if (payload.isKraJson === true) {
+                        data = {
+                            kpi_name: payload.data.kpi_name,
+                            kpi_json: team.kpi_json,
+                            era_json: team.era_json
+                        }
+                    } else {
+                        if (team.era_json.length === 0) {
+                            data = {
+                                kpi_name: payload.data.kpi_name,
+                                kpi_json: team.kpi_json,
+                                era_json: [{
+                                    addEra: false,
+                                    title: "",
+                                    desc: "",
+                                    edit: false
+                                }]
+                            }
+                        }
+                    }
+                }
+            }
+        })
         return data
     },
     getEraData({ state, dispatch }, payload) {
@@ -371,14 +350,17 @@ const actions = {
                             era_json: team.era_json
                         }
                     } else {
-                        data = {
-                            kpi_name: payload.data.kpi_name,
-                            kpi_json: [{
-                                title: "",
-                                desc: "",
-                                edit: false
-                            }],
-                            era_json: team.era_json
+                        if (team.kpi_json.length === 0) {
+                            data = {
+                                kpi_name: payload.data.kpi_name,
+                                kpi_json: [{
+                                    addKpi: false,
+                                    title: "",
+                                    desc: "",
+                                    edit: false
+                                }],
+                                era_json: team.era_json
+                            }
                         }
                     }
                 }
@@ -388,28 +370,28 @@ const actions = {
     },
     async delKpi({ state, dispatch }, payload) {
         let addNewTeam = state.addNewTeam.slice().reverse()
-        if(payload.KPIorERA === "kpi"){
-            addNewTeam[payload.mainIndex].kpi_json.splice(payload.index,1)
-            if(addNewTeam[payload.mainIndex].kpi_json.length ===0){
+        if (payload.KPIorERA === "kpi") {
+            addNewTeam[payload.mainIndex].kpi_json.splice(payload.index, 1)
+            if (addNewTeam[payload.mainIndex].kpi_json.length === 0) {
                 addNewTeam[payload.mainIndex].kpi_json.push({
                     addKpi: false,
-                    desc:"",
-                    edit:false,
-                    title:""
+                    desc: "",
+                    edit: false,
+                    title: ""
                 })
             }
-        } else if(payload.KPIorERA === "era"){
-            addNewTeam[payload.mainIndex].era_json.splice(payload.index,1)
-            if(addNewTeam[payload.mainIndex].era_json.length ===0){
+        } else if (payload.KPIorERA === "era") {
+            addNewTeam[payload.mainIndex].era_json.splice(payload.index, 1)
+            if (addNewTeam[payload.mainIndex].era_json.length === 0) {
                 addNewTeam[payload.mainIndex].era_json.push({
                     addEra: false,
-                    desc:"",
-                    edit:false,
-                    title:""
+                    desc: "",
+                    edit: false,
+                    title: ""
                 })
             }
         }
-        dispatch('updateKpiEra',addNewTeam[payload.mainIndex])
+        dispatch('updateKpiEra', addNewTeam[payload.mainIndex])
     }
 }
 

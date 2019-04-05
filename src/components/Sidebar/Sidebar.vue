@@ -202,7 +202,6 @@ export default {
   },
   created() {
     this.setActiveByRoute();
-    // console.log(this.sidebar);
   },
   computed: {
     ...mapState("layout", {

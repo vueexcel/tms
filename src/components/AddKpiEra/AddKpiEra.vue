@@ -7,7 +7,6 @@
             <h4 class="pl-4 pt-3">{{ team.kpi_name }}</h4>
             <hr>
             <b-container class="pb-0 pl-0 pr-0">
-              <!-- v-if="!team.kpi_json[0].addKpi" -->
               <b-row v-if="!team.kpi_json[0].addKpi">
                 <b-col>
                   <!--=== KPI ADD BUTTON & FORM === -->
@@ -72,11 +71,10 @@
                           type="text"
                           class="form-control"
                         >
-                        <!-- v-show="kpiera.edit == false" -->
                         <section class="bg-white">
                           <div class="w-75" style="white-space: pre-line;">
                             <h4 class="text-primary"></h4>
-                            <span>{{kpiera.desc}}</span>
+                            <span v-show="kpiera.edit == false">{{kpiera.desc}}</span>
                             <b-form-textarea
                               id="textarea1"
                               v-show="kpiera.edit == true"
@@ -95,7 +93,6 @@
                 </b-col>
               </b-row>
               <!-- ==== ROW FOR ERA (ADDED) ERA's ==== -->
-              <!-- v-if="!team.era_json[0].addEra" -->
               <b-row v-if="!team.era_json[0].addEra">
                 <b-col>
                   <div class="mb-0 p-0">
@@ -182,7 +179,6 @@
               <!-- ####################### AddKPI/ERA BIG BUTTONS ################################ -->
               <!-- v-if="team.kpi_json[0].addKpi || team.era_json[0].addEra" -->
               <b-row class="text-center">
-                <!-- v-if="team.kpi_json[0].addKpi" -->
                 <b-col v-if="team.kpi_json[0].addKpi" class="pb-4">
                   <h5 class="text-primary pb-2">Add KPI</h5>
                   <a
@@ -192,7 +188,6 @@
                     <i class="fas fa-plus position-absolute customPosPlus text-success"></i>
                   </a>
                 </b-col>
-                <!-- v-if="team.era_json[0].addEra" -->
                 <b-col v-if="team.era_json[0].addEra" class="pb-4">
                   <h5 class="text-primary pb-2">Add ERA</h5>
                   <a
@@ -274,13 +269,10 @@ export default {
       (this.kpiHeading = ""), (this.kpiDescription = "");
     },
     editKPI: function(index, val) {
-      console.log(index, val, "9090909090909");
-      // val.kpi_json[index].edit = true;
       val.edit = true;
     },
     updateKpi: function(index, kpiera, team, indexOfMainArray) {
       team.kpi_json[index].edit = false;
-      // team.edit = false;
       let somevar = {
         updateKpi: true,
         addKpi: true,
@@ -294,11 +286,9 @@ export default {
         kpi_name: team.kpi_name,
         _id: team._id
       };
-      // team["addKpi"] = true;
-      // team["kpi_json"] = team;
       this.api_updateKpi({
         data: somevar,
-        indexOfMainArray : indexOfMainArray
+        indexOfMainArray: indexOfMainArray
       });
     },
     editERA: function(index, val) {
@@ -316,7 +306,7 @@ export default {
         indexkpi
       ].desc = val;
     },
-    deleteKpi: function(kpiIndex,mainIndex,KPIorERA) {
+    deleteKpi: function(kpiIndex, mainIndex, KPIorERA) {
       this.api_delKpi({
         index: kpiIndex,
         mainIndex: mainIndex,
@@ -338,8 +328,8 @@ export default {
     deleteEra: function(eraIndex, mainIndex, KPIorERA) {
       this.api_delKpi({
         index: eraIndex,
-        mainIndex:mainIndex,
-        KPIorERA:KPIorERA
+        mainIndex: mainIndex,
+        KPIorERA: KPIorERA
       });
     },
     addMember: function(i, index, name) {
