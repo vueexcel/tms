@@ -257,47 +257,39 @@ const actions = {
     },
     //########### every time when we ADD new KPI/ERA #########
     async updateKpi({ state, commit, dispatch }, payload) {
-        console.log(payload, 'this time updating----');
-        let data = {}
-        dispatch('checkValidPayload', payload).then(validPayload => {
-            console.log(validPayload, 'valid payload ========');
+        let addNewTeam = state.addNewTeam.slice().reverse()
+        //         if (team._id === validPayload.data._id) {
+        //             if (payload.data.addKpi === true) {
+        //                 if (team.era_json.length !== 0) {
+        //                     payload['isKraJson'] = true
+        //                 } else {
+        //                     payload['isKraJson'] = false
+        //                 }
+        //                 dispatch('getKpiData', payload).then(resp => {
+        //                     console.log(resp, 'ye kya scene hai ab');
 
-            state.addNewTeam.map(team => {
-                if (team._id === validPayload.data._id) {
-                    if (payload.data.addKpi === true) {
-                        if (team.era_json.length !== 0) {
-                            payload['isKraJson'] = true
-                        } else {
-                            payload['isKraJson'] = false
-                        }
-                        dispatch('getKpiData', payload).then(resp => {
-                            console.log(resp, 'ye kya scene hai ab');
-
-                            if (resp) {
-                                data = resp
-                                data['_id'] = payload.data._id
-                                console.log(data, '555555555555555555')
-                                dispatch('updateKpiEra', data)
-                            }
-                        })
-                    } else {
-                        if (team.kpi_json !== 0) {
-                            payload['isKpiJson'] = true
-                        } else {
-                            payload['isKpiJson'] = false
-                        }
-                        dispatch('getEraData', payload).then(resp => {
-                            if (resp) {
-                                data = resp
-                                data['_id'] = payload.data._id
-                                console.log(data, 'bbbbbbbbbbbbbbb');
-                                dispatch('updateKpiEra', data)
-                            }
-                        })
-                    }
-                }
-            })
-        })
+        //                     if (resp) {
+        //                         data = resp
+        //                         data['_id'] = payload.data._id
+        //                         console.log(data, '555555555555555555')
+                                dispatch('updateKpiEra', addNewTeam[payload.indexOfMainArray])
+        //                     }
+        //                 })
+        //             } else {
+        //                 if (team.kpi_json !== 0) {
+        //                     payload['isKpiJson'] = true
+        //                 } else {
+        //                     payload['isKpiJson'] = false
+        //                 }
+        //                 dispatch('getEraData', payload).then(resp => {
+        //                     if (resp) {
+        //                         data = resp
+        //                         data['_id'] = payload.data._id
+        //                         console.log(data, 'bbbbbbbbbbbbbbb');
+        //                         dispatch('updateKpiEra', data)
+        //                     }
+        //                 })
+        //             }
     },
     async updateKpiEra({ commit, dispatch }, payload) {
         await axios.put(process.env.VUE_APP_ROOT_API + `/kpi/${payload._id}`, payload).then(response => {

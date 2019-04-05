@@ -65,7 +65,7 @@
                           @dblclick="editKPI(indexkpi, kpiera)"
                         >{{kpiera.title}}</span>
                         <input
-                          v-on:keyup.enter="updateKpi(indexkpi, kpiera, team)"
+                          v-on:keyup.enter="updateKpi(indexkpi, kpiera, team, index)"
                           v-model="kpiera.title"
                           v-show="kpiera.edit == true"
                           id="user-name"
@@ -278,9 +278,7 @@ export default {
       // val.kpi_json[index].edit = true;
       val.edit = true;
     },
-    updateKpi: function(index, kpiera, team) {
-      console.log(index, kpiera, team, "update me ya aa rha hai?");
-
+    updateKpi: function(index, kpiera, team, indexOfMainArray) {
       team.kpi_json[index].edit = false;
       // team.edit = false;
       let somevar = {
@@ -299,7 +297,8 @@ export default {
       // team["addKpi"] = true;
       // team["kpi_json"] = team;
       this.api_updateKpi({
-        data: somevar
+        data: somevar,
+        indexOfMainArray : indexOfMainArray
       });
     },
     editERA: function(index, val) {
