@@ -388,11 +388,30 @@ const actions = {
         })
         return data
     },
-    async delKpi({ commit, dispatch }, data) {
-        await axios.delete(process.env.VUE_APP_ROOT_API + `/kpi/${data.id}`).then(response => {
-            dispatch('getKpiEra', { token: data.Authorization })
-        }).catch(e => {
-        })
+    async delKpi({ state, dispatch }, payload) {
+        let addNewTeam = state.addNewTeam.slice().reverse()
+        if(payload.KPIorERA === "kpi"){
+            addNewTeam[payload.mainIndex].kpi_json.splice(payload.index,1)
+            if(addNewTeam[payload.mainIndex].kpi_json.length ===0){
+                addNewTeam[payload.mainIndex].kpi_json.push({
+                    addKpi: false,
+                    desc:"",
+                    edit:false,
+                    title:""
+                })
+            }
+        } else if(payload.KPIorERA === "era"){
+            addNewTeam[payload.mainIndex].era_json.splice(payload.index,1)
+            if(addNewTeam[payload.mainIndex].era_json.length ===0){
+                addNewTeam[payload.mainIndex].era_json.push({
+                    addEra: false,
+                    desc:"",
+                    edit:false,
+                    title:""
+                })
+            }
+        }
+        dispatch('updateKpiEra',addNewTeam[payload.mainIndex])
     }
 }
 

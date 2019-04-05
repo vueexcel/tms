@@ -57,7 +57,7 @@
                         <i
                           v-if="kpiera.title !== '' && kpiera.desc!== '' && kpiera.edit == false"
                           class="fas fa-times-circle text-secondary cursor pull-right pt-1 pr-3"
-                          @click="deleteKpi(team)"
+                          @click="deleteKpi(indexkpi, index, 'kpi')"
                         ></i>
                         <span
                           v-if="kpiera.edit == false"
@@ -138,9 +138,9 @@
                       <hr class="ml-4 mr-4" v-if="kpiera.title !== '' && kpiera.desc !== ''">
                       <div class="container pl-4">
                         <i
-                          v-show="kpiera.edit == false"
+                          v-show="kpiera.edit == false && kpiera.title !== '' && kpiera.desc !== ''"
                           class="fas fa-times-circle text-secondary cursor pull-right pt-1 pr-3"
-                          @click="deleteEra(kpiera, team)"
+                          @click="deleteEra(indexera,index,'era')"
                         ></i>
                         <span
                           v-if="kpiera.edit == false && kpiera.title !== ''"
@@ -316,9 +316,11 @@ export default {
         indexkpi
       ].desc = val;
     },
-    deleteKpi: function(team) {
+    deleteKpi: function(kpiIndex,mainIndex,KPIorERA) {
       this.api_delKpi({
-        id: team._id
+        index: kpiIndex,
+        mainIndex: mainIndex,
+        KPIorERA: KPIorERA
       });
     },
     addEra: function(index, team_) {
@@ -333,21 +335,11 @@ export default {
       });
       (this.eraHeading = ""), (this.eraDescription = "");
     },
-    // editEra: function(index, indexera, val) {
-    //   if (val !== "") {
-    //     this.addNewTeam[this.$props.array_.length - 1 - index].eraList[
-    //       indexera
-    //     ].heading = val;
-    //   } else {
-    //     this.addNewTeam[this.$props.array_.length - 1 - index].eraList.splice(
-    //       indexera,
-    //       1
-    //     );
-    //   }
-    // },
-    deleteEra: function(index, team) {
+    deleteEra: function(eraIndex, mainIndex, KPIorERA) {
       this.api_delKpi({
-        id: team._id
+        index: eraIndex,
+        mainIndex:mainIndex,
+        KPIorERA:KPIorERA
       });
     },
     addMember: function(i, index, name) {
