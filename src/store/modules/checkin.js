@@ -31,7 +31,6 @@ const actions = {
                 dispatch('getAllCheckins')
             })
             .catch((err) => {
-                console.log(err, 'daily checkin addition failed')
             })
     },
 
@@ -42,7 +41,6 @@ const actions = {
                 commit('reports', res.data)
             })
             .catch((err) => {
-                console.log(err, 'get all checkins error code')
             })
     },
 }

@@ -1,4 +1,4 @@
-import {make} from 'vuex-pathify'
+import { make } from 'vuex-pathify'
 import axios from 'axios'
 
 // setup store
@@ -17,11 +17,9 @@ const actions = {
                 },
             })
             .then((res) => {
-                console.log(res, 'weekly review added success')
                 alert('weekly review submitted success')
             })
             .catch((err) => {
-                console.log(err, 'weekly review addition failed')
             })
     },
 }

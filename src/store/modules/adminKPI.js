@@ -234,9 +234,6 @@ const actions = {
         })
     },
     checkValidPayload({ commit }, payload) {
-        console.log(payload, 'checkingvalidPayload===');
-
-
         let kpiEraArray = []
         if (payload.data.addKpi) {
             payload.data.kpi_json.map(kpi => {
@@ -257,7 +254,6 @@ const actions = {
     },
     //########### every time when we ADD new KPI/ERA #########
     async updateKpi({ state, commit, dispatch }, payload) {
-        console.log(payload, 'kya aa raha hai payload me yaha update kPI');
         if (payload.data.updateKpi && payload.data.updateKpi === true) {
             let addNewTeam = state.addNewTeam.slice().reverse()
             dispatch('updateKpiEra', addNewTeam[payload.indexOfMainArray])
@@ -285,7 +281,6 @@ const actions = {
                         dispatch('getEraData', payload).then(resp => {
                             if (resp) {
                                 resp['_id'] = payload.data._id
-                                console.log(resp, 'bbbbbbbbbbbbbbb');
                                 dispatch('updateKpiEra', resp)
                             }
                         })
@@ -319,7 +314,7 @@ const actions = {
                             era_json: team.era_json
                         }
                     } else {
-                        if(team.era_json.length === 0){
+                        if (team.era_json.length === 0) {
                             data = {
                                 kpi_name: payload.data.kpi_name,
                                 kpi_json: team.kpi_json,
@@ -335,27 +330,6 @@ const actions = {
                 }
             }
         })
-        // if (payload.data.updateKpi == true) {
-        //     // console.log(state.addNewTeam[0].kpi_json.length);
-        //     for (let index = 0; index < state.addNewTeam[0].kpi_json.length; index++) {
-        //         const element = state.addNewTeam[0].kpi_json;
-        //         // console.log(element, payload, index);
-        //         for (let i = 0; i < element.length; i++) {
-        //             if (element[i].title === payload.data.kpi_json[0].title) {
-        //                 // console.log(element[i], i, payload);
-        //                 state.addNewTeam[0].kpi_json[i] = payload.data.kpi_json[0]
-        //             }
-        //             // const element = element.kpi_json[i];
-        //             // console.log(element.kpi_json[i].title);
-        //         }
-        //     }
-
-        // }
-        // data = {
-        //     kpi_name: state.addNewTeam[0].kpi_name,
-        //     kpi_json: state.addNewTeam[0].kpi_json,
-        //     era_json: state.addNewTeam[0].era_json
-        // }
         return data
     },
     getEraData({ state, dispatch }, payload) {
@@ -376,7 +350,7 @@ const actions = {
                             era_json: team.era_json
                         }
                     } else {
-                        if(team.kpi_json.length === 0) {
+                        if (team.kpi_json.length === 0) {
                             data = {
                                 kpi_name: payload.data.kpi_name,
                                 kpi_json: [{

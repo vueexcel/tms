@@ -66,7 +66,6 @@ export default {
         element["post"] = element.work;
       });
       if (this.activeTeam.name === "All") {
-        console.log;
         return Group;
       } else {
         let team = [];
