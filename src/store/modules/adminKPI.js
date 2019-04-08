@@ -1,7 +1,9 @@
 // import axios from 'axios'
-import { make } from 'vuex-pathify'
+import { make, call } from 'vuex-pathify'
 import axios from './../axios'
 import { log } from 'util';
+import { resolve } from 'upath';
+import { rejects } from 'assert';
 
 // setup store
 const state = {
@@ -392,6 +394,18 @@ const actions = {
             }
         }
         dispatch('updateKpiEra', addNewTeam[payload.mainIndex])
+    },
+    addMember({ state, dispatch }, payload) {
+        return new Promise((resolve, reject) => {
+            let allkpi = state.addNewTeam.slice().reverse()
+            axios.get(process.env.VUE_APP_ROOT_API + `/kpi/assign_kpi/${payload.user._id}/${allkpi[payload.kpiIndex]._id}`).then(response => {
+                if (response) {
+                    resolve(true)
+                }
+            }).catch(err => {
+                reject(false)
+            })
+        })
     }
 }
 
