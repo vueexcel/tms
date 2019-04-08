@@ -147,7 +147,6 @@ export default {
     }
   },
   created() {
-    console.log(localStorage.getItem('loggedInUser'))
     if (window.innerWidth > 576) {
       setTimeout(() => {
         const $chatNotification = $("#chat-notification");
