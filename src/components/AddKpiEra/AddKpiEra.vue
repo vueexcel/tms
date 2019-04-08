@@ -351,6 +351,7 @@ export default {
     },
     addNewKPI(index, team) {
       team.kpi_json[0].addKpi = false;
+      this.showKpiform = index;
     },
     addNewERA(index, team) {
       team.era_json[0].addEra = false;
