@@ -17,7 +17,7 @@
       <b-container class="pb-4 pt-1">
         <b-row v-for="(member, key) in array_" :key="key">
           <div v-if="member.profile" class="d-flex">
-            <b-col class="col-md-1" v-if="member.kpi_id && member.kpi_id === addNewTeam[index]._id">
+            <b-col class="col-md-1" v-if="member.kpi_id && member.kpi_id === kpiArray[index]._id">
               <span class="position-relative">
                 <img
                   class="rounded-circle"
@@ -35,7 +35,7 @@
                 </b-badge>
               </span>
             </b-col>
-            <b-col class="ml-4" v-if="member.kpi_id && member.kpi_id === addNewTeam[index]._id">
+            <b-col class="ml-4" v-if="member.kpi_id && member.kpi_id === kpiArray[index]._id">
               <span class="text-primary fs-larger fw-normal">{{ member.username }}</span>
               <h6>{{member.profile.data.user_profile_detail.jobtitle}}</h6>
             </b-col>
@@ -81,7 +81,7 @@
         <b-badge class="badge circle-2 position-absolute badgePos p-0 top badge-white">
           <i
             class="fa fa-check-circle text-success"
-            v-if="img.kpi_id && img.kpi_id === addNewTeam[index]._id"
+            v-if="img.kpi_id && img.kpi_id === kpiArray[index]._id"
           ></i>
         </b-badge>
       </span>
@@ -145,6 +145,9 @@ export default {
       // return this.allMembersArray.filter(item => {
       //   return item.name.toLowerCase().includes(this.searchField.toLowerCase());
       // });
+    },
+    kpiArray(){
+      return this.addNewTeam.slice().reverse()
     }
   }
 };

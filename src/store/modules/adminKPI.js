@@ -396,6 +396,7 @@ const actions = {
         dispatch('updateKpiEra', addNewTeam[payload.mainIndex])
     },
     addMember({ state, dispatch }, payload) {
+        console.log(payload)
         return new Promise((resolve, reject) => {
             let allkpi = state.addNewTeam.slice().reverse()
             axios.get(process.env.VUE_APP_ROOT_API + `/kpi/assign_kpi/${payload.user._id}/${allkpi[payload.kpiIndex]._id}`).then(response => {
