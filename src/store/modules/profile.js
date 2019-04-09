@@ -9,7 +9,7 @@ const mutations = make.mutations(state)
 const actions = {
     ...make.actions(state),
     async getProfile({commit}, payload) {
-        await axios.get('http://5.9.144.226:8000/auth/profile',{
+        await axios.get(process.env.VUE_APP_ROOT_API + '/auth/profile',{
             headers: {
                 "Authorization" : `Bearer ${payload.Authorization}`
             }

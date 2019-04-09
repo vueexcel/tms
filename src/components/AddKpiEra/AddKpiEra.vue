@@ -223,7 +223,7 @@
       </b-col>
       <b-col lg="4" xs="12">
         <!--##=== group involved for add new member here ===##-->
-        <Group :team="team" :index="index" :array_="array_"/>
+        <Group :index="index" :array_="getAllMember"/>
         <!--##=== group involved for add new member here ENDS ===##-->
       </b-col>
     </b-row>
@@ -249,7 +249,8 @@ export default {
     kpiDescription: sync("adminKPI/kpiDescription"), //v-model
     eraHeading: sync("adminKPI/eraHeading"), //v-model
     eraDescription: sync("adminKPI/eraDescription"), //v-model
-    searchField: sync("adminKPI/searchField") //v-model
+    searchField: sync("adminKPI/searchField"), //v-model
+    getAllMember: sync("allMember/allMember")
   },
   mounted() {},
   data() {
@@ -261,6 +262,10 @@ export default {
     };
   },
   methods: {
+    getAllMembers() {
+      this.getAllMembers_();
+    },
+    getAllMembers_: call("allMember/getAllMember"),
     getProfile: call("profile/getProfile"),
     api_AddKpi: call("adminKPI/addKpi"),
     api_delKpi: call("adminKPI/delKpi"),
@@ -366,23 +371,6 @@ export default {
         KPIorERA: KPIorERA
       });
     },
-    addMember: function(i, index, name) {
-      for (let index = 0; index < this.allMembers.length; index++) {
-        const element = this.allMembers[index].name;
-        if (element == name) {
-          var addMemberToList = this.allMembers[index];
-        }
-      }
-      this.addNewTeam[this.$props.array_.length - 1 - index].memberList.push(
-        addMemberToList
-      );
-    },
-    removeMember: function(key, index) {
-      this.addNewTeam[this.$props.array_.length - 1 - index].memberList.splice(
-        key,
-        1
-      );
-    },
     deleteOnce(team) {
       this.api_deleteOnce(team._id);
     },
@@ -394,6 +382,9 @@ export default {
       team.era_json[0].addEra = false;
       this.showEraform = index;
     }
+  },
+  created() {
+    this.getAllMembers();
   }
 };
 </script>
