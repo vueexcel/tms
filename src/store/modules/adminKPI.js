@@ -2,6 +2,7 @@
 import { make } from 'vuex-pathify'
 import axios from './../axios'
 import { log } from 'util';
+import { async } from 'q';
 
 // setup store
 const state = {
@@ -392,6 +393,11 @@ const actions = {
             }
         }
         dispatch('updateKpiEra', addNewTeam[payload.mainIndex])
+    },
+    async deleteOnce({ state, dispatch }, payload) {
+        await axios.delete(process.env.VUE_APP_ROOT_API + `/kpi/${payload}`).then(resp => {
+            dispatch('getKpiEra')
+        })
     }
 }
 
