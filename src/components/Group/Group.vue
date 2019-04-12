@@ -3,6 +3,7 @@
     <div class="pb-1 bg-white">
       <h4 class="pl-4 pt-3">Group Involved</h4>
       <hr>
+      <!--###### CONTAINER IS FALSE ########### -->
       <b-container class="pb-3 pt-1" v-if="false">
         <b-row class="text-center">
           <b-col>
@@ -16,12 +17,14 @@
       <!--@@@ ADDED MEMBERS CONTAINER @@@-->
       <b-container class="pb-4 pt-1">
         <b-row v-for="(member, key) in array_" :key="key">
-          <div v-if="member.profile" class="d-flex">
+          <div v-if="member.slack_profile" class="d-flex">
             <b-col class="col-md-1" v-if="member.kpi_id && member.kpi_id === addNewTeam[index]._id">
+              <!-- <b-col class="col-md-1"> -->
               <span class="position-relative">
+                <!-- :src="member.profile.data.user_profile_detail.profileImage" -->
                 <img
                   class="rounded-circle"
-                  :src="member.profile.data.user_profile_detail.profileImage"
+                  :src="member.slack_profile.image_original"
                   width="33"
                   height="33"
                   alt="..."
@@ -35,9 +38,10 @@
                 </b-badge>
               </span>
             </b-col>
-            <b-col class="ml-4" v-if="member.kpi_id && member.kpi_id === addNewTeam[index]._id">
+            <!-- <b-col class="ml-4" v-if="member.kpi_id && member.kpi_id === addNewTeam[index]._id"> -->
+            <b-col class="ml-4" v-if="true">
               <span class="text-primary fs-larger fw-normal">{{ member.username }}</span>
-              <h6>{{member.profile.data.user_profile_detail.jobtitle}}</h6>
+              <h6>{{member.jobtitle}}</h6>
             </b-col>
           </div>
         </b-row>
@@ -59,12 +63,14 @@
         v-for="(img, i) in searchFilter"
         :key="i"
       >
+        <!-- v-if="img.profile && img.profile.data.user_profile_detail.profileImage" -->
+        <!-- :src="img.profile.data.user_profile_detail.profileImage" -->
         <img
           v-b-tooltip.hover
-          v-if="img.profile && img.profile.data.user_profile_detail.profileImage"
+          v-if="img.slack_profile.image_original"
           :title="img.username"
           class="rounded-circle"
-          :src="img.profile.data.user_profile_detail.profileImage"
+          :src="img.slack_profile.image_original"
           width="25"
           height="25"
           alt="..."
@@ -105,22 +111,26 @@ export default {
   },
   props: {
     index: { type: Number },
-    array_: { type: Array }
+    array_: { type: Object }
   },
   created() {},
   methods: {
     addMembers_: call("adminKPI/addMember"),
-    getAllMembers_: call('allMember/getAllMember'),
-    async addMember(index, user) {
+    getAllMembers_: call("allMember/getAllMember"),
+    addMember(index, user) {
       this.addMembers_({
         kpiIndex: index,
         user: user
-      }).then(response => {
-        if(response === true){
-          this.getAllMembers_()
-        }
-        this.searchField = "";
-      });
+      })
+        .then(response => {
+          if (response === true) {
+            this.getAllMembers_();
+          }
+          this.searchField = "";
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
     removeMember: function(key, index, name) {
       for (let index = 0; index < this.allMembersArray.length; index++) {
@@ -137,11 +147,18 @@ export default {
   computed: {
     addNewTeam: sync("adminKPI/addNewTeam"),
     searchFilter: function() {
-      return this.array_.filter(item => {
-        return item.username
-          .toLowerCase()
-          .includes(this.searchField.toLowerCase());
-      });
+      console.log(this.$props.array_);
+      if (this.$props.array_) {
+        return this.$props.array_.profile.data.filter(item => {
+          if (item.username) {
+            // console.log(item.username);
+            return item.username
+              .toLowerCase()
+              .includes(this.searchField.toLowerCase());
+          }
+        });
+      }
+
       // return this.allMembersArray.filter(item => {
       //   return item.name.toLowerCase().includes(this.searchField.toLowerCase());
       // });

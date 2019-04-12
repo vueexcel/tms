@@ -4,10 +4,6 @@ import {
 import axios from 'axios'
 
 // setup store
-axios.defaults.headers.common = {
-    "Authorization": 'Bearer ' + localStorage.getItem('authenticated'),
-};
-
 
 const state = {
     status: '',

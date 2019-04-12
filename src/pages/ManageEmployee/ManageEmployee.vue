@@ -47,9 +47,11 @@ export default {
   methods: {
     getProfile: call("profile/getProfile"),
     get_profile: function() {
-      this.getProfile({
-        Authorization: localStorage.getItem("authenticated")
-      });
+      this.getProfile(
+      //   {
+      //   Authorization: localStorage.getItem("authenticated")
+      // }
+      );
     }
   }
 };

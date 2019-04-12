@@ -1,9 +1,6 @@
 // import axios from 'axios'
 import { make, call } from 'vuex-pathify'
 import axios from './../axios'
-import { log } from 'util';
-import { resolve } from 'upath';
-import { rejects } from 'assert';
 
 // setup store
 const state = {
@@ -227,11 +224,13 @@ const actions = {
         })
     },
     async getKpiEra({ commit }, data) {
-        await axios.get(process.env.VUE_APP_ROOT_API + '/kpi', {
-            headers: {
-                "Authorization": 'Bearer ' + localStorage.getItem('authenticated')
-            }
-        }).then(response => {
+        await axios.get(process.env.VUE_APP_ROOT_API + '/kpi'
+            // {
+            //     headers: {
+            //         "Authorization": 'Bearer ' + localStorage.getItem('authenticated')
+            //     }
+            // }
+        ).then(response => {
             commit('addNewTeam', response.data)
         })
     },
@@ -395,19 +394,18 @@ const actions = {
         }
         dispatch('updateKpiEra', addNewTeam[payload.mainIndex])
     },
-    addMember({ state, dispatch }, payload) {
-        return new Promise((resolve, reject) => {
-            let allkpi = state.addNewTeam.slice().reverse()
-            axios.get(process.env.VUE_APP_ROOT_API + `/kpi/assign_kpi/${payload.user._id}/${allkpi[payload.kpiIndex]._id}`).then(response => {
-                if (response) {
-                    resolve(true)
-                }
-            }).catch(err => {
-                reject(false)
-            })
-        })
+    async addMember({ state, dispatch }, payload) {
+        console.log(payload);
+
+        let allkpi = state.addNewTeam.slice().reverse()
+        let response = await axios.get(process.env.VUE_APP_ROOT_API + `/kpi/assign_kpi/${payload.user._id}/${allkpi[payload.kpiIndex]._id}`)
+        if (response) {
+            return true
+        } else {
+            return false
+        }
     },
-    async deleteOnce({ state, dispatch }, payload) {
+    async deleteKpi({ state, dispatch }, payload) {
         await axios.delete(process.env.VUE_APP_ROOT_API + `/kpi/${payload}`).then(resp => {
             dispatch('getKpiEra')
         })

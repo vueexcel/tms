@@ -8,7 +8,7 @@
               {{ team.kpi_name }}
               <i
                 class="fas fa-times-circle text-secondary cursor pull-right pt-1 pr-4"
-                @click="deleteOnce(team)"
+                @click="deleteKpi(team)"
               ></i>
             </h4>
             <hr>
@@ -223,7 +223,8 @@
       </b-col>
       <b-col lg="4" xs="12">
         <!--##=== group involved for add new member here ===##-->
-        <Group :index="index" :array_="getAllMember"/>
+        <!-- <Group :index="index" :array_="getAllMember"/> -->
+        <Group :index="index" :array_="filterdGetAllMember()"/>
         <!--##=== group involved for add new member here ENDS ===##-->
       </b-col>
     </b-row>
@@ -250,7 +251,8 @@ export default {
     eraHeading: sync("adminKPI/eraHeading"), //v-model
     eraDescription: sync("adminKPI/eraDescription"), //v-model
     searchField: sync("adminKPI/searchField"), //v-model
-    getAllMember: sync("allMember/allMember")
+    getAllMember: sync("allMember/allMember"),
+    getCurrentUser: sync("profile/user") // fetch current user data
   },
   mounted() {},
   data() {
@@ -270,19 +272,26 @@ export default {
     api_AddKpi: call("adminKPI/addKpi"),
     api_delKpi: call("adminKPI/delKpi"),
     api_updateKpi: call("adminKPI/updateKpi"),
-    api_deleteOnce: call("adminKPI/deleteOnce"),
+    api_deleteKpi: call("adminKPI/deleteKpi"),
     inputHandler(e) {
       if (e.keyCode === 13 && !e.shiftKey) {
         e.preventDefault();
       }
     },
+    filterdGetAllMember() {
+      var filteredData;
+      this.getAllMember.forEach(element => {
+        if (element._id === this.getCurrentUser._id) {
+          filteredData = element;
+        }
+      });
+      return filteredData;
+    },
     closeAlert() {
       this.alertIndex = -1;
     },
     get_profile: function() {
-      this.getProfile({
-        Authorization: localStorage.getItem("authenticated")
-      });
+      this.getProfile();
     },
     addKpi: function(index, team_) {
       // update API needs to be called everyTime
@@ -371,8 +380,8 @@ export default {
         KPIorERA: KPIorERA
       });
     },
-    deleteOnce(team) {
-      this.api_deleteOnce(team._id);
+    deleteKpi(team) {
+      this.api_deleteKpi(team._id);
     },
     addNewKPI(index, team) {
       team.kpi_json[0].addKpi = false;

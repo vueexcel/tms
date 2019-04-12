@@ -1,8 +1,12 @@
-import axios from 'axios' 
+import axios from 'axios';
+axios.interceptors.request.use((config) => {
+    console.log('interceptor calledd*');
 
-axios.defaults.headers.common = {
-    "Content-Type": 'application/json',
-    "Authorization": 'Bearer ' + localStorage.getItem('authenticated'),
-};
+    const token = localStorage.getItem('authenticated');
+    config.headers.Authorization = `Bearer ${token}`;
+    return config;
+}, (error) => {
+    console.log(error);
+});
 
 export default axios;
