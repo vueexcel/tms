@@ -8,7 +8,7 @@
               {{ team.kpi_name }}
               <i
                 class="fas fa-times-circle text-secondary cursor pull-right pt-1 pr-4"
-                @click="deleteKpi(team)"
+                @click="deleteFullKpi(team)"
               ></i>
             </h4>
             <hr>
@@ -54,7 +54,6 @@
                   <!--=== KPI ADD BUTTON & FORM ENDS=== -->
 
                   <!--=== --- KPI HEADING & DESCRIPTION ---=== -->
-                  <!-- MAIN : ==== {{team.kpi_json}} -->
                   <div class="mb-5">
                     <b-alert
                       class="alert-transparent ml-3 mr-3"
@@ -195,7 +194,6 @@
               <div class="mb-4"></div>
               <!-- ==== ROW FOR ERA (ADDED) ERA's ENDS ==== -->
               <!-- ####################### AddKPI/ERA BIG BUTTONS ################################ -->
-              <!-- v-if="team.kpi_json[0].addKpi || team.era_json[0].addEra" -->
               <b-row class="text-center">
                 <b-col v-if="team.kpi_json[0].addKpi" class="pb-4">
                   <h5 class="text-primary pb-2">Add KPI</h5>
@@ -223,8 +221,7 @@
       </b-col>
       <b-col lg="4" xs="12">
         <!--##=== group involved for add new member here ===##-->
-        <!-- <Group :index="index" :array_="getAllMember"/> -->
-        <Group :index="index" :array_="filterdGetAllMember()"/>
+        <Group :index="index" :array_="getAllMember"/>
         <!--##=== group involved for add new member here ENDS ===##-->
       </b-col>
     </b-row>
@@ -277,15 +274,6 @@ export default {
       if (e.keyCode === 13 && !e.shiftKey) {
         e.preventDefault();
       }
-    },
-    filterdGetAllMember() {
-      var filteredData;
-      this.getAllMember.forEach(element => {
-        if (element._id === this.getCurrentUser._id) {
-          filteredData = element;
-        }
-      });
-      return filteredData;
     },
     closeAlert() {
       this.alertIndex = -1;
@@ -380,7 +368,7 @@ export default {
         KPIorERA: KPIorERA
       });
     },
-    deleteKpi(team) {
+    deleteFullKpi(team) {
       this.api_deleteKpi(team._id);
     },
     addNewKPI(index, team) {

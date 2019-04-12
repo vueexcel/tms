@@ -84,11 +84,7 @@ export default {
     addManagement: call("adminKPI/addManagement"),
     getKpiEra: call("adminKPI/getKpiEra"),
     get_profile: function() {
-      this.getProfile(
-      //   {
-      //   Authorization: localStorage.getItem("authenticated")
-      // }
-      );
+      this.getProfile();
     },
     addNewTeam_: function() {
       if (this.newTeamName !== "") {
@@ -106,7 +102,7 @@ export default {
     }
   },
   created() {
-    if(localStorage.getItem("authenticated")){
+    if (localStorage.getItem("authenticated")) {
       this.getAllKpiEra();
     }
   }

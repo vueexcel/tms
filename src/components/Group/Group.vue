@@ -17,20 +17,18 @@
       <!--@@@ ADDED MEMBERS CONTAINER @@@-->
       <b-container class="pb-4 pt-1">
         <b-row v-for="(member, key) in array_" :key="key">
-          <div v-if="member.slack_profile" class="d-flex">
-            <b-col class="col-md-1" v-if="member.kpi_id && member.kpi_id === addNewTeam[index]._id">
-              <!-- <b-col class="col-md-1"> -->
+          <div v-if="member.kpi_id && member.kpi_id === allMembers[index]._id" class="d-flex">
+            <b-col class="col-md-1" v-if="member.kpi_id && member.kpi_id === allMembers[index]._id">
               <span class="position-relative">
-                <!-- :src="member.profile.data.user_profile_detail.profileImage" -->
                 <img
                   class="rounded-circle"
-                  :src="member.slack_profile.image_original"
+                  :src="member.profileImage ? member.profileImage : dummyImg"
                   width="33"
                   height="33"
                   alt="..."
                 >
                 <b-badge
-                  @click="removeMember(key, index, member.name)"
+                  @click="addRemoveMember(index, member, 'deleteMember')"
                   variant="danger"
                   class="circle-2 fs-sm position-absolute badgePosSelected cursor p-0"
                 >
@@ -38,7 +36,6 @@
                 </b-badge>
               </span>
             </b-col>
-            <!-- <b-col class="ml-4" v-if="member.kpi_id && member.kpi_id === addNewTeam[index]._id"> -->
             <b-col class="ml-4" v-if="true">
               <span class="text-primary fs-larger fw-normal">{{ member.username }}</span>
               <h6>{{member.jobtitle}}</h6>
@@ -55,30 +52,25 @@
       </p>
     </div>
     <div class="p-2">
-      <!-- ============================
+      <!-- ==============================================
               ======= MEMBER Image with badge (loop)
-      ==================================-->
+      ====================================================-->
       <span
         class="position-relative ml-1 d-inline-block mb-2"
         v-for="(img, i) in searchFilter"
         :key="i"
       >
-        <!-- v-if="img.profile && img.profile.data.user_profile_detail.profileImage" -->
-        <!-- :src="img.profile.data.user_profile_detail.profileImage" -->
         <img
           v-b-tooltip.hover
-          v-if="img.slack_profile.image_original"
           :title="img.username"
           class="rounded-circle"
-          :src="img.slack_profile.image_original"
+          :src="img.profileImage ? img.profileImage : dummyImg"
           width="25"
           height="25"
           alt="..."
         >
-        <div v-else>{{img.username}}</div>
-
         <b-badge
-          @click="addMember(index, img)"
+          @click="addRemoveMember(index, img, 'addMember')"
           variant="primary"
           class="circle-2 position-absolute badgePos p-0 top"
         >
@@ -87,13 +79,13 @@
         <b-badge class="badge circle-2 position-absolute badgePos p-0 top badge-white">
           <i
             class="fa fa-check-circle text-success"
-            v-if="img.kpi_id && img.kpi_id === addNewTeam[index]._id"
+            v-if="img.kpi_id && img.kpi_id === allMembers[index]._id"
           ></i>
         </b-badge>
       </span>
-      <!-- ============================
+      <!-- ======================================================
               ======= MEMBER Image with badge (loop) ends
-      ==================================-->
+      ===========================================================-->
     </div>
   </div>
 </template>
@@ -101,26 +93,29 @@
 <script>
 import allMembers from "./allMembers.json";
 import { get, call, sync } from "vuex-pathify";
+import dummyImage from "./person-dummy.jpg";
 export default {
   name: "Group",
   data() {
     return {
       searchField: "",
-      allMembersArray: allMembers
+      allMembersArray: allMembers,
+      dummyImg: dummyImage
     };
   },
   props: {
     index: { type: Number },
-    array_: { type: Object }
+    array_: { type: Array }
   },
   created() {},
   methods: {
     addMembers_: call("adminKPI/addMember"),
     getAllMembers_: call("allMember/getAllMember"),
-    addMember(index, user) {
+    addRemoveMember(index, user, type) {
       this.addMembers_({
         kpiIndex: index,
-        user: user
+        user: user,
+        type: type
       })
         .then(response => {
           if (response === true) {
@@ -131,37 +126,23 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    },
-    removeMember: function(key, index, name) {
-      for (let index = 0; index < this.allMembersArray.length; index++) {
-        if (this.allMembersArray[index].name == name) {
-          this.allMembersArray[index]["added"] = false;
-        }
-      }
-      this.addNewTeam[this.$props.array_.length - 1 - index].memberList.splice(
-        key,
-        1
-      );
     }
   },
   computed: {
     addNewTeam: sync("adminKPI/addNewTeam"),
+    allMembers() {
+      return this.addNewTeam.slice().reverse();
+    },
     searchFilter: function() {
-      console.log(this.$props.array_);
       if (this.$props.array_) {
-        return this.$props.array_.profile.data.filter(item => {
+        return this.$props.array_.filter(item => {
           if (item.username) {
-            // console.log(item.username);
             return item.username
               .toLowerCase()
               .includes(this.searchField.toLowerCase());
           }
         });
       }
-
-      // return this.allMembersArray.filter(item => {
-      //   return item.name.toLowerCase().includes(this.searchField.toLowerCase());
-      // });
     }
   }
 };

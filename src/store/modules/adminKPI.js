@@ -224,15 +224,10 @@ const actions = {
         })
     },
     async getKpiEra({ commit }, data) {
-        await axios.get(process.env.VUE_APP_ROOT_API + '/kpi'
-            // {
-            //     headers: {
-            //         "Authorization": 'Bearer ' + localStorage.getItem('authenticated')
-            //     }
-            // }
-        ).then(response => {
-            commit('addNewTeam', response.data)
-        })
+        await axios.get(process.env.VUE_APP_ROOT_API + '/kpi')
+            .then(response => {
+                commit('addNewTeam', response.data)
+            })
     },
     checkValidPayload({ commit }, payload) {
         let kpiEraArray = []
@@ -394,17 +389,30 @@ const actions = {
         }
         dispatch('updateKpiEra', addNewTeam[payload.mainIndex])
     },
+    // ############ ADD/ASSIGN MEMBER TO THE KPI ###################
     async addMember({ state, dispatch }, payload) {
-        console.log(payload);
-
         let allkpi = state.addNewTeam.slice().reverse()
-        let response = await axios.get(process.env.VUE_APP_ROOT_API + `/kpi/assign_kpi/${payload.user._id}/${allkpi[payload.kpiIndex]._id}`)
-        if (response) {
-            return true
+        if (payload.type === 'addMember') {
+            let response = await axios.get(process.env.VUE_APP_ROOT_API + `/kpi/assign_kpi/${payload.user._id}/${allkpi[payload.kpiIndex]._id}`)
+            if (response) {
+                return true
+            } else {
+                return false
+            }
         } else {
-            return false
+            // ######## DELETE MEMBER FROM LIST ###########
+            let response = await axios.get(process.env.VUE_APP_ROOT_API + `/kpi/assign_kpi/${payload.user._id}/-1`)
+            if (response) {
+                return true
+            } else {
+                return false
+            }
         }
+
+
     },
+    // ############ ADD/ASSIGN MEMBER TO THE KPI ENDS ###################
+
     async deleteKpi({ state, dispatch }, payload) {
         await axios.delete(process.env.VUE_APP_ROOT_API + `/kpi/${payload}`).then(resp => {
             dispatch('getKpiEra')

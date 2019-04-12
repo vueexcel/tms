@@ -15,13 +15,6 @@ const actions = {
             commit('authenticated', response.data.access_token)
             window.localStorage.setItem("authenticated", response.data.access_token);
             router.push("/admin/manageKpi");
-
-            // const instance = axios.create({
-            //     "Authorization": 'Bearer ' + localStorage.getItem('authenticated'),
-            // });
-
-            // // Alter defaults after instance has been created
-            // instance.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('authenticated');
             return true
         } else {
             return false
