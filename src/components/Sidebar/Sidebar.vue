@@ -14,13 +14,14 @@
     </header>
     <!-- USER -->
     <ul class="nav" v-if="!sidebar">
-      <!-- <NavLink
+      <NavLink
         header="Dashboard"
         link="/app/profile"
         iconName="fas fa-clone"
         index="dashboard"
         isHeader
       />
+      <!-- 
       <NavLink
         header="Check-ins"
         link="/app/checkin"
@@ -56,7 +57,7 @@
         iconName="fas fa-user-cog"
         index="notifications"
         isHeader
-      /> -->
+      /> 
       
       <NavLink
         header="Manage KPI's"
@@ -64,16 +65,16 @@
         iconName="fas fa-inbox"
         index="dashboard"
         isHeader
-      />
-       <!-- link="/app/weeklyReview" -->
+      />-->
+       <!-- link="/app/weeklyReview" 
       <NavLink
         header="View Check-ins"
         link="/app/checkin"
         iconName="fas fa-bars"
         index="tables"
         isHeader
-      />
-      <!-- header="View Weekly Report" -->
+      />-->
+      <!-- header="View Weekly Report"
       <NavLink
         header="Weekly Report Review"
         link="/app/WeeklyReport"
@@ -87,20 +88,20 @@
         iconName="fas fa-users"
         index="notifications"
         isHeader
-      />
+      /> -->
       <!-- <NavLink
         link="/app/notifications"
         iconName="fas fa-calendar-minus"
         index="notifications"
         isHeader
-      /> -->
+      /> 
       <NavLink
         header="View Monthly Report"
         link="/app/PerformanceReview"
         iconName="fas fa-calendar"
         index="notifications"
         isHeader
-      />
+      />-->
     </ul>
     <!-- ADMIN -->
     <ul class="nav" v-if="sidebar">
