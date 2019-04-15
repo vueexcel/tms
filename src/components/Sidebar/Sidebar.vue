@@ -50,7 +50,7 @@
         index="performanceReview"
         isHeader
       />-->
-      
+
       <!--<NavLink
         header="Admin"
         link="/app/notifications"
@@ -66,7 +66,7 @@
         index="dashboard"
         isHeader
       />-->
-       <!-- link="/app/weeklyReview" 
+      <!-- link="/app/weeklyReview" 
       <NavLink
         header="View Check-ins"
         link="/app/checkin"
@@ -88,7 +88,7 @@
         iconName="fas fa-users"
         index="notifications"
         isHeader
-      /> -->
+      />-->
       <!-- <NavLink
         link="/app/notifications"
         iconName="fas fa-calendar-minus"
@@ -119,7 +119,7 @@
         index="typography"
         isHeader
       />
-       <!-- link="/app/weeklyReview" -->
+      <!-- link="/app/weeklyReview" -->
       <NavLink
         header="View Check-ins"
         link="/app/checkin"
@@ -140,7 +140,7 @@
         iconName="fas fa-calendar-minus"
         index="notifications"
         isHeader
-      /> -->
+      />-->
       <NavLink
         header="View Monthly Report"
         link="/app/PerformanceReview"

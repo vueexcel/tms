@@ -15,10 +15,10 @@ const actions = {
         if (response) {
             commit('authenticated', response.data.access_token)
             window.localStorage.setItem("authenticated", response.data.access_token);
-            if(payload.username === "arun"){
+            if (payload.username === "arun") {
                 router.push("/admin/manageKpi");
             }
-            else{
+            else {
                 router.push("/app/profile")
             }
             return true
