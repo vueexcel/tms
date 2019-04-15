@@ -44,7 +44,6 @@
       </div>
       <ManagerComponent v-if="showManager" :manager="employee.manager" :employeID="employee.id" @deleteManager="managerToBeDeleted"/>
     </div>
-    <!-- </Widget> -->
   </div>
 </template>
 

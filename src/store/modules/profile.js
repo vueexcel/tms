@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {make} from 'vuex-pathify'
+import { make } from 'vuex-pathify'
 
 // setup store
 const state = {
@@ -8,18 +8,14 @@ const state = {
 const mutations = make.mutations(state)
 const actions = {
     ...make.actions(state),
-    async getProfile({commit}, payload) {
-        await axios.get(process.env.VUE_APP_ROOT_API + '/auth/profile',{
-            headers: {
-                "Authorization" : `Bearer ${payload.Authorization}`
-            }
-        }).then((response) => {
+    async getProfile({ commit }, payload) {
+        await axios.get('/auth/profile').then((response) => {
             commit('user', response.data)
         }).catch((err) => {
             // commit('loginfailed', err)
         })
     }
-    
+
 }
 
 // create store

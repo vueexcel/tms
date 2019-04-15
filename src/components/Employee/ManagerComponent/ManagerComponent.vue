@@ -49,7 +49,6 @@ ll<template>
                   <p class="mt-4 mb-2 text-dark">Manager Weight:</p>
                   <ul class="progress-bar-employee">
                     <li class="list" v-for="index in 10" :key="index" @click="weightRating(index)" v-bind:class="{ 'active' : index <=  ratedWeight}">
-                      <!-- <i class="fa fa-circle-o"></i> -->
                       <div class="text-muted fw-semi-bold employee-progress d-flex" v-bind:class="{'text-primary': index <= ratedWeight}">{{index}}</div>
                     </li>
                   </ul>
@@ -77,7 +76,6 @@ ll<template>
                 </div>
               </b-collapse>
             </div>
-          <!-- </b-row> -->
         </b-container>
         </b-row>
       </div>

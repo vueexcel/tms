@@ -8,7 +8,7 @@
               {{ team.kpi_name }}
               <i
                 class="fas fa-times-circle text-secondary cursor pull-right pt-1 pr-4"
-                @click="deleteOnce(team)"
+                @click="deleteFullKpi(team)"
               ></i>
             </h4>
             <hr>
@@ -54,7 +54,6 @@
                   <!--=== KPI ADD BUTTON & FORM ENDS=== -->
 
                   <!--=== --- KPI HEADING & DESCRIPTION ---=== -->
-                  <!-- MAIN : ==== {{team.kpi_json}} -->
                   <div class="mb-5">
                     <b-alert
                       class="alert-transparent ml-3 mr-3"
@@ -195,7 +194,6 @@
               <div class="mb-4"></div>
               <!-- ==== ROW FOR ERA (ADDED) ERA's ENDS ==== -->
               <!-- ####################### AddKPI/ERA BIG BUTTONS ################################ -->
-              <!-- v-if="team.kpi_json[0].addKpi || team.era_json[0].addEra" -->
               <b-row class="text-center">
                 <b-col v-if="team.kpi_json[0].addKpi" class="pb-4">
                   <h5 class="text-primary pb-2">Add KPI</h5>
@@ -250,7 +248,8 @@ export default {
     eraHeading: sync("adminKPI/eraHeading"), //v-model
     eraDescription: sync("adminKPI/eraDescription"), //v-model
     searchField: sync("adminKPI/searchField"), //v-model
-    getAllMember: sync("allMember/allMember")
+    getAllMember: sync("allMember/allMember"),
+    getCurrentUser: sync("profile/user") // fetch current user data
   },
   mounted() {},
   data() {
@@ -270,7 +269,7 @@ export default {
     api_AddKpi: call("adminKPI/addKpi"),
     api_delKpi: call("adminKPI/delKpi"),
     api_updateKpi: call("adminKPI/updateKpi"),
-    api_deleteOnce: call("adminKPI/deleteOnce"),
+    api_deleteKpi: call("adminKPI/deleteKpi"),
     inputHandler(e) {
       if (e.keyCode === 13 && !e.shiftKey) {
         e.preventDefault();
@@ -280,9 +279,7 @@ export default {
       this.alertIndex = -1;
     },
     get_profile: function() {
-      this.getProfile({
-        Authorization: localStorage.getItem("authenticated")
-      });
+      this.getProfile();
     },
     addKpi: function(index, team_) {
       // update API needs to be called everyTime
@@ -371,8 +368,8 @@ export default {
         KPIorERA: KPIorERA
       });
     },
-    deleteOnce(team) {
-      this.api_deleteOnce(team._id);
+    deleteFullKpi(team) {
+      this.api_deleteKpi(team._id);
     },
     addNewKPI(index, team) {
       team.kpi_json[0].addKpi = false;
