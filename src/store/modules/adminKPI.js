@@ -219,12 +219,12 @@ const actions = {
                 }
             ]
         }
-        await axios.post(process.env.VUE_APP_ROOT_API + '/kpi', data).then(response => {
+        await axios.post('/kpi', data).then(response => {
             dispatch('getKpiEra', { kpiEraId: response.data, token: payload.token })
         })
     },
     async getKpiEra({ commit }, data) {
-        await axios.get(process.env.VUE_APP_ROOT_API + '/kpi')
+        await axios.get('/kpi')
             .then(response => {
                 commit('addNewTeam', response.data)
             })
@@ -288,7 +288,7 @@ const actions = {
         }
     },
     async updateKpiEra({ commit, dispatch }, payload) {
-        await axios.put(process.env.VUE_APP_ROOT_API + `/kpi/${payload._id}`, payload).then(response => {
+        await axios.put(`/kpi/${payload._id}`, payload).then(response => {
             dispatch('getKpiEra', { token: payload.Authorization })
         }).catch(e => {
         })
@@ -393,7 +393,7 @@ const actions = {
     async addMember({ state, dispatch }, payload) {
         let allkpi = state.addNewTeam.slice().reverse()
         if (payload.type === 'addMember') {
-            let response = await axios.get(process.env.VUE_APP_ROOT_API + `/kpi/assign_kpi/${payload.user._id}/${allkpi[payload.kpiIndex]._id}`)
+            let response = await axios.get(`/kpi/assign_kpi/${payload.user._id}/${allkpi[payload.kpiIndex]._id}`)
             if (response) {
                 return true
             } else {
@@ -401,7 +401,7 @@ const actions = {
             }
         } else {
             // ######## DELETE MEMBER FROM LIST ###########
-            let response = await axios.get(process.env.VUE_APP_ROOT_API + `/kpi/assign_kpi/${payload.user._id}/-1`)
+            let response = await axios.get(`/kpi/assign_kpi/${payload.user._id}/-1`)
             if (response) {
                 return true
             } else {
@@ -414,7 +414,7 @@ const actions = {
     // ############ ADD/ASSIGN MEMBER TO THE KPI ENDS ###################
 
     async deleteKpi({ state, dispatch }, payload) {
-        await axios.delete(process.env.VUE_APP_ROOT_API + `/kpi/${payload}`).then(resp => {
+        await axios.delete(`/kpi/${payload}`).then(resp => {
             dispatch('getKpiEra')
         })
     }

@@ -10,7 +10,7 @@ const mutations = make.mutations(state)
 const actions = {
     ...make.actions(state),
     async login_({ state, commit }, payload) {
-        let response = await axios.post(process.env.VUE_APP_ROOT_API + '/auth/login', payload)
+        let response = await axios.post('/auth/login', payload)
         if (response) {
             commit('authenticated', response.data.access_token)
             window.localStorage.setItem("authenticated", response.data.access_token);

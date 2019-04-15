@@ -9,7 +9,7 @@ const mutations = make.mutations(state)
 const actions = {
     ...make.actions(state),
     async getProfile({ commit }, payload) {
-        await axios.get(process.env.VUE_APP_ROOT_API + '/auth/profile').then((response) => {
+        await axios.get('/auth/profile').then((response) => {
             commit('user', response.data)
         }).catch((err) => {
             // commit('loginfailed', err)

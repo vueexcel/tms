@@ -20,9 +20,9 @@ const state = {
 const mutations = make.mutations(state)
 const actions = {
     ...make.actions(state),
-    async dailyCheckin({ commit, dispatch }, payload) { 
+    async dailyCheckin({ commit, dispatch }, payload) {
         await axios
-            .post(process.env.VUE_APP_ROOT_API+'/checkin', payload)
+            .post('/checkin', payload)
             .then((res) => {
                 dispatch('getAllCheckins')
             })
@@ -32,7 +32,7 @@ const actions = {
 
     async getAllCheckins({ state, commit }) {
         let res = await axios
-            .get(process.env.VUE_APP_ROOT_API+'/reports')
+            .get('/reports')
             .then((res) => {
                 commit('reports', res.data)
             })
