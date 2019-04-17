@@ -23,7 +23,6 @@
 
                 <div class="pt-2">
                   <span class="fs-larger text-capitalize">
-                    <!-- {{name}} -->
                     <span class="fw-semi-bold">{{user.name}}</span>
                   </span>
                   <p class="fw-small">{{user.jobtitle}}</p>
@@ -101,40 +100,16 @@
           </div>
           <!-- second widget -->
           <h1>Key Performance Area</h1>
-
-          <widget class="p-0">
-            <section v-if="user.kpi">
-              <div v-for="(kpi,index) in user.kpi.kpi_json" :key="index" class="parentdiv">
-                <div
-                  class="mb-0 bg-white pl-5 pt-4 pr-4 pb-5"
-                  v-if="kpi.title !== '' && kpi.desc !==''"
-                >
-                  <h4 class="text-primary">{{kpi.title}}</h4>
-                  {{kpi.desc}}
-                </div>
-              </div>
-            </section>
-          </widget>
-          <!-- <AreaComponent/> -->
+          <div v-if="user.kpi">
+            <AreaComponent :userkpiJson="user.kpi.kpi_json"/>
+          </div>
           <!-- second widget ends-->
           <!-- third widget -->
           <h1>Extra Resource Area</h1>
-          <widget class="p-0">
-            <section v-if="user.kpi">
-              <div v-for="(era,index) in user.kpi.era_json" :key="index" class="parent">
-                <div
-                  class="mb-0 bg-white pl-5 pt-4 pr-4 pb-5"
-                  v-if="era.title !== '' && era.desc !== ''"
-                >
-                  <h4 class="text-primary">{{era.title}}</h4>
-                  {{era.desc}}
-                </div>
-              </div>
-            </section>
-          </widget>
-
-          <!-- <AreaComponent/>
-          third widget ends-->
+          <div v-if="user.kpi">
+            <AreaComponent :usereraJson="user.kpi.era_json"/>
+          </div>
+          <!-- third widget ends-->
         </b-col>
 
         <!--==================================================================== 

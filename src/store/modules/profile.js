@@ -11,7 +11,6 @@ const actions = {
     async getProfile({ commit }, payload) {
         await axios.get('/auth/profile').then((response) => {
             commit('user', response.data)
-            console.log(response.data, '11111');
         }).catch((err) => {
             // commit('loginfailed', err)
         })
