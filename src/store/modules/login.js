@@ -14,7 +14,8 @@ const actions = {
         if (response) {
             commit('authenticated', response.data.access_token)
             window.localStorage.setItem("authenticated", response.data.access_token);
-            router.push("/admin/manageKpi");
+            // call("profile/getProfile")
+            // router.push("/admin/manageKpi");
             return true
         } else {
             return false

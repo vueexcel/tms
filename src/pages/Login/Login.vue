@@ -88,6 +88,7 @@ export default {
   },
   methods: {
     api: call("login/login_"),
+    getProfile: call("profile/getProfile"),
     login() {
       const username = this.$refs.username.value;
       const password = this.$refs.password.value;
@@ -96,7 +97,14 @@ export default {
         this.api({ username: username, password: password })
           .then(resp => {
             if (resp) {
-              this.loader = resp;
+              this.getProfile().then(resp => {
+                if (resp === true) {
+                  this.loader = resp;
+                } else {
+                  this.loader = false;
+                }
+              });
+              // this.loader = resp;
             } else {
               this.loader = false;
               this.loginfailed = true;

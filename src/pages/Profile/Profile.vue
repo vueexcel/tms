@@ -23,7 +23,7 @@
 
                 <div class="pt-2">
                   <span class="fs-larger text-capitalize">
-                    {{name}}
+                    <!-- {{name}} -->
                     <span class="fw-semi-bold">Prakash</span>
                   </span>
                   <p class="fw-small">UI/UX designer</p>
@@ -234,7 +234,7 @@ export default {
     this.get_profile();
   },
   computed: {
-    name: get("profile/name")
+    // name: get("profile/name")
   },
   methods: {
     getProfile: call("profile/getProfile"),

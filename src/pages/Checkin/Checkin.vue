@@ -11,7 +11,7 @@
           <div class="pb-xlg">
             <!-- time line starts here  -->
             <div class="timeline mr-3" v-for="(report, index) in reports" :key="index">
-              <ul >
+              <ul>
                 <li class="c1">
                   <div class="content p-0">
                     <!-- <h3>What is Lorem Ispem?</h3> -->
@@ -22,9 +22,15 @@
                         width="25"
                         height="25"
                         alt="..."
-                      > 
-                       <span>
-                        <span class="text-primary fs-larger fw-semi-bold" :class="{not_completed : report.task_completed === false}" > {{ report.user }} </span>
+                      >
+                      <span>
+                        <span
+                          class="text-primary fs-larger fw-semi-bold"
+                          :class="{not_completed : report.task_completed === false}"
+                        >
+                          <!-- {{ report.user }} -->
+                          {{ currentUserName }}
+                        </span>
                         <br>
                         <span :class="{not_completed : report.task_completed === false}">
                           {{time}}
@@ -32,8 +38,15 @@
                         </span>
                       </span>
                     </p>
-                    <p :class="{not_completed : report.task_completed === false}">{{report.report}} <br/><br/> {{report.highlight}}</p>
-                    <p :class="{not_completed : report.task_completed === false}">{{report.task_not_completed_reason}}</p>
+                    <p :class="{not_completed : report.task_completed === false}">
+                      {{report.report}}
+                      <br>
+                      <br>
+                      {{report.highlight}}
+                    </p>
+                    <p
+                      :class="{not_completed : report.task_completed === false}"
+                    >{{report.task_not_completed_reason}}</p>
                   </div>
                   <div class="time">
                     <h4>
@@ -73,7 +86,7 @@
                     </div>
                   </li>
                 </div>
-              </ul> 
+              </ul>
               <!-- <ul>
                 <li class="c3">
                   <StandUpWidget
@@ -94,7 +107,7 @@
                     </h4>
                   </div>
                 </li>
-              </ul> -->
+              </ul>-->
             </div>
             <!-- timeline ends here -->
           </div>
@@ -132,21 +145,35 @@ export default {
   },
   components: { Widget, StandUpWidget, Comments, GenReport },
   computed: {
+    userProfile: get("profile/user"),
     reports: get("checkin/reports"), //data from API getAllCheckins
-    time(){ 
+    time() {
       this.reports.forEach(element => {
-        var time = this.$moment(element.created_at).tz('GMT').format("hh:mm A") 
-        if(time !== 'Invalid date') {
-          element['created'] = this.$moment(element.created_at).format("dddd,MMMM DD YYYY") + ', at '+time
-        } 
+        var time = this.$moment(element.created_at)
+          .tz("GMT")
+          .local()
+          .format("h:mm: A");
+        if (time !== "Invalid date") {
+          element["created"] =
+            this.$moment(element.created_at).format("dddd,MMMM DD YYYY") +
+            ", at " +
+            time;
+        }
       });
     },
     date() {
       this.reports.forEach(date => {
-        var time = new Date(date.created_at)
-        date['day'] = this.$moment(date.created_at).format('dddd')
-        date['date'] = this.$moment(date.created_at).format("MMMM DD YYYY")
-      })
+        var time = new Date(date.created_at);
+        date["day"] = this.$moment(date.created_at).format("dddd");
+        date["date"] = this.$moment(date.created_at).format("MMMM DD YYYY");
+      });
+    },
+    currentUserName() {
+      let UserName;
+      if (this.userProfile._id === this.reports[0].user) {
+        UserName = this.userProfile.username;
+      }
+      return UserName;
     }
   },
   mounted() {
@@ -156,7 +183,7 @@ export default {
     dailyCheckin: call("checkin/dailyCheckin"),
     getAllCheckins: call("checkin/getAllCheckins"),
     getAllCheckinsAPI: function() {
-      this.getAllCheckins(localStorage.getItem('authenticated'));
+      this.getAllCheckins(localStorage.getItem("authenticated"));
     },
     report(report) {
       this.dailyCheckin({
@@ -164,12 +191,12 @@ export default {
         task_completed: report.task_completed,
         task_not_completed_reason: report.task_not_completed_reason,
         highlight: report.highlight
-      })
+      });
     }
   },
   filters: {
-    moment: function (date) {
-      return this.$moment(date).format("MMMM DD YYYY")
+    moment: function(date) {
+      return this.$moment(date).format("MMMM DD YYYY");
     }
   }
 };
