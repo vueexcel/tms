@@ -103,10 +103,15 @@
           <h1>Key Performance Area</h1>
 
           <widget class="p-0">
-            <section v-if="user.kpi" class="mb-0 bg-white pl-5 pt-4 pr-4 pb-5">
-              <div class="w-75" v-for="(kpi,index) in user.kpi.kpi_json" :key="index">
-                <h4 class="text-primary">{{kpi.title}}</h4>
-                {{kpi.desc}}
+            <section v-if="user.kpi">
+              <div v-for="(kpi,index) in user.kpi.kpi_json" :key="index" class="parent">
+                <div
+                  class="mb-0 bg-white pl-5 pt-4 pr-4 pb-5"
+                  v-if="kpi.title !== '' && kpi.desc !==''"
+                >
+                  <h4 class="text-primary">{{kpi.title}}</h4>
+                  {{kpi.desc}}
+                </div>
               </div>
             </section>
           </widget>
@@ -115,10 +120,15 @@
           <!-- third widget -->
           <h1>Extra Resource Area</h1>
           <widget class="p-0">
-            <section v-if="user.kpi" class="mb-0 bg-white pl-5 pt-4 pr-4 pb-5">
-              <div class="w-75" v-for="(era,index) in user.kpi.era_json" :key="index">
-                <h4 class="text-primary">{{era.title}}</h4>
-                {{era.desc}}
+            <section v-if="user.kpi">
+              <div v-for="(era,index) in user.kpi.era_json" :key="index" class="parent">
+                <div
+                  class="mb-0 bg-white pl-5 pt-4 pr-4 pb-5"
+                  v-if="era.title !== '' && era.desc !== ''"
+                >
+                  <h4 class="text-primary">{{era.title}}</h4>
+                  {{era.desc}}
+                </div>
               </div>
             </section>
           </widget>

@@ -1,17 +1,31 @@
 @import '../../styles/app';
 
 table {
-  td, th {
-    font-weight: $font-weight-normal;
-  }
 
-  tbody tr {
-    &:nth-child(odd) {
-      background: $gray-100;
+    td,
+    th {
+        font-weight: $font-weight-normal;
     }
 
-    td {
-      min-width: 100px;
+    tbody tr {
+        &:nth-child(odd) {
+            background: $gray-100;
+        }
+
+        td {
+            min-width: 100px;
+        }
     }
-  }
+}
+
+.parent {
+    border-bottom: 1px solid #d6dee5;
+}
+
+.parent:last-child {
+    border-bottom: none;
+}
+
+.parent:first-child {
+    border-bottom: none;
 }
