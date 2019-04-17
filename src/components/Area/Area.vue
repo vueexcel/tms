@@ -3,7 +3,10 @@
     <widget class="p-0">
       <section v-if="eraKpiArray.length">
         <div v-for="(kpiera,index) in eraKpiArray" :key="index" class="areaBorder">
-          <div class="mb-0 bg-white pl-5 pt-4 pr-4 pb-5" v-if="kpiera.title !== '' && kpiera.desc !== ''">
+          <div
+            class="mb-0 bg-white pl-5 pt-4 pr-4 pb-5"
+            v-if="kpiera.title !== '' && kpiera.desc !== ''"
+          >
             <h4 class="text-primary">{{kpiera.title}}</h4>
             {{kpiera.desc}}
           </div>
