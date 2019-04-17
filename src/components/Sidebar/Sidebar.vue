@@ -22,6 +22,7 @@
         index="dashboard"
         isHeader
       />
+      <!-- 
       <NavLink
         header="Check-ins"
         link="/app/checkin"
@@ -50,7 +51,6 @@
         index="performanceReview"
         isHeader
       /> -->
-
       <!--<NavLink
         header="Admin"
         link="/app/notifications"
@@ -68,6 +68,7 @@
       /> -->
       <!-- link="/app/weeklyReview" -->
       <!-- <NavLink
+
         header="View Check-ins"
         link="/app/checkin"
         iconName="fas fa-bars"
@@ -76,6 +77,7 @@
       /> -->
       <!-- header="View Weekly Report" -->
       <!-- <NavLink
+
         header="Weekly Report Review"
         link="/app/WeeklyReport"
         iconName="fas fa-chart-line"
@@ -89,6 +91,7 @@
         index="notifications"
         isHeader
       /> -->
+
       <!-- <NavLink
         link="/app/notifications"
         iconName="fas fa-calendar-minus"
@@ -96,12 +99,14 @@
         isHeader
       />-->
       <!-- <NavLink
+
         header="View Monthly Report"
         link="/app/PerformanceReview"
         iconName="fas fa-calendar"
         index="notifications"
         isHeader
       /> -->
+
     </ul>
     <!-- ADMIN -->
     <ul class="nav" v-if="sideBar.role === 'Admin'">
@@ -121,6 +126,7 @@
       />
       <!-- link="/app/weeklyReview" -->
       <!-- <NavLink
+
         header="View Check-ins"
         link="/app/checkin"
         iconName="fas fa-bars"
@@ -142,6 +148,7 @@
         isHeader
       />-->
       <!-- <NavLink
+
         header="View Monthly Report"
         link="/app/PerformanceReview"
         iconName="fas fa-calendar"
