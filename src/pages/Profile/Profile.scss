@@ -18,14 +18,14 @@ table {
     }
 }
 
-.parent {
+.parentdiv {
     border-bottom: 1px solid #d6dee5;
 }
 
-.parent:last-child {
+.parentdiv:last-child {
     border-bottom: none;
 }
 
-.parent:first-child {
+.parentdiv:first-child {
     border-bottom: none;
 }

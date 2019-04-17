@@ -104,7 +104,7 @@
 
           <widget class="p-0">
             <section v-if="user.kpi">
-              <div v-for="(kpi,index) in user.kpi.kpi_json" :key="index" class="parent">
+              <div v-for="(kpi,index) in user.kpi.kpi_json" :key="index" class="parentdiv">
                 <div
                   class="mb-0 bg-white pl-5 pt-4 pr-4 pb-5"
                   v-if="kpi.title !== '' && kpi.desc !==''"
