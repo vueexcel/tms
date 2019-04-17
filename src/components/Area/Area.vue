@@ -2,7 +2,7 @@
   <div>
     <widget class="p-0">
       <section v-if="eraKpiArray.length">
-        <div v-for="(kpi,index) in eraKpiArray" :key="index" class="areaborder">
+        <div v-for="(kpi,index) in eraKpiArray" :key="index" class="areaBorder">
           <div class="mb-0 bg-white pl-5 pt-4 pr-4 pb-5" v-if="kpi.title !== '' && kpi.desc !== ''">
             <h4 class="text-primary">{{kpi.title}}</h4>
             {{kpi.desc}}
