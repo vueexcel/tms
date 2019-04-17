@@ -96,6 +96,7 @@ export default {
         this.loader = true;
         this.api({ username: username, password: password })
           .then(resp => {
+            console.log(resp);
             if (resp) {
               this.getProfile().then(resp => {
                 if (resp === true) {
