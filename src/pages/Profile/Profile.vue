@@ -101,13 +101,13 @@
           <!-- second widget -->
           <h1>Key Performance Area</h1>
           <div v-if="user.kpi">
-            <AreaComponent :userkpiJson="user.kpi.kpi_json"/>
+            <AreaComponent :eraKpiArray="user.kpi.kpi_json"/>
           </div>
           <!-- second widget ends-->
           <!-- third widget -->
           <h1>Extra Resource Area</h1>
           <div v-if="user.kpi">
-            <AreaComponent :usereraJson="user.kpi.era_json"/>
+            <AreaComponent :eraKpiArray="user.kpi.era_json"/>
           </div>
           <!-- third widget ends-->
         </b-col>
