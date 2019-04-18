@@ -10,7 +10,7 @@
         <b-col lg="6" xs="12">
           <div class="pb-xlg">
             <!-- time line starts here  -->
-            <div class="timeline mr-3" v-for="(report, index) in reports" :key="index">
+            <div class="timeline mr-3" v-for="(report, index) in reports.slice().reverse()" :key="index">
               <ul>
                 <li class="c1">
                   <div class="content p-0">
@@ -44,9 +44,16 @@
                       <br>
                       {{report.highlight}}
                     </p>
+                    <p @click="showData" v-if="canShowmore" class="readColor btn">Read more..</p>
                     <p
+                    class="textColor" v-if="canShowreason"
                       :class="{not_completed : report.task_completed === false}"
                     >{{report.task_not_completed_reason}}</p>
+                    <p
+                    class="text-warning" v-if="canShowreason"
+                      :class="{not_completed : report.task_completed === false}"
+                    >{{report.highlight_task_reason}}</p>
+                    <p @click="showData" v-if="canShowless" class="readColor btn">Read less..</p>
                   </div>
                   <div class="time">
                     <h4>
@@ -54,7 +61,7 @@
                       {{ report.day}}
                       <br>
                       {{date}}
-                      {{report.date}}
+                      {{report.time}}
                     </h4>
                   </div>
                 </li>
@@ -66,7 +73,7 @@
                       imgSrc="./../../../static/people/a6.jpg"
                       :generatedReport="report.report"
                       :userReport="report.report"
-                      :highlight="report.highlight"
+                      :highlight="report.highlight"   
                       :userName="report.user"
                       :date_Time="report.created"
                     ></StandUpWidget>
@@ -140,7 +147,10 @@ export default {
   name: "Checkin",
   data() {
     return {
-      generatedReport: []
+      generatedReport: [],
+      canShowreason: false,
+      canShowmore:true,
+      canShowless:false
     };
   },
   components: { Widget, StandUpWidget, Comments, GenReport },
@@ -154,18 +164,32 @@ export default {
           .local()
           .format("h:mm: A");
         if (time !== "Invalid date") {
-          element["created"] =
-            this.$moment(element.created_at).format("dddd,MMMM DD YYYY") +
-            ", at " +
+          element["created"] = this.$moment(element.created_at).calendar(null, {
+            sameDay: '[Today]',
+            sameElse: 'MM/DD/YYYY'
+            }) +
+            " at " +
             time;
         }
       });
     },
     date() {
       this.reports.forEach(date => {
-        var time = new Date(date.created_at);
-        date["day"] = this.$moment(date.created_at).format("dddd");
-        date["date"] = this.$moment(date.created_at).format("MMMM DD YYYY");
+        var time = this.$moment(date.created_at)
+         .tz("GMT")
+          .local()
+          .format("h:mm: A");
+          if (time !== "Invalid date") {
+            date["time"] = this.$moment(date.created_at).format("h:mm: A");
+            date["day"] = this.$moment(date.created_at).calendar(null, {
+              sameDay: '[Today]',
+              nextDay: '[Tomorrow]',
+              nextWeek: 'dddd',
+              lastDay: '[Yesterday]',
+              lastWeek: '[Last] dddd',
+              sameElse: 'DD/MM/YYYY'
+              });
+          }
       });
     },
     currentUserName() {
@@ -190,8 +214,14 @@ export default {
         report: report.report,
         task_completed: report.task_completed,
         task_not_completed_reason: report.task_not_completed_reason,
-        highlight: report.highlight
+        highlight: report.highlight,
+        highlight_task_reason: report.highlightTaskReason
       });
+    },
+    showData: function(){
+      this.canShowmore = !this.canShowmore;
+      this.canShowless = !this.canShowless;
+      this.canShowreason =!this.canShowreason
     }
   },
   filters: {

@@ -103,11 +103,17 @@
           <div v-if="user.kpi">
             <AreaComponent :eraKpiArray="user.kpi.kpi_json"/>
           </div>
+          <div v-else>
+            No KPI assigned to you. Contact manager for the same.
+          </div>
           <!-- second widget ends-->
           <!-- third widget -->
           <h1>Extra Resource Area</h1>
           <div v-if="user.kpi">
             <AreaComponent :eraKpiArray="user.kpi.era_json"/>
+          </div>
+          <div v-else>
+            No ERA assigned to you. Contact manager for the same.
           </div>
           <!-- third widget ends-->
         </b-col>

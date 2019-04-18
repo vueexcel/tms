@@ -90,13 +90,13 @@
         index="performanceReview"
         isHeader
       />
-      <NavLink
+      <!-- <NavLink
         header="Weekly Report Review"
         link="/app/WeeklyReport"
         iconName="fas fa-chart-line"
         index="performanceReview"
         isHeader
-      /> -->
+      />  -->
       <!--<NavLink
         header="Admin"
         link="/app/notifications"

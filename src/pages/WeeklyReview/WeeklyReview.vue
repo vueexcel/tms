@@ -64,7 +64,7 @@
                     <!-- ======= ACCORDION RIGHT =================-->
                     <b-card no-body>
                       <b-tabs pills card vertical end>
-                        <b-tab title="Monday" active>
+                        <b-tab title="Monday" class="dayactive">
                           <p>
                             #report
                             <br>fixed the issues-
@@ -76,7 +76,7 @@
                             <br>1. debug the code for the charts (monthly sales and spend) of dashboard
                           </p>
                         </b-tab>
-                        <b-tab title="Tuesday">
+                        <b-tab title="Tuesday" class="dayactive">
                           <p>#report
                             <br>1.Applied the forgot password component
                             <br>2.and saved the data localstorage.
@@ -84,7 +84,7 @@
                             <br>4. new password for ams@hoxtonmediagroup.com id is : SY7BLP5U
                           </p>
                         </b-tab>
-                        <b-tab title="Wednesday">
+                        <b-tab title="Wednesday" class="dayactive">
                           <p>#report
                             <br>sing App
                             <br>login via API implemented (axios)
@@ -94,7 +94,7 @@
                             <br>
                           </p>
                         </b-tab>
-                        <b-tab title="Thursday">
+                        <b-tab title="Thursday" class="dayactive">
                           <p>#report
                             <br>today's work
                             <br>1. added validation while signup a user with the same email address
@@ -102,14 +102,14 @@
                             <br>3. the cache is automatically clear when cron job started
                           </p>
                         </b-tab>
-                        <b-tab title="Friday">
+                        <b-tab title="Friday" class="dayactive">
                           <p>#report
                             <br>completed
                             <br>Start working on profile editor in "Accounts" page
                             <br>When customer clicks "edit profile", they should be able to edit all fields that they registered with EXCEPT for company name and email
                           </p>
                         </b-tab>
-                        <b-tab title="Saturday">
+                        <b-tab title="Saturday" class="dayactive">
                           <p>#report
                             <br>1. showed the data on chart from dashboard page
                             <br>2. middle align the topbar brand name
