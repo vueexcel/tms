@@ -1,0 +1,34 @@
+[
+    {
+        "name": "All",
+        "Team_Id": 1
+    },
+    {
+        "name": "React",
+        "Team_Id": 2
+    },
+    {
+        "name": "Magento",
+        "Team_Id": 3
+    },
+    {
+        "name": "Node",
+        "Team_Id": 4
+    },
+    {
+        "name": "Angular",
+        "Team_Id": 5
+    },
+    {
+        "name": "Vue",
+        "Team_Id": 6
+    },
+    {
+        "name": "Sales",
+        "Team_Id": 7
+    },
+    {
+        "name": "HR & Admin",
+        "Team_Id": 8
+    }
+]

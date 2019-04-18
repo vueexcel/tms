@@ -1,0 +1,64 @@
+@import '../../styles/app';
+
+.login-page {
+  padding-top: 20vh;
+  height: 100%;
+  .login_container{
+    max-width: 420px;
+    padding: 10px;
+    margin: 0 auto;
+  }
+  .widget {
+    max-width: 460px;
+    padding: 30px !important;
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-weight: $font-weight-normal;
+    }
+  }
+  .fa-spin-fast{
+    animation-name: spin;
+    animation-duration: 1000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+  }
+
+  @keyframes spin {
+    from {
+        transform:rotate(0deg);
+    }
+    to {
+        transform:rotate(360deg);
+    }
+}
+  .footer {
+    margin-bottom: 25px;
+    font-size: 13px;
+    color: #636c72;
+    text-align: center;
+
+    @media (min-height: 600px) {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+  }
+
+  .logo {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    text-align: center;
+    font-weight: $font-weight-normal;
+
+    i {
+      font-size: 13px;
+      margin: 0 20px;
+    }
+  }
+}
