@@ -12,9 +12,55 @@
         <img class="pl-1 pr-4" src="@/images/X_logo.png" width="50px" alt="logo">
       </router-link>
     </header>
+    <!-- ADMIN -->
+    <ul class="nav" v-if="sideBar.role === 'Admin'">
+      <NavLink
+        header="Manage KPI's"
+        link="/admin/manageKpi"
+        iconName="fas fa-inbox"
+        index="dashboard"
+        isHeader
+      />
+      <NavLink
+        header="Manage Employees"
+        link="/admin/manageEmployee"
+        iconName="fas fa-users"
+        index="typography"
+        isHeader
+      />
+      <!-- link="/app/weeklyReview" -->
+      <!-- <NavLink
+        header="View Check-ins"
+        link="/app/checkin"
+        iconName="fas fa-bars"
+        index="tables"
+        isHeader
+      />-->
+      <!-- header="View Weekly Report" -->
+      <!-- <NavLink
+        header="Weekly Report Review"
+        link="/app/WeeklyReport"
+        iconName="fas fa-chart-line"
+        index="performanceReview"
+        isHeader
+      />-->
+      <!-- <NavLink
+        link="/app/notifications"
+        iconName="fas fa-calendar-minus"
+        index="notifications"
+        isHeader
+      />-->
+      <!-- <NavLink
+        header="View Monthly Report"
+        link="/app/PerformanceReview"
+        iconName="fas fa-calendar"
+        index="notifications"
+        isHeader
+      />-->
+    </ul>
     <!-- USER -->
     <!-- <ul class="nav" v-if="!sidebar"> -->
-    <ul class="nav" v-if="sideBar.role === 'Employee'">
+    <ul class="nav" v-else>
       <NavLink
         header="Dashboard"
         link="/app/profile"
@@ -49,7 +95,7 @@
         iconName="fas fa-chart-line"
         index="performanceReview"
         isHeader
-      /> -->
+      />-->
 
       <!--<NavLink
         header="Admin"
@@ -65,7 +111,7 @@
         iconName="fas fa-inbox"
         index="dashboard"
         isHeader
-      /> -->
+      />-->
       <!-- link="/app/weeklyReview" -->
       <!-- <NavLink
         header="View Check-ins"
@@ -73,7 +119,7 @@
         iconName="fas fa-bars"
         index="tables"
         isHeader
-      /> -->
+      />-->
       <!-- header="View Weekly Report" -->
       <!-- <NavLink
         header="Weekly Report Review"
@@ -81,14 +127,14 @@
         iconName="fas fa-chart-line"
         index="performanceReview"
         isHeader
-      /> -->
+      />-->
       <!-- <NavLink
         header="Your Team"
         link="/app/team"
         iconName="fas fa-users"
         index="notifications"
         isHeader
-      /> -->
+      />-->
       <!-- <NavLink
         link="/app/notifications"
         iconName="fas fa-calendar-minus"
@@ -101,53 +147,7 @@
         iconName="fas fa-calendar"
         index="notifications"
         isHeader
-      /> -->
-    </ul>
-    <!-- ADMIN -->
-    <ul class="nav" v-if="sideBar.role === 'Admin'">
-      <NavLink
-        header="Manage KPI's"
-        link="/admin/manageKpi"
-        iconName="fas fa-inbox"
-        index="dashboard"
-        isHeader
-      />
-      <NavLink
-        header="Manage Employees"
-        link="/admin/manageEmployee"
-        iconName="fas fa-users"
-        index="typography"
-        isHeader
-      />
-      <!-- link="/app/weeklyReview" -->
-      <!-- <NavLink
-        header="View Check-ins"
-        link="/app/checkin"
-        iconName="fas fa-bars"
-        index="tables"
-        isHeader
-      /> -->
-      <!-- header="View Weekly Report" -->
-      <!-- <NavLink
-        header="Weekly Report Review"
-        link="/app/WeeklyReport"
-        iconName="fas fa-chart-line"
-        index="performanceReview"
-        isHeader
-      /> -->
-      <!-- <NavLink
-        link="/app/notifications"
-        iconName="fas fa-calendar-minus"
-        index="notifications"
-        isHeader
       />-->
-      <!-- <NavLink
-        header="View Monthly Report"
-        link="/app/PerformanceReview"
-        iconName="fas fa-calendar"
-        index="notifications"
-        isHeader
-      /> -->
     </ul>
   </nav>
 </template>

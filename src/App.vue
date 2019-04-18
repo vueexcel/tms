@@ -7,7 +7,9 @@ import { call } from "vuex-pathify";
 export default {
   name: "App",
   created() {
-    this.getProfile();
+    if (this.$route.fullPath !== "/") {
+      this.getProfile();
+    }
   },
   methods: {
     getProfile: call("profile/getProfile")
