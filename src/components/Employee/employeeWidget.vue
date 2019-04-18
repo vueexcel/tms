@@ -18,7 +18,7 @@
         <div>
           <img
             class="rounded-circle h-auto"
-            src="@/assets/people/a5.jpg"
+            :src="employee_.profileImage ? employee_.profileImage : defaultImage"
             width="75"
             alt="..."
           >
@@ -26,19 +26,23 @@
 
         <div>
           <span class="fs-larger text-capitalize">
-            <span class="employee-name">{{employee.name}}</span>
+            <span class="employee-name">{{employee_.name}}</span>
           </span>
           <span>
             <p
               class="fw-small text-primary employee-technology"
               v-if="!edit"
-            >{{employee.technology}}</p>
-            <b-form-select v-else v-model="selected" :options="options" class="mb-3"></b-form-select>
+            >{{employee_.kpi}}</p>
+            <b-form-select v-else v-model="selected" :options="options" class="mb-3">
+              <template slot="first">
+                <option :value="null" disabled>-- Please select an option --</option>
+              </template>
+            </b-form-select>
           </span>
         </div>
         <div>
           <a href="#" class="btn btn-rounded-f button-for-employee">
-            <div class="text-gray" style="font-size: 12px;">{{employee.post}}</div>
+            <div class="text-gray" style="font-size: 12px;">{{employee_.jobtitle}}</div>
           </a>
         </div>
       </div>
@@ -52,6 +56,7 @@ import $ from "jquery";
 import "imports-loader?window.jQuery=jquery,this=>window!widgster"; // eslint-disable-line
 import ManagerComponent from '@/components/Employee/ManagerComponent/ManagerComponent'
 import { get, call, sync } from "vuex-pathify";
+import defaultImage from '@/assets/people/dummy.jpeg'
 
 export default {
   name: "employeeWidget",
@@ -64,17 +69,22 @@ export default {
       manager: {},
       edit: false,
       selected: null,
-      technologySelect: ""
+      technologySelect: "",
+      defaultImage: defaultImage,
+      kpiIndex: null
     };
   },
   props: {
     employee: { type: Object, default: () => ({}) },
-    showManager: {type: Boolean, default: true}
+    showManager: {type: Boolean, default: true},
+    index:{type : Number}
   },
   computed: {
     name: sync("manageEmployee/employeeName"),
     technology: sync("manageEmployee/employeeTechnology"),
-    options: sync("manageEmployee/options"),
+    // options: sync("manageEmployee/options"),
+    addNewTeam:sync("adminKPI/addNewTeam"),
+    allmembers: sync("allMember/allMember"),
     randomId() {
       return Math.floor(Math.random() * 100);
     },
@@ -87,38 +97,88 @@ export default {
         this.settings ||
         this.settingsInverse
       );
+    },
+    employee_(){
+      let employeeToManipulate = this.employee
+      if(employeeToManipulate.kpi_id){
+        if(this.addNewTeam.length){
+          this.addNewTeam.forEach(kpiOrEra => {
+            if(kpiOrEra._id === employeeToManipulate.kpi_id){
+              employeeToManipulate['kpi'] = kpiOrEra.kpi_name
+            }
+          });
+        }
+      }
+      return this.employee
+    },
+    options(){
+      let optionArray = []
+      this.addNewTeam.forEach(kpi =>{
+        kpi['value'] = kpi._id
+        kpi['text'] = kpi.kpi_name 
+        optionArray.push(kpi)
+      })
+      return optionArray
     }
   },
   methods: {
     saveEmployeeInfo: call("manageEmployee/saveEmployeeInfo"),
     deleteManager: call("manageEmployee/deleteManager"),
+    addMembers_: call("adminKPI/addMember"),
+    getAllMembers_: call("allMember/getAllMember"),
     editEmployee(employee) {
       this.edit = true;
-      this.options[0].text = employee.technology;
-      this.technologySelect = employee.technology;
+      this.technologySelect = employee.kpi;
     },
     saveEdit() {
       this.edit = false;
-      if (!this.selected) {
+      let data = {}
+      if(this.selected){
+        let reverseKpiArray = this.options.slice().reverse()
+        reverseKpiArray.forEach((kpi,index) =>{
+          if(this.selected === kpi._id){
+            this.kpiIndex = index
+          }
+        })
+        this.addMembers_({
+          kpiIndex: this.kpiIndex,
+          user: this.employee_,
+          type: 'addMember'
+        }).then(response => {
+            if (response === true) {
+              this.getAllMembers_();
+            }
+            this.searchField = "";
+          })
+          .catch(err => {
+            console.log(err);
+          });
         this.saveEmployeeInfo({
-          technology: this.technologySelect,
-          id: this.employee.id
+          kpi: this.selected,
+          employee: this.employee_
         });
-      } else {
-        this.saveEmployeeInfo({
-          technology: this.selected,
-          id: this.employee.id
-        });
-      }
+        if (!this.selected) {
+          this.saveEmployeeInfo({
+            kpi: this.selected,
+            employee: this.employee_
+          });
+        } else {
+          this.saveEmployeeInfo({
+            kpi: this.technologySelect,
+            employee: this.employee_
+          });
+        }
+      } 
     },
     managerToBeDeleted(value) {
       this.deleteManager({
         manager: value,
         employeeId: this.employee.id
       });
-    }
+    },
   },
-  mounted() {}
+  mounted() {
+  }
 };
 </script>
 

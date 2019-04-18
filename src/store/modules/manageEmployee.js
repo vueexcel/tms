@@ -152,11 +152,12 @@ const mutations = make.mutations(state);
 const actions = {
   ...make.actions(state),
   saveEmployeeInfo({state}, payload) {
-    state.employees.forEach((employee, index) => {
-      if (employee.id === payload.id) {
-        state.employees[index].technology = payload.technology
-      }
-    });
+    console.log(payload)
+    // state.employees.forEach((employee, index) => {
+    //   if (employee.id === payload.id) {
+    //     state.employees[index].technology = payload.technology
+    //   }
+    // });
   },
   deleteManager({state}, payload) {
     state.employees.forEach((employee, index) => {

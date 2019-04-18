@@ -12,88 +12,7 @@ const state = {
     eraHeading: '',
     eraDescription: '',
     searchField: '',
-    groupInvolvedImg: [
-        {
-            src: "/img/a5.84f014f0.jpg",
-            variant: "primary"
-        },
-        {
-            src: "/img/a3.f6dc73f2.jpg",
-            variant: "primary"
-        },
-        {
-            src: "/img/a6.2966ab8e.jpg",
-            variant: "primary"
-        },
-        {
-            src: "/img/a5.84f014f0.jpg",
-            variant: "primary"
-        },
-        {
-            src: "/img/a5.84f014f0.jpg",
-            variant: "primary"
-        },
-        {
-            src: "/img/a3.f6dc73f2.jpg",
-            variant: "primary"
-        },
-        {
-            src: "/img/a5.84f014f0.jpg",
-            variant: "primary"
-        },
-        {
-            src: "/img/a6.2966ab8e.jpg",
-            variant: "primary"
-        },
-        {
-            src: "/img/a5.84f014f0.jpg",
-            variant: "primary"
-        },
-        {
-            src: "/img/a3.f6dc73f2.jpg",
-            variant: "primary"
-        },
-        {
-            src: "/img/a5.84f014f0.jpg",
-            variant: "primary"
-        },
-        {
-            src: "/img/a5.84f014f0.jpg",
-            variant: "primary"
-        },
-        {
-            src: "/img/a5.84f014f0.jpg",
-            variant: "primary"
-        },
-        {
-            src: "/img/a6.2966ab8e.jpg",
-            variant: "primary"
-        },
-        {
-            src: "/img/a5.84f014f0.jpg",
-            variant: "primary"
-        },
-        {
-            src: "/img/a3.f6dc73f2.jpg",
-            variant: "primary"
-        },
-        {
-            src: "/img/a5.84f014f0.jpg",
-            variant: "primary"
-        },
-        {
-            src: "/img/a5.84f014f0.jpg",
-            variant: "primary"
-        },
-        {
-            src: "/img/a3.f6dc73f2.jpg",
-            variant: "primary"
-        },
-        {
-            src: "/img/a6.2966ab8e.jpg",
-            variant: "primary"
-        },
-    ],
+    
     allMembers: [
         {
             name: 'Mahima',
@@ -408,8 +327,6 @@ const actions = {
                 return false
             }
         }
-
-
     },
     // ############ ADD/ASSIGN MEMBER TO THE KPI ENDS ###################
 
