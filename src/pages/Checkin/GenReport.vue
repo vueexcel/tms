@@ -3,7 +3,7 @@
           * Right general report
   *=======================================================================-->
   <div>
-    <b-form @submit.prevent="formSubmit">
+    <b-form @submit.prevent="submitReport">
       <Widget>
         <h5 class="pb-2">Write general report for the day</h5>
         <b-form-textarea
@@ -74,7 +74,7 @@
           :rows="3"
           :max-rows="6"
         ></b-form-textarea>
-        <button type="submit" class="btn btn-primary btn-lg mb-xs fs-sm pl-4 pr-4" @click="submitReport">SUBMIT</button>
+        <button type="submit" class="btn btn-primary btn-lg mb-xs fs-sm pl-4 pr-4" >SUBMIT</button>
       </Widget>
     </b-form>
   </div>
@@ -97,32 +97,14 @@ export default {
     reports: get("checkin/reports")
   },
   mounted() {
-    this.getAllCheckinsAPI();
   },
   methods: {
-    dailyCheckin: call("checkin/dailyCheckin"),
-    getAllCheckins: call("checkin/getAllCheckins"),
-    formSubmit: function() {
-      this.dailyCheckin({
+    submitReport(){
+      this.$emit('report',{
         report: this.genReport,
         task_completed: this.status,
         task_not_completed_reason: this.genReportReason,
-        highlight: this.highlightTask
-      });
-      this.genReport = "";
-      this.status = "";
-      this.genReportReason = "";
-      this.highlightTask = "";
-    },
-    getAllCheckinsAPI: function() {
-      this.getAllCheckins();
-    },
-    submitReport(){
-      this.$emit('report',{
-        genReport : this.genReport, 
-        status: this.status, 
-        genReportReason : this.genReportReason,
-        highlighttask: this.highlightTask,
+        highlight: this.highlightTask,
         highlightTaskReason: this.highlightTaskReason
       })
       this.genReport = ''

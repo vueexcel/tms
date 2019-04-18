@@ -10,8 +10,8 @@
         <b-col lg="6" xs="12">
           <div class="pb-xlg">
             <!-- time line starts here  -->
-            <div class="timeline mr-3">
-              <ul v-for="(report, index) in reports" :key="index">
+            <div class="timeline mr-3" v-for="(report, index) in reports" :key="index">
+              <ul >
                 <li class="c1">
                   <div class="content p-0">
                     <!-- <h3>What is Lorem Ispem?</h3> -->
@@ -22,43 +22,42 @@
                         width="25"
                         height="25"
                         alt="..."
-                      >
-                      <span>
-                        <span class="text-primary fs-larger fw-semi-bold"> {{ report.user }} </span>
+                      > 
+                       <span>
+                        <span class="text-primary fs-larger fw-semi-bold" :class="{not_completed : report.task_completed === false}" > {{ report.user }} </span>
                         <br>
-                        <span>
-                          {{ report.created_at.slice(0,-12)}} at
-                          {{new Date(report.created_at).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}}
+                        <span :class="{not_completed : report.task_completed === false}">
+                          {{time}}
+                          {{report.created}}
                         </span>
                       </span>
                     </p>
-                    <p>{{report.report}}</p>
+                    <p :class="{not_completed : report.task_completed === false}">{{report.report}} <br/><br/> {{report.highlight}}</p>
+                    <p :class="{not_completed : report.task_completed === false}">{{report.task_not_completed_reason}}</p>
                   </div>
                   <div class="time">
                     <h4>
-                      {{ report.created_at.substr(0, report.created_at.indexOf(',')) }}
+                      {{date}}
+                      {{ report.day}}
                       <br>
-                      {{new Date(report.created_at).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}}
+                      {{date}}
+                      {{report.date}}
                     </h4>
                   </div>
                 </li>
               </ul>
               <ul>
-                <div v-for="(report,index) in generatedReport" :key="index">
-                  <li class="c2">
+                <div>
+                  <li class="c2" v-if="report.managerComment">
                     <StandUpWidget
-                      v-if="true"
                       imgSrc="./../../../static/people/a6.jpg"
-                      userName="Jessica Smith"
-                      date_Time="December 13,2018 at 8:03 PM"
-                      :generatedReport="report"
-                      userReport="#report
-                                worked on singapp
-                                created login component
-                                installed vuex
-                                worked on HMG"
+                      :generatedReport="report.report"
+                      :userReport="report.report"
+                      :highlight="report.highlight"
+                      :userName="report.user"
+                      :date_Time="report.created"
                     ></StandUpWidget>
-                    <!-- ============ COMMENTS ===========-->
+                    <!-- ============ COMMENTS =========== -->
                     <Comments
                       userName="Ignacio Abad"
                       commentTime="6 mins ago"
@@ -74,8 +73,8 @@
                     </div>
                   </li>
                 </div>
-              </ul>
-              <ul>
+              </ul> 
+              <!-- <ul>
                 <li class="c3">
                   <StandUpWidget
                     v-if="false"
@@ -84,7 +83,7 @@
                     date_Time="Today at 9:41 AM"
                     userReport="Standup
                       will work on
-                      singapp ---> implement pathify
+                      singapp  implement pathify
                       read more..."
                   ></StandUpWidget>
                   <div class="time">
@@ -95,7 +94,7 @@
                     </h4>
                   </div>
                 </li>
-              </ul>
+              </ul> -->
             </div>
             <!-- timeline ends here -->
           </div>
@@ -133,14 +132,22 @@ export default {
   },
   components: { Widget, StandUpWidget, Comments, GenReport },
   computed: {
-    status: sync("checkin/status"),
-    reason: sync("checkin/reason"),
-    reasonHighlight: sync("checkin/reasonHighlight"),
-    genReport: sync("checkin/genReport"),
-    genReportReason: sync("checkin/genReportReason"),
-    highlightTask: sync("checkin/highlightTask"),
-    highlightTaskReason: sync("checkin/highlightTaskReason"),
-    reports: get("checkin/reports") //data from API getAllCheckins
+    reports: get("checkin/reports"), //data from API getAllCheckins
+    time(){ 
+      this.reports.forEach(element => {
+        var time = this.$moment(element.created_at).tz('GMT').format("hh:mm A") 
+        if(time !== 'Invalid date') {
+          element['created'] = this.$moment(element.created_at).format("dddd,MMMM DD YYYY") + ', at '+time
+        } 
+      });
+    },
+    date() {
+      this.reports.forEach(date => {
+        var time = new Date(date.created_at)
+        date['day'] = this.$moment(date.created_at).format('dddd')
+        date['date'] = this.$moment(date.created_at).format("MMMM DD YYYY")
+      })
+    }
   },
   mounted() {
     this.getAllCheckinsAPI();
@@ -148,26 +155,21 @@ export default {
   methods: {
     dailyCheckin: call("checkin/dailyCheckin"),
     getAllCheckins: call("checkin/getAllCheckins"),
-    formSubmit: function() {
-      this.dailyCheckin({
-        report: this.genReport,
-        task_completed: this.status,
-        task_not_completed_reason: this.genReportReason,
-        highlight: this.highlightTask
-      });
-      this.genReport = "";
-      this.status = "";
-      this.genReportReason = "";
-      this.highlightTask = "";
-    },
     getAllCheckinsAPI: function() {
-      this.getAllCheckins();
+      this.getAllCheckins(localStorage.getItem('authenticated'));
     },
     report(report) {
-      console.log(report, "from checkinPage Report Function");
-
-      this.generatedReport.push(report);
-      console.log(this.generatedReport, "5555555555555555555");
+      this.dailyCheckin({
+        report: report.report,
+        task_completed: report.task_completed,
+        task_not_completed_reason: report.task_not_completed_reason,
+        highlight: report.highlight
+      })
+    }
+  },
+  filters: {
+    moment: function (date) {
+      return this.$moment(date).format("MMMM DD YYYY")
     }
   }
 };

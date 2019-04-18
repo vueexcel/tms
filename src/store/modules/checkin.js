@@ -4,6 +4,11 @@ import {
 import axios from 'axios'
 
 // setup store
+axios.defaults.headers.common = {
+    "Authorization": 'Bearer ' + localStorage.getItem('authenticated'),
+};
+
+
 const state = {
     status: '',
     reason: false,
@@ -19,36 +24,23 @@ const state = {
 const mutations = make.mutations(state)
 const actions = {
     ...make.actions(state),
-    async dailyCheckin({ state, commit }, payload) {
-        let res = await axios
-            .post('http://5.9.144.226:8000/checkin', payload, {
-                headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('authenticated')
-                },
-            })
+    async dailyCheckin({ commit, dispatch }, payload) { 
+        await axios
+            .post(process.env.VUE_APP_ROOT_API+'/checkin', payload)
             .then((res) => {
-                console.log(res, 'daily checkin added success')
-                alert('data submitted success')
+                dispatch('getAllCheckins')
             })
             .catch((err) => {
-                console.log(err, 'daily checkin addition failed')
             })
     },
 
-    async getAllCheckins({ state, commit }, payload) {
+    async getAllCheckins({ state, commit }) {
         let res = await axios
-            .get('http://5.9.144.226:8000/reports', {
-                headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('authenticated')
-                },
-            })
+            .get(process.env.VUE_APP_ROOT_API+'/reports')
             .then((res) => {
-                console.log(res.data, 'get all checkins fetched')
                 commit('reports', res.data)
-                // alert('data submitted success')
             })
             .catch((err) => {
-                console.log(err, 'get all checkins error code')
             })
     },
 }

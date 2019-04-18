@@ -39,63 +39,7 @@
         </b-col>
       </b-row>
       <!--############### ROW FOR REACT DEV add KPI/ERA ############ -->
-      <AddKpiEra :array_="addNewTeamValue"/>
-      <!-- <b-row v-if="false">
-        <b-col lg="8" xs="12">
-          <div class="pb-xlg">
-            <Widget class="mb-0 p-0">
-              <h4 class="pl-4 pt-3">Jr. Web Developer</h4>
-              <h5 class="pl-4 pt-3 fw-bold">KPI</h5>
-              <hr>
-              <form class="inline pl-4 pr-4 pt-2 pb-4" @submit.prevent>
-                <b-form-input name="text" placeholder="KPI Heading"></b-form-input>
-                <br>
-                <b-form-textarea
-                  id="textarea1"
-                  placeholder="Description..."
-                  :rows="3"
-                  :max-rows="6"
-                ></b-form-textarea>
-                <a class="btn btn-default btn-sm mt-2 pl-4 pr-4">
-                  <i class="fas fa-plus" style="color:green;"></i>&nbsp;&nbsp;
-                  Add
-                </a>
-              </form>
-            </Widget>
-            <widget
-              title="<h5 class='text-primary'>LIGHT BLUE REACHED $300</h5>"
-              close
-              customHeader
-              class="m-0 pb-5"
-            >
-              <section class="bg-white">
-                <div class="w-75">
-                  <h4 class="text-primary"></h4>First 700 people will take part in building first human settlement
-                  outside of earth. Thats awesome right?
-                </div>
-              </section>
-            </widget>
-            <Widget class="mb-0 p-0">
-              <h5 class="pl-4 pt-3 fw-bold">ERA</h5>
-              <hr>
-              <form class="inline pl-4 pr-4 pt-2 pb-4" @submit.prevent>
-                <b-form-input name="text" placeholder="ERA Heading"></b-form-input>
-                <br>
-                <b-form-textarea
-                  id="textarea1"
-                  placeholder="Description..."
-                  :rows="3"
-                  :max-rows="6"
-                ></b-form-textarea>
-                <a class="btn btn-default btn-sm mt-2 pl-4 pr-4">
-                  <i class="fas fa-plus" style="color:green;"></i>&nbsp;&nbsp;
-                  Add
-                </a>
-              </form>
-            </Widget>
-          </div>
-        </b-col>
-      </b-row> -->
+      <AddKpiEra :array_="addNewTeam"/>
     </b-container>
   </div>
 </template>
@@ -114,7 +58,6 @@ export default {
   name: "Profile",
   components: { Widget, AddKpiEra },
   mounted() {
-    // console.log(localStorage.getItem("authenticated"));
     this.get_profile();
   },
   computed: {
@@ -122,9 +65,6 @@ export default {
     addCreateNew: sync("adminKPI/addCreateNew"), //create New Button
     newTeamName: sync("adminKPI/newTeamName"), //v-model
     addNewTeam: sync("adminKPI/addNewTeam"), //array,
-    addNewTeamValue(){
-      return this.addNewTeam
-    },
     searchFilter: function() {
       return this.allMembers.filter(item => {
         return item.name.toLowerCase().includes(this.searchField.toLowerCase());
@@ -132,7 +72,10 @@ export default {
     }
   },
   created() {
-    if (window.localStorage.getItem("authenticated") && this.authenticated == null) {
+    if (
+      window.localStorage.getItem("authenticated") &&
+      this.authenticated == null
+    ) {
       this.authenticated = window.localStorage.getItem("authenticated");
     }
   },
@@ -148,38 +91,22 @@ export default {
     addNewTeam_: function() {
       if (this.newTeamName !== "") {
         let data = {
-          kpi_name : this.newTeamName,
-          token: localStorage.getItem('authenticated')
-        }
-        this.addManagement(data)
+          kpi_name: this.newTeamName,
+          token: localStorage.getItem("authenticated")
+        };
+        this.addManagement(data);
         this.newTeamName = "";
         this.addCreateNew = false;
       }
     },
-    getAllKpiEra(token){
-      this.getKpiEra({token: token})
+    getAllKpiEra() {
+      this.getKpiEra();
     }
-    // addKpi: function(index) {
-    //   if ((this.kpiHeading && this.kpiDescription) !== "") {
-    //     this.addNewTeam[index].kpiList.push({
-    //       heading: this.kpiHeading,
-    //       desc: this.kpiDescription
-    //     });
-    //   }
-    //   (this.kpiHeading = ""), (this.kpiDescription = "");
-    // },
-    // addEra: function(index) {
-    //   if ((this.eraHeading && this.eraDescription) !== "") {
-    //     this.addNewTeam[index].eraList.push({
-    //       heading: this.eraHeading,
-    //       desc: this.eraDescription
-    //     });
-    //   }
-    //   (this.eraHeading = ""), (this.eraDescription = "");
-    // },
   },
-  created(){
-    this.getAllKpiEra(localStorage.getItem('authenticated'))
+  created() {
+    if(localStorage.getItem("authenticated")){
+      this.getAllKpiEra();
+    }
   }
 };
 </script>

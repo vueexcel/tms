@@ -231,7 +231,6 @@ export default {
   },
   components: { Widget, AreaComponent, starRating },
   mounted() {
-    // console.log(localStorage.getItem("authenticated"));
     this.get_profile();
   },
   computed: {
