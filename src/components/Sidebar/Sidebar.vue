@@ -68,6 +68,7 @@
         index="dashboard"
         isHeader
       />
+      <!-- 
       <NavLink
         header="Check-ins"
         link="/app/checkin"
@@ -89,14 +90,13 @@
         index="performanceReview"
         isHeader
       />
-      <!-- <NavLink
+      <NavLink
         header="Weekly Report Review"
         link="/app/WeeklyReport"
         iconName="fas fa-chart-line"
         index="performanceReview"
         isHeader
-      />-->
-
+      /> -->
       <!--<NavLink
         header="Admin"
         link="/app/notifications"
@@ -114,6 +114,7 @@
       />-->
       <!-- link="/app/weeklyReview" -->
       <!-- <NavLink
+
         header="View Check-ins"
         link="/app/checkin"
         iconName="fas fa-bars"
@@ -122,6 +123,7 @@
       />-->
       <!-- header="View Weekly Report" -->
       <!-- <NavLink
+
         header="Weekly Report Review"
         link="/app/WeeklyReport"
         iconName="fas fa-chart-line"
@@ -142,6 +144,7 @@
         isHeader
       />-->
       <!-- <NavLink
+
         header="View Monthly Report"
         link="/app/PerformanceReview"
         iconName="fas fa-calendar"
