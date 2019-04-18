@@ -68,7 +68,7 @@
         index="dashboard"
         isHeader
       />
-      <!-- 
+      
       <NavLink
         header="Check-ins"
         link="/app/checkin"
@@ -90,7 +90,7 @@
         index="performanceReview"
         isHeader
       />
-      <NavLink
+      <!-- <NavLink
         header="Weekly Report Review"
         link="/app/WeeklyReport"
         iconName="fas fa-chart-line"
