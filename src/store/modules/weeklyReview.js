@@ -11,11 +11,7 @@ const actions = {
         commit
     }, payload) {
         let res = await axios
-            .post('http://127.0.0.1:5000/weekly', payload, {
-                headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('authenticated')
-                },
-            })
+            .post('/weekly', payload)
             .then((res) => {
                 alert('weekly review submitted success')
             })

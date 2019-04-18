@@ -37,7 +37,7 @@ import NotificationsPage from '@/pages/Notifications/Notifications';
 Vue.use(Router);
 
 export default new Router({
-  mode: 'history',
+  mode: 'hash',
   routes: [
 
     {
@@ -55,65 +55,65 @@ export default new Router({
       name: 'Layout',
       component: Layout,
       children: [{
-          path: 'profile',
-          name: 'Profile',
-          component: Profile,
-        },
-        {
-          path: 'checkin',
-          name: 'Checkin',
-          component: Checkin,
-        },
-        {
-          path: 'weeklyReview',
-          name: 'WeeklyReview',
-          component: WeeklyReview,
-        },
-        {
-          path: 'PerformanceReview',
-          name: 'MonthlyPerformanceReview',
-          component: MonthlyPerformanceReview
-        },
-        {
-          path: 'team',
-          name: 'Team',
-          component: Team
-        },
-        {
-          path: 'weeklyReport',
-          name: 'WeeklyReport',
-          component: WeeklyReport
-        },
-        {
-          path: 'typography',
-          name: 'TypographyPage',
-          component: TypographyPage,
-        },
-        {
-          path: 'components/icons',
-          name: 'IconsPage',
-          component: IconsPage,
-        },
-        {
-          path: 'notifications',
-          name: 'NotificationsPage',
-          component: NotificationsPage,
-        },
-        {
-          path: 'components/charts',
-          name: 'ChartsPage',
-          component: ChartsPage,
-        },
-        {
-          path: 'tables',
-          name: 'TablesBasicPage',
-          component: TablesBasicPage,
-        },
-        {
-          path: 'components/maps',
-          name: 'GoogleMapPage',
-          component: GoogleMapPage,
-        },
+        path: 'profile',
+        name: 'Profile',
+        component: Profile,
+      },
+      {
+        path: 'checkin',
+        name: 'Checkin',
+        component: Checkin,
+      },
+      {
+        path: 'weeklyReview',
+        name: 'WeeklyReview',
+        component: WeeklyReview,
+      },
+      {
+        path: 'PerformanceReview',
+        name: 'MonthlyPerformanceReview',
+        component: MonthlyPerformanceReview
+      },
+      {
+        path: 'team',
+        name: 'Team',
+        component: Team
+      },
+      {
+        path: 'weeklyReport',
+        name: 'WeeklyReport',
+        component: WeeklyReport
+      },
+      {
+        path: 'typography',
+        name: 'TypographyPage',
+        component: TypographyPage,
+      },
+      {
+        path: 'components/icons',
+        name: 'IconsPage',
+        component: IconsPage,
+      },
+      {
+        path: 'notifications',
+        name: 'NotificationsPage',
+        component: NotificationsPage,
+      },
+      {
+        path: 'components/charts',
+        name: 'ChartsPage',
+        component: ChartsPage,
+      },
+      {
+        path: 'tables',
+        name: 'TablesBasicPage',
+        component: TablesBasicPage,
+      },
+      {
+        path: 'components/maps',
+        name: 'GoogleMapPage',
+        component: GoogleMapPage,
+      },
       ],
     },
     {
@@ -121,15 +121,15 @@ export default new Router({
       name: 'LayoutAdmin',
       component: LayoutAdmin,
       children: [{
-          path: 'manageKpi',
-          name: 'ManageKPI',
-          component: ManageKPI,
-        },
-        {
-          path: 'manageEmployee',
-          name: 'ManageEmployee',
-          component: ManageEmployee,
-        },
+        path: 'manageKpi',
+        name: 'ManageKPI',
+        component: ManageKPI,
+      },
+      {
+        path: 'manageEmployee',
+        name: 'ManageEmployee',
+        component: ManageEmployee,
+      },
       ],
     },
   ],

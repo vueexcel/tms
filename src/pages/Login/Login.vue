@@ -71,11 +71,15 @@ import { get, call, sync } from "vuex-pathify";
 export default {
   name: "LoginPage",
   components: { Widget },
+  data() {
+    return {
+      loader: false,
+      loginfailed: false
+    };
+  },
   computed: {
     authenticated: get("login/authenticated"),
-    loginfailed: sync("login/loginfailed"),
     sidebar: sync("login/sidebar"),
-    loader: sync("login/loader"),
     loginError() {
       if (this.loginfailed) {
         return "Wrong Credentials try again";
@@ -84,15 +88,32 @@ export default {
   },
   methods: {
     api: call("login/login_"),
+    getProfile: call("profile/getProfile"),
     login() {
       const username = this.$refs.username.value;
       const password = this.$refs.password.value;
-
       if (username.length !== 0 && password.length !== 0) {
-        this.api({
-          username: username,
-          password: password
-        });
+        this.loader = true;
+        this.api({ username: username, password: password })
+          .then(resp => {
+            if (resp) {
+              this.getProfile().then(resp => {
+                if (resp === true) {
+                  this.loader = resp;
+                } else {
+                  this.loader = false;
+                }
+              });
+              // this.loader = resp;
+            } else {
+              this.loader = false;
+              this.loginfailed = true;
+            }
+          })
+          .catch(err => {
+            this.loader = false;
+            this.loginfailed = true;
+          });
       }
     },
     closeError() {

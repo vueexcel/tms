@@ -3,8 +3,15 @@
 </template>
 
 <script>
+import { call } from "vuex-pathify";
 export default {
-  name: "App"
+  name: "App",
+  created() {
+    this.getProfile();
+  },
+  methods: {
+    getProfile: call("profile/getProfile")
+  }
 };
 </script>
 

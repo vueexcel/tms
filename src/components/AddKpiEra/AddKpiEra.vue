@@ -4,7 +4,13 @@
       <b-col lg="8" xs="12">
         <div class="pb-xlg">
           <Widget class="mb-0 p-0">
-            <h4 class="pl-4 pt-3">{{ team.kpi_name }}</h4>
+            <h4 class="pl-4 pt-3">
+              {{ team.kpi_name }}
+              <i
+                class="fas fa-times-circle text-secondary cursor pull-right pt-1 pr-4"
+                @click="deleteFullKpi(team)"
+              ></i>
+            </h4>
             <hr>
             <b-container class="pb-0 pl-0 pr-0">
               <b-row v-if="!team.kpi_json[0].addKpi">
@@ -48,8 +54,19 @@
                   <!--=== KPI ADD BUTTON & FORM ENDS=== -->
 
                   <!--=== --- KPI HEADING & DESCRIPTION ---=== -->
-                  <!-- MAIN : ==== {{team.kpi_json}} -->
                   <div class="mb-5">
+                    <b-alert
+                      class="alert-transparent ml-3 mr-3"
+                      show
+                      v-if="alertIndex == index"
+                      variant="danger"
+                    >
+                      both fields are mandatory!
+                      <i
+                        class="fas fa-times fs-mini text-secondary cursor pull-right pt-1"
+                        @click="closeAlert()"
+                      ></i>
+                    </b-alert>
                     <div v-for="(kpiera, indexkpi) in team.kpi_json" :key="indexkpi">
                       <div class="container pl-4">
                         <hr v-show="kpiera.title !== '' && kpiera.desc!== ''">
@@ -146,7 +163,7 @@
                         >{{kpiera.title.toUpperCase()}}</span>
                         <input
                           v-show="kpiera.edit == true"
-                          v-on:keyup.enter="updateEra(indexera, team)"
+                          v-on:keyup.enter="updateEra(indexera, team, index, kpiera)"
                           v-model="kpiera.title"
                           id="user-name"
                           type="text"
@@ -177,7 +194,6 @@
               <div class="mb-4"></div>
               <!-- ==== ROW FOR ERA (ADDED) ERA's ENDS ==== -->
               <!-- ####################### AddKPI/ERA BIG BUTTONS ################################ -->
-              <!-- v-if="team.kpi_json[0].addKpi || team.era_json[0].addEra" -->
               <b-row class="text-center">
                 <b-col v-if="team.kpi_json[0].addKpi" class="pb-4">
                   <h5 class="text-primary pb-2">Add KPI</h5>
@@ -232,33 +248,38 @@ export default {
     eraHeading: sync("adminKPI/eraHeading"), //v-model
     eraDescription: sync("adminKPI/eraDescription"), //v-model
     searchField: sync("adminKPI/searchField"), //v-model
-    getAllMember:sync('allMember/allMember')
+    getAllMember: sync("allMember/allMember"),
+    getCurrentUser: sync("profile/user") // fetch current user data
   },
   mounted() {},
   data() {
     return {
       showKpiform: -1,
-      showEraform: -1
+      showEraform: -1,
+      alertIndex: -1,
+      active: false
     };
   },
   methods: {
-    getAllMembers(){
+    getAllMembers() {
       this.getAllMembers_();
     },
-    getAllMembers_: call('allMember/getAllMember'),
+    getAllMembers_: call("allMember/getAllMember"),
     getProfile: call("profile/getProfile"),
     api_AddKpi: call("adminKPI/addKpi"),
     api_delKpi: call("adminKPI/delKpi"),
     api_updateKpi: call("adminKPI/updateKpi"),
+    api_deleteKpi: call("adminKPI/deleteKpi"),
     inputHandler(e) {
       if (e.keyCode === 13 && !e.shiftKey) {
         e.preventDefault();
       }
     },
+    closeAlert() {
+      this.alertIndex = -1;
+    },
     get_profile: function() {
-      this.getProfile({
-        Authorization: localStorage.getItem("authenticated")
-      });
+      this.getProfile();
     },
     addKpi: function(index, team_) {
       // update API needs to be called everyTime
@@ -277,34 +298,44 @@ export default {
       val.edit = true;
     },
     updateKpi: function(index, kpiera, team, indexOfMainArray) {
-      team.kpi_json[index].edit = false;
-      let somevar = {
-        updateKpi: true,
-        addKpi: true,
-        kpi_json: [
-          {
-            desc: kpiera.desc,
-            edit: kpiera.edit,
-            title: kpiera.title
-          }
-        ],
-        kpi_name: team.kpi_name,
-        _id: team._id
-      };
-      this.api_updateKpi({
-        data: somevar,
-        indexOfMainArray: indexOfMainArray
-      });
+      if (!kpiera.desc || !kpiera.title) {
+        this.alertIndex = indexOfMainArray;
+      } else {
+        team.kpi_json[index].edit = false;
+        let somevar = {
+          updateKpi: true,
+          addKpi: true,
+          kpi_json: [
+            {
+              desc: kpiera.desc,
+              edit: kpiera.edit,
+              title: kpiera.title
+            }
+          ],
+          kpi_name: team.kpi_name,
+          _id: team._id
+        };
+        this.api_updateKpi({
+          data: somevar,
+          indexOfMainArray: indexOfMainArray
+        });
+        this.closeAlert();
+      }
     },
     editERA: function(index, val) {
       val.era_json[index].edit = true;
     },
-    updateEra(index, team) {
-      team["addEra"] = true;
-      this.api_updateKpi({
-        data: team
-      });
-      team.era_json[index].edit = false;
+    updateEra(index, team, mainIndex, kpiera) {
+      if (!kpiera.desc || !kpiera.title) {
+        this.alertIndex = mainIndex;
+      } else {
+        team["addEra"] = true;
+        this.api_updateKpi({
+          data: team
+        });
+        team.era_json[index].edit = false;
+        this.closeAlert();
+      }
     },
     editKpiDesc: function(index, indexkpi, val) {
       this.addNewTeam[this.$props.array_.length - 1 - index].kpiList[
@@ -337,17 +368,21 @@ export default {
         KPIorERA: KPIorERA
       });
     },
+    deleteFullKpi(team) {
+      this.api_deleteKpi(team._id);
+    },
     addNewKPI(index, team) {
       team.kpi_json[0].addKpi = false;
       this.showKpiform = index;
     },
     addNewERA(index, team) {
       team.era_json[0].addEra = false;
+      this.showEraform = index;
     }
   },
-  created () {
+  created() {
     this.getAllMembers();
-  },
+  }
 };
 </script>
 

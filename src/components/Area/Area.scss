@@ -1,0 +1,13 @@
+@import '../../styles/app';
+
+.areaBorder {
+    border-bottom: 1px solid #d6dee5;
+}
+
+.areaBorder:last-child {
+    border-bottom: none;
+}
+
+.areaBorder:first-child {
+    border-bottom: none;
+}

@@ -1,9 +1,6 @@
 // import axios from 'axios'
 import { make, call } from 'vuex-pathify'
 import axios from './../axios'
-import { log } from 'util';
-import { resolve } from 'upath';
-import { rejects } from 'assert';
 
 // setup store
 const state = {
@@ -222,18 +219,15 @@ const actions = {
                 }
             ]
         }
-        await axios.post(process.env.VUE_APP_ROOT_API + '/kpi', data).then(response => {
+        await axios.post('/kpi', data).then(response => {
             dispatch('getKpiEra', { kpiEraId: response.data, token: payload.token })
         })
     },
     async getKpiEra({ commit }, data) {
-        await axios.get(process.env.VUE_APP_ROOT_API + '/kpi', {
-            headers: {
-                "Authorization": 'Bearer ' + localStorage.getItem('authenticated')
-            }
-        }).then(response => {
-            commit('addNewTeam', response.data)
-        })
+        await axios.get('/kpi')
+            .then(response => {
+                commit('addNewTeam', response.data)
+            })
     },
     checkValidPayload({ commit }, payload) {
         let kpiEraArray = []
@@ -294,7 +288,7 @@ const actions = {
         }
     },
     async updateKpiEra({ commit, dispatch }, payload) {
-        await axios.put(process.env.VUE_APP_ROOT_API + `/kpi/${payload._id}`, payload).then(response => {
+        await axios.put(`/kpi/${payload._id}`, payload).then(response => {
             dispatch('getKpiEra', { token: payload.Authorization })
         }).catch(e => {
         })
@@ -395,17 +389,33 @@ const actions = {
         }
         dispatch('updateKpiEra', addNewTeam[payload.mainIndex])
     },
-    addMember({ state, dispatch }, payload) {
-        console.log(payload)
-        return new Promise((resolve, reject) => {
-            let allkpi = state.addNewTeam.slice().reverse()
-            axios.get(process.env.VUE_APP_ROOT_API + `/kpi/assign_kpi/${payload.user._id}/${allkpi[payload.kpiIndex]._id}`).then(response => {
-                if (response) {
-                    resolve(true)
-                }
-            }).catch(err => {
-                reject(false)
-            })
+    // ############ ADD/ASSIGN MEMBER TO THE KPI ###################
+    async addMember({ state, dispatch }, payload) {
+        let allkpi = state.addNewTeam.slice().reverse()
+        if (payload.type === 'addMember') {
+            let response = await axios.get(`/kpi/assign_kpi/${payload.user._id}/${allkpi[payload.kpiIndex]._id}`)
+            if (response) {
+                return true
+            } else {
+                return false
+            }
+        } else {
+            // ######## DELETE MEMBER FROM LIST ###########
+            let response = await axios.get(`/kpi/assign_kpi/${payload.user._id}/-1`)
+            if (response) {
+                return true
+            } else {
+                return false
+            }
+        }
+
+
+    },
+    // ############ ADD/ASSIGN MEMBER TO THE KPI ENDS ###################
+
+    async deleteKpi({ state, dispatch }, payload) {
+        await axios.delete(`/kpi/${payload}`).then(resp => {
+            dispatch('getKpiEra')
         })
     }
 }
@@ -417,3 +427,15 @@ export default ({
     mutations,
     actions
 })
+
+
+
+
+
+
+
+
+
+
+
+

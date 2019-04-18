@@ -13,8 +13,8 @@
               <div class="h-100">
                 <div class="float-left pr-3">
                   <img
+                    :src="user.profileImage ? user.profileImage : image"
                     class="rounded-circle"
-                    src="@/assets/people/a5.jpg"
                     width="75"
                     height="75"
                     alt="..."
@@ -23,10 +23,11 @@
 
                 <div class="pt-2">
                   <span class="fs-larger text-capitalize">
-                    {{name}}
+                    <!-- {{name}} -->
                     <span class="fw-semi-bold">Prakash</span>
+
                   </span>
-                  <p class="fw-small">UI/UX designer</p>
+                  <p class="fw-small">{{user.jobtitle}}</p>
                 </div>
               </div>
               <!--==================================================================== 
@@ -101,11 +102,15 @@
           </div>
           <!-- second widget -->
           <h1>Key Performance Area</h1>
-            <AreaComponent/>
+          <div v-if="user.kpi">
+            <AreaComponent :eraKpiArray="user.kpi.kpi_json"/>
+          </div>
           <!-- second widget ends-->
           <!-- third widget -->
           <h1>Extra Resource Area</h1>
-            <AreaComponent/>
+          <div v-if="user.kpi">
+            <AreaComponent :eraKpiArray="user.kpi.era_json"/>
+          </div>
           <!-- third widget ends-->
         </b-col>
 
@@ -216,9 +221,10 @@ import "imports-loader?jQuery=jquery,this=>window!flot";
 import "imports-loader?jQuery=jquery,this=>window!flot/jquery.flot.pie";
 /* eslint-enable */
 import Widget from "@/components/Widget/Widget";
-import AreaComponent from "./../../components/Area/Area"
-import starRating from '@/components/Star/Star'
+import AreaComponent from "./../../components/Area/Area";
+import starRating from "@/components/Star/Star";
 import { get, call } from "vuex-pathify";
+import dummyimage from "@/components/Group/person-dummy.jpg";
 
 export default {
   name: "Profile",
@@ -226,28 +232,27 @@ export default {
     return {
       ratedStar: 1,
       two: 1,
-      starSize: '17px'
-    }
+      starSize: "17px",
+      image: dummyimage
+    };
   },
   components: { Widget, AreaComponent, starRating },
   mounted() {
     this.get_profile();
   },
   computed: {
-    name: get("profile/name")
+    // name: get("profile/name")
   },
   methods: {
     getProfile: call("profile/getProfile"),
     get_profile: function() {
-      this.getProfile({
-        Authorization: localStorage.getItem("authenticated")
-      });
+      this.getProfile();
     },
-    submitStarRateOne(value){
-        this.ratedStar = value
+    submitStarRateOne(value) {
+      this.ratedStar = value;
     },
-    submitStarRateTwo(value){
-      this.two = value
+    submitStarRateTwo(value) {
+      this.two = value;
     }
   }
 };
