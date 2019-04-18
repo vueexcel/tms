@@ -7,10 +7,18 @@
             <img src="./../../images/logo.png" width="100%" alt="logo">
           </h5>
           <div class="alert alert-danger alert-transparent alert-sm" v-if="loginfailed">
-            <button type="button" class="close" data-dismiss="alert" @click="closeError" aria-hidden="true">×</button>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="alert"
+              @click="closeError"
+              aria-hidden="true"
+            >×</button>
             {{loginError}}.
           </div>
-          <h6 class="mt-0 mb-5 text-center font-weight-bold">Enter Your ExcellenceHR Username to Login</h6>
+          <h6
+            class="mt-0 mb-5 text-center font-weight-bold"
+          >Enter Your ExcellenceHR Username to Login</h6>
           <form class="mt-4" @submit.prevent="login">
             <div class="form-group">
               <input
@@ -41,7 +49,12 @@
                 </label>
               </div>
               <div class="btn-toolbar float-right">
-                <b-button class="pr-4 pl-4" type="submit" size="sm" variant="inverse">Login</b-button>
+                <b-button class="pr-4 pl-4" type="submit" size="sm" variant="inverse">
+                  <span v-if="!loader">Login</span>
+                  <span v-if="loader">
+                    <i class="fa fa-circle-o-notch fa-spin-fast"></i>
+                  </span>
+                </b-button>
               </div>
             </div>
           </form>
@@ -62,9 +75,10 @@ export default {
     authenticated: get("login/authenticated"),
     loginfailed: sync("login/loginfailed"),
     sidebar: sync("login/sidebar"),
+    loader: sync("login/loader"),
     loginError() {
-      if(this.loginfailed){
-        return 'Wrong Credentials try again'
+      if (this.loginfailed) {
+        return "Wrong Credentials try again";
       }
     }
   },
@@ -82,9 +96,9 @@ export default {
       }
     },
     closeError() {
-      this.loginfailed = false
-    },
-    
+      this.loginfailed = false;
+    }
+
     // login() {
     //   const username = this.$refs.username.value;
     //   const password = this.$refs.password.value;

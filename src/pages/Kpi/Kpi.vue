@@ -25,7 +25,7 @@
               <hr>
               <form class="inline pl-4 pr-4 pt-2 pb-4" @submit.prevent="addNewTeam_">
                 <b-input-group>
-                  <b-form-input v-model="newTeamName" name="text" placeholder="Add New Team"></b-form-input>
+                  <b-form-input v-model="newTeamName" name="text" placeholder="Add New KPI"></b-form-input>
                   <b-input-group-append>
                     <b-btn type="submit" class="btn btn-warning btn-lg fs-sm pl-4 pr-4">
                       <i class="fas fa-plus" style="color:white;"></i>
