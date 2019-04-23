@@ -10,7 +10,11 @@
         <b-col lg="6" xs="12">
           <div class="pb-xlg">
             <!-- time line starts here  -->
-            <div class="timeline mr-3" v-for="(report, index) in reports.slice().reverse()" :key="index">
+            <div
+              class="timeline mr-3"
+              v-for="(report, index) in reports.slice().reverse()"
+              :key="index"
+            >
               <ul>
                 <li class="c1">
                   <div class="content p-0">
@@ -46,11 +50,13 @@
                     </p>
                     <p @click="showData" v-if="canShowmore" class="readColor btn">Read more..</p>
                     <p
-                    class="textColor" v-if="canShowreason"
+                      class="textColor"
+                      v-if="canShowreason"
                       :class="{not_completed : report.task_completed === false}"
                     >{{report.task_not_completed_reason}}</p>
                     <p
-                    class="text-warning" v-if="canShowreason"
+                      class="text-warning"
+                      v-if="canShowreason"
                       :class="{not_completed : report.task_completed === false}"
                     >{{report.highlight_task_reason}}</p>
                     <p @click="showData" v-if="canShowless" class="readColor btn">Read less..</p>
@@ -73,7 +79,7 @@
                       imgSrc="./../../../static/people/a6.jpg"
                       :generatedReport="report.report"
                       :userReport="report.report"
-                      :highlight="report.highlight"   
+                      :highlight="report.highlight"
                       :userName="report.user"
                       :date_Time="report.created"
                     ></StandUpWidget>
@@ -142,6 +148,7 @@ import { sync, call, get } from "vuex-pathify";
 import StandUpWidget from "./CheckinComponents/StandupReportWidget";
 import Comments from "./CheckinComponents/Comments";
 import GenReport from "./GenReport";
+import { timeout } from "q";
 
 export default {
   name: "Checkin",
@@ -149,8 +156,8 @@ export default {
     return {
       generatedReport: [],
       canShowreason: false,
-      canShowmore:true,
-      canShowless:false
+      canShowmore: true,
+      canShowless: false
     };
   },
   components: { Widget, StandUpWidget, Comments, GenReport },
@@ -164,9 +171,14 @@ export default {
           .local()
           .format("h:mm: A");
         if (time !== "Invalid date") {
-          element["created"] = this.$moment(element.created_at).calendar(null, {
-            sameDay: '[Today]',
-            sameElse: 'MM/DD/YYYY'
+          element["created"] =
+            this.$moment(element.created_at).calendar(null, {
+              sameDay: "[Today]",
+              nextDay: "[Tomorrow]",
+              nextWeek: "dddd",
+              lastDay: "[Yesterday]",
+              lastWeek: "MMMM DD,YYYY",
+              sameElse: "MMMM DD,YYYY"
             }) +
             " at " +
             time;
@@ -176,20 +188,20 @@ export default {
     date() {
       this.reports.forEach(date => {
         var time = this.$moment(date.created_at)
-         .tz("GMT")
+          .tz("GMT")
           .local()
           .format("h:mm: A");
-          if (time !== "Invalid date") {
-            date["time"] = this.$moment(date.created_at).format("h:mm: A");
-            date["day"] = this.$moment(date.created_at).calendar(null, {
-              sameDay: '[Today]',
-              nextDay: '[Tomorrow]',
-              nextWeek: 'dddd',
-              lastDay: '[Yesterday]',
-              lastWeek: '[Last] dddd',
-              sameElse: 'DD/MM/YYYY'
-              });
-          }
+        if (time !== "Invalid date") {
+          date["time"] = this.$moment(date.created_at).format("h:mm: A");
+          date["day"] = this.$moment(date.created_at).calendar(null, {
+            sameDay: "[Today]",
+            nextDay: "[Tomorrow]",
+            nextWeek: "dddd",
+            lastDay: "[Yesterday]",
+            lastWeek: "dddd",
+            sameElse: "DD/MM/YYYY"
+          });
+        }
       });
     },
     currentUserName() {
@@ -218,10 +230,10 @@ export default {
         highlight_task_reason: report.highlightTaskReason
       });
     },
-    showData: function(){
+    showData: function() {
       this.canShowmore = !this.canShowmore;
       this.canShowless = !this.canShowless;
-      this.canShowreason =!this.canShowreason
+      this.canShowreason = !this.canShowreason;
     }
   },
   filters: {
