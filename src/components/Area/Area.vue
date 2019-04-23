@@ -12,6 +12,13 @@
           </div>
         </div>
       </section>
+       <section v-else>
+        <div class="areaBorder">
+          <div>
+            No KPI/Era assigned to you. Contact manager for the same.
+          </div>
+        </div>
+      </section>
     </widget>
   </div>
 </template>
