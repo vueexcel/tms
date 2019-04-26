@@ -1,24 +1,28 @@
 // import axios from 'axios'
 import { make } from 'vuex-pathify'
 import axios from './../axios'
+import { relativeTimeRounding } from 'moment';
 
 // setup store
 const state = {
     allMember: [],
     gettingMemberError: "",
-    teams : []
+    teams : [],
+    managers: []
 }
 const mutations = make.mutations(state)
 const actions = {
     async getAllMember({ state , dispatch}) {
-        await axios.get('/user/list').then((response) => {
+        await axios.get('/user/list').then(response =>{
             if (response) {
                 state.allMember = response.data
                 dispatch('groupByTeam', response.data)
+                dispatch('setManager', response.data)
             }
         }).catch(error => {
             state.gettingMemberError = 'Can not get all members' + error
         })
+        return true
     },
     groupByTeam({state}, payload){
         var groups = {}
@@ -38,6 +42,22 @@ const actions = {
             }
             state.teams.push(data)
         }
+    },
+    async addManager({dispatch}, payload){
+        await axios.put(`/user/role/${payload.manager._id}/manager`).then(response =>{
+            if(response){
+                dispatch('sendresponse')
+            }
+        })
+        return true
+    },
+    setManager({state},payload){
+        state.managers = []
+        payload.map(user =>{
+            if(user.role === 'manager'){
+                state.managers.push(user)
+            }
+        })
     }
 }
 
