@@ -1,7 +1,6 @@
 // import axios from 'axios'
 import { make } from 'vuex-pathify'
 import axios from './../axios'
-import { relativeTimeRounding } from 'moment';
 
 // setup store
 const state = {
