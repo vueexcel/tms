@@ -31,6 +31,7 @@ import ChartsPage from "@/pages/Charts/Charts";
 // Ui
 import IconsPage from "@/pages/Icons/Icons";
 import NotificationsPage from "@/pages/Notifications/Notifications";
+import { relativeTimeRounding } from "moment";
 
 Vue.use(Router);
 
@@ -140,20 +141,15 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    // this route requires auth, check if logged in
-    // if not, redirect to login page.
-    if ($cookies.get("keepLoggedIn")) {
-      next();
-    } else {
+  if($cookies.get("keepLoggedIn") && to.path == "/"){
       next({
-        path: "/"
-      });
-    }
-    return;
-  } else {
-    next(); // make sure to always call next()!
+        path : '/admin'
+      })
+  }else{
+    next()
   }
+    
+  return;
 });
 
 export default router;

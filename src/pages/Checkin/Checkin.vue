@@ -48,7 +48,7 @@
                       <br>
                       {{report.highlight}}
                     </p>
-                    <p @click="showData" v-if="canShowmore" class="readColor btn">Read more..</p>
+                    <p @click="showData" v-if="canShowmore" class="text-primary btn">Read more..</p>
                     <p
                       class="textColor"
                       v-if="canShowreason"
@@ -59,7 +59,7 @@
                       v-if="canShowreason"
                       :class="{not_completed : report.task_completed === false}"
                     >{{report.highlight_task_reason}}</p>
-                    <p @click="showData" v-if="canShowless" class="readColor btn">Read less..</p>
+                    <p @click="showData" v-if="canShowless" class="text-primary btn">Read less..</p>
                   </div>
                   <div class="time">
                     <h4>

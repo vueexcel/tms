@@ -139,11 +139,13 @@ export default {
         this.changeSidebarActive(paths.join("/"));
       }
     },
+   
     logout() {
       window.localStorage.setItem("authenticated", false);
       // this.$router.push("/login");
       localStorage.clear();
-       this.$router.push("/")
+       this.$cookies.remove('keepLoggedIn')
+       this.$router.push("/");
     }
   },
   created() {

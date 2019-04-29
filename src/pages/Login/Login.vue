@@ -43,7 +43,7 @@
             </div>
             <div class="clearfix">
               <div class="abc-checkbox float-left">
-                <input type="checkbox" id="checkbox" v-model="checkboxChecked">
+                <input type="checkbox" id="checkbox" v-model="signinChecked">
                 <label for="checkbox" class="text-muted fs-sm">
                   <span class="align-text-middle">Keep me signed in</span>
                 </label>
@@ -75,7 +75,7 @@ export default {
     return {
       loader: false,
       loginfailed: false,
-      checkboxChecked: ""
+      signinChecked: ""
     };
   },
   computed: {
@@ -97,8 +97,9 @@ export default {
         this.loader = true;
         this.api({ username: username, password: password })
           .then(resp => {
-            if (this.checkboxChecked !== "") {
+            if (this.signinChecked !== "") {
               $cookies.set("keepLoggedIn", this.authenticated);
+              console.log($cookies.get("keepLoggedIn"),'@@@@@');
               this.loader = false;
             }
             if (resp) {
