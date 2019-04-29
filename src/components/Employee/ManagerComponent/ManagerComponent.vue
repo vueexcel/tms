@@ -200,12 +200,6 @@ export default {
         user:this.employee
       })
       if(response){
-        this.getAllMembers()
-      }
-    },
-    async getAllMembers(){
-      let response = await this.getAllMembers_()
-      if(response){
         this.loading = false
       }
     }
