@@ -46,8 +46,8 @@
             <div class="text-gray" style="font-size: 12px;">{{employee_.jobtitle}}</div>
           </a>
         </div>
-      </div>
-      <ManagerComponent :employee="employee" @deleteManager="managerToBeDeleted"/>
+      </div> 
+      <ManagerComponent :employee="employee"/>
     </div>
   </div>
 </template>
@@ -125,7 +125,6 @@ export default {
   },
   methods: {
     saveEmployeeInfo: call("manageEmployee/saveEmployeeInfo"),
-    deleteManager: call("manageEmployee/deleteManager"),
     addMembers_: call("adminKPI/addMember"),
     getAllMembers_: call("allMember/getAllMember"),
     editEmployee(employee) {
@@ -178,13 +177,7 @@ export default {
       if(response){
         this.loading = false
       }
-    },
-    managerToBeDeleted(value) {
-      this.deleteManager({
-        manager: value,
-        employeeId: this.employee.id
-      });
-    },
+    }
   },
   mounted() {
   }

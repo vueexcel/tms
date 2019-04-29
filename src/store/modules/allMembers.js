@@ -17,7 +17,6 @@ const actions = {
             if (response) {
                 state.allMember = response.data
                 dispatch('groupByTeam', response.data)
-                dispatch('setManager', response.data)
             }
         }).catch(error => {
             state.gettingMemberError = 'Can not get all members' + error
@@ -46,18 +45,23 @@ const actions = {
     async addManager({dispatch}, payload){
         await axios.put(`/user/role/${payload.manager._id}/manager`).then(response =>{
             if(response){
-                dispatch('sendresponse')
+                dispatch('assignManager',payload)
             }
         })
         return true
     },
-    setManager({state},payload){
-        state.managers = []
-        payload.map(user =>{
-            if(user.role === 'manager'){
-                state.managers.push(user)
-            }
+    async assignManager({dispatch},payload){
+        await axios.get(`/kpi/assign_manager/${payload.user._id}/${payload.manager._id}/${payload.weight ? payload.weight : 1 }`).then(response =>{
+            dispatch('getAllMember')
         })
+        return true
+    },
+    async deleteManager({dispatch},payload){
+        await axios.get(`/kpi/assign_manager/${payload.user._id}/${payload.manager._id}/${0}`).then(response =>{
+            dispatch('getAllMember')
+        })
+        return true
+        
     }
 }
 
