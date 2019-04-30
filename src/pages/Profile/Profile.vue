@@ -36,8 +36,12 @@
                 <span class="mr-4 fw-semi-bold">Reviewers</span>
                 <br>
                 <!-- 1st block -->
-                <div class="rounded bg-primary w-auto p-1 h-auto mr-1 mt-2" v-for="(manager,index) in user.managers" :key="index">
-                  <span class="thumb-md float-left ml-1 mt-1" >
+                <div
+                  class="rounded bg-primary w-auto p-1 h-auto mr-1 mt-2"
+                  v-for="(manager,index) in user.managers"
+                  :key="index"
+                >
+                  <span class="thumb-md float-left ml-1 mt-1">
                     <img
                       class="rounded-circle"
                       :src="manager.profileImage ? manager.profileImage : image"
@@ -46,10 +50,12 @@
                       alt="..."
                     >
                   </span>
-                  <div class="float-left text-white text-left pl-2 pr-1" >
+                  <div class="float-left text-white text-left pl-2 pr-1">
                     <span class="fw-bold fs-large">
-                      {{manager.name}}
-                      <span class="fw-normal"></span>
+                      {{manager.name | firstname }}
+                      <span
+                        class="fw-normal"
+                      >{{manager.name | lastname }}</span>
                     </span>
                     <br>
                     <span class="fs-sm">{{manager.jobtitle}}</span>
@@ -94,7 +100,7 @@
                     <br>
                     <span class="fs-sm">Project Manager Magento</span>
                   </div>
-                </div> -->
+                </div>-->
               </div>
             </Widget>
           </div>
@@ -131,14 +137,14 @@
                     title="Popover Title"
                     class="fas fa-question-circle fs-sm text-danger"
                   ></i>
-                  <span class="float-right">75%</span>
+                  <span class="float-right">{{user.Checkin_rating}}%</span>
                 </h6>
                 <span class="text-secondary fs-sm">Daily stand-up report submitted</span>
                 <b-progress
                   class="w-75"
                   style="height: 5px"
                   variant="primary"
-                  :value="60"
+                  :value="user.Checkin_rating"
                   :max="100"
                 />
               </div>
@@ -241,6 +247,21 @@ export default {
   computed: {
     user: get("profile/user")
   },
+  filters: {
+    firstname: function(value) {
+      return value
+        .split(" ")
+        .slice(0, -1)
+        .join(" ");
+    },
+    lastname: function(value) {
+      return value
+        .split(" ")
+        .slice(-1)
+        .join(" ");
+    }
+  },
+
   methods: {
     getProfile: call("profile/getProfile"),
     get_profile: function() {
