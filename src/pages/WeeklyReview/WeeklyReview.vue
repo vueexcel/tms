@@ -179,11 +179,6 @@ export default {
   computed: {
     user: get("profile/user")
   },
-  created: function(){
-         $( 'ul' ).on( 'load', function() {
-            $( this ).parent().find( 'nav-link active' ).removeClass( 'active' );
-  })
-  },
   methods: {
     weeklyReview_: call("weeklyReview/weeklyReview"),
     submitWeeklyReview: function() {

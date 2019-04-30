@@ -36,27 +36,27 @@
                 <span class="mr-4 fw-semi-bold">Reviewers</span>
                 <br>
                 <!-- 1st block -->
-                <div class="rounded bg-primary w-auto p-1 h-auto mr-1 mt-2">
-                  <span class="thumb-md float-left ml-1 mt-1">
+                <div class="rounded bg-primary w-auto p-1 h-auto mr-1 mt-2" v-for="(manager,index) in user.managers" :key="index">
+                  <span class="thumb-md float-left ml-1 mt-1" >
                     <img
                       class="rounded-circle"
-                      src="@/assets/people/a4.jpg"
+                      :src="manager.profileImage ? manager.profileImage : image"
                       width="35"
                       height="35"
                       alt="..."
                     >
                   </span>
-                  <div class="float-left text-white text-left pl-2 pr-1">
+                  <div class="float-left text-white text-left pl-2 pr-1" >
                     <span class="fw-bold fs-large">
-                      Miha
-                      <span class="fw-normal">Koshir</span>
+                      {{manager.name}}
+                      <span class="fw-normal"></span>
                     </span>
                     <br>
-                    <span class="fs-sm">Project manager UI/UX</span>
+                    <span class="fs-sm">{{manager.jobtitle}}</span>
                   </div>
                 </div>
                 <!-- 2nd block -->
-                <div class="rounded bg-warning w-auto p-1 h-auto mr-1">
+                <!-- <div class="rounded bg-warning w-auto p-1 h-auto mr-1">
                   <span class="thumb-md float-left ml-1 mt-1">
                     <img
                       class="rounded-circle"
@@ -75,7 +75,7 @@
                     <span class="fs-sm">Director</span>
                   </div>
                 </div>
-                <!-- 3rd block -->
+                3rd block
                 <div class="rounded bg-success w-auto p-1 h-auto">
                   <span class="thumb-md float-left ml-1 mt-1">
                     <img
@@ -94,7 +94,7 @@
                     <br>
                     <span class="fs-sm">Project Manager Magento</span>
                   </div>
-                </div>
+                </div> -->
               </div>
             </Widget>
           </div>

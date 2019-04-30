@@ -99,7 +99,6 @@ export default {
           .then(resp => {
             if (this.signinChecked !== "") {
               $cookies.set("keepLoggedIn", this.authenticated);
-              console.log($cookies.get("keepLoggedIn"),'@@@@@');
               this.loader = false;
             }
             if (resp) {
