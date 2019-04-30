@@ -6,12 +6,13 @@ import axios from './../axios'
 const state = {
     allMember: [],
     gettingMemberError: "",
-    teams : []
+    teams : [],
+    managers: []
 }
 const mutations = make.mutations(state)
 const actions = {
     async getAllMember({ state , dispatch}) {
-        await axios.get('/user/list').then((response) => {
+        await axios.get('/user/list').then(response =>{
             if (response) {
                 state.allMember = response.data
                 dispatch('groupByTeam', response.data)
@@ -19,6 +20,7 @@ const actions = {
         }).catch(error => {
             state.gettingMemberError = 'Can not get all members' + error
         })
+        return true
     },
     groupByTeam({state}, payload){
         var groups = {}
@@ -38,6 +40,27 @@ const actions = {
             }
             state.teams.push(data)
         }
+    },
+    async addManager({dispatch}, payload){
+        await axios.put(`/user/role/${payload.manager._id}/manager`).then(response =>{
+            if(response){
+                dispatch('assignManager',payload)
+            }
+        })
+        return true
+    },
+    async assignManager({dispatch},payload){
+        await axios.get(`/kpi/assign_manager/${payload.user._id}/${payload.manager._id}/${payload.weight ? payload.weight : 1 }`).then(response =>{
+            dispatch('getAllMember')
+        })
+        return true
+    },
+    async deleteManager({dispatch},payload){
+        await axios.get(`/kpi/assign_manager/${payload.user._id}/${payload.manager._id}/${0}`).then(response =>{
+            dispatch('getAllMember')
+        })
+        return true
+        
     }
 }
 

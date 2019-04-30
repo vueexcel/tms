@@ -2,7 +2,8 @@
   <div>
     <div class="card mb-5">
       <div class="card-body text-center">
-        <div class="float-right" v-if="showManager">
+        <i class="fas fa-circle-notch text-success fa-spin float-left" v-if="loading"></i>
+        <div class="float-right" >
           <i
             class="fas fa-edit edit-button"
             v-if="!edit"
@@ -45,8 +46,8 @@
             <div class="text-gray" style="font-size: 12px;">{{employee_.jobtitle}}</div>
           </a>
         </div>
-      </div>
-      <ManagerComponent v-if="showManager" :manager="employee.manager" :employeID="employee.id" @deleteManager="managerToBeDeleted"/>
+      </div> 
+      <ManagerComponent :employee="employee"/>
     </div>
   </div>
 </template>
@@ -71,12 +72,13 @@ export default {
       selected: null,
       technologySelect: "",
       defaultImage: defaultImage,
-      kpiIndex: null
+      kpiIndex: null,
+      loading:false
     };
   },
   props: {
     employee: { type: Object, default: () => ({}) },
-    showManager: {type: Boolean, default: true},
+    // showManager: {type: Boolean, default: true},
     index:{type : Number}
   },
   computed: {
@@ -123,7 +125,6 @@ export default {
   },
   methods: {
     saveEmployeeInfo: call("manageEmployee/saveEmployeeInfo"),
-    deleteManager: call("manageEmployee/deleteManager"),
     addMembers_: call("adminKPI/addMember"),
     getAllMembers_: call("allMember/getAllMember"),
     editEmployee(employee) {
@@ -131,6 +132,7 @@ export default {
       this.technologySelect = employee.kpi;
     },
     saveEdit() {
+      this.loading = true
       this.edit = false;
       let data = {}
       if(this.selected){
@@ -146,7 +148,7 @@ export default {
           type: 'addMember'
         }).then(response => {
             if (response === true) {
-              this.getAllMembers_();
+              this.callToGettAllMembers()
             }
             this.searchField = "";
           })
@@ -170,12 +172,12 @@ export default {
         }
       } 
     },
-    managerToBeDeleted(value) {
-      this.deleteManager({
-        manager: value,
-        employeeId: this.employee.id
-      });
-    },
+    async callToGettAllMembers(){
+      let response = await this.getAllMembers_()
+      if(response){
+        this.loading = false
+      }
+    }
   },
   mounted() {
   }
