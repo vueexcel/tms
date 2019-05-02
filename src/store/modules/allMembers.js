@@ -26,11 +26,13 @@ const actions = {
         var groups = {}
         state.teams = []
         payload.forEach(element => {
-            var list =  groups[element.team]
-            if(list){
-                list.push(element)
-            } else{
-                groups[element.team] = [element]
+            if(element.role !== 'Admin'){
+                var list =  groups[element.team]
+                if(list){
+                    list.push(element)
+                } else{
+                    groups[element.team] = [element]
+                }
             }
         });
         for (var team in groups){
@@ -60,7 +62,6 @@ const actions = {
             dispatch('getAllMember')
         })
         return true
-        
     }
 }
 

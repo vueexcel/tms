@@ -249,7 +249,7 @@ export default {
     eraDescription: sync("adminKPI/eraDescription"), //v-model
     searchField: sync("adminKPI/searchField"), //v-model
     getAllMember: sync("allMember/allMember"),
-    getCurrentUser: sync("profile/user") // fetch current user data
+    getCurrentUser: sync("profile/user"), // fetch current user data
   },
   mounted() {},
   data() {

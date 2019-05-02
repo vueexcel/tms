@@ -1,9 +1,5 @@
 <template>
   <div>
-    <b-breadcrumb>
-      <b-breadcrumb-item>YOU ARE HERE</b-breadcrumb-item>
-      <b-breadcrumb-item class="active_class">Manage Employees</b-breadcrumb-item>
-    </b-breadcrumb>
     <h1 class="page-title">Team Members</h1>
     <div v-for="(team, index) in groupByTeam" :key="index">
       <h4 class="page-title" v-if="team.teamname">{{team.teamname}}</h4>

@@ -1,9 +1,5 @@
 <template>
   <div>
-    <b-breadcrumb class="ml-3">
-      <b-breadcrumb-item>YOU ARE HERE</b-breadcrumb-item>
-      <b-breadcrumb-item class="active_class">Performance Review</b-breadcrumb-item>
-    </b-breadcrumb>
     <span class="page-title ml-3 row" style="font-size: 43px;">Weekly Report Review </span>
     <div class="shadow pt-4">
         <h5 class="page-title ml-3 row" style="font-size: 24px;">Team View</h5>

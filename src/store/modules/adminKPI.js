@@ -248,7 +248,6 @@ const actions = {
         return data
     },
     getEraData({ state, dispatch }, payload) {
-
         let data = {}
         state.addNewTeam.map(team => {
             if (team._id === payload.data._id) {

@@ -1,9 +1,5 @@
 <template>
   <div>
-    <b-breadcrumb>
-      <b-breadcrumb-item>YOU ARE HERE</b-breadcrumb-item>
-      <b-breadcrumb-item class="active_class">Dashboard</b-breadcrumb-item>
-    </b-breadcrumb>
     <h1 class="page-title">Dashboard</h1>
     <b-container class="no-gutters p-0">
       <b-row>
