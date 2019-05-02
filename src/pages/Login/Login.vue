@@ -140,13 +140,6 @@ export default {
     //   }
     // }
   },
-  created() {
-    // $cookies.set("cookie_name", "cookie_value");
-    // console.log($cookies.get("cookie_name"));
-    // if (window.localStorage.getItem("authenticated") !== null) {
-    // this.$router.push("/app/profile");
-    // this.$router.push("/admin/manageKpi"); //comment this to go to Login
-  }
 };
 // };
 </script>
