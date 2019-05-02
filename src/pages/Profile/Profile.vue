@@ -32,8 +32,10 @@
                 <span class="mr-4 fw-semi-bold">Reviewers</span>
                 <br>
                 <!-- 1st block -->
+                <!-- v-bind:class="{ codegreen, codeblue , codeorange }" -->
                 <div
-                  class="rounded bg-primary w-auto p-1 h-auto mr-1 mt-2"
+                  class="rounded w-auto p-1 h-auto mr-1 mt-2"
+                  v-bind:class="{ colorGreen: true, colorBlue: false, colorOrange: false }"
                   v-for="(manager,index) in user.managers"
                   :key="index"
                 >
@@ -48,13 +50,13 @@
                   </span>
                   <div class="float-left text-white text-left pl-2 pr-1">
                     <span class="fw-bold fs-large">
-                      {{manager.name | firstname }}
+                      {{manager.username | firstname }}
                       <span
                         class="fw-normal"
-                      >{{manager.name | lastname }}</span>
+                      >{{manager.username | lastname }}</span>
                     </span>
                     <br>
-                    <span class="fs-sm">{{manager.jobtitle}}</span>
+                    <span class="fs-sm">{{manager.job_title}}</span>
                   </div>
                 </div>
                 <!-- 2nd block -->
@@ -230,6 +232,9 @@ export default {
   name: "Profile",
   data() {
     return {
+      colorGreen: "green",
+      colorBlue: "blue",
+      colorOrange: "orange",
       ratedStar: 1,
       two: 1,
       starSize: "17px",
@@ -245,16 +250,22 @@ export default {
   },
   filters: {
     firstname: function(value) {
-      return value
-        .split(" ")
-        .slice(0, -1)
-        .join(" ");
+      var reWhiteSpace = new RegExp("/^s+$/");
+      if (reWhiteSpace.test(value)) {
+        return value
+          .split(" ")
+          .slice(0, -1)
+          .join(" ");
+      } else return value;
     },
     lastname: function(value) {
-      return value
-        .split(" ")
-        .slice(-1)
-        .join(" ");
+      var reWhiteSpace = new RegExp("/^s+$/");
+      if (reWhiteSpace.test(value)) {
+        return value
+          .split(" ")
+          .slice(-1)
+          .join(" ");
+      } else return;
     }
   },
 

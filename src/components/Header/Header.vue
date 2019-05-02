@@ -36,7 +36,9 @@
       >
         <template slot="button-content">
           <span class="avatar thumb-sm float-left mr-2">
-            <img class="rounded-circle" src="../../assets/people/a5.jpg" alt="...">
+            <img class="rounded-circle" 
+            :src="user.profileImage ? user.profileImage : image"
+            alt="...">
           </span>
           <span class="small">
             <span class="fw-semi-bold">{{user.username}}
@@ -50,7 +52,7 @@
         <template slot="button-content">
           <i class="la la-cog px-2"/>
         </template>
-        <b-dropdown-item>
+        <!-- <b-dropdown-item>
           <i class="la la-user"/> My Account
         </b-dropdown-item>
         <b-dropdown-divider/>
@@ -58,7 +60,7 @@
         <b-dropdown-item>Inbox &nbsp;&nbsp;
           <b-badge variant="danger" pill class="animated bounceIn">9</b-badge>
         </b-dropdown-item>
-        <b-dropdown-divider/>
+        <b-dropdown-divider/> -->
         <b-dropdown-item-button @click="logout">
           <i class="la la-sign-out"/> Log Out
         </b-dropdown-item-button>
@@ -99,9 +101,15 @@ import { mapState, mapActions } from "vuex";
 import { get, call, sync } from "vuex-pathify";
 import $ from "jquery";
 import Notifications from "@/components/Notifications/Notifications";
+import dummyimage from "@/components/Group/person-dummy.jpg";
 
 export default {
   name: "Headed",
+  data() {
+    return {
+      image: dummyimage
+    };
+  },
   components: { Notifications },
   computed: {
     user: get("profile/user"),
