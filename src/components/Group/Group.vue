@@ -91,7 +91,6 @@
 </template>
 
 <script>
-import allMembers from "./allMembers.json";
 import { get, call, sync } from "vuex-pathify";
 import dummyImage from "./person-dummy.jpg";
 export default {
@@ -99,7 +98,6 @@ export default {
   data() {
     return {
       searchField: "",
-      allMembersArray: allMembers,
       dummyImg: dummyImage
     };
   },
