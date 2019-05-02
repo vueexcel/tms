@@ -2,13 +2,14 @@
   <section class="notifications card navbar-notifications">
     <header class="cardHeader card-header">
       <div class="text-center mb-sm">
-        <strong>You have 13 notifications</strong>
+        <!-- <strong>You have 13 notifications</strong> -->
+        <strong>Recent Activities</strong>
       </div>
-      <b-button-group id="notification-b-buttons">
+      <!-- <b-button-group id="notification-b-buttons">
         <b-button variant="default" @click="changeNotificationsTab(1)">Notifications</b-button>
         <b-button variant="default" @click="changeNotificationsTab(2)">Messages</b-button>
         <b-button variant="default" @click="changeNotificationsTab(3)">Progress</b-button>
-      </b-button-group>
+      </b-button-group> -->
     </header>
     <NewNotifictionsList v-if="newNotifications" />
     <NotifictionsList v-else-if="notificationsTabSelected === 1" />
