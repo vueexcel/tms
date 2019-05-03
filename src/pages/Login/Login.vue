@@ -43,7 +43,7 @@
             </div>
             <div class="clearfix">
               <div class="abc-checkbox float-left">
-                <input type="checkbox" id="checkbox">
+                <input type="checkbox" id="checkbox" v-model="signinChecked">
                 <label for="checkbox" class="text-muted fs-sm">
                   <span class="align-text-middle">Keep me signed in</span>
                 </label>
@@ -74,7 +74,8 @@ export default {
   data() {
     return {
       loader: false,
-      loginfailed: false
+      loginfailed: false,
+      signinChecked: ""
     };
   },
   computed: {
@@ -96,10 +97,15 @@ export default {
         this.loader = true;
         this.api({ username: username, password: password })
           .then(resp => {
+            if (this.signinChecked !== "") {
+              $cookies.set("keepLoggedIn", this.authenticated);
+              this.loader = false;
+            }
             if (resp) {
               this.getProfile().then(resp => {
                 if (resp === true) {
                   this.loader = resp;
+                  this.loader = false;
                 } else {
                   this.loader = false;
                 }
@@ -134,11 +140,6 @@ export default {
     //   }
     // }
   },
-  created() {
-    // if (window.localStorage.getItem("authenticated") !== null) {
-    // this.$router.push("/app/profile");
-    // this.$router.push("/admin/manageKpi"); //comment this to go to Login
-  }
 };
 // };
 </script>

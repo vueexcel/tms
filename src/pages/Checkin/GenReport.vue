@@ -112,8 +112,8 @@ export default {
       this.genReportReason = ''
       this.highlightTask = ''
       this.highlightTaskReason = ''
-
     }
+  
   }
 };
 </script>

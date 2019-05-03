@@ -1,9 +1,5 @@
 <template>
   <div>
-    <b-breadcrumb>
-      <b-breadcrumb-item>YOU ARE HERE</b-breadcrumb-item>
-      <b-breadcrumb-item class="active_class">WeeklyReview</b-breadcrumb-item>
-    </b-breadcrumb>
     <h1 class="page-title">WeeklyReview</h1>
     <b-container class="bg-white no-gutters p-4" fluid>
       <b-row>
@@ -17,7 +13,11 @@
                     class="col-md-4 form-control-label text-md-left"
                   >Submit work done/ highlights of the work done in week</label>
                   <div class="col-md-8">
-                    <b-form-select v-model="selected" :options="options" class="mb-3"/>
+                    <b-form-select v-model="selected"  v-if="user.kpi" class="mb-3">
+                      <option v-for="(kpi,index) in user.kpi.kpi_json" :key="index" v-bind:value="kpi.title" >
+                        {{ kpi.title }}
+                        </option>
+                    </b-form-select>
                   </div>
                 </div>
                 <div class="form-group row">
@@ -62,9 +62,9 @@
                   >Which daily check-in do you wish to highlight</label>
                   <div class="col-md-8">
                     <!-- ======= ACCORDION RIGHT =================-->
-                    <b-card no-body>
-                      <b-tabs pills card vertical end>
-                        <b-tab title="Monday" active>
+                    <b-card no-body class="border-0">
+                      <b-tabs pills card vertical end class="border-0">
+                        <b-tab title="Monday" class="border-0">
                           <p>
                             #report
                             <br>fixed the issues-
@@ -76,7 +76,7 @@
                             <br>1. debug the code for the charts (monthly sales and spend) of dashboard
                           </p>
                         </b-tab>
-                        <b-tab title="Tuesday">
+                        <b-tab title="Tuesday" class="border-0">
                           <p>#report
                             <br>1.Applied the forgot password component
                             <br>2.and saved the data localstorage.
@@ -84,7 +84,7 @@
                             <br>4. new password for ams@hoxtonmediagroup.com id is : SY7BLP5U
                           </p>
                         </b-tab>
-                        <b-tab title="Wednesday">
+                        <b-tab title="Wednesday" class="border-0">
                           <p>#report
                             <br>sing App
                             <br>login via API implemented (axios)
@@ -94,7 +94,7 @@
                             <br>
                           </p>
                         </b-tab>
-                        <b-tab title="Thursday">
+                        <b-tab title="Thursday" class="border-0">
                           <p>#report
                             <br>today's work
                             <br>1. added validation while signup a user with the same email address
@@ -102,14 +102,14 @@
                             <br>3. the cache is automatically clear when cron job started
                           </p>
                         </b-tab>
-                        <b-tab title="Friday">
+                        <b-tab title="Friday" class="border-0">
                           <p>#report
                             <br>completed
                             <br>Start working on profile editor in "Accounts" page
                             <br>When customer clicks "edit profile", they should be able to edit all fields that they registered with EXCEPT for company name and email
                           </p>
                         </b-tab>
-                        <b-tab title="Saturday">
+                        <b-tab title="Saturday" class="border-0">
                           <p>#report
                             <br>1. showed the data on chart from dashboard page
                             <br>2. middle align the topbar brand name
@@ -156,7 +156,7 @@ import "imports-loader?jQuery=jquery,this=>window!flot/jquery.flot.pie";
 /* eslint-enable */
 import starRating from '@/components/Star/Star'
 import Widget from "@/components/Widget/Widget";
-import { call } from "vuex-pathify";
+import {get,call } from "vuex-pathify";
 
 export default {
   name: "WeeklyReview",
@@ -168,19 +168,12 @@ export default {
     return {
       ratedStar: 1,
       selected: "kpi",
-      options: [
-        { value: "kpi", text: "KPIs" }, 
-        { value: "kra", text: "KRAs" },
-        { value: "1", text: "item1" },
-        { value: "2", text: "item2" },
-        { value: "3", text: "item3" },
-        { value: "4", text: "item4" },
-        { value: "5", text: "item5" },
-        { value: "6", text: "item6" },
-      ],
       kpiKraDescription: "",
       extraWorkDescription: ""
     };
+  },
+  computed: {
+    user: get("profile/user")
   },
   methods: {
     weeklyReview_: call("weeklyReview/weeklyReview"),
