@@ -32,33 +32,39 @@
     </b-collapse>
     <div class="mt-2">
       <div class="feedback pb-2 mt-4 pl-3">Extra work/ Feedback/ Issues</div>
-      <h6 class="ml-3 pt-3">{{ data.extraWork }}</h6>
+      <h6 class="ml-3 pt-3">{{ data[0].extra }}</h6>
     </div>
     <div>
       <div class="feedback mt-4 pb-2 pl-3">Highlight Check-in</div>
-      <h6 class="ml-3 mt-3">{{ data.highlightCheckin }}</h6>
+      <!-- <h6 class="ml-3 mt-3">{{ data.highlightCheckin }}</h6> -->
+      <h6 class="ml-3 mt-3">{{ data[0].k_highlight }}</h6>
     </div>
     <div>
       <div class="feedback mt-4 pb-2 pl-3">Project Difficulty Level</div>
       <div class="text-dark ml-3 mb-5 mt-2">
-        <h2>
-          <i class="fa fa-star mr-xs"/>
-          <i class="fa fa-star mr-xs"/>
-          <i class="fa fa-star mr-xs"/>
-          <i class="fa fa-star mr-xs"/>
-          <i class="fa fa-star"/>
-        </h2>
+        <starRating
+          class="border-bottom"
+          :displayStar="5"
+          :ratedStar="ratedStarDifficulty"
+          :starSize="starSize"
+          @starRatingSelected="submitStarRateDifficulty"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import starRating from "@/components/Star/Star";
 export default {
   name: "ExtraWorkFeedback",
+  components: {
+    starRating
+  },
   props: {
     data: {
-      type: Object
+      // type: Object
+      type: Array
     },
     variant: {
       type: String
@@ -66,8 +72,21 @@ export default {
   },
   data() {
     return {
-      activeCollapse: false
+      activeCollapse: false,
+      starSize: "20px",
+      ratedStarWeekly: 1,
+      ratedStarDifficulty: 3
     };
+  },
+  methods: {
+    submitStarRateWeekly(value) {
+      this.ratedStarWeekly = value;
+    },
+    // submitStarRateDifficulty(value) {
+    //   console.log(value);
+
+    //   this.ratedStarDifficulty = value;
+    // }
   }
 };
 </script>
