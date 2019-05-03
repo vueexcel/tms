@@ -37,72 +37,32 @@
                 <br>
                 <!-- 1st block -->
                 <!-- v-bind:class="{ codegreen, codeblue , codeorange }" -->
-                <div
-                  class="rounded w-auto p-1 h-auto mr-1 mt-2"
-                  v-bind:class="{ colorGreen: true, colorBlue: false, colorOrange: false }"
-                  v-for="(manager,index) in user.managers"
-                  :key="index"
-                >
-                  <span class="thumb-md float-left ml-1 mt-1">
-                    <img
-                      class="rounded-circle"
-                      :src="manager.profileImage ? manager.profileImage : image"
-                      width="35"
-                      height="35"
-                      alt="..."
-                    >
-                  </span>
-                  <div class="float-left text-white text-left pl-2 pr-1">
-                    <span class="fw-bold fs-large">
-                      {{manager.username | firstname }}
-                      <span
-                        class="fw-normal"
-                      >{{manager.username | lastname }}</span>
+                <span v-for="(manager,index) in sortedArray" :key="index">
+                  <div
+                    class="rounded w-auto p-1 h-auto mr-1 mt-2"
+                    v-bind:class="{success : manager.weight <= 3 ,primary:  manager.weight > 3 && manager.weight <= 6, warning:  manager.weight > 6 && manager.weight <= 10}"
+                  >
+                    <span class="thumb-md float-left ml-1 mt-1">
+                      <img
+                        class="rounded-circle"
+                        :src="manager.profileImage ? manager.profileImage : image"
+                        width="35"
+                        height="35"
+                        alt="..."
+                      >
                     </span>
-                    <br>
-                    <span class="fs-sm">{{manager.job_title}}</span>
+                    <div class="float-left text-white text-left pl-2 pr-1">
+                      <span class="fw-bold fs-large">
+                        {{manager.username | firstname }}
+                        <span
+                          class="fw-normal"
+                        >{{manager.username | lastname }}</span>
+                      </span>
+                      <br>
+                      <span class="fs-sm">{{manager.job_title}}</span>
+                    </div>
                   </div>
-                </div>
-                <!-- 2nd block -->
-                <!-- <div class="rounded bg-warning w-auto p-1 h-auto mr-1">
-                  <span class="thumb-md float-left ml-1 mt-1">
-                    <img
-                      class="rounded-circle"
-                      src="@/assets/people/a5.jpg"
-                      width="35"
-                      height="35"
-                      alt="..."
-                    >
-                  </span>
-                  <div class="float-left text-white text-left pl-2 pr-1">
-                    <span class="fw-bold fs-large">
-                      Manish
-                      <span class="fw-normal">Prakash</span>
-                    </span>
-                    <br>
-                    <span class="fs-sm">Director</span>
-                  </div>
-                </div>
-                3rd block
-                <div class="rounded bg-success w-auto p-1 h-auto">
-                  <span class="thumb-md float-left ml-1 mt-1">
-                    <img
-                      class="rounded-circle"
-                      src="@/assets/people/a6.jpg"
-                      width="35"
-                      height="35"
-                      alt="..."
-                    >
-                  </span>
-                  <div class="float-left text-white text-left pl-2 pr-1">
-                    <span class="fw-bold fs-large">
-                      Deepak
-                      <span class="fw-normal">Mishra</span>
-                    </span>
-                    <br>
-                    <span class="fs-sm">Project Manager Magento</span>
-                  </div>
-                </div>-->
+                </span>
               </div>
             </Widget>
           </div>
@@ -236,9 +196,6 @@ export default {
   name: "Profile",
   data() {
     return {
-      colorGreen: "green",
-      colorBlue: "blue",
-      colorOrange: "orange",
       ratedStar: 1,
       two: 1,
       starSize: "17px",
@@ -250,12 +207,23 @@ export default {
     this.get_profile();
   },
   computed: {
-    user: get("profile/user")
+    user: get("profile/user"),
+    sortedArray() {
+      let managers = this.user.managers;
+      function compare(a, b) {
+        if (a.weight && b.weight) {
+          if (a.weight > b.weight) return -1;
+          if (a.weight < b.weight) return 1;
+          return 0;
+        }
+      }
+      managers = managers.sort(compare);
+      return managers;
+    }
   },
   filters: {
     firstname: function(value) {
-      var reWhiteSpace = new RegExp("/^s+$/");
-      if (reWhiteSpace.test(value)) {
+      if (value.indexOf(" ") >= 0) {
         return value
           .split(" ")
           .slice(0, -1)
@@ -263,8 +231,7 @@ export default {
       } else return value;
     },
     lastname: function(value) {
-      var reWhiteSpace = new RegExp("/^s+$/");
-      if (reWhiteSpace.test(value)) {
+      if (value.indexOf(" ") >= 0) {
         return value
           .split(" ")
           .slice(-1)

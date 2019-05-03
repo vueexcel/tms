@@ -22,7 +22,7 @@
                     <p>
                       <img
                         class="rounded-circle mr-2 mt-1 float-left"
-                        src="@/assets/people/a6.jpg"
+                        :src="userProfile.profileImage ? userProfile.profileImage : image"
                         width="25"
                         height="25"
                         alt="..."
@@ -149,6 +149,7 @@ import StandUpWidget from "./CheckinComponents/StandupReportWidget";
 import Comments from "./CheckinComponents/Comments";
 import GenReport from "./GenReport";
 import { timeout } from "q";
+import dummyimage from "@/components/Group/person-dummy.jpg";
 
 export default {
   name: "Checkin",
@@ -157,7 +158,8 @@ export default {
       generatedReport: [],
       canShowreason: false,
       canShowmore: true,
-      canShowless: false
+      canShowless: false,
+      image: dummyimage
     };
   },
   components: { Widget, StandUpWidget, Comments, GenReport },
