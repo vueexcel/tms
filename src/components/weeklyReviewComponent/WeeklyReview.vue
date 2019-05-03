@@ -1,50 +1,54 @@
 <template>
   <section>
-    <div class="text-center"  @click="checkEmployee(employee)" v-bind:class="{activeClassWeekly : employee.id === activeId && page === 'Weekly' , activeClass : employee.id === activeId && page != 'Weekly' }"
-    :style="{'background-color': backgroungColor, 'border': borderColor, 'border-radius': '8px' }"
-    > 
-        <div>
-          <img
-            class="rounded-circle mt-2 mb-2"
-            v-b-tooltip.hover
-            :title="employee.name"
-            :src="employee.image"
-            width="40"
-            height="40"
-          >
-          <div class="name">{{employee.name}}</div>
-          <div class="post">{{employee.post}}</div>
-        </div>
+    <div
+      class="text-center"
+      @click="checkEmployee(employee)"
+      v-bind:class="{activeClassWeekly : employee.id === activeId && page === 'Weekly' , activeClass : employee.id === activeId && page != 'Weekly' }"
+      :style="{'background-color': backgroungColor, 'border': borderColor, 'border-radius': '8px' }"
+    >
+      <div>
+        <img
+          class="rounded-circle mt-2 mb-2"
+          v-b-tooltip.hover
+          :title="employee.name"
+          :src="employee.image ? employee.image : dummyImage_"
+          width="40"
+          height="40"
+        >
+        <!-- <div class="name">{{employee.user}}</div> -->
+        <div class="post">{{employee.username}}</div>
+      </div>
     </div>
   </section>
 </template>
 
 <script>
-import Vue from 'vue';
-
+import Vue from "vue";
+import dummyImage from "./../../assets/people/dummy.jpeg";
 export default {
-  name: 'WeeklyReviewComponent',
+  name: "WeeklyReviewComponent",
   props: {
     employee: { type: Object, default: () => ({}) },
-    activeId: {type: Number, default: ''},
-    activeClass: {type: Object},
-    page : {type: String}
+    activeId: { type: Number, default: "" },
+    activeClass: { type: Object },
+    page: { type: String }
   },
   data() {
     return {
+      dummyImage_: dummyImage
     };
   },
   methods: {
-  checkEmployee(employee) {
-      this.$emit('setActive', this.employee)
+    checkEmployee(employee) {
+      this.$emit("setActive", this.employee);
     }
   },
-  computed:{
+  computed: {
     backgroungColor() {
-      return '#' + this.activeClass.background_color
+      return "#" + this.activeClass.background_color;
     },
     borderColor() {
-      return '1px solid #' +this.activeClass.border
+      return "1px solid #" + this.activeClass.border;
     }
   }
 };

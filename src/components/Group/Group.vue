@@ -60,6 +60,7 @@
         v-for="(img, i) in searchFilter"
         :key="i"
       >
+      <div v-if="!img.kpi_id && img.role !== 'Admin'">
         <img
           v-b-tooltip.hover
           :title="img.username"
@@ -76,12 +77,14 @@
         >
           <i class="fa fa-plus" style="color:white; font-size:10px"></i>
         </b-badge>
-        <b-badge class="badge circle-2 position-absolute badgePos p-0 top badge-white">
+        <!-- <b-badge class="badge circle-2 position-absolute badgePos p-0 top badge-white">
           <i
             class="fa fa-check-circle text-success"
             v-if="img.kpi_id && img.kpi_id === allMembers[index]._id"
           ></i>
-        </b-badge>
+        </b-badge> -->
+
+      </div>
       </span>
       <!-- ======================================================
               ======= MEMBER Image with badge (loop) ends
@@ -91,7 +94,6 @@
 </template>
 
 <script>
-import allMembers from "./allMembers.json";
 import { get, call, sync } from "vuex-pathify";
 import dummyImage from "./person-dummy.jpg";
 export default {
@@ -99,7 +101,6 @@ export default {
   data() {
     return {
       searchField: "",
-      allMembersArray: allMembers,
       dummyImg: dummyImage
     };
   },
