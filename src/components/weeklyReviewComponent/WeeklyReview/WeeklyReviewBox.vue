@@ -2,7 +2,8 @@
   <div>
     <b-row class="pb-5">
       <b-col xs="12" sm="6" class="rounded-left first-box">
-        <ExtraWorkFeedback :data="data" :variant="'#9964e3 !important'"/>
+        <!-- <ExtraWorkFeedback :data="data" :variant="'#9964e3 !important'"/> -->
+        <ExtraWorkFeedback :data="performanceData" :variant="'#9964e3 !important'"/>
       </b-col>
       <b-col xs="12" sm="6" class="rounded-right">
         <b-alert
@@ -41,7 +42,10 @@
             id="default-textarea"
             placeholder="Performance or general comments (if any)..."
           />
-          <b-button class="btn btn-default btn-lg mb-xs bg-primary text-white mt-4" @click="submit">Submit</b-button>
+          <b-button
+            class="btn btn-default btn-lg mb-xs bg-primary text-white mt-4"
+            @click="submit"
+          >Submit</b-button>
         </b-form>
       </b-col>
     </b-row>
@@ -51,15 +55,16 @@
 <script>
 import starRating from "@/components/Star/Star";
 import ExtraWorkFeedback from "./../../../components/ExtraWorkFeedback/ExtraWorkFeedback";
+import { get, call } from "vuex-pathify";
 
 export default {
   name: "PerformanceBox",
   data() {
     return {
       text: "",
-      starSize: '20px',
-      ratedStarWeekly: 1,
+      ratedStarWeekly: 2,
       ratedStarDifficulty: 2,
+      starSize: "20px",
       data: {
         widgetColor: "bg-warning rounded-left",
         kpi: [
@@ -96,11 +101,26 @@ export default {
     starRating,
     ExtraWorkFeedback
   },
+  mounted() {
+    console.log(this.$props.performanceData);
+  },
+  props: {
+    performanceData: {
+      type: Array,
+      default: null
+    }
+  },
   methods: {
+    setWeeklyReportReview: call("weeklyReportReview/setWeeklyReportReview"),
     submit() {
-      this.text = "";
-      this.ratedStarDifficulty = 1;
-      this.ratedStarWeekly = 1;
+      console.log(this.text, this.ratedStarWeekly, this.ratedStarDifficulty);
+      // this.text, this.ratedStarWeekly, this.ratedStarDifficulty;
+      this.setWeeklyReportReview({
+        difficulty: this.ratedStarDifficulty,
+        rating: this.ratedStarWeekly,
+        comment: this.text,
+        id: this.$props.performanceData[0]._id
+      });
     },
     submitStarRateWeekly(value) {
       this.ratedStarWeekly = value;
