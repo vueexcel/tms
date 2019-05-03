@@ -200,6 +200,7 @@ export default {
         user:this.employee
       })
       if(response){
+        this.showCollapse(managerToBeAdded)
         this.loading = false
       }
     }

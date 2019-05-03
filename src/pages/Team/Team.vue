@@ -1,6 +1,5 @@
 <template>
   <div>
-    
     <h1 class="page-title">Employee Team Page</h1>
     <div class="color_line">
       <hr>

@@ -13,7 +13,6 @@ const actions = {
         let response = await axios.get('/auth/profile')
         if (response) {
             commit('user', response.data)
-            console.log(response.data,'1111');
             if (response.data.role === 'Admin') {
                 router.push("/admin/manageKpi");
             } else {

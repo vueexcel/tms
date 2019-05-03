@@ -1,6 +1,5 @@
 <template>
   <div class="tables-basic">
-    
     <h2 class="page-title">Tables - <span class="fw-semi-bold">Static</span></h2>
     <b-row>
       <b-col>
