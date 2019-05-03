@@ -68,7 +68,7 @@
         index="dashboard"
         isHeader
       />
-      
+
       <NavLink
         header="Check-ins"
         link="/app/checkin"
@@ -84,19 +84,20 @@
         isHeader
       />
       <NavLink
+        v-if="sideBar.role == 'manager'"
+        header="Weekly Report Review"
+        link="/app/WeeklyReport"
+        iconName="fas fa-chart-line"
+        index="performanceReview"
+        isHeader
+      />
+      <NavLink
         header="Performance Review"
         link="/app/PerformanceReview"
         iconName="fas fa-chart-line"
         index="performanceReview"
         isHeader
       />
-      <!-- <NavLink
-        header="Weekly Report Review"
-        link="/app/WeeklyReport"
-        iconName="fas fa-chart-line"
-        index="performanceReview"
-        isHeader
-      />  -->
       <!--<NavLink
         header="Admin"
         link="/app/notifications"

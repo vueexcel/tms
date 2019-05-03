@@ -17,7 +17,7 @@ const actions = {
             })
             .catch((err) => {
             })
-    },
+    }
 }
 
 // create store
