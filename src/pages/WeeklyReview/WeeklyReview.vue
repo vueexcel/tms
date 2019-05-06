@@ -13,10 +13,12 @@
                     class="col-md-4 form-control-label text-md-left"
                   >Submit work done/ highlights of the work done in week</label>
                   <div class="col-md-8">
-                    <b-form-select v-model="selected"  v-if="user.kpi" class="mb-3">
-                      <option v-for="(kpi,index) in user.kpi.kpi_json" :key="index" v-bind:value="kpi.title" >
-                        {{ kpi.title }}
-                        </option>
+                    <b-form-select v-model="selected" v-if="user.kpi" class="mb-3">
+                      <option
+                        v-for="(kpi,index) in user.kpi.kpi_json"
+                        :key="index"
+                        v-bind:value="kpi.title"
+                      >{{ kpi.title }}</option>
                     </b-form-select>
                   </div>
                 </div>
@@ -64,58 +66,16 @@
                     <!-- ======= ACCORDION RIGHT =================-->
                     <b-card no-body class="border-0">
                       <b-tabs pills card vertical end class="border-0">
-                        <b-tab title="Monday" class="border-0">
-                          <p>
-                            #report
-                            <br>fixed the issues-
-                            <br>The profile editor is missing "company"
-                            <br>The profile editor should update "Enter your password" to "update your password"
-                            the login screen has weird spacing betwen user and password. The login screen doesn't login when I hit "enter"
-                            on my keyboard and
-                            <br>
-                            <br>1. debug the code for the charts (monthly sales and spend) of dashboard
-                          </p>
-                        </b-tab>
-                        <b-tab title="Tuesday" class="border-0">
-                          <p>#report
-                            <br>1.Applied the forgot password component
-                            <br>2.and saved the data localstorage.
-                            <br>3.getting the new password
-                            <br>4. new password for ams@hoxtonmediagroup.com id is : SY7BLP5U
-                          </p>
-                        </b-tab>
-                        <b-tab title="Wednesday" class="border-0">
-                          <p>#report
-                            <br>sing App
-                            <br>login via API implemented (axios)
-                            <br>improvised check-in page
-                            <br>installed POSTman
-                            <br>installed mongoDB
-                            <br>
-                          </p>
-                        </b-tab>
-                        <b-tab title="Thursday" class="border-0">
-                          <p>#report
-                            <br>today's work
-                            <br>1. added validation while signup a user with the same email address
-                            <br>2. added redis for getting faster repoonse from the server
-                            <br>3. the cache is automatically clear when cron job started
-                          </p>
-                        </b-tab>
-                        <b-tab title="Friday" class="border-0">
-                          <p>#report
-                            <br>completed
-                            <br>Start working on profile editor in "Accounts" page
-                            <br>When customer clicks "edit profile", they should be able to edit all fields that they registered with EXCEPT for company name and email
-                          </p>
-                        </b-tab>
-                        <b-tab title="Saturday" class="border-0">
-                          <p>#report
-                            <br>1. showed the data on chart from dashboard page
-                            <br>2. middle align the topbar brand name
-                            <br>3.shows the Brand(s) dropdown item by showing the account name or id (if account.name is not present)
-                          </p>
-                        </b-tab>
+                        {{date}}
+                        <span v-for="(reportdata,index) in report" :key="index">
+                          <b-tab
+                            :title="reportdata.day"
+                            class="border-0"
+                            @click="pickDay(index,reportdata)"
+                          >
+                            <p name="report">{{reportdata.report}}</p>
+                          </b-tab>
+                        </span>
                       </b-tabs>
                     </b-card>
                     <!-- ======= ACCORDION RIGHT ENDS=================-->
@@ -128,7 +88,11 @@
                     <br>(i.e., if project work did you did was difficult and
                     required more effort than usual)
                   </label>
-                  <starRating :displayStar="5" :ratedStar="ratedStar" @starRatingSelected="submitStarRate"/>
+                  <starRating
+                    :displayStar="5"
+                    :ratedStar="ratedStar"
+                    @starRatingSelected="submitStarRate"
+                  />
                 </div>
               </fieldset>
               <div class="form-actions">
@@ -154,13 +118,13 @@
 import "imports-loader?jQuery=jquery,this=>window!flot";
 import "imports-loader?jQuery=jquery,this=>window!flot/jquery.flot.pie";
 /* eslint-enable */
-import starRating from '@/components/Star/Star'
+import starRating from "@/components/Star/Star";
 import Widget from "@/components/Widget/Widget";
-import {get,call } from "vuex-pathify";
+import { get, call } from "vuex-pathify";
 
 export default {
   name: "WeeklyReview",
-  components: { 
+  components: {
     Widget,
     starRating
   },
@@ -169,30 +133,57 @@ export default {
       ratedStar: 1,
       selected: "kpi",
       kpiKraDescription: "",
-      extraWorkDescription: ""
+      extraWorkDescription: "",
+      selectedDay: null
     };
   },
+  mounted() {
+    this.get_report();
+    // console.log(this.$data.tabs);
+  },
   computed: {
-    user: get("profile/user")
+    user: get("profile/user"),
+    report: get("weeklyReview/report"),
+    date() {
+      Array.prototype.forEach.call(this.report, date => {
+        var time = this.$moment(date.created_at)
+          .tz("GMT")
+          .local()
+          .format("h:mm: A");
+        if (time !== "Invalid date") {
+          date["time"] = this.$moment(date.created_at).format("h:mm: A");
+          date["day"] = this.$moment(date.created_at).format("dddd");
+        }
+      });
+    }
   },
   methods: {
+    getReport: call("weeklyReview/getReport"),
     weeklyReview_: call("weeklyReview/weeklyReview"),
+    get_report: function() {
+      this.getReport();
+    },
     submitWeeklyReview: function() {
       // alert('==========================')
       this.weeklyReview_({
         k_highlight: {
-          kra: "",
-          kpi: {}
+          kra: this.selected,
+          kpi: this.kpiKraDescription
         },
         extra: this.extraWorkDescription,
-        select_days: ["id1", "id2", "id3"]
+        select_days: this.selectedDay
       });
+      console.log(this.weeklyReview_, "333333");
     },
     submitStarRate(value) {
-      this.ratedStar = value
+      this.ratedStar = value;
     },
     submit() {
-      this.ratedStar = 1
+      this.ratedStar = 1;
+    },
+    pickDay(index, reportdata) {
+      // console.log(index, reportdata.day);
+      this.selectedDay = reportdata.day;
     }
   }
 };

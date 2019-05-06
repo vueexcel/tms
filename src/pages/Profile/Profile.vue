@@ -117,14 +117,14 @@
                     title="Popover Title"
                     class="fas fa-question-circle fs-sm text-danger"
                   ></i>
-                  <span class="float-right">84%</span>
+                  <span class="float-right">{{user.Overall_rating}}%</span>
                 </h6>
                 <span class="text-secondary fs-sm">Overall performance review</span>
                 <b-progress
                   class="w-75"
                   style="height: 5px"
                   variant="danger"
-                  :value="40"
+                  :value="user.Overall_rating"
                   :max="100"
                 />
               </div>
