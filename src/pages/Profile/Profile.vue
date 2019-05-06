@@ -142,7 +142,7 @@
                   <span class="thumb-md float-left mr-2 mt-1">
                     <img
                       class="rounded-circle"
-                      src="@/assets/people/a5.jpg"
+                      :src="user.profileImage ? user.profileImage : image"
                       alt="..."
                       width="25"
                       height="25"
@@ -150,26 +150,36 @@
                   </span>
                 </div>
                 <div class>
-                  <span class="text-primary fw-semi-bold fs-larger">Bob Nilson</span>
-                  <p class="fs-sm">December 17,2018 at 01:59 PM</p>
+                  <span class="text-primary fw-semi-bold fs-larger">{{user.name}}</span>
+                  <span v-for="(recentactivity,index) in activity" :key="index">
+                    <span v-for="(misschecked,index) in recentactivity.missed_checkin" :key="index">
+                      {{time}}
+                      <p class="fs-sm">{{recentactivity.dates}}</p>
+
+                      <div class="fs-sm">{{misschecked.checkin_missed_message}}</div>
+                    </span>
+                  </span>
                 </div>
               </div>
-              <div class="fs-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.</div>
               <!-- <starRating :displayStar="5" :starSize="starSize" :ratedStar="ratedStar" @starRatingSelected="submitStarRateOne" /> -->
             </widget>
           </div>
-          <widget class="h-auto">
+          <!-- <widget class="h-auto">
             <div>
-              <div>
-                <span class="text-primary fw-semi-bold fs-larger">Jessica Smith</span>
+              <div >
+                <span class="text-primary fw-semi-bold fs-larger">{{user.name}}</span>
                 <p class="fw-semi fs-sm">December 17,2018 at 01:59 PM</p>
               </div>
             </div>
-            <div
-              class="fs-sm"
-            >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</div>
-            <!-- <starRating :displayStar="5" :starSize="starSize" :ratedStar="two" @starRatingSelected="submitStarRateTwo" /> -->
-          </widget>
+            {{activitydata}}
+            <span  v-for="(recentactivity,index) in activity" :key="index">
+              <span v-for="(misschecked,index) in recentactivity.missed_checkin" :key="index">
+            <div class="fs-sm">{{misschecked.checkin_missed_message}}</div>
+              
+            </span>
+            </span>
+           <starRating :displayStar="5" :starSize="starSize" :ratedStar="two" @starRatingSelected="submitStarRateTwo" /> 
+          </widget>-->
         </b-col>
       </b-row>
     </b-container>
@@ -201,20 +211,36 @@ export default {
   components: { Widget, AreaComponent, starRating },
   mounted() {
     this.get_profile();
+    this.get_activity();
   },
   computed: {
     user: get("profile/user"),
+    activity: get("profile/activity"),
+    time() {
+      this.activity.forEach(element => {
+        var time = this.$moment(element.date)
+          .tz("GMT")
+          .local()
+          .format("h:mm: A");
+        if (time !== "Invalid date") {
+          element["dates"] =
+            this.$moment(element.date).format("MMMM DD,YYYY") + " at " + time;
+        }
+      });
+    },
     sortedArray() {
       let managers = this.user.managers;
-      function compare(a, b) {
-        if (a.weight && b.weight) {
-          if (a.weight > b.weight) return -1;
-          if (a.weight < b.weight) return 1;
-          return 0;
+      if (managers) {
+        function compare(a, b) {
+          if (a.weight && b.weight) {
+            if (a.weight > b.weight) return -1;
+            if (a.weight < b.weight) return 1;
+            return 0;
+          }
         }
+        managers = managers.sort(compare);
+        return managers;
       }
-      managers = managers.sort(compare);
-      return managers;
     }
   },
   filters: {
@@ -238,8 +264,12 @@ export default {
 
   methods: {
     getProfile: call("profile/getProfile"),
+    getActivity: call("profile/getActivity"),
     get_profile: function() {
       this.getProfile();
+    },
+    get_activity: function() {
+      this.getActivity();
     },
     submitStarRateOne(value) {
       this.ratedStar = value;

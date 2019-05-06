@@ -5,7 +5,8 @@
         <a class="d-md-down-none px-2" href="#" @click="toggleSidebarMethod" id="barsTooltip">
           <i class="la la-bars la-lg"/>
         </a>
-        <b-tooltip target="barsTooltip" placement="bottom">Turn on/off
+        <b-tooltip target="barsTooltip" placement="bottom">
+          Turn on/off
           <br>sidebar
           <br>collapsing
         </b-tooltip>
@@ -36,15 +37,25 @@
       >
         <template slot="button-content">
           <span class="avatar thumb-sm float-left mr-2">
-            <img class="rounded-circle" 
-            :src="user.profileImage ? user.profileImage : image"
-            alt="...">
+            <img
+              class="rounded-circle"
+              :src="user.profileImage ? user.profileImage : image"
+              alt="..."
+            >
           </span>
           <span class="small">
-            <span class="fw-semi-bold">{{user.username}}
+            <span class="fw-semi-bold">{{user.username}}</span>
           </span>
+          <span
+            class="ml-1 circle bg-warning text-white fw-bold"
+            v-for="(recentactivity,index) in activity"
+            :key="index"
+          >
+            <span
+              v-for="(misschecked,index) in recentactivity.missed_checkin"
+              :key="index"
+            >{{recentactivity.missed_checkin.length}}</span>
           </span>
-          <span class="ml-1 circle bg-warning text-white fw-bold">13</span>
         </template>
         <Notifications/>
       </b-nav-item-dropdown>
@@ -60,7 +71,7 @@
         <b-dropdown-item>Inbox &nbsp;&nbsp;
           <b-badge variant="danger" pill class="animated bounceIn">9</b-badge>
         </b-dropdown-item>
-        <b-dropdown-divider/> -->
+        <b-dropdown-divider/>-->
         <b-dropdown-item-button @click="logout">
           <i class="la la-sign-out"/> Log Out
         </b-dropdown-item-button>
@@ -113,6 +124,7 @@ export default {
   components: { Notifications },
   computed: {
     user: get("profile/user"),
+    activity: get("profile/activity"),
     ...mapState("layout", {
       sidebarClose: state => state.sidebarClose,
       sidebarStatic: state => state.sidebarStatic
@@ -147,13 +159,13 @@ export default {
         this.changeSidebarActive(paths.join("/"));
       }
     },
-   
+
     logout() {
       window.localStorage.setItem("authenticated", false);
       // this.$router.push("/login");
       localStorage.clear();
-       this.$cookies.remove('keepLoggedIn')
-       this.$router.push("/");
+      this.$cookies.remove("keepLoggedIn");
+      this.$router.push("/");
     }
   },
   created() {

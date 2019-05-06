@@ -79,7 +79,7 @@ export default {
       this.getWeeklyReport_()
         .then(resp => {
           this.weeklyData = resp.data;
-          // console.log(resp);
+           console.log(resp,'3333');
         })
         .catch(err => {
           console.log(err);
