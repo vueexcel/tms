@@ -14,7 +14,7 @@ ll<template>
                 <a>
                   <img
                     @click="showCollapse(img)"
-                    v-b-toggle="'manager' + img.user._id"
+                    v-b-toggle="'manager' + img.user._id + employee._id"
                     class="rounded-circle h-auto"
                     v-b-tooltip.hover
                     :title="img.user.name"
@@ -50,7 +50,7 @@ ll<template>
             <br/>
             <div v-for="img in allManagers" :key="img._id">
               <b-collapse
-                :id="'manager' + managerObj._id"
+                :id="'manager' + managerObj._id+employee._id"
                 v-if="managerObj._id === img._id"
               >
               <div class="border-bottom line"></div>
@@ -243,7 +243,6 @@ export default {
     }
   },
   created() {
-    console.log(vm)
   }
 }
 </script>
