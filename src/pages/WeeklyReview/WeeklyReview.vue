@@ -134,7 +134,8 @@ export default {
       selected: "kpi",
       kpiKraDescription: "",
       extraWorkDescription: "",
-      selectedDay: null
+      selectedDay: null,
+      id:null
     };
   },
   mounted() {
@@ -171,7 +172,7 @@ export default {
           kpi: this.kpiKraDescription
         },
         extra: this.extraWorkDescription,
-        select_days: this.selectedDay
+        select_days: this.id,
       });
       console.log(this.weeklyReview_, "333333");
     },
@@ -184,6 +185,7 @@ export default {
     pickDay(index, reportdata) {
       // console.log(index, reportdata.day);
       this.selectedDay = reportdata.day;
+      this.id= reportdata._id;
     }
   }
 };

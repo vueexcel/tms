@@ -1,7 +1,11 @@
 <template>
   <b-list-group class="thin-scroll">
     <b-list-group-item class="listGroupItem">
-      <span class="notificationIcon thumb-sm">
+      <span
+        class="notificationIcon thumb-sm"
+        v-for="(recentactivity,index) in activity"
+        :key="index"
+      >
         <img
           class="rounded-circle"
           :src="user.profileImage ? user.profileImage : image"
@@ -9,22 +13,21 @@
           width="25"
           height="25"
         >
-      </span>
-      <p class="m-0 overflow-hidden">
-        <!-- 1 new user just signed up! Check out
+
+        <p class="m-0 overflow-hidden">
+          <!-- 1 new user just signed up! Check out
         &nbsp;
-        <a href="#">Monica Smith</a>'s account.-->
-        <span v-for="(recentactivity,index) in activity" :key="index">
+          <a href="#">Monica Smith</a>'s account.-->
           <span v-for="(misschecked,index) in recentactivity.missed_checkin" :key="index">
-            <div> You have missed your daily checkin on 
+            <div>
+              You have missed your daily checkin on
               {{date}}
               {{misschecked.day}}
-              </div>
+            </div>
           </span>
-        </span>
-
-        <!-- <time class="help-block m-0">2 mins ago</time> -->
-      </p>
+        </p>
+      </span>
+      <!-- <time class="help-block m-0">2 mins ago</time> -->
     </b-list-group-item>
     <!-- <b-list-group-item class="listGroupItem">
       <span class="notificationIcon thumb-sm">
@@ -92,7 +95,7 @@
         Dark matter detected.
         <time class="help-block m-0">15 Apr 2014</time>
       </p>
-    </b-list-group-item> -->
+    </b-list-group-item>-->
   </b-list-group>
 </template>
 
@@ -101,7 +104,7 @@ import { get, call } from "vuex-pathify";
 import dummyimage from "@/components/Group/person-dummy.jpg";
 export default {
   name: "NotificationsList",
-   data() {
+  data() {
     return {
       image: dummyimage
     };
@@ -115,32 +118,22 @@ export default {
     activity: get("profile/activity"),
     date() {
       this.activity.forEach(activity => {
-        if(activity.missed_checkin.length){
-          activity.missed_checkin.forEach(checkin => {
-             var time = this.$moment(activity.checkin_missed_message)
-               .tz("GMT")
-               .local()
-               .format("h:mm: A");
-             if (time !== "Invalid date") {
-               activity["day"] =
-                 this.$moment(activity.checkin_missed_message).format("MMMM DD,YYYY");
-             }
-              console.log(this.day,'*****************');
-           })
+        if (activity.missed_checkin.length) {
+          activity.missed_checkin.forEach(dates => {
+            console.log(dates);
+            // console.log(dates.checkin_missed_message,'!!!!')
+            // console.log(dates);
+            var date = this.$moment(dates.checkin_missed_message);
+            if (date) {
+              // console.log(date.checkin_missed_message,'!!!!!!!!!')
+              dates["day"] = this.$moment(date.checkin_missed_message).format(
+                " MMMM DD, YYYY"
+              );
+            }
+          });
         }
       });
-    },
-    // activityArray(){
-    //   this.activity.forEach(activity =>{
-    //     if(activity.missed_checkin.length){
-    //       activity.missed_checkin.forEach(checkin => {
-    //         console.log(checkin,'*****************');
-            
-    //       });
-    //     }
-    //   })
-    //   return this.activity
-    // }
+    }
   },
   methods: {
     getProfile: call("profile/getProfile"),

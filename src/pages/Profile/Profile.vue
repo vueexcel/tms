@@ -95,7 +95,7 @@
                     title="Popover Title"
                     class="fas fa-question-circle fs-sm text-danger"
                   ></i>
-                  <span class="float-right">{{user.Checkin_rating}}%</span>
+                  <span class="float-right">{{checkin_rating}}%</span>
                 </h6>
                 <span class="text-secondary fs-sm">Daily stand-up report submitted</span>
                 <b-progress
@@ -139,6 +139,9 @@
             <widget class="mb-3">
               <div>
                 <div class="h-100">
+                </div>
+                <div class>
+                  <span v-for="(recentactivity,index) in activity" :key="index">
                   <span class="thumb-md float-left mr-2 mt-1">
                     <img
                       class="rounded-circle"
@@ -148,15 +151,15 @@
                       height="25"
                     >
                   </span>
-                </div>
-                <div class>
                   <span class="text-primary fw-semi-bold fs-larger">{{user.name}}</span>
-                  <span v-for="(recentactivity,index) in activity" :key="index">
+                    {{time}}
+                    <p class="fs-sm">{{recentactivity.dates}}</p>
                     <span v-for="(misschecked,index) in recentactivity.missed_checkin" :key="index">
-                      {{time}}
-                      <p class="fs-sm">{{recentactivity.dates}}</p>
-
-                      <div class="fs-sm">{{misschecked.checkin_missed_message}}</div>
+                      {{date}}
+                      <div class="fs-sm">
+                        You have missed your daily checkin on
+                        {{misschecked.day}}
+                      </div>
                     </span>
                   </span>
                 </div>
@@ -205,7 +208,8 @@ export default {
       ratedStar: 1,
       two: 1,
       starSize: "17px",
-      image: dummyimage
+      image: dummyimage,
+      checkin_rating: 0
     };
   },
   components: { Widget, AreaComponent, starRating },
@@ -228,7 +232,22 @@ export default {
         }
       });
     },
+    date() {
+      this.activity.forEach(activity => {
+        if (activity.missed_checkin.length) {
+          activity.missed_checkin.forEach(dates => {
+            var date = this.$moment(dates.checkin_missed_message);
+            if (date) {
+              dates["day"] = this.$moment(date.checkin_missed_message).format(
+                " MMMM DD, YYYY"
+              );
+            }
+          });
+        }
+      });
+    },
     sortedArray() {
+      this.checkin_rating = Math.round(this.user.Checkin_rating);
       let managers = this.user.managers;
       if (managers) {
         function compare(a, b) {
