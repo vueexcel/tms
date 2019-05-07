@@ -18,12 +18,23 @@
           <!-- 1 new user just signed up! Check out
         &nbsp;
           <a href="#">Monica Smith</a>'s account.-->
+          <span v-if="recentactivity.missed_checkin">
           <span v-for="(misschecked,index) in recentactivity.missed_checkin" :key="index">
             <div>
               You have missed your daily checkin on
               {{date}}
               {{misschecked.day}}
             </div>
+          </span>
+          </span>
+          <span v-else if="recentactivity.Daily_chechkin_message">
+            <span v-for="(dailycheckin,index) in recentactivity.Daily_chechkin_message" :key="index">
+            <div>
+              You have missed your daily checkin on
+              {{date}}
+              {{misschecked.day}}
+            </div>
+          </span>
           </span>
         </p>
       </span>
@@ -118,8 +129,22 @@ export default {
     activity: get("profile/activity"),
     date() {
       this.activity.forEach(activity => {
-        if (activity.missed_checkin.length) {
+        if (activity.missed_checkin) {
           activity.missed_checkin.forEach(dates => {
+            console.log(dates);
+            // console.log(dates.checkin_missed_message,'!!!!')
+            // console.log(dates);
+            var date = this.$moment(dates.checkin_missed_message);
+            if (date) {
+              // console.log(date.checkin_missed_message,'!!!!!!!!!')
+              dates["day"] = this.$moment(date.checkin_missed_message).format(
+                " MMMM DD, YYYY"
+              );
+            }
+          });
+        }
+        else if(activity.Daily_checkin){
+           activity.Daily_checkin.forEach(dates => {
             console.log(dates);
             // console.log(dates.checkin_missed_message,'!!!!')
             // console.log(dates);

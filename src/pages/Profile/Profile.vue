@@ -234,7 +234,7 @@ export default {
     },
     date() {
       this.activity.forEach(activity => {
-        if (activity.missed_checkin.length) {
+        if (activity.missed_checkin) {
           activity.missed_checkin.forEach(dates => {
             var date = this.$moment(dates.checkin_missed_message);
             if (date) {
