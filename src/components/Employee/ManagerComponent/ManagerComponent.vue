@@ -14,7 +14,7 @@ ll<template>
                 <a>
                   <img
                     @click="showCollapse(img)"
-                    v-b-toggle="'manager' +img.user._id"
+                    v-b-toggle="'manager' + img.user._id"
                     class="rounded-circle h-auto"
                     v-b-tooltip.hover
                     :title="img.user.name"
@@ -53,51 +53,54 @@ ll<template>
                 :id="'manager' + managerObj._id"
                 v-if="managerObj._id === img._id"
               >
-                <div class="border-bottom line"></div>
-                  <div style="display:flex" class="set_height">
-                    <img
-                      class="rounded-circle h-auto"
-                      :title="img.name"
-                      :src="managerObj.profileImage ? managerObj.profileImage : defaultImage"
-                      width="40"
-                    >
-                    <i
-                      class="fa fa-times-circle text-danger mt-4 close-collapse"
-                      aria-hidden="true"
-                      @click="closeCollapse(managerObj)"
-                    ></i>
-                    <span class="ml-3">
-                      <p class="text-primary fw-semi-bold fs-larger manager-name">{{img.name}}</p>
-                      <p class="text-dark manager-work">{{img.jobtitle}}</p>
-                    </span>
+              <div class="border-bottom line"></div>
+                <div style="display:flex" class="set_height">
+                  <img
+                    class="rounded-circle h-auto"
+                    :title="img.name"
+                    :src="managerObj.profileImage ? managerObj.profileImage : defaultImage"
+                    width="40"
+                  >
+                  <i
+                    class="fa fa-times-circle text-danger mt-4 close-collapse "
+                    aria-hidden="true"
+                    @click="closeCollapse(managerObj)"
+                  ></i>
+                  <span class="ml-3">
+                    <p class="text-primary fw-semi-bold fs-larger manager-name">{{img.name}}</p>
+                    <p class="text-dark manager-work">{{img.jobtitle}}</p>
+                  </span>
+                </div>
+                <div>
+                  <p class="mt-4 mb-2 text-dark">Manager Weight:</p>
+                  <ul class="progress-bar-employee">
+                    <li class="list" v-for="index in 10" :key="index" @click="weightRating(index, img)" v-bind:class="{ 'active' : index <=  ratedWeight}">
+                      <div class="text-muted fw-semi-bold employee-progress d-flex" v-bind:class="{'text-primary': index <= ratedWeight}">{{index}}</div>
+                    </li>
+                  </ul>
+                </div>
+                <div class="all-manager-div">
+                  <div class="w-100">
+                    <p class="block-example mt-2">All</p>
                   </div>
-                  <div>
-                    <p class="mt-4 mb-2 text-dark">Manager Weight:</p>
-                    <ul class="progress-bar-employee">
-                      <li class="list" v-for="index in 10" :key="index" @click="weightRating(index, img)" v-bind:class="{ 'active' : index <=  ratedWeight}">
-                        <div class="text-muted fw-semi-bold employee-progress d-flex" v-bind:class="{'text-primary': index <= ratedWeight}">{{index}}</div>
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="all-manager-div">
-                    <div class="w-100">
-                      <p class="block-example mt-2">All</p>
-                    </div>
-                    <div class="all_managers">
+                  <div class="all_managers"> 
                     <div
                       class="all-manager mr-1 mb-3"
-                      v-for="img in allManagers"
+                      v-for="img in allUsersWithNoManagers"
                       :key="img._id"
                     >
-                    <img
-                      class="rounded-circle h-auto"
-                      v-b-tooltip.hover
-                      :title="img.name"
-                      :src="img.profileImage ? img.profileImage : defaultImage"
-                      width="30"
-                    >
-                    <i class="fa fa-check-circle fa-check-circle-altered text-success" v-if="img.managerOFUser === employee._id" ></i>
-                    <i class="fas fa-plus-circle fa-plus-circle-altered add-icon text-primary" v-if="img.managerOFUser !== employee._id" @click="addManager(img)"></i>
+                    <div v-if="img.managerOFUser !== employee._id">
+                      <img
+                        class="rounded-circle h-auto"
+                        v-b-tooltip.hover
+                        :title="img.name"
+                        :src="img.profileImage ? img.profileImage : defaultImage"
+                        width="30"
+                      >
+                      <i class="fa fa-check-circle fa-check-circle-altered text-success" v-if="img.managerOFUser === employee._id" ></i>
+                      <i class="fas fa-plus-circle fa-plus-circle-altered add-icon text-primary" v-if="img.managerOFUser !== employee._id" @click="addManager(img)"></i>
+
+                    </div>
                   </div>
                 </div>
               </div>
@@ -117,7 +120,6 @@ export default {
   name: 'ManagerComponent',
   data() {
     return { 
-      show: false,
       managerObj: {},
       defaultImage:defaultImage,
       ratedWeight: null,
@@ -135,7 +137,7 @@ export default {
     allManagers(){
       let userArray = []
       this.allMembers.forEach(user => {
-        if(user.role !== 'Admin' && user._id !== this.employee._id){
+        if(user._id !== this.employee._id){
           userArray.push(user)
         }
       });
@@ -158,6 +160,22 @@ export default {
       }
       return managerArray
     },
+    allUsersWithNoManagers(){
+      var newArr = [];
+     if(this.employee.managers){
+       for(let member of this.allMembers){
+        let count=0
+      for(let manager of this.employee.managers){
+          if(member._id==manager._id ||this.employee._id ==member._id ){
+            count++
+            break
+          }
+       }
+       if(count==0)newArr.push(member)
+       }
+     }
+    return newArr;
+    }
   },
   methods:{
     getAllMembers_: call("allMember/getAllMember"),
@@ -165,10 +183,12 @@ export default {
     assignManager: call("allMember/assignManager"),
     deleteManager: call("allMember/deleteManager"),
     showCollapse(value) {
-      this.show = !this.show;
-      this.ratedWeight = value.weight
-      if (value) {
+      if (value.user) {
+        this.ratedWeight = value.weight
         this.managerObj = value.user;
+      } else {
+        this.managerObj = value
+        this.ratedWeight = 1
       }
     },
     async closeCollapse(manager) {
@@ -185,28 +205,45 @@ export default {
       this.managerObj = {};
     },
     weightRating(index, manager){
+      this.loading = true
       this.ratedWeight = index
       this.assignManager({
         weight: index,
         user:this.employee,
         manager: manager
+      }).then(response =>{
+          this.$emit('setMessage','Weight Updated Successfully')
+          this.ratedWeight = null
+          this.managerObj = {};
+          this.loading = false
+          
       })
-      
     },
     async addManager(managerToBeAdded){
       this.loading = true
-      let response = await this.addManagerOfUser({
-        manager: managerToBeAdded,
-        user:this.employee
+      if(managerToBeAdded.role === "Admin"){
+        this.assignManager({
+          weight: 1,
+          user: this.employee,
+          manager: managerToBeAdded
+        }).then(response =>{
+          this.ratedWeight = 1
+          this.managerObj = managerToBeAdded;
+          this.loading = false
       })
-      if(response){
-        this.showCollapse(managerToBeAdded)
-        this.loading = false
+      } else{
+        let response = await this.addManagerOfUser({
+          manager: managerToBeAdded,
+          user:this.employee
+        })
+        if(response){
+          this.loading = false
+        }
       }
     }
   },
   created() {
-    // this.allManagers = members
+    console.log(vm)
   }
 }
 </script>

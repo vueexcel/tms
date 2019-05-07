@@ -1,9 +1,17 @@
 <template>
   <div>
     <div class="card mb-5">
+      <b-alert
+          :show="dismissCountDown"
+          dismissible
+          v-if="error"
+          @dismissed="dismissCountDown=0"
+          @dismiss-count-down="countDownChanged"
+          class="mx-auto text-center mt-3 alert-rounded alert-transparent"
+        >{{error}},{{dismissCountDown}}</b-alert>
       <div class="card-body text-center">
         <i class="fas fa-circle-notch text-success fa-spin float-left" v-if="loading"></i>
-        <div class="float-right" >
+        <div class="float-right">
           <i
             class="fas fa-edit edit-button"
             v-if="!edit"
@@ -30,10 +38,15 @@
             <span class="employee-name">{{employee_.name}}</span>
           </span>
           <span>
-            <p
+            <!-- <p
               class="fw-small text-primary employee-technology"
               v-if="!edit"
-            >{{employee_.kpi}}</p>
+            >{{employee_.kpi}}</p> -->
+            <p v-if="!edit">
+              <a href="#" class="btn btn-rounded-f button-for-employee">
+              <div class="text-gray" style="font-size: 12px;">{{employee_.kpi}}</div>
+            </a>
+            </p>
             <b-form-select v-else v-model="selected" :options="options" class="mb-3">
               <template slot="first">
                 <option :value="null" disabled>-- Please select an option --</option>
@@ -42,12 +55,12 @@
           </span>
         </div>
         <div>
-          <a href="#" class="btn btn-rounded-f button-for-employee">
-            <div class="text-gray" style="font-size: 12px;">{{employee_.jobtitle}}</div>
+          <a href="#" class="employee-technology">
+            <div class="text-primary " style="font-size: 14px;">{{employee_.jobtitle}}</div>
           </a>
         </div>
       </div> 
-      <ManagerComponent :employee="employee"/>
+      <ManagerComponent :employee="employee" @setMessage="weightMessage"/>
     </div>
   </div>
 </template>
@@ -73,7 +86,10 @@ export default {
       technologySelect: "",
       defaultImage: defaultImage,
       kpiIndex: null,
-      loading:false
+      loading:false,
+      error:'',
+      dismissSecs: 5,
+      dismissCountDown: 0
     };
   },
   props: {
@@ -177,6 +193,13 @@ export default {
       if(response){
         this.loading = false
       }
+    },
+    weightMessage(value){
+      this.error = value
+      this.dismissCountDown = this.dismissSecs
+    },
+    countDownChanged(dismissCountDown){
+      this.dismissCountDown = dismissCountDown
     }
   },
   mounted() {
