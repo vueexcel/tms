@@ -138,28 +138,39 @@
             </h2>
             <widget class="mb-3">
               <div>
-                <div class="h-100">
-                </div>
+                <div class="h-100"></div>
                 <div class>
                   <span v-for="(recentactivity,index) in activity" :key="index">
-                  <span class="thumb-md float-left mr-2 mt-1">
-                    <img
-                      class="rounded-circle"
-                      :src="user.profileImage ? user.profileImage : image"
-                      alt="..."
-                      width="25"
-                      height="25"
-                    >
-                  </span>
-                  <span class="text-primary fw-semi-bold fs-larger">{{user.name}}</span>
+                    <span class="thumb-md float-left mr-2 mt-1">
+                      <img
+                        class="rounded-circle"
+                        :src="user.profileImage ? user.profileImage : image"
+                        alt="..."
+                        width="25"
+                        height="25"
+                      >
+                    </span>
+                    <span class="text-primary fw-semi-bold fs-larger">{{user.name}}</span>
                     {{time}}
                     <p class="fs-sm">{{recentactivity.dates}}</p>
-                    <span v-for="(misschecked,index) in recentactivity.missed_checkin" :key="index">
-                      {{date}}
-                      <div class="fs-sm">
+                    <span v-if="recentactivity.missed_checkin">
+                      <span
+                        v-for="(misschecked,index) in recentactivity.missed_checkin"
+                        :key="index"
+                      >
                         You have missed your daily checkin on
+                        {{date}}
                         {{misschecked.day}}
-                      </div>
+                      </span>
+                    </span>
+
+                    <span v-else>
+                      <span
+                        v-for="(dailycheckin,index) in recentactivity.Daily_checkin"
+                        :key="index"
+                      >
+                        <div>{{dailycheckin.Daily_chechkin_message}}</div>
+                      </span>
                     </span>
                   </span>
                 </div>

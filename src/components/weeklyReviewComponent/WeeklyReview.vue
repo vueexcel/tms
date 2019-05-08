@@ -1,7 +1,7 @@
 <template>
   <section>
     <div
-      class="text-center"
+      class="text-center "
       @click="checkEmployee(employee)"
       v-bind:class="{activeClassWeekly : employee.id === activeId && page === 'Weekly' , activeClass : employee.id === activeId && page != 'Weekly' }"
       :style="{'background-color': backgroungColor, 'border': borderColor, 'border-radius': '8px' }"
@@ -29,7 +29,7 @@ export default {
   name: "WeeklyReviewComponent",
   props: {
     employee: { type: Object, default: () => ({}) },
-    activeId: { type: Number, default: "" },
+    activeId: { type: Number, default: 0 },
     activeClass: { type: Object },
     page: { type: String }
   },
@@ -40,7 +40,7 @@ export default {
   },
   methods: {
     checkEmployee(employee) {
-      this.$emit("setActive", this.employee);
+      this.$emit("setActive", employee);
     }
   },
   computed: {

@@ -113,14 +113,6 @@
         index="performanceReview"
         isHeader
       />
-      <NavLink
-       v-if="sideBar.role === 'manager'"
-        header="View Monthly Report"
-        link="/app/PerformanceReview"
-        iconName="fas fa-calendar"
-        index="notifications"
-        isHeader
-      />
       <!--<NavLink
         header="Admin"
         link="/app/notifications"

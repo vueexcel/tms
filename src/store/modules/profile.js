@@ -14,7 +14,6 @@ const actions = {
         let response = await axios.get('/auth/profile')
         if (response) {
             commit('user', response.data)
-            // console.log(response.data,'11111');
             if (response.data.role === 'Admin') {
                 router.push("/admin/manageKpi");
             } else {
@@ -31,7 +30,6 @@ const actions = {
         let response = await axios.get('/user/recent_activities')
         if (response) {
             commit('activity', response.data)
-            console.log(response.data,'dvgfgbf');
 
             return true
         }

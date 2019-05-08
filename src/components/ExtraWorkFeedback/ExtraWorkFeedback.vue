@@ -1,56 +1,62 @@
 <template>
   <div xs="12" sm="6">
-    <b-btn
-      v-b-toggle="'collapse2'"
-      class="m-1 mt-2 collapse-button h2"
-      @mouseover="activeCollapse"
-      :class="{hover_variant : activeCollapse}"
-      v-bind:style="{'color': variant }"
-    >KPI</b-btn>
-    <b-collapse id="collapse2">
-      <b-container v-for="(kpi, index) in data.kpi" :key="index">
-        <div class="mt-2">
-          <span class="bold-text">{{ kpi.heading }}</span>
-          <h6>{{ kpi.content }}</h6>
-        </div>
-        <div class="border-top text-light"></div>
-      </b-container>
-    </b-collapse>
-    <b-btn
-      v-b-toggle="'collapse3'"
-      class="m-1 collapse-button"
-      v-bind:style="{'color': variant }"
-    >ERA</b-btn>
-    <b-collapse id="collapse3">
-      <b-container v-for="(era, index) in data.era" :key="index">
-        <div class="mt-2">
-          <span class="bold-text">{{ era.heading }}</span>
-          <h6>{{ era.content }}</h6>
-        </div>
-        <div class="border-top text-light"></div>
-      </b-container>
-    </b-collapse>
-    <div class="mt-2">
-      <div class="feedback pb-2 mt-4 pl-3">Extra work/ Feedback/ Issues</div>
-      <h6 class="ml-3 pt-3">{{ data[0].extra }}</h6>
-    </div>
-    <div>
-      <div class="feedback mt-4 pb-2 pl-3">Highlight Check-in</div>
-      <!-- <h6 class="ml-3 mt-3">{{ data.highlightCheckin }}</h6> -->
-      <h6 class="ml-3 mt-3">{{ data[0].k_highlight }}</h6>
-    </div>
-    <div>
-      <div class="feedback mt-4 pb-2 pl-3">Project Difficulty Level</div>
-      <div class="text-dark ml-3 mb-5 mt-2">
-        <starRating
-          class="border-bottom"
-          :displayStar="5"
-          :ratedStar="ratedStarDifficulty"
-          :starSize="starSize"
-          @starRatingSelected="submitStarRateDifficulty"
-        />
+    <span>
+      <b-btn
+        v-b-toggle="'collapse2'"
+        class="m-1 mt-2 collapse-button h2"
+        @mouseover="activeCollapse"
+        :class="{hover_variant : activeCollapse}"
+        v-bind:style="{'color': variant }"
+      >KPI</b-btn>
+      <b-collapse id="collapse2">
+        <b-container>
+          <div class="mt-2">
+            <span class="bold-text">
+              <h6>{{data.k_highlight.kpi}}</h6>
+            </span>
+          </div>
+          <div class="border-top text-light"></div>
+        </b-container>
+      </b-collapse>
+      <b-btn
+        v-b-toggle="'collapse3'"
+        class="m-1 collapse-button"
+        v-bind:style="{'color': variant }"
+      >ERA</b-btn>
+      <b-collapse id="collapse3">
+        <b-container>
+          <div class="mt-2">
+            <span class="bold-text">
+              <h6>{{ data.k_highlight.kra }}</h6>
+            </span>
+          </div>
+          <div class="border-top text-light"></div>
+        </b-container>
+      </b-collapse>
+      <div class="mt-2">
+        <div class="feedback pb-2 mt-4 pl-3">Extra work/ Feedback/ Issues</div>
+        <h6 class="ml-3 pt-3">{{ data.extra }}</h6>
       </div>
-    </div>
+      <div>
+        <div class="feedback mt-4 pb-2 pl-3">Highlight Check-in</div>
+        <!-- <h6 class="ml-3 mt-3">{{ data.highlightCheckin }}</h6> -->
+        <span v-for="(reporthighlight, index) in data.select_days" :key="index">
+          <h6 class="ml-3 mt-3">{{reporthighlight.report }}</h6>
+        </span>
+      </div>
+      <div>
+        <div class="feedback mt-4 pb-2 pl-3">Project Difficulty Level</div>
+        <div class="text-dark ml-3 mb-5 mt-2">
+          <starRating
+            class="border-bottom"
+            :displayStar="5"
+            :ratedStar="data.difficulty"
+            :starSize="starSize"
+            @starRatingSelected="submitStarRateDifficulty"
+          />
+        </div>
+      </div>
+    </span>
   </div>
 </template>
 
@@ -63,8 +69,8 @@ export default {
   },
   props: {
     data: {
-      // type: Object
-      type: Array
+      type: Object
+      // type: Array
     },
     variant: {
       type: String
@@ -82,11 +88,9 @@ export default {
     submitStarRateWeekly(value) {
       this.ratedStarWeekly = value;
     },
-    // submitStarRateDifficulty(value) {
-    //   console.log(value);
-
-    //   this.ratedStarDifficulty = value;
-    // }
+    submitStarRateDifficulty(value) {
+      this.ratedStarDifficulty = value;
+    }
   }
 };
 </script>

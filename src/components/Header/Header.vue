@@ -51,7 +51,8 @@
             v-for="(recentactivity,index) in activity"
             :key="index"
           >
-            <span>{{recentactivity.missed_checkin.length}}</span>
+            <span v-if=recentactivity.missed_checkin>{{recentactivity.missed_checkin.length}}</span>
+             <span v-else-if=recentactivity.Daily_checkin>{{recentactivity.Daily_checkin.length}}</span>
           </span>
         </template>
         <Notifications/>

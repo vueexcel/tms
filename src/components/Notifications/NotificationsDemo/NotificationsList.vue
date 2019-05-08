@@ -1,42 +1,31 @@
 <template>
   <b-list-group class="thin-scroll">
     <b-list-group-item class="listGroupItem">
-      <span
-        class="notificationIcon thumb-sm"
-        v-for="(recentactivity,index) in activity"
-        :key="index"
-      >
-        <img
+      <span class="notificationIcon" v-for="(recentactivity,index) in activity" :key="index">
+        <!-- <img
           class="rounded-circle"
           :src="user.profileImage ? user.profileImage : image"
           alt="..."
           width="25"
           height="25"
-        >
+        >-->
 
-        <p class="m-0 overflow-hidden">
-          <!-- 1 new user just signed up! Check out
+        <!-- 1 new user just signed up! Check out
         &nbsp;
-          <a href="#">Monica Smith</a>'s account.-->
-          <span v-if="recentactivity.missed_checkin">
+        <a href="#">Monica Smith</a>'s account.-->
+        <span v-if="recentactivity.missed_checkin">
           <span v-for="(misschecked,index) in recentactivity.missed_checkin" :key="index">
-            <div>
-              You have missed your daily checkin on
-              {{date}}
-              {{misschecked.day}}
-            </div>
+            You have missed your daily checkin on
+            {{date}}
+            {{misschecked.day}}
           </span>
+        </span>
+
+        <span v-else>
+          <span v-for="(dailycheckin,index) in recentactivity.Daily_checkin" :key="index">
+            <div>{{dailycheckin.Daily_chechkin_message}}</div>
           </span>
-          <span v-else if="recentactivity.Daily_chechkin_message">
-            <span v-for="(dailycheckin,index) in recentactivity.Daily_chechkin_message" :key="index">
-            <div>
-              You have missed your daily checkin on
-              {{date}}
-              {{misschecked.day}}
-            </div>
-          </span>
-          </span>
-        </p>
+        </span>
       </span>
       <!-- <time class="help-block m-0">2 mins ago</time> -->
     </b-list-group-item>
@@ -129,6 +118,7 @@ export default {
     activity: get("profile/activity"),
     date() {
       this.activity.forEach(activity => {
+        console.log(activity.Daily_checkin, "333333");
         if (activity.missed_checkin) {
           activity.missed_checkin.forEach(dates => {
             console.log(dates);
@@ -143,20 +133,20 @@ export default {
             }
           });
         }
-        else if(activity.Daily_checkin){
-           activity.Daily_checkin.forEach(dates => {
-            console.log(dates);
-            // console.log(dates.checkin_missed_message,'!!!!')
-            // console.log(dates);
-            var date = this.$moment(dates.checkin_missed_message);
-            if (date) {
-              // console.log(date.checkin_missed_message,'!!!!!!!!!')
-              dates["day"] = this.$moment(date.checkin_missed_message).format(
-                " MMMM DD, YYYY"
-              );
-            }
-          });
-        }
+        // else if(activity.Daily_checkin){
+        //    activity.Daily_checkin.forEach(dates => {
+        //     console.log(dates);
+        //     // console.log(dates.checkin_missed_message,'!!!!')
+        //     // console.log(dates);
+        //     var date = this.$moment(dates.checkin_missed_message);
+        //     if (date) {
+        //       // console.log(date.checkin_missed_message,'!!!!!!!!!')
+        //       dates["day"] = this.$moment(date.checkin_missed_message).format(
+        //         " MMMM DD, YYYY"
+        //       );
+        //     }
+        //   });
+        // }
       });
     }
   },
