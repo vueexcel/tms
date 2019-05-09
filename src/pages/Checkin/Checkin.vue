@@ -44,18 +44,20 @@
                       <br>
                       {{report.highlight}}
                     </p>
-                    <p @click="showData" v-if="canShowmore" class="text-primary btn">Read more..</p>
-                    <p
-                      class="textColor"
-                      v-if="canShowreason"
-                      :class="{not_completed : report.task_completed === false}"
-                    >{{report.task_not_completed_reason}}</p>
-                    <p
-                      class="text-warning"
-                      v-if="canShowreason"
-                      :class="{not_completed : report.task_completed === false}"
-                    >{{report.highlight_task_reason}}</p>
-                    <p @click="showData" v-if="canShowless" class="text-primary btn">Read less..</p>
+                    <span v-if="report.task_not_completed_reason !== '' || report.highlight_task_reason ==!'' ">
+                      <p @click="showData" v-if="canShowmore" class="text-primary btn">Read more..</p>
+                      <p
+                        class="textColor"
+                        v-if="canShowreason"
+                        :class="{not_completed : report.task_completed === false}"
+                      >{{report.task_not_completed_reason}}</p>
+                      <p
+                        class="text-warning"
+                        v-if="canShowreason"
+                        :class="{not_completed : report.task_completed === false}"
+                      >{{report.highlight_task_reason}}</p>
+                      <p @click="showData" v-if="canShowless" class="text-primary btn">Read less..</p>
+                    </span>
                   </div>
                   <div class="time">
                     <h4>

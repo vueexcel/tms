@@ -35,7 +35,6 @@
         index="performanceReview"
         isHeader
       />
-       />-->
       <NavLink
         header="View Monthly Report"
         link="/app/PerformanceReview"

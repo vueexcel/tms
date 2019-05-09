@@ -1,22 +1,24 @@
 <template>
   <section>
+   
     <div
-      class="text-center "
+      class="text-center"
       @click="checkEmployee(employee)"
-      v-bind:class="{activeClassWeekly : employee.id === activeId && page === 'Weekly' , activeClass : employee.id === activeId && page != 'Weekly' }"
-      :style="{'background-color': backgroungColor, 'border': borderColor, 'border-radius': '8px' }"
+      v-bind:class="{activeClassWeekly : employee._id === activeId && page === 'Weekly' , activeClass : employee._id === activeId && page != 'Weekly' }"
+      :style="{'background-color': backgroungColor,'border': borderColor, 'border-radius': '8px' }"
     >
+      <!--  -->
       <div>
         <img
-          class="rounded-circle mt-2 mb-2"
+          class="rounded-circle mt-2 mb-2 h-auto"
           v-b-tooltip.hover
           :title="employee.name"
           :src="employee.image ? employee.image : dummyImage_"
           width="40"
           height="40"
         >
-        <!-- <div class="name">{{employee.user}}</div> -->
-        <div class="post">{{employee.username}}</div>
+        <div class="name">{{employee.username}}</div>
+        <!-- <div class="post">{{employee.username}}</div> -->
       </div>
     </div>
   </section>
@@ -29,7 +31,7 @@ export default {
   name: "WeeklyReviewComponent",
   props: {
     employee: { type: Object, default: () => ({}) },
-    activeId: { type: Number, default: 0 },
+    activeId: { type: String, default: null },
     activeClass: { type: Object },
     page: { type: String }
   },
@@ -37,6 +39,9 @@ export default {
     return {
       dummyImage_: dummyImage
     };
+  },
+  mounted() {
+    this.checkEmployee(this.employee);
   },
   methods: {
     checkEmployee(employee) {

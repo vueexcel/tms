@@ -1,6 +1,6 @@
 <template>
   <div xs="12" sm="6">
-    <span>
+    <span v-if="data">
       <b-btn
         v-b-toggle="'collapse2'"
         class="m-1 mt-2 collapse-button h2"

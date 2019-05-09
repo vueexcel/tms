@@ -172,7 +172,8 @@ export default {
           kpi: this.kpiKraDescription
         },
         extra: this.extraWorkDescription,
-        select_days: [this.id]
+        select_days: [this.id],
+        difficulty: this.ratedStar
       });
       console.log(this.weeklyReview_, "333333");
     },

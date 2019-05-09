@@ -107,18 +107,18 @@ export default {
       type: Object
     }
   },
+   mounted() {
+    this.fetchWeeklyReport();
+  },
   methods: {
+    getallWeeklyReport: call("weeklyReportReview/getallWeeklyReport"),
     setWeeklyReportReview: call("weeklyReportReview/setWeeklyReportReview"),
     submit() {
-      // this.text, this.ratedStarWeekly, this.ratedStarDifficulty;
-      this.$props.activeEmployee.forEach(element => {
-        this.id = element._id;
-      });
       this.setWeeklyReportReview({
         difficulty: this.ratedStarDifficulty,
         rating: this.ratedStarWeekly,
         comment: this.text,
-        id: this.id
+        id: this.activeEmployee._id
       });
     },
     submitStarRateWeekly(value) {
@@ -126,7 +126,18 @@ export default {
     },
     submitStarRateDifficulty(value) {
       this.ratedStarDifficulty = value;
-    }
+    },
+    fetchWeeklyReport() {
+      // this.loader = true;
+      this.getallWeeklyReport()
+        .then(resp => {
+          this.weeklyData = resp.data;
+        })
+        .catch(err => {
+          // this.loader = false;
+          // this.loginfailed = true;
+        });
+    },
   }
 };
 </script>
