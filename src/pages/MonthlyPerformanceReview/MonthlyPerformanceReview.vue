@@ -1,11 +1,15 @@
 <template>
   <div>
-    <span class="page-title ml-3 row" style="font-size: 43px;">Monthly Manager Review </span>
+    <span class="page-title ml-3 row" style="font-size: 43px;">Monthly Manager Review</span>
     <h5 class="page-title ml-3 row" style="font-size: 24px;">Team View</h5>
     <b-container class="no-gutters">
       <b-row class="row-altered">
         <div class="members" v-for="employee in emp_arr" :key="employee.id">
-          <MonthlyPerformanceReviewComponent :employee="employee" @setActive="setActive" :activeId="activeId"/>
+          <MonthlyPerformanceReviewComponent
+            :employee="employee"
+            @setActive="setActive"
+            :activeId="activeId"
+          />
         </div>
       </b-row>
     </b-container>
@@ -14,8 +18,7 @@
         <span style="font-size: 24px;">Business Development Executives</span>
       </div>
       <transition name="fade">
-        <PerformanceBox v-if="show"/>
-
+        <PerformanceBox :activeId="activeId" v-if="show"/>
       </transition>
     </div>
   </div>
@@ -23,31 +26,31 @@
 
 <script>
 // import 'imports-loader?$=jquery,this=>window!messenger/build/js/messenger'; // eslint-disable-line
-import MonthlyPerformanceReviewComponent from '@/components/monthlyPerformanceReview/monthlyPerformanceReview';
-import PerformanceBox from '@/components/monthlyPerformanceReview/monthlyPerformanceReview/PerformanceBox'
+import MonthlyPerformanceReviewComponent from "@/components/monthlyPerformanceReview/monthlyPerformanceReview";
+import PerformanceBox from "@/components/monthlyPerformanceReview/monthlyPerformanceReview/PerformanceBox";
 import { get, call } from "vuex-pathify";
 
 export default {
-  name: 'PerformanceReview',
+  name: "PerformanceReview",
   components: { MonthlyPerformanceReviewComponent, PerformanceBox },
   data() {
     return {
-      activeId: 1,
+      activeId: 0,
       show: true
     };
   },
   computed: {
-    emp_arr: get("performanceReview/Employee_Array"),
+    emp_arr: get("performanceReview/Employee_Array")
   },
   methods: {
     setActive(emp) {
-      this.show = !this.show
+      this.show = !this.show;
       setTimeout(() => {
-        this.show = true
-      },500)
-      this.activeId = emp.id
+        this.show = true;
+      }, 500);
+      this.activeId = emp.id;
     }
-  },
+  }
 };
 </script>
 

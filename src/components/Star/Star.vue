@@ -3,11 +3,11 @@
     <div class="text-dark">
       <h2>
         <i
-          class="far fa-star text-warning mr-xs pointer"
+          class="far fa-star mr-xs pointer"
           v-for="starKey in displayStar"
           :key="starKey"
           @click="rating(starKey)"
-          v-bind:class="{ 'fa' : starKey <=  ratedStar}"
+          v-bind:class="{ 'fa' : starKey <=  ratedStar, 'text-warning' : true === variantWarning}"
           :style="{'font-size' : `${starSize}`}"
         />
       </h2>
@@ -21,7 +21,8 @@ export default {
   props: {
     displayStar: { type: Number, default: 5 },
     ratedStar: { type: Number, default: 1 },
-    starSize: { type: String }
+    starSize: { type: String },
+    variantWarning: { type: Boolean, default: true }
   },
   created() {
     this.rating(1);

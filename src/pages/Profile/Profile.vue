@@ -91,8 +91,7 @@
                 <h6 class="text-dark fs-larger">
                   Check-ins Score
                   <i
-                    v-b-popover.hover="'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam sit.'"
-                    title="Popover Title"
+                    v-b-popover.hover="`You are expected to do daily checkin's for your work. If you miss a checkin your checkin score will reduce. This score is mainly a percentage of total checkins vs total working days`"
                     class="fas fa-question-circle fs-sm text-danger"
                   ></i>
                   <span class="float-right">{{checkin_rating}}%</span>
@@ -113,8 +112,7 @@
                 <h6 class="text-dark fs-larger">
                   Overall Review
                   <i
-                    v-b-popover.hover="'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam sit.'"
-                    title="Popover Title"
+                    v-b-popover.hover="`This is the weighted reviewed given by your seniors. This is score is most important and reflects your performance.`"
                     class="fas fa-question-circle fs-sm text-danger"
                   ></i>
                   <span class="float-right">{{user.Overall_rating}}%</span>

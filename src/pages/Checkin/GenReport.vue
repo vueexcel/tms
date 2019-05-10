@@ -10,18 +10,19 @@
           id="genReport"
           v-model="genReport"
           placeholder="Report..."
+          required
           :rows="3"
           :max-rows="6"
         ></b-form-textarea>
         <div class="mt-3">
-		      <input type="checkbox" id="checkbox-1-1" class="regular-checkbox mr-2"  v-model="status" />
-		      <label class="checkbox_label">Was task completed as per the standup</label>
+          <input type="checkbox" id="checkbox-1-1" class="regular-checkbox mr-2" v-model="status">
+          <label class="checkbox_label">Was task completed as per the standup</label>
         </div>
         <!-- <b-form-checkbox
           class="pt-3"
           id="checkbox1"
           v-model="status"
-        ></b-form-checkbox> -->
+        ></b-form-checkbox>-->
         <b-alert class="alert alert-info alert-transparent alert-sm mt-3" show dismissible>
           <span class="fw-bold">Info:</span>
           <span class="fs-sm">&nbsp;If not why? /or if something went wrong!</span>
@@ -59,7 +60,7 @@
           <!-- <a
             class="btn btn-default btn-xs float-md-right mr"
             @click="reasonHighlight = false"
-          >Ignore</a> -->
+          >Ignore</a>-->
           <a
             class="btn btn-info btn-xs float-md-right mr-xs mt-1"
             @click="reasonHighlight = true"
@@ -74,7 +75,7 @@
           :rows="3"
           :max-rows="6"
         ></b-form-textarea>
-        <button type="submit" class="btn btn-primary btn-lg mb-xs fs-sm pl-4 pr-4" >SUBMIT</button>
+        <button type="submit" class="btn btn-primary btn-lg mb-xs fs-sm pl-4 pr-4">SUBMIT</button>
       </Widget>
     </b-form>
   </div>
@@ -97,23 +98,28 @@ export default {
     reports: get("checkin/reports")
   },
   mounted() {
+    console.log(this.reports[this.reports.length - 1]);
   },
   methods: {
-    submitReport(){
-      this.$emit('report',{
-        report: this.genReport,
-        task_completed: this.status,
-        task_not_completed_reason: this.genReportReason,
-        highlight: this.highlightTask,
-        highlightTaskReason: this.highlightTaskReason
-      })
-      this.genReport = ''
-      this.status = false
-      this.genReportReason = ''
-      this.highlightTask = ''
-      this.highlightTaskReason = ''
+    submitReport() {
+      if (this.reports[this.reports.length - 1].day !== "Today") {
+        console.log(this.reports[this.reports.length - 1].day);
+        this.$emit("report", {
+          report: this.genReport,
+          task_completed: this.status,
+          task_not_completed_reason: this.genReportReason,
+          highlight: this.highlightTask,
+          highlightTaskReason: this.highlightTaskReason
+        });
+      } else {
+        alert(`today's report already exists`);
+      }
+      this.genReport = "";
+      this.status = false;
+      this.genReportReason = "";
+      this.highlightTask = "";
+      this.highlightTaskReason = "";
     }
-  
   }
 };
 </script>

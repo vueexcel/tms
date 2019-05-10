@@ -67,15 +67,15 @@
                     <b-card no-body class="border-0">
                       <b-tabs pills card vertical end class="border-0">
                         {{date}}
-                        <span v-for="(reportdata,index) in report" :key="index">
-                          <b-tab
-                            :title="reportdata.day"
-                            class="border-0"
-                            @click="pickDay(index,reportdata)"
-                          >
-                            <p name="report">{{reportdata.report}}</p>
-                          </b-tab>
-                        </span>
+                        <b-tab
+                          v-for="(reportdata,index) in report"
+                          :key="index"
+                          :title="reportdata.day"
+                          class="border-0"
+                          @click="pickDay(index,reportdata)"
+                        >
+                          <b-card-text name="report">{{reportdata.report}}</b-card-text>
+                        </b-tab>
                       </b-tabs>
                     </b-card>
                     <!-- ======= ACCORDION RIGHT ENDS=================-->
