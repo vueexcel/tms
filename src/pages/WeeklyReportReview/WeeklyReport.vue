@@ -5,7 +5,6 @@
       <h5 class="page-title ml-3 row" style="font-size: 24px;">Team View</h5>
       <b-container class="no-gutters">
         <b-row v-if="weeklyData.length">
-          <!-- <b-col xs="12" class="column" v-for="employee in emp_arr" :key="employee.id"> -->
           <b-col xs="12" class="column" v-for="employee in weeklyData" :key="employee._id">
             <WeeklyReviewComponent
               :employee="employee"
@@ -13,17 +12,18 @@
               :activeId="activeId"
               :page="'Weekly'"
               :activeClass="activeClass"
+              :allemployee="weeklyData"
             />
           </b-col>
         </b-row>
         <b-row v-else>
-          <!-- <b-col xs="12" class="column" v-for="employee in emp_arr" :key="employee.id"> -->
           <b-col xs="12" class="column" v-for="employee in allweeklyData" :key="employee._id">
             <WeeklyReviewComponent
               :employee="employee"
               @setActive="setActive"
               :activeId="activeId"
               :page="'Weekly'"
+              :allemployee="allweeklyData"
               :activeClass="activeClass"
             />
           </b-col>
@@ -31,12 +31,12 @@
       </b-container>
       <div class="container-fluid">
         <div class="mt-5 mb-3 row">
-          <span style="font-size: 24px;">{{activeEmp.post}}</span>
+          <!-- <span style="font-size: 24px;">{{activeEmp.post}}</span> -->
           <!-- <span style="font-size: 24px;">Hell</span> -->
         </div>
         <transition name="fade">
           <div v-if="weeklyData.length">
-            <PerformanceBox :performanceData="weeklyData" v-if="show"/>
+            <PerformanceBox :performanceData="weeklyData" :activeEmployee="activeEmp" v-if="show"/>
           </div>
           <div v-else>
             <PerformanceBox
@@ -62,7 +62,7 @@ export default {
   components: { WeeklyReviewComponent, PerformanceBox },
   data() {
     return {
-      activeId: 1,
+      activeId: null,
       show: true,
       activeEmp: null,
       activeClass: {
@@ -73,12 +73,6 @@ export default {
       allweeklyData: {}
     };
   },
-  computed: {
-    emp_arr: get("performanceReview/Employee_Array")
-  },
-  created() {
-    this.activeEmp = this.emp_arr[0];
-  },
   mounted() {
     this.fetchWeeklyReport();
     this.fetchallWeeklyReport();
@@ -86,13 +80,13 @@ export default {
   methods: {
     getWeeklyReport_: call("weeklyReportReview/getWeeklyReport"),
     getallWeeklyReport_: call("weeklyReportReview/getallWeeklyReport"),
-    setActive(emp) {
+    setActive(employee) {
       this.show = !this.show;
       setTimeout(() => {
         this.show = true;
       }, 500);
-      this.activeId = emp.id;
-      this.activeEmp = emp;
+      this.activeId = employee._id;
+      this.activeEmp = employee;
     },
     fetchWeeklyReport() {
       // this.loader = true;
