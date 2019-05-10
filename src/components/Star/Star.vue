@@ -7,7 +7,7 @@
           v-for="starKey in displayStar"
           :key="starKey"
           @click="rating(starKey)"
-          v-bind:class="{ 'fa' : starKey <=  ratedStar && DisableStar === false}"
+          v-bind:class="{ 'fa' : starKey <=  ratedStar && disableStar === false}"
           :style="{'font-size' : `${starSize}`}"
         />
       </h2>
@@ -22,7 +22,7 @@ export default {
     displayStar: { type: Number, default: 5 },
     ratedStar: { type: Number, default: 1 },
     starSize: { type: String },
-    DisableStar: { type: Boolean }
+    disableStar: { type: Boolean }
   },
   created() {
     this.rating(1);

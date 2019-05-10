@@ -22,7 +22,7 @@
                   :displayStar="5"
                   :ratedStar="ratedStarWeekly"
                   :starSize="starSize"
-                  :DisableStar="reviews.reviewed"
+                  :disableStar="reviews.reviewed"
                   @starRatingSelected="submitStarRateWeekly"
                 />
               <div
@@ -33,7 +33,7 @@
                   :displayStar="5"
                   :ratedStar="ratedStarDifficulty"
                   :starSize="starSize"
-                  :DisableStar="reviews.reviewed"
+                  :disableStar="reviews.reviewed"
                   @starRatingSelected="submitStarRateDifficulty"
                 />
               <div sm="6">
