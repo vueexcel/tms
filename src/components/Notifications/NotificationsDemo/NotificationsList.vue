@@ -118,35 +118,16 @@ export default {
     activity: get("profile/activity"),
     date() {
       this.activity.forEach(activity => {
-        console.log(activity.Daily_checkin, "333333");
         if (activity.missed_checkin) {
           activity.missed_checkin.forEach(dates => {
-            console.log(dates);
-            // console.log(dates.checkin_missed_message,'!!!!')
-            // console.log(dates);
             var date = this.$moment(dates.checkin_missed_message);
             if (date) {
-              // console.log(date.checkin_missed_message,'!!!!!!!!!')
               dates["day"] = this.$moment(date.checkin_missed_message).format(
                 " MMMM DD, YYYY"
               );
             }
           });
         }
-        // else if(activity.Daily_checkin){
-        //    activity.Daily_checkin.forEach(dates => {
-        //     console.log(dates);
-        //     // console.log(dates.checkin_missed_message,'!!!!')
-        //     // console.log(dates);
-        //     var date = this.$moment(dates.checkin_missed_message);
-        //     if (date) {
-        //       // console.log(date.checkin_missed_message,'!!!!!!!!!')
-        //       dates["day"] = this.$moment(date.checkin_missed_message).format(
-        //         " MMMM DD, YYYY"
-        //       );
-        //     }
-        //   });
-        // }
       });
     }
   },

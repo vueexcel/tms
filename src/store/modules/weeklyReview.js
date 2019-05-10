@@ -12,7 +12,6 @@ const actions = {
     let response = await axios.get("/week_checkin");
     if (response) {
       commit("report", response.data);
-      console.log(response.data, "00000");
       return true;
     }
   },
@@ -20,7 +19,6 @@ const actions = {
     let res = await axios
       .post("/weekly", payload)
       .then(res => {
-        console.log(payload, "kkkk");
         alert("weekly review submitted success");
       })
       .catch(err => {});

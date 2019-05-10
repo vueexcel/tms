@@ -140,7 +140,6 @@ export default {
   },
   mounted() {
     this.get_report();
-    // console.log(this.$data.tabs);
   },
   computed: {
     user: get("profile/user"),
@@ -175,7 +174,6 @@ export default {
         select_days: [this.id],
         difficulty: this.ratedStar
       });
-      console.log(this.weeklyReview_, "333333");
     },
     submitStarRate(value) {
       this.ratedStar = value;
@@ -184,7 +182,6 @@ export default {
       this.ratedStar = 1;
     },
     pickDay(index, reportdata) {
-      // console.log(index, reportdata.day);
       this.selectedDay = reportdata.day;
       this.id = reportdata._id;
     }
