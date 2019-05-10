@@ -1,6 +1,7 @@
 <template>
   <b-navbar class="header d-print-none">
     <b-nav>
+    {{recentactivitylenght}}
       <b-nav-item>
         <a class="d-md-down-none px-2" href="#" @click="toggleSidebarMethod" id="barsTooltip">
           <i class="la la-bars la-lg"/>
@@ -51,8 +52,7 @@
             v-for="(recentactivity,index) in activity"
             :key="index"
           >
-            <span v-if=recentactivity.missed_checkin>{{recentactivity.missed_checkin.length}}</span>
-             <span v-else-if=recentactivity.Daily_checkin>{{recentactivity.Daily_checkin.length}}</span>
+           {{notificationlength}}
           </span>
         </template>
         <Notifications/>
@@ -116,7 +116,8 @@ export default {
   name: "Headed",
   data() {
     return {
-      image: dummyimage
+      image: dummyimage,
+      notificationlength:0
     };
   },
   components: { Notifications },
@@ -126,7 +127,24 @@ export default {
     ...mapState("layout", {
       sidebarClose: state => state.sidebarClose,
       sidebarStatic: state => state.sidebarStatic
-    })
+    }),
+    recentactivitylenght(){
+      console.log(this.activity);
+      Array.prototype.forEach.call(this.activity,element => {
+        console.log(element);
+        if(element.Daily_checkin)
+        {
+          let dailycheckinlength = element.Daily_checkin.length
+          console.log(dailycheckinlength);  
+        }
+        if(element.missed_checkin)
+        {
+           let misscheckinlength = element.missed_checkin.length
+        }
+        this.notificationlength = dailycheckinlength+misscheckinlength;
+        
+      });
+    }
   },
   methods: {
     ...mapActions("layout", [

@@ -41,8 +41,6 @@ export default {
     };
   },
   mounted() {
-    console.log(this.allemployee,3333);
-    
     this.checkEmployee(this.allemployee[0]);
   },
   methods: {

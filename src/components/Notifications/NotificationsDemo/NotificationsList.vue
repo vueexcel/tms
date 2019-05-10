@@ -4,15 +4,21 @@
       <span class="notificationIcon" v-for="(recentactivity,index) in activity" :key="index">
         <span v-if="recentactivity.missed_checkin">
           <span v-for="(misschecked,index) in recentactivity.missed_checkin" :key="index">
-            You have missed your daily checkin on
-            {{date}}
-            {{misschecked.day}}
+            <div>
+              You have missed your daily checkin on
+              {{date}}
+              {{misschecked.day}}
+            </div>
           </span>
         </span>
-
-        <span v-else>
+        <span v-if="recentactivity.Daily_checkin">
           <span v-for="(dailycheckin,index) in recentactivity.Daily_checkin" :key="index">
             <div>{{dailycheckin.Daily_chechkin_message}}</div>
+          </span>
+        </span>
+        <span v-if="recentactivity.report_reviewed">
+          <span v-for="(reportreviewed,index) in recentactivity.report_reviewed" :key="index">
+            <div>{{reportreviewed.Message}}</div>
           </span>
         </span>
       </span>

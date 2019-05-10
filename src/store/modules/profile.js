@@ -27,7 +27,7 @@ const actions = {
     },
 
     async getActivity({ commit }, payload) {
-        let response = await axios.get('/user/recent_activities')
+        let response = await axios.get('/recent_activities')
         if (response) {
             commit('activity', response.data)
 
