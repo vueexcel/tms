@@ -11,17 +11,15 @@ const actions = {
   async getReport({ commit }) {
     let response = await axios.get("/week_checkin");
     if (response) {
-      commit("report", response.data);
       return true;
     }
   },
   async weeklyReview({ state, commit }, payload) {
-    let res = await axios
-      .post("/weekly", payload)
+    let res = await axios.post("/weekly", payload)
       .then(res => {
         alert("weekly review submitted success");
       })
-      .catch(err => {});
+      .catch(err => { });
   }
 };
 

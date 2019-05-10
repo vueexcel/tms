@@ -5,8 +5,7 @@
         <span v-if="userProfile._id == reviews._id">
           <b-row class="pb-5">
             <b-col xs="12" sm="6" class="rounded-left first-box">
-              <!-- <ExtraWorkFeedback :data="data" :variant="'#9964e3 !important'"/> -->
-              <ExtraWorkFeedback :data="activeEmployee" :variant="'#9964e3 !important'"/>
+              <ExtraWorkFeedback :user="activeEmployee" :variant="'#9964e3 !important'"/>
             </b-col>
             <b-col xs="12" sm="6" class="rounded-right">
               <b-alert
@@ -18,42 +17,38 @@
                 <div class="border-top"></div>
                 <div class="mt-2 font-weight">Based on Weekly Review</div>
               </div>
-              <span :disabled="reviews.reviewed == true ? true : false">
                 <starRating
                   class="border-bottom"
                   :displayStar="5"
                   :ratedStar="ratedStarWeekly"
                   :starSize="starSize"
-                  :forDaisable="reviews.reviewed"
+                  :DisableStar="reviews.reviewed"
                   @starRatingSelected="submitStarRateWeekly"
                 />
-              </span>
               <div
                 class="mt-2 font-weight"
               >Difficulty level of Project (if project work you did was difficult/required more effort)</div>
-              <span :disabled="reviews.reviewed == true ? true : false">
                 <starRating
                   class="border-bottom"
                   :displayStar="5"
                   :ratedStar="ratedStarDifficulty"
                   :starSize="starSize"
-                  :forDaisable="reviews.reviewed"
+                  :DisableStar="reviews.reviewed"
                   @starRatingSelected="submitStarRateDifficulty"
                 />
-              </span>
               <div sm="6">
                 <h6 class="text-inverse">Comments</h6>
               </div>
               <b-form>
                 <b-form-textarea
-                  :disabled="reviews.reviewed == true ? true : false"
+                  :disabled="reviews.reviewed == true "
                   :rows="3"
                   v-model="text"
                   id="default-textarea"
                   placeholder="Performance or general comments (if any)..."
                 />
                 <b-button
-                  :disabled="reviews.reviewed == true ? true : false"
+                  :disabled="reviews.reviewed == true"
                   class="btn btn-default btn-lg mb-xs bg-primary text-white mt-4"
                   @click="submit"
                 >Submit</b-button>

@@ -44,7 +44,9 @@
                       <br>
                       {{report.highlight}}
                     </p>
-                    <span v-if="report.task_not_completed_reason !== '' || report.highlight_task_reason ==!'' ">
+                    <span
+                      v-if="report.task_not_completed_reason !== '' || report.highlight_task_reason !=='' "
+                    >
                       <p @click="showData" v-if="canShowmore" class="text-primary btn">Read more..</p>
                       <p
                         class="textColor"

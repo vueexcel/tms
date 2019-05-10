@@ -12,12 +12,12 @@
           class="rounded-circle mt-2 mb-2 h-auto"
           v-b-tooltip.hover
           :title="employee.name"
-          :src="employee.image ? employee.image : dummyImage_"
+          :src="employee.profileImage ? employee.profileImage : dummyImage_"
           width="40"
           height="40"
         >
         <div class="name">{{employee.username}}</div>
-        <!-- <div class="post">{{employee.username}}</div> -->
+        <div class="post">{{employee.jobtitle}}</div>
       </div>
     </div>
   </section>
@@ -41,6 +41,8 @@ export default {
     };
   },
   mounted() {
+    console.log(this.allemployee,3333);
+    
     this.checkEmployee(this.allemployee[0]);
   },
   methods: {

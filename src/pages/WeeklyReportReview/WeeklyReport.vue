@@ -12,6 +12,7 @@
               :activeId="activeId"
               :page="'Weekly'"
               :activeClass="activeClass"
+              :allemployee="weeklyData"
             />
           </b-col>
         </b-row>
