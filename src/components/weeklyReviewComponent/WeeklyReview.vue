@@ -1,6 +1,5 @@
 <template>
   <section>
-   
     <div
       class="text-center"
       @click="checkEmployee(employee)"
@@ -33,7 +32,8 @@ export default {
     employee: { type: Object, default: () => ({}) },
     activeId: { type: String, default: null },
     activeClass: { type: Object },
-    page: { type: String }
+    page: { type: String },
+    allemployee: { type: Array, default: [] }
   },
   data() {
     return {
@@ -41,7 +41,7 @@ export default {
     };
   },
   mounted() {
-    this.checkEmployee(this.employee);
+    this.checkEmployee(this.allemployee[0]);
   },
   methods: {
     checkEmployee(employee) {

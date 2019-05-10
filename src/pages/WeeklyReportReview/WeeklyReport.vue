@@ -22,6 +22,7 @@
               @setActive="setActive"
               :activeId="activeId"
               :page="'Weekly'"
+              :allemployee="allweeklyData"
               :activeClass="activeClass"
             />
           </b-col>
@@ -34,7 +35,7 @@
         </div>
         <transition name="fade">
           <div v-if="weeklyData.length">
-            <PerformanceBox :performanceData="weeklyData"  :activeEmployee="activeEmp" v-if="show"/>
+            <PerformanceBox :performanceData="weeklyData" :activeEmployee="activeEmp" v-if="show"/>
           </div>
           <div v-else>
             <PerformanceBox
