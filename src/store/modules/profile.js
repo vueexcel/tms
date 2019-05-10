@@ -4,7 +4,8 @@ import router from './../../Routes'
 
 // setup store
 const state = {
-    user: {}
+    user: {},
+    activity:{}
 }
 const mutations = make.mutations(state)
 const actions = {
@@ -22,6 +23,15 @@ const actions = {
         }
         else {
             // commit('loginfailed', err)
+        }
+    },
+
+    async getActivity({ commit }, payload) {
+        let response = await axios.get('/user/recent_activities')
+        if (response) {
+            commit('activity', response.data)
+
+            return true
         }
     }
     // async getProfile({ commit }, payload) {

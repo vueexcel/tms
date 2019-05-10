@@ -12,11 +12,11 @@
       </b-button-group> -->
     </header>
     <NewNotifictionsList v-if="newNotifications" />
-    <NotifictionsList v-else-if="notificationsTabSelected === 1" />
+    <!-- <NotifictionsList v-else-if="notificationsTabSelected === 1" />
     <Messages v-else-if="notificationsTabSelected === 2" />
-    <Progress v-else-if="notificationsTabSelected === 3" />
+    <Progress v-else-if="notificationsTabSelected === 3" /> -->
     <NotifictionsList v-else/>
-    <footer class="cardFooter text-sm card-footer">
+    <!-- <footer class="cardFooter text-sm card-footer">
       <span class="fs-mini">Synced at: 21 Apr 2014 18:36</span>
       <b-button
         variant="link"
@@ -26,7 +26,7 @@
         <span v-if="isLoad"><i class="la la-refresh la-spin" /> Loading...</span>
         <i v-else class="la la-refresh" />
       </b-button>
-    </footer>
+    </footer> -->
   </section>
 </template>
 

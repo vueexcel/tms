@@ -18,7 +18,7 @@
                     <p>
                       <img
                         class="rounded-circle mr-2 mt-1 float-left"
-                        src="@/assets/people/a6.jpg"
+                        :src="userProfile.profileImage ? userProfile.profileImage : image"
                         width="25"
                         height="25"
                         alt="..."
@@ -44,18 +44,22 @@
                       <br>
                       {{report.highlight}}
                     </p>
-                    <p @click="showData" v-if="canShowmore" class="text-primary btn">Read more..</p>
-                    <p
-                      class="textColor"
-                      v-if="canShowreason"
-                      :class="{not_completed : report.task_completed === false}"
-                    >{{report.task_not_completed_reason}}</p>
-                    <p
-                      class="text-warning"
-                      v-if="canShowreason"
-                      :class="{not_completed : report.task_completed === false}"
-                    >{{report.highlight_task_reason}}</p>
-                    <p @click="showData" v-if="canShowless" class="text-primary btn">Read less..</p>
+                    <span
+                      v-if="report.task_not_completed_reason !== '' || report.highlight_task_reason !=='' "
+                    >
+                      <p @click="showData" v-if="canShowmore" class="text-primary btn">Read more..</p>
+                      <p
+                        class="textColor"
+                        v-if="canShowreason"
+                        :class="{not_completed : report.task_completed === false}"
+                      >{{report.task_not_completed_reason}}</p>
+                      <p
+                        class="text-warning"
+                        v-if="canShowreason"
+                        :class="{not_completed : report.task_completed === false}"
+                      >{{report.highlight_task_reason}}</p>
+                      <p @click="showData" v-if="canShowless" class="text-primary btn">Read less..</p>
+                    </span>
                   </div>
                   <div class="time">
                     <h4>
@@ -145,6 +149,7 @@ import StandUpWidget from "./CheckinComponents/StandupReportWidget";
 import Comments from "./CheckinComponents/Comments";
 import GenReport from "./GenReport";
 import { timeout } from "q";
+import dummyimage from "@/components/Group/person-dummy.jpg";
 
 export default {
   name: "Checkin",
@@ -153,7 +158,8 @@ export default {
       generatedReport: [],
       canShowreason: false,
       canShowmore: true,
-      canShowless: false
+      canShowless: false,
+      image: dummyimage
     };
   },
   components: { Widget, StandUpWidget, Comments, GenReport },

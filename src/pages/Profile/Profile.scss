@@ -1,19 +1,28 @@
-@import '../../styles/app';
+@import "../../styles/app";
 
 table {
+  td,
+  th {
+    font-weight: $font-weight-normal;
+  }
 
-    td,
-    th {
-        font-weight: $font-weight-normal;
+  tbody tr {
+    &:nth-child(odd) {
+      background: $gray-100;
     }
 
-    tbody tr {
-        &:nth-child(odd) {
-            background: $gray-100;
-        }
-
-        td {
-            min-width: 100px;
-        }
+    td {
+      min-width: 100px;
     }
+  }
+}
+
+.warning {
+  background: #ffc247;
+}
+.success{
+  background: #3abf94;
+}
+.primary{
+  background: #547fff;
 }

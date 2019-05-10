@@ -33,72 +33,32 @@
                 <br>
                 <!-- 1st block -->
                 <!-- v-bind:class="{ codegreen, codeblue , codeorange }" -->
-                <div
-                  class="rounded w-auto p-1 h-auto mr-1 mt-2"
-                  v-bind:class="{ colorGreen: true, colorBlue: false, colorOrange: false }"
-                  v-for="(manager,index) in user.managers"
-                  :key="index"
-                >
-                  <span class="thumb-md float-left ml-1 mt-1">
-                    <img
-                      class="rounded-circle"
-                      :src="manager.profileImage ? manager.profileImage : image"
-                      width="35"
-                      height="35"
-                      alt="..."
-                    >
-                  </span>
-                  <div class="float-left text-white text-left pl-2 pr-1">
-                    <span class="fw-bold fs-large">
-                      {{manager.username | firstname }}
-                      <span
-                        class="fw-normal"
-                      >{{manager.username | lastname }}</span>
+                <span v-for="(manager,index) in sortedArray" :key="index">
+                  <div
+                    class="rounded w-auto p-1 h-auto mr-1 mt-2"
+                    v-bind:class="{success : manager.weight <= 3 ,primary:  manager.weight > 3 && manager.weight <= 6, warning:  manager.weight > 6 && manager.weight <= 10}"
+                  >
+                    <span class="thumb-md float-left ml-1 mt-1">
+                      <img
+                        class="rounded-circle"
+                        :src="manager.profileImage ? manager.profileImage : image"
+                        width="35"
+                        height="35"
+                        alt="..."
+                      >
                     </span>
-                    <br>
-                    <span class="fs-sm">{{manager.job_title}}</span>
+                    <div class="float-left text-white text-left pl-2 pr-1">
+                      <span class="fw-bold fs-large">
+                        {{manager.username | firstname }}
+                        <span
+                          class="fw-normal"
+                        >{{manager.username | lastname }}</span>
+                      </span>
+                      <br>
+                      <span class="fs-sm">{{manager.job_title}}</span>
+                    </div>
                   </div>
-                </div>
-                <!-- 2nd block -->
-                <!-- <div class="rounded bg-warning w-auto p-1 h-auto mr-1">
-                  <span class="thumb-md float-left ml-1 mt-1">
-                    <img
-                      class="rounded-circle"
-                      src="@/assets/people/a5.jpg"
-                      width="35"
-                      height="35"
-                      alt="..."
-                    >
-                  </span>
-                  <div class="float-left text-white text-left pl-2 pr-1">
-                    <span class="fw-bold fs-large">
-                      Manish
-                      <span class="fw-normal">Prakash</span>
-                    </span>
-                    <br>
-                    <span class="fs-sm">Director</span>
-                  </div>
-                </div>
-                3rd block
-                <div class="rounded bg-success w-auto p-1 h-auto">
-                  <span class="thumb-md float-left ml-1 mt-1">
-                    <img
-                      class="rounded-circle"
-                      src="@/assets/people/a6.jpg"
-                      width="35"
-                      height="35"
-                      alt="..."
-                    >
-                  </span>
-                  <div class="float-left text-white text-left pl-2 pr-1">
-                    <span class="fw-bold fs-large">
-                      Deepak
-                      <span class="fw-normal">Mishra</span>
-                    </span>
-                    <br>
-                    <span class="fs-sm">Project Manager Magento</span>
-                  </div>
-                </div>-->
+                </span>
               </div>
             </Widget>
           </div>
@@ -135,7 +95,7 @@
                     title="Popover Title"
                     class="fas fa-question-circle fs-sm text-danger"
                   ></i>
-                  <span class="float-right">{{user.Checkin_rating}}%</span>
+                  <span class="float-right">{{checkin_rating}}%</span>
                 </h6>
                 <span class="text-secondary fs-sm">Daily stand-up report submitted</span>
                 <b-progress
@@ -157,14 +117,14 @@
                     title="Popover Title"
                     class="fas fa-question-circle fs-sm text-danger"
                   ></i>
-                  <span class="float-right">84%</span>
+                  <span class="float-right">{{user.Overall_rating}}%</span>
                 </h6>
                 <span class="text-secondary fs-sm">Overall performance review</span>
                 <b-progress
                   class="w-75"
                   style="height: 5px"
                   variant="danger"
-                  :value="40"
+                  :value="user.Overall_rating"
                   :max="100"
                 />
               </div>
@@ -178,38 +138,62 @@
             </h2>
             <widget class="mb-3">
               <div>
-                <div class="h-100">
-                  <span class="thumb-md float-left mr-2 mt-1">
-                    <img
-                      class="rounded-circle"
-                      src="@/assets/people/a5.jpg"
-                      alt="..."
-                      width="25"
-                      height="25"
-                    >
+                <div class="h-100"></div>
+                <div class>
+                  <span v-for="(recentactivity,index) in activity" :key="index">
+                    <span class="thumb-md float-left mr-2 mt-1">
+                      <img
+                        class="rounded-circle"
+                        :src="user.profileImage ? user.profileImage : image"
+                        alt="..."
+                        width="25"
+                        height="25"
+                      >
+                    </span>
+                    <span class="text-primary fw-semi-bold fs-larger">{{user.name}}</span>
+                    {{time}}
+                    <p class="fs-sm">{{recentactivity.dates}}</p>
+                    <span v-if="recentactivity.missed_checkin">
+                      <span
+                        v-for="(misschecked,index) in recentactivity.missed_checkin"
+                        :key="index"
+                      >
+                        You have missed your daily checkin on
+                        {{date}}
+                        {{misschecked.day}}
+                      </span>
+                    </span>
+
+                    <span v-else>
+                      <span
+                        v-for="(dailycheckin,index) in recentactivity.Daily_checkin"
+                        :key="index"
+                      >
+                        <div>{{dailycheckin.Daily_chechkin_message}}</div>
+                      </span>
+                    </span>
                   </span>
                 </div>
-                <div class>
-                  <span class="text-primary fw-semi-bold fs-larger">Bob Nilson</span>
-                  <p class="fs-sm">December 17,2018 at 01:59 PM</p>
-                </div>
               </div>
-              <div class="fs-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do.</div>
               <!-- <starRating :displayStar="5" :starSize="starSize" :ratedStar="ratedStar" @starRatingSelected="submitStarRateOne" /> -->
             </widget>
           </div>
-          <widget class="h-auto">
+          <!-- <widget class="h-auto">
             <div>
-              <div>
-                <span class="text-primary fw-semi-bold fs-larger">Jessica Smith</span>
+              <div >
+                <span class="text-primary fw-semi-bold fs-larger">{{user.name}}</span>
                 <p class="fw-semi fs-sm">December 17,2018 at 01:59 PM</p>
               </div>
             </div>
-            <div
-              class="fs-sm"
-            >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</div>
-            <!-- <starRating :displayStar="5" :starSize="starSize" :ratedStar="two" @starRatingSelected="submitStarRateTwo" /> -->
-          </widget>
+            {{activitydata}}
+            <span  v-for="(recentactivity,index) in activity" :key="index">
+              <span v-for="(misschecked,index) in recentactivity.missed_checkin" :key="index">
+            <div class="fs-sm">{{misschecked.checkin_missed_message}}</div>
+              
+            </span>
+            </span>
+           <starRating :displayStar="5" :starSize="starSize" :ratedStar="two" @starRatingSelected="submitStarRateTwo" /> 
+          </widget>-->
         </b-col>
       </b-row>
     </b-container>
@@ -232,26 +216,66 @@ export default {
   name: "Profile",
   data() {
     return {
-      colorGreen: "green",
-      colorBlue: "blue",
-      colorOrange: "orange",
       ratedStar: 1,
       two: 1,
       starSize: "17px",
-      image: dummyimage
+      image: dummyimage,
+      checkin_rating: 0
     };
   },
   components: { Widget, AreaComponent, starRating },
   mounted() {
     this.get_profile();
+    this.get_activity();
   },
   computed: {
-    user: get("profile/user")
+    user: get("profile/user"),
+    activity: get("profile/activity"),
+    time() {
+      this.activity.forEach(element => {
+        var time = this.$moment(element.date)
+          .tz("GMT")
+          .local()
+          .format("h:mm: A");
+        if (time !== "Invalid date") {
+          element["dates"] =
+            this.$moment(element.date).format("MMMM DD,YYYY") + " at " + time;
+        }
+      });
+    },
+    date() {
+      this.activity.forEach(activity => {
+        if (activity.missed_checkin) {
+          activity.missed_checkin.forEach(dates => {
+            var date = this.$moment(dates.checkin_missed_message);
+            if (date) {
+              dates["day"] = this.$moment(date.checkin_missed_message).format(
+                " MMMM DD, YYYY"
+              );
+            }
+          });
+        }
+      });
+    },
+    sortedArray() {
+      this.checkin_rating = Math.round(this.user.Checkin_rating);
+      let managers = this.user.managers;
+      if (managers) {
+        function compare(a, b) {
+          if (a.weight && b.weight) {
+            if (a.weight > b.weight) return -1;
+            if (a.weight < b.weight) return 1;
+            return 0;
+          }
+        }
+        managers = managers.sort(compare);
+        return managers;
+      }
+    }
   },
   filters: {
     firstname: function(value) {
-      var reWhiteSpace = new RegExp("/^s+$/");
-      if (reWhiteSpace.test(value)) {
+      if (value.indexOf(" ") >= 0) {
         return value
           .split(" ")
           .slice(0, -1)
@@ -259,8 +283,7 @@ export default {
       } else return value;
     },
     lastname: function(value) {
-      var reWhiteSpace = new RegExp("/^s+$/");
-      if (reWhiteSpace.test(value)) {
+      if (value.indexOf(" ") >= 0) {
         return value
           .split(" ")
           .slice(-1)
@@ -271,8 +294,12 @@ export default {
 
   methods: {
     getProfile: call("profile/getProfile"),
+    getActivity: call("profile/getActivity"),
     get_profile: function() {
       this.getProfile();
+    },
+    get_activity: function() {
+      this.getActivity();
     },
     submitStarRateOne(value) {
       this.ratedStar = value;

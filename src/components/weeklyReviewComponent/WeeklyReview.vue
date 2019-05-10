@@ -3,20 +3,21 @@
     <div
       class="text-center"
       @click="checkEmployee(employee)"
-      v-bind:class="{activeClassWeekly : employee.id === activeId && page === 'Weekly' , activeClass : employee.id === activeId && page != 'Weekly' }"
-      :style="{'background-color': backgroungColor, 'border': borderColor, 'border-radius': '8px' }"
+      v-bind:class="{activeClassWeekly : employee._id === activeId && page === 'Weekly' , activeClass : employee._id === activeId && page != 'Weekly' }"
+      :style="{'background-color': backgroungColor,'border': borderColor, 'border-radius': '8px' }"
     >
+      <!--  -->
       <div>
         <img
-          class="rounded-circle mt-2 mb-2"
+          class="rounded-circle mt-2 mb-2 h-auto"
           v-b-tooltip.hover
           :title="employee.name"
-          :src="employee.image ? employee.image : dummyImage_"
+          :src="employee.profileImage ? employee.profileImage : dummyImage_"
           width="40"
           height="40"
         >
-        <!-- <div class="name">{{employee.user}}</div> -->
-        <div class="post">{{employee.username}}</div>
+        <div class="name">{{employee.username}}</div>
+        <div class="post">{{employee.jobtitle}}</div>
       </div>
     </div>
   </section>
@@ -29,18 +30,24 @@ export default {
   name: "WeeklyReviewComponent",
   props: {
     employee: { type: Object, default: () => ({}) },
-    activeId: { type: Number, default: "" },
+    activeId: { type: String, default: null },
     activeClass: { type: Object },
-    page: { type: String }
+    page: { type: String },
+    allemployee: { type: Array, default: [] }
   },
   data() {
     return {
       dummyImage_: dummyImage
     };
   },
+  mounted() {
+    console.log(this.allemployee,3333);
+    
+    this.checkEmployee(this.allemployee[0]);
+  },
   methods: {
     checkEmployee(employee) {
-      this.$emit("setActive", this.employee);
+      this.$emit("setActive", employee);
     }
   },
   computed: {

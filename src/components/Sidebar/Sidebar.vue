@@ -28,6 +28,20 @@
         index="typography"
         isHeader
       />
+       <NavLink
+        header="Weekly Report Review"
+        link="/app/WeeklyReport"
+        iconName="fas fa-chart-bar"
+        index="performanceReview"
+        isHeader
+      />
+      <NavLink
+        header="View Monthly Report"
+        link="/app/PerformanceReview"
+        iconName="fas fa-calendar"
+        index="notifications"
+        isHeader
+      />
       <!-- link="/app/weeklyReview" -->
       <!-- <NavLink
         header="View Check-ins"
@@ -84,10 +98,10 @@
         isHeader
       />
       <NavLink
-        v-if="sideBar.role == 'manager'"
+        v-if="sideBar.role === 'manager'"
         header="Weekly Report Review"
         link="/app/WeeklyReport"
-        iconName="fas fa-chart-line"
+        iconName="fas fa-chart-bar"
         index="performanceReview"
         isHeader
       />
