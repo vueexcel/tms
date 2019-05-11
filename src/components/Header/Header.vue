@@ -117,6 +117,8 @@ export default {
   data() {
     return {
       image: dummyimage,
+      notificationlength:0,
+      dailycheckinlength:0,
       notificationlength:0
     };
   },
@@ -134,14 +136,14 @@ export default {
         console.log(element);
         if(element.Daily_checkin)
         {
-          let dailycheckinlength = element.Daily_checkin.length
+           this.dailycheckinlength = element.Daily_checkin.length
           console.log(dailycheckinlength);  
         }
         if(element.missed_checkin)
         {
-           let misscheckinlength = element.missed_checkin.length
+           thsi.misscheckinlength = element.missed_checkin.length
         }
-        this.notificationlength = dailycheckinlength+misscheckinlength;
+        this.notificationlength = this.dailycheckinlength+this.misscheckinlength;
         
       });
     }
