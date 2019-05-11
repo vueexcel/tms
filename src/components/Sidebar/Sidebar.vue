@@ -28,7 +28,7 @@
         index="typography"
         isHeader
       />
-       <NavLink
+      <NavLink
         header="Weekly Report Review"
         link="/app/WeeklyReport"
         iconName="fas fa-chart-bar"

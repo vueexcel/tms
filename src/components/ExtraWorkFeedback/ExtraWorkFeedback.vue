@@ -1,11 +1,12 @@
 <template>
   <div xs="12" sm="6">
+    <!-- <span> -->
+    <!-- @mouseover="activeCollapse" -->
+    <!-- :class="{hover_variant : activeCollapse}" -->
     <span v-if="user">
       <b-btn
         v-b-toggle="'collapse2'"
         class="m-1 mt-2 collapse-button h2"
-        @mouseover="activeCollapse"
-        :class="{hover_variant : activeCollapse}"
         v-bind:style="{'color': variant }"
       >KPI</b-btn>
       <b-collapse id="collapse2">
@@ -47,6 +48,7 @@
         <div class="feedback mt-4 pb-2 pl-3">Project Difficulty Level</div>
         <div class="text-dark ml-3 mb-5 mt-2">
           <starRating
+            :variantWarning="false"
             class="border-bottom"
             :displayStar="5"
             :ratedStar="user.difficulty"

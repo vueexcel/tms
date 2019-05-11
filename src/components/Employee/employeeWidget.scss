@@ -252,8 +252,11 @@ a.button-for-employee {
     display: none;
 }
 
-li.active {
-    border: 3.5px solid #ffc247;
+// .active {
+//   background: #ffc247;
+// }
+.list.active{
+  border: 3.5px solid #ffc247;
 }
 
 .active.list::before {
