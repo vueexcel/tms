@@ -14,6 +14,7 @@ const state = {
     genReportReason: '',
     highlightTask: '',
     highlightTaskReason: '',
+    changeSelectOption: null,
     // getAllReports
     reports: []
 }
@@ -23,6 +24,15 @@ const actions = {
     async dailyCheckin({ commit, dispatch }, payload) {
         await axios
             .post('/checkin', payload)
+            .then((res) => {
+                dispatch('getAllCheckins')
+            })
+            .catch((err) => {
+            })
+    },
+    async deleteDailyCheckin({ commit, dispatch }, payload) {
+        await axios
+            .delete(`/delete/${payload}`)
             .then((res) => {
                 dispatch('getAllCheckins')
             })
