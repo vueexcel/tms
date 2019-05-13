@@ -134,11 +134,10 @@
               Recent
               <span class="fw-semi-bold">Activities</span>
             </h2>
-            <widget class="mb-3">
-              <div>
-                <div class="h-100"></div>
-                <div class>
-                  <span v-for="(recentactivity,index) in activity" :key="index">
+            <span v-for="(recentactivity,index) in activity" :key="index">
+              <span v-if="recentactivity.missed_checkin">
+                <span v-for="(misschecked,index) in recentactivity.missed_checkin" :key="index">
+                  <widget class="mb-3">
                     <span class="thumb-md float-left mr-2 mt-1">
                       <img
                         class="rounded-circle"
@@ -149,49 +148,53 @@
                       >
                     </span>
                     <span class="text-primary fw-semi-bold fs-larger">{{user.name}}</span>
-                    {{time}}
+                    {{time}} {{date}}
                     <p class="fs-sm">{{recentactivity.dates}}</p>
-                    <span v-if="recentactivity.missed_checkin">
-                      <span
-                        v-for="(misschecked,index) in recentactivity.missed_checkin"
-                        :key="index"
+                    You have missed your daily checkin on
+                    {{misschecked.datemiss}}
+                  </widget>
+                </span>
+              </span>
+              <span v-if="recentactivity.Daily_checkin">
+                <span v-for="(dailycheckin,index) in recentactivity.Daily_checkin" :key="index">
+                  <widget class="mb-3">
+                    <span class="thumb-md float-left mr-2 mt-1">
+                      <img
+                        class="rounded-circle"
+                        :src="user.profileImage ? user.profileImage : image"
+                        alt="..."
+                        width="25"
+                        height="25"
                       >
-                        You have missed your daily checkin on
-                        {{date}}
-                        {{misschecked.day}}
-                      </span>
                     </span>
-
-                    <span v-else>
-                      <span
-                        v-for="(dailycheckin,index) in recentactivity.Daily_checkin"
-                        :key="index"
+                    <span class="text-primary fw-semi-bold fs-larger">{{user.name}}</span>
+                    {{dailydate}}
+                    <p class="fs-sm">{{recentactivity.dates}}</p>
+                    You have done your daily checkin on
+                    {{dailycheckin.dailycheckindate}}
+                  </widget>
+                </span>
+              </span>
+              <span v-if="recentactivity.report_reviewed">
+                <span v-for="(reportreviewed,index) in recentactivity.report_reviewed" :key="index">
+                  <widget class="mb-3">
+                    <span class="thumb-md float-left mr-2 mt-1">
+                      <img
+                        class="rounded-circle"
+                        :src="user.profileImage ? user.profileImage : image"
+                        alt="..."
+                        width="25"
+                        height="25"
                       >
-                        <div>{{dailycheckin.Daily_chechkin_message}}</div>
-                      </span>
                     </span>
-                  </span>
-                </div>
-              </div>
-              <!-- <starRating :displayStar="5" :starSize="starSize" :ratedStar="ratedStar" @starRatingSelected="submitStarRateOne" /> -->
-            </widget>
+                    <span class="text-primary fw-semi-bold fs-larger">{{user.name}}</span>
+                    <p class="fs-sm">{{recentactivity.dates}}</p>
+                    <p>{{reportreviewed.Message}}</p>
+                  </widget>
+                </span>
+              </span>
+            </span>
           </div>
-          <!-- <widget class="h-auto">
-            <div>
-              <div >
-                <span class="text-primary fw-semi-bold fs-larger">{{user.name}}</span>
-                <p class="fw-semi fs-sm">December 17,2018 at 01:59 PM</p>
-              </div>
-            </div>
-            {{activitydata}}
-            <span  v-for="(recentactivity,index) in activity" :key="index">
-              <span v-for="(misschecked,index) in recentactivity.missed_checkin" :key="index">
-            <div class="fs-sm">{{misschecked.checkin_missed_message}}</div>
-              
-            </span>
-            </span>
-           <starRating :displayStar="5" :starSize="starSize" :ratedStar="two" @starRatingSelected="submitStarRateTwo" /> 
-          </widget>-->
         </b-col>
       </b-row>
     </b-container>
@@ -218,7 +221,7 @@ export default {
       two: 1,
       starSize: "17px",
       image: dummyimage,
-      checkin_rating: 0
+      checkin_rating: "0"
     };
   },
   components: { Widget, AreaComponent, starRating },
@@ -244,13 +247,17 @@ export default {
     date() {
       this.activity.forEach(activity => {
         if (activity.missed_checkin) {
-          activity.missed_checkin.forEach(dates => {
-            var date = this.$moment(dates.checkin_missed_message);
-            if (date) {
-              dates["day"] = this.$moment(date.checkin_missed_message).format(
-                " MMMM DD, YYYY"
-              );
-            }
+          activity.missed_checkin.forEach(missdate => {
+            missdate["datemiss"] = this.$moment(missdate.checkin_message).format(" MMMM DD, YYYY");
+          });
+        }
+      });
+    },
+    dailydate() {
+      this.activity.forEach(activity => {
+        if (activity.Daily_checkin) {
+          activity.Daily_checkin.forEach(checkindailydate => {
+            checkindailydate["dailycheckindate"] = this.$moment(checkindailydate.Daily_chechkin_message).format(" MMMM DD, YYYY");
           });
         }
       });

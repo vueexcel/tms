@@ -4,7 +4,7 @@
       class="text-center"
       @click="checkEmployee(employee)"
       v-bind:class="{activeClassWeekly : employee._id === activeId && page === 'Weekly' , activeClass : employee._id === activeId && page != 'Weekly' }"
-      :style="{'background-color': backgroungColor,'border': borderColor, 'border-radius': '8px' }"
+      :style="{'background-color': backgroungColor,'border': borderColor, 'border-radius': '8px'}"
     >
       <!--  -->
       <div>

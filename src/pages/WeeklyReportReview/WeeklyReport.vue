@@ -5,7 +5,7 @@
       <h5 class="page-title ml-3 row" style="font-size: 24px;">Team View</h5>
       <b-container class="no-gutters">
         <b-row v-if="weeklyData.length">
-          <b-col xs="12" class="column" v-for="employee in weeklyData" :key="employee._id">
+          <b-col lg="2" md="4" xs="12" class="column" v-for="employee in weeklyData" :key="employee._id">
             <WeeklyReviewComponent
               :employee="employee"
               @setActive="setActive"
@@ -17,7 +17,7 @@
           </b-col>
         </b-row>
         <b-row v-else>
-          <b-col xs="12" class="column" v-for="employee in allweeklyData" :key="employee._id">
+          <b-col lg="2"  md="4" xs="12"   class="column" v-for="employee in allweeklyData" :key="employee._id">
             <WeeklyReviewComponent
               :employee="employee"
               @setActive="setActive"

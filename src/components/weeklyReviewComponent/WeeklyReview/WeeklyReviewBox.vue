@@ -1,5 +1,6 @@
 <template>
   <div>
+    {{result}}
     <span v-if="activeEmployee">
       <span v-for="(reviews,index) in activeEmployee.is_reviewed" :key="index">
         <span v-if="userProfile._id == reviews._id">
@@ -52,6 +53,7 @@
                   class="btn btn-default btn-lg mb-xs bg-primary text-white mt-4"
                   @click="submit"
                 >Submit</b-button>
+                <b-button variant="danger" class=" btn-lg width-100 mb-xs mr-xs mt-4 float-right" :disabled="reviews.reviewed == false">Delete</b-button>
               </b-form>
             </b-col>
           </b-row>
@@ -87,7 +89,11 @@ export default {
     }
   },
   computed: {
-    userProfile: get("profile/user")
+    userProfile: get("profile/user"),
+    result(){
+      // console.log(this.activeEmployee);
+      
+    }
   },
   methods: {
     setWeeklyReportReview: call("weeklyReportReview/setWeeklyReportReview"),
