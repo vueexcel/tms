@@ -15,7 +15,7 @@
                   <div class="col-md-8">
                     <b-form-select v-model="selected" v-if="user.kpi" class="mb-3">
                       <option
-                        v-for="(kpi,index) in user.kpi.kpi_json"
+                        v-for="(kpi,index) in kpieraarray"
                         :key="index"
                         v-bind:value="kpi.title"
                       >{{ kpi.title }}</option>
@@ -28,17 +28,32 @@
                     <span class="help-block">Some help text</span>-->
                   </label>
                   <div class="col-md-8">
-                    <b-form-textarea
-                      id="textarea1"
-                      v-model="kpiKraDescription"
-                      placeholder="Description.."
-                      :rows="3"
-                      :max-rows="6"
-                    ></b-form-textarea>
-                    <a class="btn btn-default btn-sm mt-2 pl-4 pr-4">
+                    <!-- <div v-for="(kpikra,index) in kpikradescriotionlist" :key="index"> -->
+                      <b-form-textarea
+                        id="textarea1"
+                        v-model="kpiKraDescription"
+                        placeholder="Description.."
+                        :rows="3"
+                        :max-rows="6"
+                      ></b-form-textarea>
+                      <br>
+                      <div  v-for="(kpikra,index) in kpikradescriotionlist" :key="index"> 
+                      <b-card-text>{{kpikra}}
+                          <a
+                      class="btn btn-default btn-sm mt-2 pl-4 pr-4 float-right"
+                      @click="removeDescription(index)"
+                    >
+                      <i class="fas fa-times" style="color:green;"></i>&nbsp;&nbsp;
+                      Remove
+                    </a>
+                      </b-card-text>
+                      </div>
+                    <!-- </div> -->
+                    <a class="btn btn-default btn-sm mt-2 pl-4 pr-4" @click="addDescription">
                       <i class="fas fa-plus" style="color:green;"></i>&nbsp;&nbsp;
                       Add
                     </a>
+                  
                   </div>
                 </div>
                 <!-- add button here -->
@@ -74,7 +89,7 @@
                           class="border-0"
                           @click="pickDay(index,reportdata)"
                         >
-                          <b-card-text name="report">{{reportdata.report}}</b-card-text>
+                          <b-card-text>{{reportdata.report}}</b-card-text>
                         </b-tab>
                       </b-tabs>
                     </b-card>
@@ -135,7 +150,14 @@ export default {
       kpiKraDescription: "",
       extraWorkDescription: "",
       selectedDay: null,
-      id: null
+      id: null,
+      kpieraarray: [],
+      kpikradescriotionlist:[]
+      // kpikradescriotionlist: [
+      //   {
+      //     kpiKraDescription: ""
+      //   }
+      // ]
     };
   },
   mounted() {
@@ -145,6 +167,10 @@ export default {
     user: get("profile/user"),
     report: get("weeklyReview/report"),
     date() {
+      if(this.user.kpi)
+      {
+        this.kpieraarray = this.user.kpi.kpi_json.concat(this.user.kpi.era_json);
+      }
       Array.prototype.forEach.call(this.report, date => {
         var time = this.$moment(date.created_at)
           .tz("GMT")
@@ -168,7 +194,7 @@ export default {
       this.weeklyReview_({
         k_highlight: {
           kra: this.selected,
-          kpi: this.kpiKraDescription
+          kpi: [this.kpikradescriotionlist]
         },
         extra: this.extraWorkDescription,
         select_days: [this.id],
@@ -184,6 +210,14 @@ export default {
     pickDay(index, reportdata) {
       this.selectedDay = reportdata.day;
       this.id = reportdata._id;
+    },
+    addDescription() {
+      this.kpikradescriotionlist.push(this.kpiKraDescription);
+      this.kpiKraDescription="";
+     
+    },
+    removeDescription(index) {
+      this.kpikradescriotionlist.splice(index,1);
     }
   }
 };

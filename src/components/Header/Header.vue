@@ -1,7 +1,7 @@
 <template>
   <b-navbar class="header d-print-none">
     <b-nav>
-    {{recentactivitylenght}}
+      {{recentactivitylenght}}
       <b-nav-item>
         <a class="d-md-down-none px-2" href="#" @click="toggleSidebarMethod" id="barsTooltip">
           <i class="la la-bars la-lg"/>
@@ -49,11 +49,8 @@
           </span>
           <span
             class="ml-1 circle bg-warning text-white fw-bold"
-            v-for="(recentactivity,index) in activity"
-            :key="index"
-          >
-           {{notificationlength}}
-          </span>
+          
+          >{{notificationlength}}</span>
         </template>
         <Notifications/>
       </b-nav-item-dropdown>
@@ -117,9 +114,10 @@ export default {
   data() {
     return {
       image: dummyimage,
-      notificationlength:0,
-      dailycheckinlength:0,
-      notificationlength:0
+      notificationlength: 0,
+      dailycheckinlength: 0,
+      notificationlength: 0,
+      reportreviewlength: 0
     };
   },
   components: { Notifications },
@@ -130,21 +128,21 @@ export default {
       sidebarClose: state => state.sidebarClose,
       sidebarStatic: state => state.sidebarStatic
     }),
-    recentactivitylenght(){
-      console.log(this.activity);
-      Array.prototype.forEach.call(this.activity,element => {
-        console.log(element);
-        if(element.Daily_checkin)
-        {
-           this.dailycheckinlength = element.Daily_checkin.length
-          console.log(dailycheckinlength);  
+    recentactivitylenght() {
+      // console.log(this.activity);
+      Array.prototype.forEach.call(this.activity, element => {
+        // console.log(element);
+        if (element.Daily_checkin) {
+          this.dailycheckinlength = element.Daily_checkin.length;
+          // console.log(dailycheckinlength);
         }
-        if(element.missed_checkin)
-        {
-           thsi.misscheckinlength = element.missed_checkin.length
+        if (element.missed_checkin) {
+          this.misscheckinlength = element.missed_checkin.length;
         }
-        this.notificationlength = this.dailycheckinlength+this.misscheckinlength;
-        
+        if (element.report_reviewed) {
+          this.reportreviewlength = element.report_reviewed.length;
+        }
+        this.notificationlength =this.dailycheckinlength + this.misscheckinlength + this.reportreviewlength;
       });
     }
   },
