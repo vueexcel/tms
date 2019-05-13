@@ -130,7 +130,7 @@
           * Right general report
         *=======================================================================-->
         <b-col class="p-0">
-          <GenReport @report="report"></GenReport>
+          <GenReport @report="report" @deleteCheckin="deleteCheckin"></GenReport>
         </b-col>
       </b-row>
     </b-container>
@@ -219,6 +219,7 @@ export default {
   },
   methods: {
     dailyCheckin: call("checkin/dailyCheckin"),
+    deleteDailyCheckin: call("checkin/deleteDailyCheckin"),
     getAllCheckins: call("checkin/getAllCheckins"),
     getAllCheckinsAPI: function() {
       this.getAllCheckins(localStorage.getItem("authenticated"));
@@ -229,8 +230,12 @@ export default {
         task_completed: report.task_completed,
         task_not_completed_reason: report.task_not_completed_reason,
         highlight: report.highlight,
-        highlight_task_reason: report.highlightTaskReason
+        highlight_task_reason: report.highlightTaskReason,
+        date: report.date
       });
+    },
+    deleteCheckin(deleteReport) {
+      this.deleteDailyCheckin(deleteReport);
     },
     showData: function() {
       this.canShowmore = !this.canShowmore;

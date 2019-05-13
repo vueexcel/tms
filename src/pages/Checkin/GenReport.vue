@@ -5,6 +5,10 @@
   <div>
     <b-form @submit.prevent="submitReport">
       <Widget>
+        <b-form-group>
+          <h5 class="pb-2">Missed Checkins</h5>
+          <b-form-select v-model="changeSelectOption" :options="options"></b-form-select>
+        </b-form-group>
         <h5 class="pb-2">Write general report for the day</h5>
         <b-form-textarea
           id="genReport"
@@ -78,6 +82,19 @@
         <button type="submit" class="btn btn-primary btn-lg mb-xs fs-sm pl-4 pr-4">SUBMIT</button>
       </Widget>
     </b-form>
+    <!-- Modal for missed checkins -->
+    <div>
+      <!-- <b-button @click="modalShow = !modalShow">Open Modal</b-button> -->
+
+      <b-modal no-close-on-backdrop no-close-on-esc hide-footer v-model="modalShow">
+        <div class="text-center">
+          <div class="fw-bold fs-larger">Checkin for Today already exist</div>
+          <p>What do you want to do with existing checkin for today</p>
+          <b-button variant="danger" class="width-100 mb-xs mr-xs" @click="emitDeleteCheckin">Delete</b-button>
+          <b-button variant="primary" class="width-100 mb-xs mr-xs" @click="updateCheckin">Update</b-button>
+        </div>
+      </b-modal>
+    </div>
   </div>
 </template>
 
@@ -88,6 +105,8 @@ import Widget from "@/components/Widget/Widget";
 export default {
   components: { Widget },
   computed: {
+    missedCheckin: get("profile/user"),
+    changeSelectOption: sync("checkin/changeSelectOption"),
     status: sync("checkin/status"),
     reason: sync("checkin/reason"),
     reasonHighlight: sync("checkin/reasonHighlight"),
@@ -98,27 +117,81 @@ export default {
     reports: get("checkin/reports")
   },
   mounted() {
-    console.log(this.reports[this.reports.length - 1]);
+    this.makeOptions();
+  },
+  data() {
+    return {
+      options: [],
+      modalShow: false,
+      found: null
+    };
   },
   methods: {
-    submitReport() {
-      if (this.reports[this.reports.length - 1].day !== "Today") {
-        console.log(this.reports[this.reports.length - 1].day);
-        this.$emit("report", {
-          report: this.genReport,
-          task_completed: this.status,
-          task_not_completed_reason: this.genReportReason,
-          highlight: this.highlightTask,
-          highlightTaskReason: this.highlightTaskReason
-        });
-      } else {
-        alert(`today's report already exists`);
+    makeOptions() {
+      if (this.missedCheckin && Object.keys(this.missedCheckin).length) {
+        this.options = [
+          {
+            value: null,
+            text: "Select your missed checkin"
+          }
+        ];
+        if (this.missedCheckin.missed_checkin_dates) {
+          this.missedCheckin.missed_checkin_dates.forEach(element => {
+            this.options.push({
+              value: element.date,
+              text: element.date
+            });
+          });
+        }
       }
+    },
+    submitReport() {
+      this.found = null;
+      if (this.reports.length) {
+        this.found = this.reports.find(function(element) {
+          return element.day === "Today";
+        });
+      }
+      if (this.found) {
+        if (this.found.day !== "Today") {
+          // New Checkin for the day..
+          this.emitFormData();
+        } else if (this.changeSelectOption !== null) {
+          // Checkin with missed date
+          this.emitFormData();
+        } else {
+          this.modalShow = true;
+        }
+      } else {
+        this.emitFormData();
+      }
+    },
+    clearForm() {
       this.genReport = "";
       this.status = false;
       this.genReportReason = "";
       this.highlightTask = "";
       this.highlightTaskReason = "";
+    },
+    emitFormData() {
+      this.$emit("report", {
+        report: this.genReport,
+        task_completed: this.status,
+        task_not_completed_reason: this.genReportReason,
+        highlight: this.highlightTask,
+        highlightTaskReason: this.highlightTaskReason,
+        date: this.changeSelectOption
+      });
+      this.clearForm();
+    },
+    emitDeleteCheckin() {
+      this.$emit("deleteCheckin", this.found._id);
+      // this.clearForm();
+      this.modalShow = false;
+    },
+    updateCheckin() {
+      this.emitFormData();
+      this.modalShow = false;
     }
   }
 };
