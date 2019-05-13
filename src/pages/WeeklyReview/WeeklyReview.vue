@@ -28,36 +28,30 @@
                     <span class="help-block">Some help text</span>-->
                   </label>
                   <div class="col-md-8">
-                    <!-- <div v-for="(kpikra,index) in kpikradescriotionlist" :key="index"> -->
-                      <b-form-textarea
-                        id="textarea1"
-                        v-model="kpiKraDescription"
-                        placeholder="Description.."
-                        :rows="3"
-                        :max-rows="6"
-                      ></b-form-textarea>
-                      <br>
-                      <div  v-for="(kpikra,index) in kpikradescriotionlist" :key="index"> 
-                      <b-card-text>{{kpikra}}
-                          <a
-                      class="btn btn-default btn-sm mt-2 pl-4 pr-4 float-right"
-                      @click="removeDescription(index)"
-                    >
-                      <i class="fas fa-times" style="color:green;"></i>&nbsp;&nbsp;
-                      Remove
-                    </a>
+                    <b-form-textarea
+                      id="textarea1"
+                      v-model="kpiKraDescription"
+                      placeholder="Description.."
+                      :rows="3"
+                      :max-rows="6"
+                    ></b-form-textarea>
+                    <br>
+                    <div v-for="(kpikra,index) in kpikradescriotionlist" :key="index">
+                      <b-card-text>
+                        {{kpikra}}
+                        <i
+                          class="fas fa-times-circle text-secondary cursor pull-right pt-1 pr-4"
+                          @click="removeDescription(index)"
+                        ></i>
                       </b-card-text>
-                      </div>
-                    <!-- </div> -->
+                    </div>
                     <a class="btn btn-default btn-sm mt-2 pl-4 pr-4" @click="addDescription">
                       <i class="fas fa-plus" style="color:green;"></i>&nbsp;&nbsp;
                       Add
                     </a>
-                  
                   </div>
                 </div>
                 <!-- add button here -->
-                <hr>
                 <div class="form-group row">
                   <label
                     class="col-md-4 control-label text-md-left"
@@ -152,12 +146,7 @@ export default {
       selectedDay: null,
       id: null,
       kpieraarray: [],
-      kpikradescriotionlist:[]
-      // kpikradescriotionlist: [
-      //   {
-      //     kpiKraDescription: ""
-      //   }
-      // ]
+      kpikradescriotionlist: []
     };
   },
   mounted() {
@@ -167,9 +156,10 @@ export default {
     user: get("profile/user"),
     report: get("weeklyReview/report"),
     date() {
-      if(this.user.kpi)
-      {
-        this.kpieraarray = this.user.kpi.kpi_json.concat(this.user.kpi.era_json);
+      if (this.user.kpi) {
+        this.kpieraarray = this.user.kpi.kpi_json.concat(
+          this.user.kpi.era_json
+        );
       }
       Array.prototype.forEach.call(this.report, date => {
         var time = this.$moment(date.created_at)
@@ -213,11 +203,10 @@ export default {
     },
     addDescription() {
       this.kpikradescriotionlist.push(this.kpiKraDescription);
-      this.kpiKraDescription="";
-     
+      this.kpiKraDescription = "";
     },
     removeDescription(index) {
-      this.kpikradescriotionlist.splice(index,1);
+      this.kpikradescriotionlist.splice(index, 1);
     }
   }
 };
