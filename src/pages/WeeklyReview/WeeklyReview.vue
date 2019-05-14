@@ -5,7 +5,7 @@
       <b-row>
         <b-col xs="12" class="pt-4">
           <div>
-            <form @submit.prevent="submitWeeklyReview" class="form-horizontal" role="form">
+            <form @submit.prevent="submitWeeklyReview" class="form-horizontal" >
               <fieldset>
                 <div class="form-group row">
                   <label
@@ -107,7 +107,10 @@
               <div class="form-actions">
                 <div class="row">
                   <div class="col-md-4 col-12">
-                    <button @click="submit" type="submit" class="btn btn-danger">Submit</button>
+                    <button  type="submit" class="btn btn-danger">Submit</button>
+                  </div>
+                   <div class="col-md-8 col-12 float-right">
+                   <b-button variant="success" class="width-100 mb-xs mr-xs" v-if="canShowdelete" @click="deletereport">Delete</b-button>
                   </div>
                 </div>
               </div>
@@ -146,7 +149,8 @@ export default {
       selectedDay: null,
       id: null,
       kpieraarray: [],
-      kpikradescriotionlist: []
+      kpikradescriotionlist: [],
+      canShowdelete:false
     };
   },
   mounted() {
@@ -156,6 +160,8 @@ export default {
     user: get("profile/user"),
     report: get("weeklyReview/report"),
     date() {
+      console.log(this.report,"!!!!!!!");
+      
       if (this.user.kpi) {
         this.kpieraarray = this.user.kpi.kpi_json.concat(
           this.user.kpi.era_json
@@ -190,12 +196,10 @@ export default {
         select_days: [this.id],
         difficulty: this.ratedStar
       });
+      this.canShowdelete = true;
     },
     submitStarRate(value) {
       this.ratedStar = value;
-    },
-    submit() {
-      this.ratedStar = 1;
     },
     pickDay(index, reportdata) {
       this.selectedDay = reportdata.day;

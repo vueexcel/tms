@@ -9,6 +9,8 @@ const actions = {
   async getWeeklyReport({ state, commit }, payload) {
     let res = await axios.get("/manager_weekly");
     if (res) {
+      console.log(res);
+      
       return res;
     }
   },
