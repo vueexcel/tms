@@ -47,10 +47,7 @@
           <span class="small">
             <span class="fw-semi-bold">{{user.username}}</span>
           </span>
-          <span
-            class="ml-1 circle bg-warning text-white fw-bold"
-          
-          >{{notificationlength}}</span>
+          <span class="ml-1 circle bg-warning text-white fw-bold">{{notificationlength}}</span>
         </template>
         <Notifications/>
       </b-nav-item-dropdown>
@@ -117,7 +114,8 @@ export default {
       notificationlength: 0,
       dailycheckinlength: 0,
       notificationlength: 0,
-      reportreviewlength: 0
+      reportreviewlength: 0,
+      reviewreportlength: 0
     };
   },
   components: { Notifications },
@@ -142,7 +140,14 @@ export default {
         if (element.report_reviewed) {
           this.reportreviewlength = element.report_reviewed.length;
         }
-        this.notificationlength =this.dailycheckinlength + this.misscheckinlength + this.reportreviewlength;
+        if (element.review_report) {
+          this.reviewreportlength = element.review_report.length;
+        }
+        this.notificationlength =
+          this.dailycheckinlength +
+          this.misscheckinlength +
+          this.reportreviewlength +
+          this.reviewreportlength;
       });
     }
   },

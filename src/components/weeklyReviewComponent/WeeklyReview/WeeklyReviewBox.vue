@@ -52,10 +52,7 @@
                   class="btn btn-default btn-lg mb-xs bg-primary text-white mt-4"
                   @click="submit"
                 >Submit</b-button>
-                <b-button variant="danger" 
-                :disabled="reviews.reviewed == false"
-                class=" btn-lg width-100 mb-xs mr-xs mt-4 float-right" 
-                >Delete</b-button>
+                <b-button variant="danger" class=" btn-lg width-100 mb-xs mr-xs mt-4 float-right" :disabled="userProfile.role == 'admin'?true:false">Delete</b-button>
               </b-form>
             </b-col>
           </b-row>
@@ -92,6 +89,10 @@ export default {
   },
   computed: {
     userProfile: get("profile/user"),
+    result(){
+      console.log(this.userProfile,'444444');
+      
+    }
   },
   methods: {
     setWeeklyReportReview: call("weeklyReportReview/setWeeklyReportReview"),

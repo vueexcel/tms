@@ -115,7 +115,7 @@
                     v-b-popover.hover="`This is the weighted reviewed given by your seniors. This is score is most important and reflects your performance.`"
                     class="fas fa-question-circle fs-sm text-danger"
                   ></i>
-                  <span class="float-right">{{user.Overall_rating}}%</span>
+                  <span class="float-right">{{Overall_rating}}%</span>
                 </h6>
                 <span class="text-secondary fs-sm">Overall performance review</span>
                 <b-progress
@@ -148,8 +148,8 @@
                       >
                     </span>
                     <span class="text-primary fw-semi-bold fs-larger">{{user.name}}</span>
-                    {{time}} {{date}}
-                    <p class="fs-sm">{{recentactivity.dates}}</p>
+                    {{date}}
+                    <p class="fs-sm">{{misschecked.datemisstime}}</p>
                     You have missed your daily checkin on
                     {{misschecked.datemiss}}
                   </widget>
@@ -169,7 +169,7 @@
                     </span>
                     <span class="text-primary fw-semi-bold fs-larger">{{user.name}}</span>
                     {{dailydate}}
-                    <p class="fs-sm">{{recentactivity.dates}}</p>
+                    <p class="fs-sm">{{dailycheckin.dailycheckintime}}</p>
                     You have done your daily checkin on
                     {{dailycheckin.dailycheckindate}}
                   </widget>
@@ -190,6 +190,25 @@
                     <span class="text-primary fw-semi-bold fs-larger">{{user.name}}</span>
                     <p class="fs-sm">{{recentactivity.dates}}</p>
                     <p>{{reportreviewed.Message}}</p>
+                  </widget>
+                </span>
+              </span>
+              <span v-if="recentactivity.review_report">
+                <span v-for="(reviewreport,index) in recentactivity.review_report" :key="index">
+                  <widget class="mb-3">
+                    <span class="thumb-md float-left mr-2 mt-1">
+                      <img
+                        class="rounded-circle"
+                        :src="user.profileImage ? user.profileImage : image"
+                        alt="..."
+                        width="25"
+                        height="25"
+                      >
+                    </span>
+                    <span class="text-primary fw-semi-bold fs-larger">{{user.name}}</span>
+                    {{reportreview}}
+                    <p class="fs-sm">{{reviewreport.reportreviewtime}}</p>
+                    <p>{{reviewreport.Message}}</p>
                   </widget>
                 </span>
               </span>
@@ -221,7 +240,8 @@ export default {
       two: 1,
       starSize: "17px",
       image: dummyimage,
-      checkin_rating: "0"
+      checkin_rating: "0",
+      Overall_rating: "0"
     };
   },
   components: { Widget, AreaComponent, starRating },
@@ -232,23 +252,34 @@ export default {
   computed: {
     user: get("profile/user"),
     activity: get("profile/activity"),
-    time() {
-      this.activity.forEach(element => {
-        var time = this.$moment(element.date)
-          .tz("GMT")
-          .local()
-          .format("h:mm: A");
-        if (time !== "Invalid date") {
-          element["dates"] =
-            this.$moment(element.date).format("MMMM DD,YYYY") + " at " + time;
-        }
-      });
-    },
+    // time() {
+    //   console.log(this.activity,'@@@@@');
+
+    //   this.activity.forEach(element => {
+    //     var time = this.$moment(element.date)
+    //       .tz("GMT")
+    //       .local()
+    //       .format("h:mm: A");
+    //     if (time !== "Invalid date") {
+    //       element["dates"] =
+    //         this.$moment(element.date).format("MMMM DD,YYYY") + " at " + time;
+    //     }
+    //   });
+    // },
     date() {
+      console.log(this.activity,'@@@@@');
       this.activity.forEach(activity => {
         if (activity.missed_checkin) {
           activity.missed_checkin.forEach(missdate => {
-            missdate["datemiss"] = this.$moment(missdate.checkin_message).format(" MMMM DD, YYYY");
+            var time = this.$moment(missdate.checkin_message)
+              .tz("GMT")
+              .local()
+              .format("h:mm: A");
+            if (time !== "Invalid date") {
+              missdate["datemisstime"] =
+                this.$moment(missdate.checkin_message).format(" MMMM DD, YYYY") +" at " +time;
+              missdate["datemiss"] = this.$moment(missdate.checkin_message).format(" MMMM DD, YYYY");
+            }
           });
         }
       });
@@ -257,13 +288,40 @@ export default {
       this.activity.forEach(activity => {
         if (activity.Daily_checkin) {
           activity.Daily_checkin.forEach(checkindailydate => {
-            checkindailydate["dailycheckindate"] = this.$moment(checkindailydate.Daily_chechkin_message).format(" MMMM DD, YYYY");
+            var time = this.$moment(checkindailydate.Daily_chechkin_message)
+              .tz("GMT")
+              .local()
+              .format("h:mm: A");
+            if (time !== "Invalid date") {
+              checkindailydate["dailycheckindate"] = this.$moment(checkindailydate.Daily_chechkin_message).format(" MMMM DD, YYYY");
+               checkindailydate["dailycheckintime"] = this.$moment(checkindailydate.Daily_chechkin_message).format(" MMMM DD, YYYY") + " at " + time;
+            }
+          });
+        }
+      });
+    },
+    reportreview(){
+  this.activity.forEach(activity => {
+        if (activity.review_report) {
+          activity.review_report.forEach(reportreviewdate => {
+            var time = this.$moment(reportreviewdate.created_at)
+              .tz("GMT")
+              .local()
+              .format("h:mm: A");
+            if (time !== "Invalid date") {
+               reportreviewdate["reportreviewtime"] = this.$moment(reportreviewdate.created_at).format(" MMMM DD, YYYY") + " at " + time;
+            }
           });
         }
       });
     },
     sortedArray() {
       this.checkin_rating = Math.round(this.user.Checkin_rating);
+      if (this.user.Overall_rating !== "") {
+        this.Overall_rating = Math.round(this.user.Overall_rating);
+      } else {
+        this.Overall_rating = 0;
+      }
       let managers = this.user.managers;
       if (managers) {
         function compare(a, b) {

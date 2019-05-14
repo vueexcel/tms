@@ -15,12 +15,18 @@
           <span v-for="(dailycheckin,index) in recentactivity.Daily_checkin" :key="index">
             <div>
               You have done your daily checkin on
-              {{dailycheckin.dailyday}}</div>
+              {{dailycheckin.dailyday}}
+            </div>
           </span>
         </span>
         <span v-if="recentactivity.report_reviewed">
           <span v-for="(reportreviewed,index) in recentactivity.report_reviewed" :key="index">
             <div>{{reportreviewed.Message}}</div>
+          </span>
+        </span>
+        <span v-if="recentactivity.review_report">
+          <span v-for="(reviewreport,index) in recentactivity.review_report" :key="index">
+            <div>{{reviewreport.Message}}</div>
           </span>
         </span>
       </span>
@@ -47,8 +53,6 @@ export default {
     activity: get("profile/activity"),
     date() {
       this.activity.forEach(activity => {
-        console.log(activity,'11111');
-        
         if (activity.missed_checkin) {
           activity.missed_checkin.forEach(dates => {
             var date = this.$moment(dates.checkin_missed_message);
@@ -59,13 +63,13 @@ export default {
             }
           });
         }
-        if (activity.Daily_checkin){
+        if (activity.Daily_checkin) {
           activity.Daily_checkin.forEach(dailydate => {
             var date = this.$moment(dailydate.Daily_chechkin_message);
             if (date) {
-              dailydate["dailyday"] = this.$moment(date.Daily_chechkin_message).format(
-                " MMMM DD, YYYY"
-              );
+              dailydate["dailyday"] = this.$moment(
+                date.Daily_chechkin_message
+              ).format(" MMMM DD, YYYY");
             }
           });
         }
