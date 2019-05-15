@@ -155,6 +155,7 @@ export default {
   },
   mounted() {
     this.get_report();
+    this.getReviewedReport()
   },
   computed: {
     user: get("profile/user"),
@@ -182,6 +183,7 @@ export default {
   methods: {
     getReport: call("weeklyReview/getReport"),
     weeklyReview_: call("weeklyReview/weeklyReview"),
+    getReviewedReports_: call("weeklyReview/getReviewedReports"),
     get_report: function() {
       this.getReport();
     },
@@ -211,6 +213,9 @@ export default {
     },
     removeDescription(index) {
       this.kpikradescriotionlist.splice(index, 1);
+    },
+    getReviewedReport(){
+      this.getReviewedReports_()
     }
   }
 };

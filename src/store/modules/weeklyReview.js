@@ -21,6 +21,12 @@ const actions = {
         alert("weekly review submitted success");
       })
       .catch(err => { });
+  },
+  async getReviewedReports({state,commit},payload){
+    let url = '/week_reviewed_reports'
+    await axios.get(url).then(res =>{
+      console.log(res, 'calling');
+    })
   }
 };
 
