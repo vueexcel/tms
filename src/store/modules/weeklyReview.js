@@ -3,7 +3,8 @@ import axios from "axios";
 
 // setup store
 const state = {
-  report: {}
+  report: {},
+  reviewedReport:[]
 };
 const mutations = make.mutations(state);
 const actions = {
@@ -25,7 +26,14 @@ const actions = {
   async getReviewedReports({state,commit},payload){
     let url = '/week_reviewed_reports'
     await axios.get(url).then(res =>{
-      console.log(res, 'calling');
+      commit('reviewedReport', res.data)
+    })
+  },
+  async deleteWeeklyReport({state},payload){
+    let url = `/delete_weekly/${payload._id}`
+    await axios.delete(url).then(response =>{
+      console.log(url);
+      return true
     })
   }
 };
