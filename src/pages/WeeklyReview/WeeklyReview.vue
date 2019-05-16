@@ -5,7 +5,7 @@
       <b-row>
         <b-col xs="12" class="pt-4">
           <div>
-            <form @submit.prevent="submitWeeklyReview" class="form-horizontal" role="form">
+            <form @submit.prevent="submitWeeklyReview" class="form-horizontal" >
               <fieldset>
                 <div class="form-group row">
                   <label
@@ -15,7 +15,7 @@
                   <div class="col-md-8">
                     <b-form-select v-model="selected" v-if="user.kpi" class="mb-3">
                       <option
-                        v-for="(kpi,index) in user.kpi.kpi_json"
+                        v-for="(kpi,index) in kpieraarray"
                         :key="index"
                         v-bind:value="kpi.title"
                       >{{ kpi.title }}</option>
@@ -35,14 +35,23 @@
                       :rows="3"
                       :max-rows="6"
                     ></b-form-textarea>
-                    <a class="btn btn-default btn-sm mt-2 pl-4 pr-4">
+                    <br>
+                    <div v-for="(kpikra,index) in kpikradescriotionlist" :key="index">
+                      <b-card-text>
+                        {{kpikra}}
+                        <i
+                          class="fas fa-times-circle text-secondary cursor pull-right pt-1 pr-4"
+                          @click="removeDescription(index)"
+                        ></i>
+                      </b-card-text>
+                    </div>
+                    <a class="btn btn-default btn-sm mt-2 pl-4 pr-4" @click="addDescription">
                       <i class="fas fa-plus" style="color:green;"></i>&nbsp;&nbsp;
                       Add
                     </a>
                   </div>
                 </div>
                 <!-- add button here -->
-                <hr>
                 <div class="form-group row">
                   <label
                     class="col-md-4 control-label text-md-left"
@@ -74,7 +83,7 @@
                           class="border-0"
                           @click="pickDay(index,reportdata)"
                         >
-                          <b-card-text name="report">{{reportdata.report}}</b-card-text>
+                          <b-card-text>{{reportdata.report}}</b-card-text>
                         </b-tab>
                       </b-tabs>
                     </b-card>
@@ -98,7 +107,10 @@
               <div class="form-actions">
                 <div class="row">
                   <div class="col-md-4 col-12">
-                    <button @click="submit" type="submit" class="btn btn-danger">Submit</button>
+                    <button  type="submit" class="btn btn-danger">Submit</button>
+                  </div>
+                   <div class="col-md-8 col-12 float-right">
+                   <b-button variant="success" class="width-100 mb-xs mr-xs" v-if="canShowdelete" @click="deletereport">Delete</b-button>
                   </div>
                 </div>
               </div>
@@ -135,7 +147,10 @@ export default {
       kpiKraDescription: "",
       extraWorkDescription: "",
       selectedDay: null,
-      id: null
+      id: null,
+      kpieraarray: [],
+      kpikradescriotionlist: [],
+      canShowdelete:false
     };
   },
   mounted() {
@@ -145,6 +160,13 @@ export default {
     user: get("profile/user"),
     report: get("weeklyReview/report"),
     date() {
+      console.log(this.report,"!!!!!!!");
+      
+      if (this.user.kpi) {
+        this.kpieraarray = this.user.kpi.kpi_json.concat(
+          this.user.kpi.era_json
+        );
+      }
       Array.prototype.forEach.call(this.report, date => {
         var time = this.$moment(date.created_at)
           .tz("GMT")
@@ -168,22 +190,27 @@ export default {
       this.weeklyReview_({
         k_highlight: {
           kra: this.selected,
-          kpi: this.kpiKraDescription
+          kpi: [this.kpikradescriotionlist]
         },
         extra: this.extraWorkDescription,
         select_days: [this.id],
         difficulty: this.ratedStar
       });
+      this.canShowdelete = true;
     },
     submitStarRate(value) {
       this.ratedStar = value;
     },
-    submit() {
-      this.ratedStar = 1;
-    },
     pickDay(index, reportdata) {
       this.selectedDay = reportdata.day;
       this.id = reportdata._id;
+    },
+    addDescription() {
+      this.kpikradescriotionlist.push(this.kpiKraDescription);
+      this.kpiKraDescription = "";
+    },
+    removeDescription(index) {
+      this.kpikradescriotionlist.splice(index, 1);
     }
   }
 };

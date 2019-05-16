@@ -11,6 +11,7 @@ const actions = {
   async getReport({ commit }) {
     let response = await axios.get("/week_checkin");
     if (response) {
+      commit('report', response.data)
       return true;
     }
   },
