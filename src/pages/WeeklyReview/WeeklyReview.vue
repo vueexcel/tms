@@ -155,6 +155,7 @@ export default {
   mounted() {
     this.get_report();
     this.getReviewedReport()
+    this.clearform()
   },
   computed: {
     user: get("profile/user"),
@@ -207,17 +208,27 @@ export default {
     get_report: function() {
       this.getReport();
     },
+    clearform(){
+      this.ratedStar= 1
+      this.kpiKraDescription= ""
+      this.extraWorkDescription= ""
+      this.kpikradescriotionlist= []
+    },
     submitWeeklyReview: function() {
       // alert('==========================')
       this.weeklyReview_({
         k_highlight: {
           kra: this.selected,
-          kpi: [this.kpikradescriotionlist]
+          kpi: this.kpikradescriotionlist
         },
         extra: this.extraWorkDescription,
         select_days: [this.id],
         difficulty: this.ratedStar
       });
+      this.extraWorkDescription = ""
+      this.ratedStar = 1
+      this.selected = null
+      this.kpiKraDescription = ""
     },
     submitStarRate(value) {
       this.ratedStar = value;
