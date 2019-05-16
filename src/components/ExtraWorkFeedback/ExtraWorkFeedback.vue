@@ -1,5 +1,6 @@
 <template>
   <div xs="12" sm="6">
+    {{result}}
     <!-- <span> -->
     <!-- @mouseover="activeCollapse" -->
     <!-- :class="{hover_variant : activeCollapse}" -->
@@ -11,9 +12,9 @@
       >KPI</b-btn>
       <b-collapse id="collapse2">
         <b-container>
-          <div class="mt-2">
-            <span class="bold-text">
-              <h6>{{user.k_highlight.kpi}}</h6>
+          <div class="mt-2" v-for="(kpi,index) in user.k_highlight.kpi" :key="index">
+            <span class="bold-text" v-for="(userkpi,index) in kpi" :key="index">
+              <h6>{{index+1}}. {{userkpi}}</h6>
             </span>
           </div>
           <div class="border-top text-light"></div>
@@ -74,6 +75,11 @@ export default {
     },
     variant: {
       type: String
+    }
+  },
+  computed: {
+    result() {
+      console.log(this.user, "555555");
     }
   },
   data() {
