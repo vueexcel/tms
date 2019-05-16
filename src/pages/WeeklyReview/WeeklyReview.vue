@@ -5,7 +5,7 @@
       <b-row>
         <b-col xs="12" class="pt-4">
           <div>
-            <form @submit.prevent="submitWeeklyReview" class="form-horizontal" >
+            <form class="form-horizontal" >
               <fieldset>
                 <div class="form-group row">
                   <label
@@ -107,10 +107,10 @@
               <div class="form-actions">
                 <div class="row">
                   <div class="col-md-4 col-12">
-                    <button  type="submit" class="btn btn-danger">Submit</button>
+                    <button type="button" class="btn btn-success" v-if="deleteReport === false" @click="submitWeeklyReview">Submit</button>
                   </div>
-                   <div class="col-md-8 col-12 float-right">
-                   <b-button variant="success" class="width-100 mb-xs mr-xs" v-if="canShowdelete" @click="deletereport">Delete</b-button>
+                   <div class="col-md-4 col-12">
+                    <button type="button" class="btn btn-danger" v-if="deleteReport === true" @click="deletereportFunct">Delete</button>
                   </div>
                 </div>
               </div>
@@ -150,18 +150,17 @@ export default {
       id: null,
       kpieraarray: [],
       kpikradescriotionlist: [],
-      canShowdelete:false
     };
   },
   mounted() {
     this.get_report();
+    this.getReviewedReport()
   },
   computed: {
     user: get("profile/user"),
     report: get("weeklyReview/report"),
+    reviewedReport_:get("weeklyReview/reviewedReport"),
     date() {
-      console.log(this.report,"!!!!!!!");
-      
       if (this.user.kpi) {
         this.kpieraarray = this.user.kpi.kpi_json.concat(
           this.user.kpi.era_json
@@ -177,11 +176,34 @@ export default {
           date["day"] = this.$moment(date.created_at).format("dddd");
         }
       });
+    },
+    deleteReport(){
+      let count = 0
+      if(this.reviewedReport_.length){
+        if(this.reviewedReport_[0].is_reviewed.length){
+          this.reviewedReport_[0].is_reviewed.map(manager =>{
+            if(manager.reviewed){
+              count++
+            }
+          })
+          if(count === this.reviewedReport_[0].is_reviewed.length){
+            this.kpiKraDescription = this.reviewedReport_[0].k_highlight
+            this.ratedStar = this.reviewedReport_[0].difficulty
+            this.extraWorkDescription = this.reviewedReport_[0].extra
+            this.selected = this.reviewedReport_[0].k_highlight.kra
+            return true
+          }
+        }
+      } else {
+        return false
+      }
     }
   },
   methods: {
     getReport: call("weeklyReview/getReport"),
     weeklyReview_: call("weeklyReview/weeklyReview"),
+    getReviewedReports_: call("weeklyReview/getReviewedReports"),
+    deleteWeeklyReport_: call("weeklyReview/deleteWeeklyReport"),
     get_report: function() {
       this.getReport();
     },
@@ -196,7 +218,6 @@ export default {
         select_days: [this.id],
         difficulty: this.ratedStar
       });
-      this.canShowdelete = true;
     },
     submitStarRate(value) {
       this.ratedStar = value;
@@ -211,6 +232,18 @@ export default {
     },
     removeDescription(index) {
       this.kpikradescriotionlist.splice(index, 1);
+    },
+    getReviewedReport(){
+      this.getReviewedReports_()
+    },
+    deletereportFunct(){
+      let response = this.deleteWeeklyReport_({_id: this.reviewedReport_[0]._id})
+      if(response) {
+        this.kpiKraDescription = ""
+        this.ratedStar = 1
+        this.extraWorkDescription = ""
+        this.deleteReport =  false
+      }
     }
   }
 };

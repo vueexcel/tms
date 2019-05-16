@@ -21,8 +21,10 @@ const actions = {
     }
   },
   async setWeeklyReportReview({ state, commit }, payload) {
-    let id = payload.id;
-    let res = await axios.post(`/manager_weekly/${id}`, payload);
+    let res = await axios.post(`/manager_weekly/${payload.id}`, payload);
+    if(res) {
+      return true
+    }
   }
 };
 // create store

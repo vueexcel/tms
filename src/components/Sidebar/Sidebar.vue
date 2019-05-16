@@ -35,13 +35,13 @@
         index="performanceReview"
         isHeader
       />
-      <NavLink
+      <!-- <NavLink
         header="View Monthly Report"
         link="/app/PerformanceReview"
         iconName="fas fa-calendar"
         index="notifications"
         isHeader
-      />
+      />-->
       <!-- link="/app/weeklyReview" -->
       <!-- <NavLink
         header="View Check-ins"
@@ -105,13 +105,13 @@
         index="performanceReview"
         isHeader
       />
-      <NavLink
+      <!-- <NavLink
         header="Performance Review"
         link="/app/PerformanceReview"
         iconName="fas fa-chart-line"
         index="performanceReview"
         isHeader
-      />
+      />-->
       <!--<NavLink
         header="Admin"
         link="/app/notifications"
