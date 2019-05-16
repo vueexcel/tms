@@ -93,6 +93,7 @@ export default {
       console.log(this.userProfile,'444444');
       
     }
+
   },
   methods: {
     setWeeklyReportReview: call("weeklyReportReview/setWeeklyReportReview"),
