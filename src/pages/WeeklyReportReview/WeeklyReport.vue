@@ -2,8 +2,18 @@
   <div>
     <span class="page-title ml-3 row" style="font-size: 43px;">Weekly Report Review</span>
     <div class="shadow pt-4">
-      <h5 class="page-title ml-3 row" style="font-size: 24px;">Team View</h5>
+      <!-- <div class="w-100"> -->
+        <h5 class="page-title ml-3 row" style="font-size: 24px;">Team View</h5>
+        <i class="fas fa-circle-notch text-success fa-spin float-right mr-5 size" v-if="loading"></i>
+      <!-- </div> -->
       <b-container class="no-gutters">
+        <div v-if="weeklyData.length <1 && allweeklyData.length<1">
+          <b-alert
+            :show="error"
+            dismissible
+            class="alert-transparent alert-danger mt-5"
+          >{{errorMessage}}</b-alert>
+        </div>
         <b-row v-if="weeklyData.length">
           <b-col lg="2" md="4" xs="12" class="column" v-for="employee in weeklyData" :key="employee._id">
             <WeeklyReviewComponent
@@ -69,8 +79,11 @@ export default {
         background_color: "fafbff",
         border: "c1ccd3"
       },
-      weeklyData: {},
-      allweeklyData: {}
+      weeklyData: [],
+      allweeklyData: [],
+      loading: false,
+      error: false,
+      errorMessage:''
     };
   },
   mounted() {
@@ -89,25 +102,39 @@ export default {
       this.activeEmp = employee;
     },
     fetchWeeklyReport() {
-      // this.loader = true;
+      this.loading = true;
       this.getWeeklyReport_()
         .then(resp => {
-          this.weeklyData = resp.data;
+          if(!resp.data.length){
+            this.error = true
+            this.errorMessage = 'There is no data to review'
+          } else {
+            this.weeklyData = resp.data;
+          }
+          this.loading  = false
         })
         .catch(err => {
-          // this.loader = false;
-          // this.loginfailed = true;
+          this.loading = false;
+          this.error = true;
+          this.errorMessage = 'There is some issue to getting result'
         });
     },
     fetchallWeeklyReport() {
-      // this.loader = true;
+      this.loading = true;
       this.getallWeeklyReport_()
         .then(resp => {
-          this.allweeklyData = resp.data;
+          if(!resp.data.length){
+            this.error = true
+            this.errorMessage = 'There is no data to review'
+          } else {
+            this.allweeklyData = resp.data;
+          }
+          this.loading = false
         })
         .catch(err => {
-          // this.loader = false;
-          // this.loginfailed = true;
+          this.loading = false;
+          this.error = true;
+          this.errorMessage = 'There is some issue to getting result'
         });
     }
   }
