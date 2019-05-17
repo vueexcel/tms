@@ -130,7 +130,7 @@
           * Right general report
         *=======================================================================-->
         <b-col class="p-0">
-          <GenReport @report="report" @deleteCheckin="deleteCheckin"></GenReport>
+          <GenReport @report="report" @deleteCheckin="deleteCheckin" :error="error"></GenReport>
         </b-col>
       </b-row>
     </b-container>
@@ -159,7 +159,8 @@ export default {
       canShowreason: false,
       canShowmore: true,
       canShowless: false,
-      image: dummyimage
+      image: dummyimage,
+      error:"",
     };
   },
   components: { Widget, StandUpWidget, Comments, GenReport },
@@ -225,8 +226,8 @@ export default {
     getAllCheckinsAPI: function() {
       this.getAllCheckins(localStorage.getItem("authenticated"));
     },
-    report(report) {
-      this.dailyCheckin({
+    async report(report) {
+      let response = await this.dailyCheckin({
         report: report.report,
         task_completed: report.task_completed,
         task_not_completed_reason: report.task_not_completed_reason,
@@ -238,6 +239,10 @@ export default {
         this.getAllCheckinsAPI();
         this.getProfile(res.date);
       });
+      if(response === false){
+        this.error = 'Invalid Request'
+      }
+      
     },
     deleteCheckin(deleteReport) {
       this.deleteDailyCheckin(deleteReport);

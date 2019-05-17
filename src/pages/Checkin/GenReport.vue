@@ -3,11 +3,20 @@
           * Right general report
   *=======================================================================-->
   <div>
+    <div v-if="error">
+      <b-alert
+            show
+            dismissible
+            class="alert-transparent alert-danger mt-5"
+          >{{error}}</b-alert>
+    </div>
     <b-form @submit.prevent="submitReport">
       <Widget>
         <b-form-group>
           <h5 class="pb-2">Missed Checkins</h5>
-          <b-form-select v-model="changeSelectOption" :options="options"></b-form-select>
+          <div v-if="options.length > 1">
+            <b-form-select v-model="changeSelectOption" :options="options"></b-form-select>
+          </div>
         </b-form-group>
         <h5 class="pb-2">Write general report for the day</h5>
         <b-form-textarea
@@ -132,6 +141,12 @@ export default {
       found: null
     };
   },
+  props:{
+    error:{
+      type: String,
+      default:""
+    }
+  },  
   methods: {
     makeOptions() {
       if (this.missedCheckin && Object.keys(this.missedCheckin).length) {

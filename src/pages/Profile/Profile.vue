@@ -279,7 +279,6 @@ export default {
     //   });
     // },
     date() {
-      console.log(this.activity, "@@@@@");
       this.activity.forEach(activity => {
         if (activity.missed_checkin) {
           activity.missed_checkin.forEach(missdate => {
@@ -346,12 +345,8 @@ export default {
       });
     },
     sortedArray() {
-      this.checkin_rating = Math.round(this.user.Checkin_rating);
-      if (this.user.Overall_rating !== "") {
-        this.Overall_rating = Math.round(this.user.Overall_rating);
-      } else {
-        this.Overall_rating = 0;
-      }
+      this.checkin_rating = this.user.Checkin_rating ? Math.round(this.user.Checkin_rating) : 0;
+      this.Overall_rating = this.user.Overall_rating ? Math.round(this.user.Overall_rating) : 0;
       let managers = this.user.managers;
       if (managers) {
         function compare(a, b) {
