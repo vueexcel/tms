@@ -5,15 +5,15 @@
       <h4 class="page-title" v-if="team.teamname">{{team.teamname}}</h4>
       <h4 class="page-title" v-else>No Team</h4>
       <div>
-         <b-container class="no-gutters p-0">
+        <b-container class="no-gutters p-0">
           <b-row>
-          <b-col lg="3" xs="12" v-for="(employee, index) in team.teamArray" :key="index">
-            <employeeWidget :employee="employee" :index="index"/>
-          </b-col>
-        </b-row>
-      </b-container>
+            <b-col lg="3" xs="12" v-for="(employee, index) in team.teamArray" :key="index">
+              <employeeWidget :employee="employee" :index="index"/>
+            </b-col>
+          </b-row>
+        </b-container>
+      </div>
     </div>
-  </div>
   </div>
 </template>
 
@@ -30,13 +30,13 @@ export default {
   components: {
     employeeWidget
   },
-  mounted() {
+  beforeMount() {
     this.getallMembers();
   },
   computed: {
+    groupByTeam: get("allMember/teams"),
+    allMembers: get("allMember/allMember")
     // name: get("profile/name"),
-    groupByTeam:get('allMember/teams'),
-    allMembers: get("allMember/allMember"),
     // members(){
     //   this.groupByTeam.map(data =>{
     //     console.log(data.teamArray.length, data.teamname)
@@ -46,7 +46,7 @@ export default {
   },
   methods: {
     getProfile: call("profile/getProfile"),
-    getAllMember_:call("allMember/getAllMember"),
+    getAllMember_: call("allMember/getAllMember"),
     get_profile: function() {
       this.getProfile();
     },
