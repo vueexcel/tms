@@ -128,6 +128,12 @@ export default {
   mounted() {
     this.makeOptions();
   },
+  watch: {
+    missedCheckin(newValue) {
+      console.log(newValue);
+      this.makeOptions();
+    }
+  },
   data() {
     return {
       options: [],
@@ -144,6 +150,7 @@ export default {
   methods: {
     makeOptions() {
       if (this.missedCheckin && Object.keys(this.missedCheckin).length) {
+        this.options = [];
         this.options = [
           {
             value: null,

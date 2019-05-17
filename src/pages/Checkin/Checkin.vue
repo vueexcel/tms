@@ -221,6 +221,7 @@ export default {
   methods: {
     dailyCheckin: call("checkin/dailyCheckin"),
     deleteDailyCheckin: call("checkin/deleteDailyCheckin"),
+    getProfile: call("profile/getProfile"),
     getAllCheckins: call("checkin/getAllCheckins"),
     getAllCheckinsAPI: function() {
       this.getAllCheckins(localStorage.getItem("authenticated"));
@@ -233,6 +234,10 @@ export default {
         highlight: report.highlight,
         highlight_task_reason: report.highlightTaskReason,
         date: report.date
+      }).then(res => {
+        console.log(res);
+        this.getAllCheckinsAPI();
+        this.getProfile(res.date);
       });
       if(response === false){
         this.error = 'Invalid Request'

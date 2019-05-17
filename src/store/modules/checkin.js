@@ -6,14 +6,14 @@ import axios from 'axios'
 // setup store
 
 const state = {
-    status: '',
+    status: ``,
     reason: false,
     reasonHighlight: false,
     // Text area
-    genReport: '',
-    genReportReason: '',
-    highlightTask: '',
-    highlightTaskReason: '',
+    genReport: ``,
+    genReportReason: ``,
+    highlightTask: ``,
+    highlightTaskReason: ``,
     changeSelectOption: null,
     // getAllReports
     reports: []
@@ -21,16 +21,22 @@ const state = {
 const mutations = make.mutations(state)
 const actions = {
     ...make.actions(state),
+    // async dailyCheckin({ commit, dispatch }, payload) {
+    //     const checkDate = payload.date
+    //     console.log(payload.date);
+    //     await axios
+    //         .post('/checkin', payload)
+    //         .then((res) => {
+    //             dispatch('getAllCheckins')
+    //         })
+    //         .catch((err) => {
+    //         })
+    // },
     async dailyCheckin({ commit, dispatch }, payload) {
-        try{
-           let response = await axios.post('/checkin', payload)
-           if(response){
-               dispatch('getAllCheckins')    
-               return true
-           }
-        } catch (error) {
-            return false
-        }
+        const checkDate = payload.date
+        let res = await axios.post('/checkin', payload)
+        return { res: res, date: checkDate }
+
     },
     async deleteDailyCheckin({ commit, dispatch }, payload) {
         await axios

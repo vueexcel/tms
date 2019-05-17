@@ -30,9 +30,18 @@ ll<template>
           <div class="all-manager-div" v-else>
             <div class="w-100">
               <p class="block-example mt-2">All</p>
+              <!--### search bar #### -->
+              <div class="pl-1 pr-1 pb-3">
+                <b-form-input
+                  v-model="searchField"
+                  type="search"
+                  name="search"
+                  placeholder="Search"
+                ></b-form-input>
+              </div>
             </div>
             <div class="all_managers">
-              <div class="all-manager mr-1 mb-3" v-for="img in allManagers" :key="img._id">
+              <div class="all-manager mr-1 mb-3" v-for="img in searchFilter" :key="img._id">
                 <img
                   class="rounded-circle h-auto"
                   v-b-tooltip.hover
@@ -92,11 +101,19 @@ ll<template>
               <div class="all-manager-div">
                 <div class="w-100">
                   <p class="block-example mt-2">All</p>
+                  <div class="pl-1 pr-1 pb-3">
+                    <b-form-input
+                      v-model="searchField"
+                      type="search"
+                      name="search"
+                      placeholder="Search"
+                    ></b-form-input>
+                  </div>
                 </div>
                 <div class="all_managers">
                   <div
                     class="all-manager mr-1 mb-3"
-                    v-for="img in allUsersWithNoManagers"
+                    v-for="img in searchFilterNoManager"
                     :key="img._id"
                   >
                     <div v-if="img.managerOFUser !== employee._id">
@@ -140,7 +157,8 @@ export default {
       defaultImage: defaultImage,
       ratedWeight: null,
       loading: false,
-      managerNameWeight: ""
+      managerNameWeight: "",
+      searchField: ""
     };
   },
   props: {
@@ -150,6 +168,28 @@ export default {
   computed: {
     allMembers: sync("allMember/allMember"),
     managers: get("allMember/managers"),
+    searchFilter: function() {
+      if (this.allManagers) {
+        return this.allManagers.filter(item => {
+          if (item.username) {
+            return item.username
+              .toLowerCase()
+              .includes(this.searchField.toLowerCase());
+          }
+        });
+      }
+    },
+    searchFilterNoManager: function() {
+      if (this.allUsersWithNoManagers) {
+        return this.allUsersWithNoManagers.filter(item => {
+          if (item.username) {
+            return item.username
+              .toLowerCase()
+              .includes(this.searchField.toLowerCase());
+          }
+        });
+      }
+    },
     allManagers() {
       let userArray = [];
       this.allMembers.forEach(user => {

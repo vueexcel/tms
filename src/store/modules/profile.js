@@ -5,7 +5,7 @@ import router from './../../Routes'
 // setup store
 const state = {
     user: {},
-    activity:{}
+    activity: {}
 }
 const mutations = make.mutations(state)
 const actions = {
@@ -17,7 +17,10 @@ const actions = {
             if (response.data.role === 'Admin') {
                 router.push("/admin/manageKpi");
             } else {
-                router.push("/app/profile");
+                console.log(payload === undefined);
+                if (payload === undefined) {
+                    router.push("/app/profile");
+                }
             }
             return true
         }

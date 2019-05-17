@@ -155,8 +155,12 @@
                   </widget>
                 </span>
               </span>
+              <!-- Daily_checkin block -->
               <span v-if="recentactivity.Daily_checkin">
-                <span v-for="(dailycheckin,index) in recentactivity.Daily_checkin" :key="index">
+                <span
+                  v-for="(dailycheckin,index) in recentactivity.Daily_checkin.slice().reverse()"
+                  :key="index"
+                >
                   <widget class="mb-3">
                     <span class="thumb-md float-left mr-2 mt-1">
                       <img
@@ -175,8 +179,12 @@
                   </widget>
                 </span>
               </span>
+              <!-- reviewed report block -->
               <span v-if="recentactivity.report_reviewed">
-                <span v-for="(reportreviewed,index) in recentactivity.report_reviewed" :key="index">
+                <span
+                  v-for="(reportreviewed,index) in recentactivity.report_reviewed.slice().reverse()"
+                  :key="index"
+                >
                   <widget class="mb-3">
                     <span class="thumb-md float-left mr-2 mt-1">
                       <img
@@ -193,8 +201,12 @@
                   </widget>
                 </span>
               </span>
+              <!-- Review Report Block  -->
               <span v-if="recentactivity.review_report">
-                <span v-for="(reviewreport,index) in recentactivity.review_report" :key="index">
+                <span
+                  v-for="(reviewreport,index) in recentactivity.review_report.slice().reverse()"
+                  :key="index"
+                >
                   <widget class="mb-3">
                     <span class="thumb-md float-left mr-2 mt-1">
                       <img
@@ -276,8 +288,14 @@ export default {
               .format("h:mm: A");
             if (time !== "Invalid date") {
               missdate["datemisstime"] =
-                this.$moment(missdate.checkin_message).format(" MMMM DD, YYYY") +" at " +time;
-              missdate["datemiss"] = this.$moment(missdate.checkin_message).format(" MMMM DD, YYYY");
+                this.$moment(missdate.checkin_message).format(
+                  " MMMM DD, YYYY"
+                ) +
+                " at " +
+                time;
+              missdate["datemiss"] = this.$moment(
+                missdate.checkin_message
+              ).format(" MMMM DD, YYYY");
             }
           });
         }
@@ -292,15 +310,22 @@ export default {
               .local()
               .format("h:mm: A");
             if (time !== "Invalid date") {
-              checkindailydate["dailycheckindate"] = this.$moment(checkindailydate.Daily_chechkin_message).format(" MMMM DD, YYYY");
-               checkindailydate["dailycheckintime"] = this.$moment(checkindailydate.Daily_chechkin_message).format(" MMMM DD, YYYY") + " at " + time;
+              checkindailydate["dailycheckindate"] = this.$moment(
+                checkindailydate.Daily_chechkin_message
+              ).format(" MMMM DD, YYYY");
+              checkindailydate["dailycheckintime"] =
+                this.$moment(checkindailydate.Daily_chechkin_message).format(
+                  " MMMM DD, YYYY"
+                ) +
+                " at " +
+                time;
             }
           });
         }
       });
     },
-    reportreview(){
-  this.activity.forEach(activity => {
+    reportreview() {
+      this.activity.forEach(activity => {
         if (activity.review_report) {
           activity.review_report.forEach(reportreviewdate => {
             var time = this.$moment(reportreviewdate.created_at)
@@ -308,7 +333,12 @@ export default {
               .local()
               .format("h:mm: A");
             if (time !== "Invalid date") {
-               reportreviewdate["reportreviewtime"] = this.$moment(reportreviewdate.created_at).format(" MMMM DD, YYYY") + " at " + time;
+              reportreviewdate["reportreviewtime"] =
+                this.$moment(reportreviewdate.created_at).format(
+                  " MMMM DD, YYYY"
+                ) +
+                " at " +
+                time;
             }
           });
         }
