@@ -22,13 +22,15 @@ const mutations = make.mutations(state)
 const actions = {
     ...make.actions(state),
     async dailyCheckin({ commit, dispatch }, payload) {
-        await axios
-            .post('/checkin', payload)
-            .then((res) => {
-                dispatch('getAllCheckins')
-            })
-            .catch((err) => {
-            })
+        try{
+           let response = await axios.post('/checkin', payload)
+           if(response){
+               dispatch('getAllCheckins')    
+               return true
+           }
+        } catch (error) {
+            return false
+        }
     },
     async deleteDailyCheckin({ commit, dispatch }, payload) {
         await axios

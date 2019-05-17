@@ -1,7 +1,6 @@
 <template>
   <b-navbar class="header d-print-none">
     <b-nav>
-      {{recentactivitylenght}}
       <b-nav-item>
         <a class="d-md-down-none px-2" href="#" @click="toggleSidebarMethod" id="barsTooltip">
           <i class="la la-bars la-lg"/>
@@ -47,7 +46,7 @@
           <span class="small">
             <span class="fw-semi-bold">{{user.username}}</span>
           </span>
-          <span class="ml-1 circle bg-warning text-white fw-bold">{{notificationlength}}</span>
+          <span class="ml-1 circle bg-warning text-white fw-bold">{{recentactivitylenght}}</span>
         </template>
         <Notifications/>
       </b-nav-item-dropdown>
@@ -113,7 +112,7 @@ export default {
       image: dummyimage,
       notificationlength: 0,
       dailycheckinlength: 0,
-      notificationlength: 0,
+      misscheckinlength: 0,
       reportreviewlength: 0,
       reviewreportlength: 0
     };
@@ -127,28 +126,13 @@ export default {
       sidebarStatic: state => state.sidebarStatic
     }),
     recentactivitylenght() {
-      // console.log(this.activity);
       Array.prototype.forEach.call(this.activity, element => {
-        // console.log(element);
-        if (element.Daily_checkin) {
-          this.dailycheckinlength = element.Daily_checkin.length;
-          // console.log(dailycheckinlength);
-        }
-        if (element.missed_checkin) {
-          this.misscheckinlength = element.missed_checkin.length;
-        }
-        if (element.report_reviewed) {
-          this.reportreviewlength = element.report_reviewed.length;
-        }
-        if (element.review_report) {
-          this.reviewreportlength = element.review_report.length;
-        }
-        this.notificationlength =
-          this.dailycheckinlength +
-          this.misscheckinlength +
-          this.reportreviewlength +
-          this.reviewreportlength;
+        this.dailycheckinlength = element.Daily_checkin ? element.Daily_checkin.length : 0 ;
+        this.misscheckinlength = element.missed_checkin ? element.missed_checkin.length : 0;
+        this.reportreviewlength = element.report_reviewed ? element.report_reviewed.length : 0;
+        this.reviewreportlength = element.review_report ? element.review_report.length : 0;
       });
+      return this.dailycheckinlength + this.misscheckinlength + this.reportreviewlength + this.reviewreportlength;
     }
   },
   methods: {
