@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{result}}
     <span v-if="activeEmployee">
       <span v-for="(reviews,index) in activeEmployee.is_reviewed" :key="index">
         <span v-if="userProfile._id == reviews._id">
@@ -23,8 +22,8 @@
                   :displayStar="5"
                   :ratedStar="ratedStarWeekly"
                   :starSize="starSize"
-                  :disableStar="reviews.reviewed"
                   @starRatingSelected="submitStarRateWeekly"
+                  :disableStar="reviews.reviewed"
                 />
               <div
                 class="mt-2 font-weight"
@@ -34,16 +33,16 @@
                   :displayStar="5"
                   :ratedStar="ratedStarDifficulty"
                   :starSize="starSize"
-                  :disableStar="reviews.reviewed"
                   @starRatingSelected="submitStarRateDifficulty"
+                  :disableStar="reviews.reviewed"
                 />
               <div sm="6">
                 <h6 class="text-inverse">Comments</h6>
               </div>
               <b-form>
                 <b-form-textarea
-                  :disabled="reviews.reviewed == true "
                   :rows="3"
+                  :disabled="reviews.reviewed == true "
                   v-model="text"
                   id="default-textarea"
                   placeholder="Performance or general comments (if any)..."
@@ -94,15 +93,20 @@ export default {
       console.log(this.userProfile,'444444');
       
     }
+
   },
   methods: {
     setWeeklyReportReview: call("weeklyReportReview/setWeeklyReportReview"),
-    submit() {
-      this.setWeeklyReportReview({
+    async submit() {
+      await this.setWeeklyReportReview({
         difficulty: this.ratedStarDifficulty,
         rating: this.ratedStarWeekly,
         comment: this.text,
         id: this.activeEmployee._id
+      }).then(res => {
+        this.ratedStarWeekly = 1
+        this.ratedStarDifficulty = 1
+        this.text = ''
       });
     },
     submitStarRateWeekly(value) {
