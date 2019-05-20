@@ -75,34 +75,30 @@ export default {
     return {
       loader: false,
       loginfailed: false,
-      signinChecked: ""
+      signinChecked: "",
+      loginError : ""
     };
   },
   computed: {
     authenticated: get("login/authenticated"),
-    sidebar: sync("login/sidebar"),
-    loginError() {
-      if (this.loginfailed) {
-        return "Wrong Credentials try again";
-      }
-    }
+    sidebar: sync("login/sidebar")
   },
   methods: {
-    api: call("login/login_"),
+    loginApi: call("login/login_"),
     getProfile: call("profile/getProfile"),
     login() {
       const username = this.$refs.username.value;
       const password = this.$refs.password.value;
       if (username.length !== 0 && password.length !== 0) {
         this.loader = true;
-        this.api({ username: username, password: password })
+        this.loginApi({ username: username, password: password })
           .then(resp => {
             if (this.signinChecked !== "") {
               $cookies.set("keepLoggedIn", this.authenticated);
               this.loader = false;
             }
-            if (resp) {
-              this.getProfile().then(resp => {
+            if (resp === true) {
+              this.getProfile().then(response => {
                 if (resp === true) {
                   this.loader = resp;
                   this.loader = false;
@@ -110,20 +106,17 @@ export default {
                   this.loader = false;
                 }
               });
-              // this.loader = resp;
             } else {
               this.loader = false;
               this.loginfailed = true;
+              this.loginError =  resp.charAt(0).toUpperCase() + resp.slice(1);
             }
           })
-          .catch(err => {
-            this.loader = false;
-            this.loginfailed = true;
-          });
       }
     },
     closeError() {
       this.loginfailed = false;
+      this.loginError = ""
     }
 
     // login() {

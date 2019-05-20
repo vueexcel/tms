@@ -10,15 +10,17 @@ const mutations = make.mutations(state)
 const actions = {
     ...make.actions(state),
     async login_({ state, commit }, payload) {
-        let response = await axios.post('/auth/login', payload)
-        if (response) {
+        try{
+            let response = await axios.post('/auth/login', payload)
             commit('authenticated', response.data.access_token)
             window.localStorage.setItem("authenticated", response.data.access_token);
-            // call("profile/getProfile")
-            // router.push("/admin/manageKpi");
             return true
-        } else {
-            return false
+        } catch(err){   
+            if(err.response){
+                return err.response.data.msg
+            } else {
+                return 'API Server Down'
+            }
         }
     }
 }
