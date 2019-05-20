@@ -79,7 +79,6 @@ export default {
   },
   computed: {
     result() {
-      console.log(this.user, "555555");
     }
   },
   data() {

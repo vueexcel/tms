@@ -37,7 +37,7 @@
               </span>
             </b-col>
             <b-col class="ml-4" v-if="true">
-              <span class="text-primary fs-larger fw-normal">{{ member.username }}</span>
+              <span class="text-primary fs-larger fw-normal">{{ member.name }}</span>
               <h6>{{member.jobtitle}}</h6>
             </b-col>
           </div>

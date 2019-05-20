@@ -89,9 +89,7 @@ export default {
   },
   computed: {
     userProfile: get("profile/user"),
-    result(){
-      console.log(this.userProfile,'444444');
-      
+    result(){      
     }
 
   },

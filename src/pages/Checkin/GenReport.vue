@@ -130,7 +130,6 @@ export default {
   },
   watch: {
     missedCheckin(newValue) {
-      console.log(newValue);
       this.makeOptions();
     }
   },
