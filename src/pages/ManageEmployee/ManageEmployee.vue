@@ -1,17 +1,23 @@
 <template>
   <div>
     <h1 class="page-title">Team Members</h1>
-    <div v-for="(team, index) in groupByTeam" :key="index">
-      <h4 class="page-title" v-if="team.teamname">{{team.teamname}}</h4>
-      <h4 class="page-title" v-else>No Team</h4>
-      <div>
-        <b-container class="no-gutters p-0">
-          <b-row>
-            <b-col lg="3" xs="12" v-for="(employee, index) in team.teamArray" :key="index">
-              <employeeWidget :employee="employee" :index="index"/>
-            </b-col>
-          </b-row>
-        </b-container>
+    <div class="text-center" v-if="!teams.length">
+      <i class="fas fa-circle-notch text-success fa-spin fa-3x"></i>
+      <p>Loading...</p>
+    </div>
+    <div v-if="groupByTeam.length">
+      <div v-for="(team, index) in teams" :key="index">
+        <h4 class="page-title" v-if="team.teamname">{{team.teamname}}</h4>
+        <h4 class="page-title" v-else>No Team</h4>
+        <div>
+          <b-container class="no-gutters p-0">
+            <b-row>
+              <b-col lg="3" xs="12" v-for="(employee, index) in team.teamArray" :key="index">
+                <employeeWidget :employee="employee" :index="index"/>
+              </b-col>
+            </b-row>
+          </b-container>
+        </div>
       </div>
     </div>
   </div>
@@ -30,19 +36,16 @@ export default {
   components: {
     employeeWidget
   },
-  beforeMount() {
+  data() {
+    return {
+      teams: []
+    };
+  },
+  created() {
     this.getallMembers();
   },
   computed: {
-    groupByTeam: get("allMember/teams"),
     allMembers: get("allMember/allMember")
-    // name: get("profile/name"),
-    // members(){
-    //   this.groupByTeam.map(data =>{
-    //     console.log(data.teamArray.length, data.teamname)
-    //   })
-    //   return this.groupByTeam
-    // }
   },
   methods: {
     getProfile: call("profile/getProfile"),
@@ -51,7 +54,35 @@ export default {
       this.getProfile();
     },
     getallMembers() {
-      this.getAllMember_();
+      this.getAllMember_()
+        .then(res => {
+          console.log(res);
+          this.groupByTeam(res.data);
+        })
+        .catch(err => console.log(err.response));
+    },
+
+    // processing data
+    groupByTeam(payload) {
+      var groups = {};
+      this.teams = [];
+      payload.forEach(element => {
+        if (element.role !== "Admin") {
+          var list = groups[element.team];
+          if (list) {
+            list.push(element);
+          } else {
+            groups[element.team] = [element];
+          }
+        }
+      });
+      for (var team in groups) {
+        let data = {
+          teamname: team,
+          teamArray: groups[team]
+        };
+        this.teams.push(data);
+      }
     }
   }
 };
