@@ -7,9 +7,9 @@
             class="mb-0 bg-white pl-5 pt-4 pr-4 pb-5"
             v-if="kpiera.title !== '' && kpiera.desc !== ''"
           >
-            <h4 class="text-primary">{{kpiera.title}}</h4>
+            <h4 class="text-primary capitalize">{{kpiera.title}}</h4>
             {{kpiera.desc}}
-          </div>
+          </div> 
         </div>
       </section>
        <section v-else>
