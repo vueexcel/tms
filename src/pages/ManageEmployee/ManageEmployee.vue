@@ -56,7 +56,6 @@ export default {
     getallMembers() {
       this.getAllMember_()
         .then(res => {
-          console.log(res);
           this.groupByTeam(res.data);
         })
         .catch(err => console.log(err.response));

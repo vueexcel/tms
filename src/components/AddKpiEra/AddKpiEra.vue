@@ -76,8 +76,8 @@
                           @click="deleteKpi(indexkpi, index, 'kpi')"
                         ></i>
                         <span
-                          v-if="kpiera.edit == false"
-                          class="text-primary fs-larger"
+                          v-if="kpiera.edit == false && kpiera.title"
+                          class="text-primary fs-larger capitalize"
                           @dblclick="editKPI(indexkpi, kpiera)"
                         >{{kpiera.title}}</span>
                         <input
@@ -159,8 +159,8 @@
                         <span
                           v-if="kpiera.edit == false && kpiera.title !== ''"
                           @dblclick="editERA(indexera, team)"
-                          class="text-primary fs-larger"
-                        >{{kpiera.title.toUpperCase()}}</span>
+                          class="text-primary fs-larger capitalize"
+                        >{{kpiera.title}}</span>
                         <input
                           v-show="kpiera.edit == true"
                           v-on:keyup.enter="updateEra(indexera, team, index, kpiera)"

@@ -44,7 +44,8 @@
             >{{employee_.kpi}}</p>-->
             <p v-if="!edit">
               <a class="btn btn-rounded-f button-for-employee">
-                <div class="text-gray" style="font-size: 12px;">{{employee_.kpi}}</div>
+                <div class="text-gray size_font" >{{employee_.kpi}}</div>
+                <div class="text-gray size_font" v-if="!employee_.kpi_id">KPI/ERA Not Assigned</div>
               </a>
             </p>
             <b-form-select v-else v-model="selected" :options="options" class="mb-3">
@@ -100,7 +101,6 @@ export default {
   computed: {
     name: sync("manageEmployee/employeeName"),
     technology: sync("manageEmployee/employeeTechnology"),
-    // options: sync("manageEmployee/options"),
     addNewTeam: sync("adminKPI/addNewTeam"),
     allmembers: sync("allMember/allMember"),
     randomId() {
@@ -187,6 +187,8 @@ export default {
             employee: this.employee_
           });
         }
+      } else{
+         this.loading = false;
       }
     },
     async callToGettAllMembers() {
