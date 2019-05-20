@@ -17,7 +17,6 @@ const actions = {
             if (response.data.role === 'Admin') {
                 router.push("/admin/manageKpi");
             } else {
-                console.log(payload === undefined);
                 if (payload === undefined) {
                     router.push("/app/profile");
                 }

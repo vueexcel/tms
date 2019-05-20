@@ -78,8 +78,15 @@
                         <span
                           v-if="kpiera.edit == false"
                           class="text-primary fs-larger"
-                          @dblclick="editKPI(indexkpi, kpiera)"
                         >{{kpiera.title}}</span>
+                        <span v-if="kpiera.title">
+                          <i
+                            v-if="kpiera.edit == false"
+                            @click="editKPI(indexkpi, kpiera)"
+                            class="fa fa-pencil ml-3 text-secondary cursor"
+                            aria-hidden="true"
+                          ></i>
+                        </span>
                         <input
                           v-on:keyup.enter="updateKpi(indexkpi, kpiera, team, index)"
                           v-model="kpiera.title"
@@ -158,9 +165,16 @@
                         ></i>
                         <span
                           v-if="kpiera.edit == false && kpiera.title !== ''"
-                          @dblclick="editERA(indexera, team)"
                           class="text-primary fs-larger"
                         >{{kpiera.title.toUpperCase()}}</span>
+                        <span v-if="kpiera.title">
+                          <i
+                            v-if="kpiera.edit == false"
+                            @click="editERA(indexera, team)"
+                            class="fa fa-pencil ml-3 text-secondary cursor"
+                            aria-hidden="true"
+                          ></i>
+                        </span>
                         <input
                           v-show="kpiera.edit == true"
                           v-on:keyup.enter="updateEra(indexera, team, index, kpiera)"
@@ -249,7 +263,7 @@ export default {
     eraDescription: sync("adminKPI/eraDescription"), //v-model
     searchField: sync("adminKPI/searchField"), //v-model
     getAllMember: sync("allMember/allMember"),
-    getCurrentUser: sync("profile/user"), // fetch current user data
+    getCurrentUser: sync("profile/user") // fetch current user data
   },
   mounted() {},
   data() {
