@@ -11,6 +11,7 @@ const state = {
 const mutations = make.mutations(state)
 const actions = {
     async getAllMember({ state, dispatch }) {
+        state.allMember = []
         let response = await axios.get('/user/list')
         if (response) {
             state.allMember = response.data
