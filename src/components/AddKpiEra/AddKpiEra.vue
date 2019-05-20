@@ -77,7 +77,7 @@
                         ></i>
                         <span
                           v-if="kpiera.edit == false"
-                          class="text-primary fs-larger"
+                          class="text-primary fs-larger capitalize"
                         >{{kpiera.title}}</span>
                         <span v-if="kpiera.title">
                           <i
@@ -165,8 +165,8 @@
                         ></i>
                         <span
                           v-if="kpiera.edit == false && kpiera.title !== ''"
-                          class="text-primary fs-larger"
-                        >{{kpiera.title.toUpperCase()}}</span>
+                          class="text-primary fs-larger capitalize"
+                        >{{kpiera.title}}</span>
                         <span v-if="kpiera.title">
                           <i
                             v-if="kpiera.edit == false"

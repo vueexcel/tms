@@ -11,15 +11,15 @@ ll<template>
           </div>
           <b-row v-if="managersArray.length" class="avatars">
             <div class="col-12">
-              <div v-for="img in managersArray" :key="img.user._id" class="avatar" xs="12">
+              <div v-for="img in managersArray" :key="img._id" class="avatar" xs="12">
                 <a>
                   <img
                     @click="showCollapse(img)"
-                    v-b-toggle="'manager' + img.user._id + employee._id"
+                    v-b-toggle="'manager' + img._id + employee._id"
                     class="rounded-circle h-auto"
                     v-b-tooltip.hover
-                    :title="img.user.name + ' , ' + img.weight"
-                    :src="img.user.profileImage ? img.user.profileImage : defaultImage"
+                    :title="img.username.toUpperCase() + ' , ' + img.weight"
+                    :src="img.profileImage ? img.profileImage : defaultImage"
                     v-bind:class="{success : img.weight <= 3 ,primary:  img.weight > 3 && img.weight <= 6, warning:  img.weight > 6 && img.weight <= 10}"
                     width="40"
                   >
@@ -27,36 +27,6 @@ ll<template>
               </div>
             </div>
           </b-row>
-          <div class="all-manager-div" v-else>
-            <div class="w-100">
-              <p class="block-example mt-2">All</p>
-              <!--### search bar #### -->
-              <div class="pl-1 pr-1 pb-3">
-                <b-form-input
-                  v-model="searchField"
-                  type="search"
-                  name="search"
-                  placeholder="Search"
-                ></b-form-input>
-              </div>
-            </div>
-            <div class="all_managers">
-              <div class="all-manager mr-1 mb-3" v-for="img in searchFilter" :key="img._id">
-                <img
-                  class="rounded-circle h-auto"
-                  v-b-tooltip.hover
-                  :title="img.name"
-                  :src="img.profileImage ? img.profileImage : defaultImage"
-                  width="30"
-                >
-                <!-- <i class="fa fa-check-circle fa-check-circle-altered text-success" v-if="img.role === 'manager'" ></i> -->
-                <i
-                  class="fas fa-plus-circle fa-plus-circle-altered add-icon text-primary"
-                  @click="addManager(img)"
-                ></i>
-              </div>
-            </div>
-          </div>
           <br>
           <div v-for="img in allManagers" :key="img._id">
             <b-collapse
@@ -78,7 +48,7 @@ ll<template>
                 ></i>
                 <span class="ml-3">
                   <p class="text-primary fw-semi-bold fs-larger manager-name">{{img.name}}</p>
-                  <p class="text-dark manager-work">{{img.jobtitle}}</p>
+                  <p class="text-dark manager-work">{{img.job_title}}</p>
                 </span>
               </div>
               <div>
@@ -98,46 +68,36 @@ ll<template>
                   </li>
                 </ul>
               </div>
-              <div class="all-manager-div">
-                <div class="w-100">
-                  <p class="block-example mt-2">All</p>
-                  <div class="pl-1 pr-1 pb-3">
-                    <b-form-input
-                      v-model="searchField"
-                      type="search"
-                      name="search"
-                      placeholder="Search"
-                    ></b-form-input>
-                  </div>
-                </div>
-                <div class="all_managers">
-                  <div
-                    class="all-manager mr-1 mb-3"
-                    v-for="img in searchFilterNoManager"
-                    :key="img._id"
-                  >
-                    <div v-if="img.managerOFUser !== employee._id">
-                      <img
-                        class="rounded-circle h-auto"
-                        v-b-tooltip.hover
-                        :title="img.name"
-                        :src="img.profileImage ? img.profileImage : defaultImage"
-                        width="30"
-                      >
-                      <i
-                        class="fa fa-check-circle fa-check-circle-altered text-success"
-                        v-if="img.managerOFUser === employee._id"
-                      ></i>
-                      <i
-                        class="fas fa-plus-circle fa-plus-circle-altered add-icon text-primary"
-                        v-if="img.managerOFUser !== employee._id"
-                        @click="addManager(img)"
-                      ></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </b-collapse>
+          </div>
+          <div class="all-manager-div">
+            <div class="w-100">
+              <p class="block-example mt-2">All</p>
+              <!--### search bar #### -->
+              <div class="pl-1 pr-1 pb-3">
+                <b-form-input
+                  v-model="searchField"
+                  type="search"
+                  name="search"
+                  placeholder="Search"
+                ></b-form-input>
+              </div>
+            </div>
+            <div class="all_managers">
+              <div class="all-manager mr-1 mb-3" v-for="img in searchFilter" :key="img._id">
+                <img
+                  class="rounded-circle h-auto"
+                  v-b-tooltip.hover
+                  :title="img.name"
+                  :src="img.profileImage ? img.profileImage : defaultImage"
+                  width="30"
+                >
+                <i
+                  class="fas fa-plus-circle fa-plus-circle-altered add-icon text-primary"
+                  @click="addManager(img)"
+                ></i>
+              </div>
+            </div>
           </div>
         </b-container>
       </b-row>
@@ -201,14 +161,13 @@ export default {
     },
     managersArray() {
       let managerArray = [];
+      console.log(this.employee.managers);
+      
       if (this.employee.managers) {
+        managerArray =  this.employee.managers
         this.employee.managers.forEach(manager => {
           this.allManagers.forEach(member => {
             if (manager._id === member._id) {
-              managerArray.push({
-                weight: manager.weight,
-                user: member
-              });
               member["managerOFUser"] = this.employee._id;
             }
           });
@@ -239,13 +198,8 @@ export default {
     assignManager: call("allMember/assignManager"),
     deleteManager: call("allMember/deleteManager"),
     showCollapse(value) {
-      if (value.user) {
-        this.ratedWeight = value.weight;
-        this.managerObj = value.user;
-      } else {
-        this.managerObj = value;
-        this.ratedWeight = 1;
-      }
+      this.managerObj = value;
+      this.ratedWeight = value.weight;
     },
     async closeCollapse(manager) {
       this.loading = true;
