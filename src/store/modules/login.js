@@ -19,7 +19,7 @@ const actions = {
             if(err.response){
                 return err.response.data.msg
             } else {
-                return 'Internal Server Error'
+                return 'API Server Down'
             }
         }
     }
