@@ -50,6 +50,12 @@
         </template>
         <Notifications/>
       </b-nav-item-dropdown>
+      <b-nav-item
+        target="_blank"
+        href="https://docs.google.com/presentation/d/1QJo9fP90MUVdO0gNiyt9D8jddyQsjvp7fx3iRSB783g/edit?usp=sharing"
+      >
+        <span class="glyphicon glyphicon-question-sign"></span>
+      </b-nav-item>
       <b-nav-item-dropdown class="settingsDropdown d-sm-down-none" no-caret right>
         <template slot="button-content">
           <i class="la la-cog px-2"/>
@@ -127,12 +133,25 @@ export default {
     }),
     recentactivitylenght() {
       Array.prototype.forEach.call(this.activity, element => {
-        this.dailycheckinlength = element.Daily_checkin ? element.Daily_checkin.length : 0 ;
-        this.misscheckinlength = element.missed_checkin ? element.missed_checkin.length : 0;
-        this.reportreviewlength = element.report_reviewed ? element.report_reviewed.length : 0;
-        this.reviewreportlength = element.review_report ? element.review_report.length : 0;
+        this.dailycheckinlength = element.Daily_checkin
+          ? element.Daily_checkin.length
+          : 0;
+        this.misscheckinlength = element.missed_checkin
+          ? element.missed_checkin.length
+          : 0;
+        this.reportreviewlength = element.report_reviewed
+          ? element.report_reviewed.length
+          : 0;
+        this.reviewreportlength = element.review_report
+          ? element.review_report.length
+          : 0;
       });
-      return this.dailycheckinlength + this.misscheckinlength + this.reportreviewlength + this.reviewreportlength;
+      return (
+        this.dailycheckinlength +
+        this.misscheckinlength +
+        this.reportreviewlength +
+        this.reviewreportlength
+      );
     }
   },
   methods: {

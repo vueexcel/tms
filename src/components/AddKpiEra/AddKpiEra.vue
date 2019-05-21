@@ -7,6 +7,7 @@
             <h4 class="pl-4 pt-3">
               {{ team.kpi_name }}
               <i
+                v-if="team.kpi_json.length < 2 && team.era_json.length < 2"
                 class="fas fa-times-circle text-secondary cursor pull-right pt-1 pr-4"
                 @click="deleteFullKpi(team)"
               ></i>
