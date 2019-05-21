@@ -27,6 +27,13 @@ ll<template>
               </div>
             </div>
           </b-row>
+          <div v-if="showError">
+            <b-alert
+          :show="showError"
+          dismissible
+          class="alert-danger alert-transparent mt-3"
+        >{{error}}</b-alert>
+          </div>
           <br>
           <div v-for="img in allManagers" :key="img._id">
             <b-collapse
@@ -84,7 +91,7 @@ ll<template>
               </div>
             </div>
             <div class="all_managers">
-              <div class="all-manager mr-1 mb-3" v-for="img in searchFilter" :key="img._id">
+              <div class="all-manager mr-1 mb-3" v-for="img in searchFilterNoManager" :key="img._id">
                 <img
                   class="rounded-circle h-auto"
                   v-b-tooltip.hover
@@ -118,7 +125,9 @@ export default {
       ratedWeight: null,
       loading: false,
       managerNameWeight: "",
-      searchField: ""
+      searchField: "",
+      error: '',
+      showError: false
     };
   },
   props: {
@@ -128,20 +137,17 @@ export default {
   computed: {
     allMembers: sync("allMember/allMember"),
     managers: get("allMember/managers"),
-    searchFilter: function() {
-      if (this.allManagers) {
-        return this.allManagers.filter(item => {
+    searchFilterNoManager: function() {
+      if (this.allUsersWithNoManagers.length) {
+        return this.allUsersWithNoManagers.filter(item => {
           if (item.username) {
             return item.username
               .toLowerCase()
               .includes(this.searchField.toLowerCase());
           }
         });
-      }
-    },
-    searchFilterNoManager: function() {
-      if (this.allUsersWithNoManagers) {
-        return this.allUsersWithNoManagers.filter(item => {
+      } else{
+        return this.allManagers.filter(item => {
           if (item.username) {
             return item.username
               .toLowerCase()
@@ -160,15 +166,14 @@ export default {
       return userArray;
     },
     managersArray() {
-      let managerArray = [];
-      console.log(this.employee.managers);
-      
+      let managerArray = [];      
       if (this.employee.managers) {
-        managerArray =  this.employee.managers
+        managerArray = []
         this.employee.managers.forEach(manager => {
           this.allManagers.forEach(member => {
             if (manager._id === member._id) {
-              member["managerOFUser"] = this.employee._id;
+              member['weight'] = manager.weight
+              managerArray.push(member)
             }
           });
         });
@@ -209,46 +214,68 @@ export default {
       };
       let response = await this.deleteManager(data);
       if (response === true) {
+        this.$emit("setMessage", "Manager Deleted Successfully");
+        this.$emit('getMember', response)
         this.loading = false;
+      } else {
+        this.loading = false;
+        this.showError = true
+        this.error = response
       }
-      this.ratedWeight = null;
       this.managerObj = {};
     },
-    weightRating(index, manager) {
+    async weightRating(index, manager) {
       this.loading = true;
       this.ratedWeight = index;
-      this.assignManager({
+      let response = await this.assignManager({
         weight: index,
         user: this.employee,
         manager: manager
-      }).then(response => {
+      })
+      if(response === true){
         this.$emit("setMessage", "Weight Updated Successfully");
         this.ratedWeight = null;
         this.managerObj = {};
         this.loading = false;
-      });
+        this.$emit('getMember', response)
+      } else {
+        this.showError = true
+        this.error = response
+      }
     },
     async addManager(managerToBeAdded) {
+      this.showError = false
+      this.error = ''
       this.loading = true;
       if (managerToBeAdded.role === "Admin") {
-        this.assignManager({
+        let response = await this.assignManager({
           weight: 1,
           user: this.employee,
           manager: managerToBeAdded
-        }).then(response => {
+        })
+        if(response === true){
+          this.$emit('getMember', response)
+          this.$emit("setMessage", "Manager Added Successfully");
           this.ratedWeight = 1;
           this.managerObj = managerToBeAdded;
-          this.loading = false;
-        });
+        } else {
+          this.showError = true
+          this.error = response
+        }
       } else {
         let response = await this.addManagerOfUser({
           manager: managerToBeAdded,
           user: this.employee
         });
-        if (response) {
-          this.loading = false;
+        if(response === true){
+          this.$emit('getMember', response)
+          this.$emit("setMessage", "Manager Added Successfully");
+        } else {
+          this.showError = true
+          this.error = response
         }
       }
+      this.loading = false
     }
   },
   created() {}

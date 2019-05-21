@@ -1,9 +1,16 @@
 <template>
   <div>
     <h1 class="page-title">Team Members</h1>
-    <div class="text-center" v-if="!teams.length">
+    <div class="text-center" v-if="!teams.length && !error">
       <i class="fas fa-circle-notch text-success fa-spin fa-3x"></i>
       <p>Loading...</p>
+    </div>
+    <div v-if="error">
+       <b-alert
+        :show="error"
+        dismissible
+        class="mx-auto text-center mt-3 alert-danger alert-transparent"
+      >{{errorMessage}}</b-alert>
     </div>
     <div v-if="groupByTeam.length">
       <div v-for="(team, index) in teams" :key="index">
@@ -13,7 +20,7 @@
           <b-container class="no-gutters p-0">
             <b-row>
               <b-col lg="3" xs="12" v-for="(employee, index) in team.teamArray" :key="index">
-                <employeeWidget :employee="employee" :index="index"/>
+                <employeeWidget :employee="employee" :index="index" @getMember="getMemberRefresh" />
               </b-col>
             </b-row>
           </b-container>
@@ -38,7 +45,9 @@ export default {
   },
   data() {
     return {
-      teams: []
+      teams: [],
+      error: false,
+      errorMessage: "" 
     };
   },
   created() {
@@ -53,15 +62,15 @@ export default {
     get_profile: function() {
       this.getProfile();
     },
-    getallMembers() {
-      this.getAllMember_()
-        .then(res => {
-          this.groupByTeam(res.data);
-        })
-        .catch(err => console.log(err.response));
+    async getallMembers() {
+      let res = await this.getAllMember_()
+        if(res === true){
+          this.groupByTeam(this.allMembers);
+        } else {
+          this.error = true
+          this.errorMessage = res          
+        }
     },
-
-    // processing data
     groupByTeam(payload) {
       var groups = {};
       this.teams = [];
@@ -81,6 +90,11 @@ export default {
           teamArray: groups[team]
         };
         this.teams.push(data);
+      }
+    },
+    getMemberRefresh(value){
+      if(value === true){
+        this.getallMembers()
       }
     }
   }
