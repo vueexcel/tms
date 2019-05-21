@@ -11,33 +11,62 @@ const state = {
 const mutations = make.mutations(state)
 const actions = {
     async getAllMember({ state, dispatch }) {
-        let response = await axios.get('/user/list')
-        if (response) {
-            state.allMember = response.data
-            return response
-        } else {
-            console.log(response, 'error in gettingAllMember APi');
+        state.allMember = []
+        try{
+            let response = await axios.get('/user/list')
+            if (response) {
+                state.allMember = response.data
+                return true
+            }
+        } catch(err){
+            if(err.response){
+                return err.response.data.msg
+            } else {
+                return 'API Server Down'
+            }
         }
     },
     async addManager({ dispatch }, payload) {
-        await axios.put(`/user/role/${payload.manager._id}/manager`).then(response => {
-            if (response) {
-                dispatch('assignManager', payload)
+        try{
+            await axios.put(`/user/role/${payload.manager._id}/manager`)
+            let response = await dispatch('assignManager', payload)
+            if(response === true){
+                return true
+            } else {
+                return response
             }
-        })
-        return true
+        } catch(err) {
+            if(err.response){
+                return err.response.data.msg
+            } else {
+                return 'API Server Down'
+            }
+        }
+        
     },
     async assignManager({ dispatch }, payload) {
-        await axios.get(`/kpi/assign_manager/${payload.user._id}/${payload.manager._id}/${payload.weight ? payload.weight : 1}`).then(response => {
-            dispatch('getAllMember')
-        })
-        return true
+        try{
+            let response = await axios.get(`/kpi/assign_manager/${payload.user._id}/${payload.manager._id}/${payload.weight ? payload.weight : 1}`)
+            return true
+        } catch(err){
+            if(err.response){
+                return err.response.data.msg
+            } else {
+                return 'API Server Down'
+            }
+        }
     },
     async deleteManager({ dispatch }, payload) {
-        await axios.get(`/kpi/assign_manager/${payload.user._id}/${payload.manager._id}/${0}`).then(response => {
-            dispatch('getAllMember')
-        })
-        return true
+        try{
+            let response = await axios.get(`/kpi/assign_manager/${payload.user._id}/${payload.manager._id}/${0}`)
+            return true
+        } catch(error){
+            if(error.response){
+                return error.response.data.msg
+            } else {
+                return 'API Server Down'
+            }
+        }
     }
 }
 
