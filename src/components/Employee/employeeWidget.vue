@@ -61,7 +61,7 @@
           </a>
         </div>
       </div>
-      <ManagerComponent :employee="employee" @setMessage="weightMessage"/>
+      <ManagerComponent :employee="employee" @setMessage="weightMessage" @getMember="getAllMember"/>
     </div>
   </div>
 </template>
@@ -195,6 +195,11 @@ export default {
       let response = await this.getAllMembers_();
       if (response) {
         this.loading = false;
+      }
+    },
+    getAllMember(value){
+      if(value === true){
+        this.$emit('getMember', value)
       }
     },
     weightMessage(value) {
