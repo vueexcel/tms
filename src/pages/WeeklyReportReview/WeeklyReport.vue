@@ -7,7 +7,7 @@
       <i class="fas fa-circle-notch text-success fa-spin float-right mr-5 size" v-if="loading"></i>
       <!-- </div> -->
       <b-container class="no-gutters">
-        <div v-if="weeklyData.length <1 && allweeklyData.length<1">
+        <div v-if="weeklyData.length <0 && allweeklyData.length<0">
           <b-alert
             :show="error"
             dismissible
@@ -34,20 +34,13 @@
           </b-col>
         </b-row>
         <b-row v-else>
-          <b-col
-            lg="2"
-            md="4"
-            xs="12"
-            class="column"
-            v-for="employee in allweeklyData"
-            :key="employee._id"
-          >
+          <b-col lg="2"  md="4" xs="12"   class="column" v-for="employee in allJuniors_" :key="employee._id">
             <WeeklyReviewComponent
               :employee="employee"
               @setActive="setActive"
               :activeId="activeId"
               :page="'Weekly'"
-              :allemployee="allweeklyData"
+              :allemployee="allJuniors_"
               :activeClass="activeClass"
             />
           </b-col>
@@ -55,21 +48,20 @@
       </b-container>
       <div class="container-fluid">
         <div class="mt-5 mb-3 row">
-          <!-- <span style="font-size: 24px;">{{activeEmp.post}}</span> -->
-          <!-- <span style="font-size: 24px;">Hell</span> -->
         </div>
-        <transition name="fade">
-          <div v-if="weeklyData.length">
-            <PerformanceBox :performanceData="weeklyData" :activeEmployee="activeEmp" v-if="show"/>
+        <div v-if="allweeklyData.length">
+          <PerformanceBox
+            :performanceData="allweeklyData"
+            :employee="activeEmp"
+          />
           </div>
-          <div v-else>
-            <PerformanceBox
-              :performanceData="allweeklyData"
-              :activeEmployee="activeEmp"
-              v-if="show"
-            />
+          <div v-else class="pb-5">
+            <b-alert
+            show
+            dismissible
+            class="alert-transparent alert-danger mt-5"
+            >No Report</b-alert>
           </div>
-        </transition>
       </div>
     </div>
   </div>
@@ -103,10 +95,15 @@ export default {
   mounted() {
     this.fetchWeeklyReport();
     this.fetchallWeeklyReport();
+    this.getAllJuniors()
+  },
+  computed: {
+    allJuniors_: get("weeklyReportReview/allJuniors"),
   },
   methods: {
     getWeeklyReport_: call("weeklyReportReview/getWeeklyReport"),
     getallWeeklyReport_: call("weeklyReportReview/getallWeeklyReport"),
+    getAllJuniors_:call("weeklyReportReview/getAllJuniors"),
     setActive(employee) {
       this.show = !this.show;
       setTimeout(() => {
@@ -116,22 +113,22 @@ export default {
       this.activeEmp = employee;
     },
     fetchWeeklyReport() {
-      this.loading = true;
-      this.getWeeklyReport_()
-        .then(resp => {
-          if (!resp.data.length) {
-            this.error = true;
-            this.errorMessage = "There is no data to review";
-          } else {
-            this.weeklyData = resp.data;
-          }
-          this.loading = false;
-        })
-        .catch(err => {
-          this.loading = false;
-          this.error = true;
-          this.errorMessage = "There is some issue in fetching data";
-        });
+      // this.loading = true;
+      // this.getWeeklyReport_()
+      //   .then(resp => {
+      //     if(!resp.data.length){
+      //       this.error = true
+      //       this.errorMessage = 'There is no data to review'
+      //     } else {
+      //       this.weeklyData = resp.data;
+      //     }
+      //     this.loading  = false
+      //   })
+      //   .catch(err => {
+      //     this.loading = false;
+      //     this.error = true;
+      //     this.errorMessage = 'There is some issue to getting result'
+      //   });
     },
     fetchallWeeklyReport() {
       this.loading = true;
@@ -150,6 +147,14 @@ export default {
           this.error = true;
           this.errorMessage = "There is some issue to getting result";
         });
+    },
+    async getAllJuniors(){
+      let response = await this.getAllJuniors_()
+      if(response !== true){
+        this.loading = false;
+        this.error = true;
+        this.errorMessage = response
+      }
     }
   }
 };

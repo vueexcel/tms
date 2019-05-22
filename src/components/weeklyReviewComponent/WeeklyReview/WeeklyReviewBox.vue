@@ -1,11 +1,26 @@
 <template>
-  <div>
-    <span v-if="activeEmployee">
-      <span v-for="(reviews,index) in activeEmployee.is_reviewed" :key="index">
-        <span v-if="userProfile._id == reviews._id">
+  <div class="pb-5">
+    <div>
+      <span v-if="!error">
+        <div class="mb-xs row">
+          <b-dropdown variant="info" :text="selected" v-if="dateDropdown.length > 1">
+            <b-dropdown-item @click="selectDate()">Select</b-dropdown-item>
+            <div v-for="(date,index) in dateDropdown" :key="index">
+              <b-dropdown-item @click="selectDate(date)">{{date}}</b-dropdown-item>
+            </div>
+          </b-dropdown>
+        </div>
+        <div v-if="!activeReport.reportExist" class="row">
+          <b-alert
+            show
+            dismissible
+            class="alert-transparent alert-danger mt-3 w-100"
+          >Sorry Your Junior didn't send any Report on this date</b-alert>
+        </div>
+        <span v-else>
           <b-row class="pb-5">
             <b-col xs="12" sm="6" class="rounded-left first-box">
-              <ExtraWorkFeedback :user="activeEmployee" :variant="'#9964e3 !important'"/>
+              <ExtraWorkFeedback :user="activeReport" :variant="'#9964e3 !important'"/>
             </b-col>
             <b-col xs="12" sm="6" class="rounded-right">
               <b-alert
@@ -17,48 +32,59 @@
                 <div class="border-top"></div>
                 <div class="mt-2 font-weight">Based on Weekly Review</div>
               </div>
-                <starRating
-                  class="border-bottom"
-                  :displayStar="5"
-                  :ratedStar="ratedStarWeekly"
-                  :starSize="starSize"
-                  @starRatingSelected="submitStarRateWeekly"
-                  :disableStar="reviews.reviewed"
-                />
+              <starRating
+                class="border-bottom"
+                :displayStar="5"
+                :ratedStar="ratedStarWeekly"
+                :starSize="starSize"
+                @starRatingSelected="submitStarRateWeekly"
+                :disableStar="activeReport.canReview === false"
+              />
               <div
                 class="mt-2 font-weight"
               >Difficulty level of Project (if project work you did was difficult/required more effort)</div>
-                <starRating
-                  class="border-bottom"
-                  :displayStar="5"
-                  :ratedStar="ratedStarDifficulty"
-                  :starSize="starSize"
-                  @starRatingSelected="submitStarRateDifficulty"
-                  :disableStar="reviews.reviewed"
-                />
+              <starRating
+                class="border-bottom"
+                :displayStar="5"
+                :ratedStar="ratedStarDifficulty"
+                :starSize="starSize"
+                @starRatingSelected="submitStarRateDifficulty"
+                :disableStar="activeReport.canReview === false"
+              />
               <div sm="6">
                 <h6 class="text-inverse">Comments</h6>
               </div>
               <b-form>
                 <b-form-textarea
                   :rows="3"
-                  :disabled="reviews.reviewed == true "
+                  :disabled="activeReport.canReview == false"
                   v-model="text"
                   id="default-textarea"
                   placeholder="Performance or general comments (if any)..."
                 />
                 <b-button
-                  :disabled="reviews.reviewed == true"
+                  :disabled="activeReport.canReview == false"
                   class="btn btn-default btn-lg mb-xs bg-primary text-white mt-4"
                   @click="submit"
                 >Submit</b-button>
-                <b-button variant="danger" class=" btn-lg width-100 mb-xs mr-xs mt-4 float-right" :disabled="userProfile.role == 'admin'?true:false">Delete</b-button>
+                <b-button
+                  variant="danger"
+                  class="btn-lg width-100 mb-xs mr-xs mt-4 float-right"
+                  :disabled="userProfile.role == 'admin'?true:false"
+                >Delete</b-button>
               </b-form>
             </b-col>
           </b-row>
         </span>
       </span>
-    </span>
+    </div>
+    <div v-if="error && !activeEmployee.length" class="row">
+      <b-alert
+        :show="error"
+        dismissible
+        class="alert-transparent alert-danger mt-5 w-100"
+      >{{errorMessage}}</b-alert>
+    </div>
   </div>
 </template>
 
@@ -75,7 +101,12 @@ export default {
       ratedStarWeekly: 2,
       ratedStarDifficulty: 2,
       starSize: "20px",
-      id: null
+      id: null,
+      error: false,
+      errorMessage: "",
+      selected: "Select Date",
+      activeReport: {},
+      loading : false
     };
   },
   components: {
@@ -83,15 +114,47 @@ export default {
     ExtraWorkFeedback
   },
   props: {
-    activeEmployee: {
-      type: Object
+    employee: {
+      type: Object,
+      default: {}
+    },
+    performanceData: {
+      type: Array,
+      default: []
     }
   },
   computed: {
     userProfile: get("profile/user"),
-    result(){      
+    activeEmployee() {
+      let reportArray = [];
+      this.error = false
+      this.errorMessage = ''
+      reportArray =  this.performanceData.filter(data => (data.user === this.employee._id))
+      if(!reportArray.length){
+        this.error = true;
+        this.errorMessage = "No Report Available";
+      } 
+      return reportArray;
+    },
+    dateDropdown() {
+      let dropdownArray = [];
+      if (this.activeEmployee.length > 1) {
+        this.activeEmployee.map(report => {
+          dropdownArray.push(
+            this.$moment(report.created_at).format("DD-MM-YYYY")
+          );
+        });
+      } else {
+        if (this.activeEmployee.length === 1) {
+          dropdownArray.push(
+            this.$moment(this.activeEmployee[0].created_at).format("DD-MM-YYYY")
+          );
+        }
+      }
+      this.selectDate(dropdownArray[0]);
+      this.setActiveReport(dropdownArray[0]);
+      return dropdownArray;
     }
-
   },
   methods: {
     setWeeklyReportReview: call("weeklyReportReview/setWeeklyReportReview"),
@@ -102,9 +165,9 @@ export default {
         comment: this.text,
         id: this.activeEmployee._id
       }).then(res => {
-        this.ratedStarWeekly = 1
-        this.ratedStarDifficulty = 1
-        this.text = ''
+        this.ratedStarWeekly = 1;
+        this.ratedStarDifficulty = 1;
+        this.text = "";
       });
     },
     submitStarRateWeekly(value) {
@@ -112,8 +175,47 @@ export default {
     },
     submitStarRateDifficulty(value) {
       this.ratedStarDifficulty = value;
+    },
+    selectDate(date) {
+      if (date) {
+        this.selected = date;
+        this.setActiveReport(date);
+      } 
+    },
+    setActiveReport(reportDate) {
+      this.activeReport = {};
+      if (this.activeEmployee.length > 1) {
+        this.activeEmployee.map(reportData => {
+          if (
+            reportDate ===
+            this.$moment(reportData.created_at).format("DD-MM-YYYY")
+          ) {
+            if (reportData.is_reviewed.length) {
+              reportData.is_reviewed.map(manager => {
+                if (manager._id === this.userProfile._id) {
+                  reportData["canReview"] =
+                    manager.reviewed === true ? false : true;
+                  reportData["reportExist"] = true;
+                }
+                this.activeReport = reportData;
+              });
+            }
+          }
+        });
+      } else {
+        if( this.activeEmployee[0] && this.activeEmployee[0].is_reviewed.length){
+          this.activeEmployee[0].is_reviewed.forEach(manager => {
+            if(manager._id === this.userProfile._id){
+              this.activeEmployee[0]['canReview'] = manager.reviewed === true ? false : true
+              this.activeEmployee[0]['reportExist'] = true
+            }
+            this.activeReport = this.activeEmployee[0]
+          });
+        }      
+      }
     }
-  }
+  },
+
 };
 </script>
 
