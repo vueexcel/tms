@@ -30,8 +30,16 @@
         <b-alert class="alert alert-info alert-transparent alert-sm mt-3" show>
           <span class="fw-bold">Info:</span>
           <span class="fs-sm">&nbsp;If not why? /or if something went wrong!</span>
-          <a class="btn btn-default btn-xs float-md-right mr" v-if="reason"  @click="reason = false">x</a>
-          <a class="btn btn-info btn-xs float-md-right mr-xs" v-if="!reason" @click="reason = true">Give Reason</a>
+          <a
+            class="btn btn-default btn-xs float-md-right mr"
+            v-if="reason"
+            @click="reason = false"
+          >x</a>
+          <a
+            class="btn btn-info btn-xs float-md-right mr-xs"
+            v-if="!reason"
+            @click="reason = true"
+          >Give Reason</a>
         </b-alert>
         <b-form-textarea
           v-show="reason"
@@ -131,6 +139,8 @@ export default {
       }
     },
     submitReport() {
+      console.log("submit clicked");
+
       this.found = null;
       if (this.reports.length) {
         this.found = this.reports.find(function(element) {

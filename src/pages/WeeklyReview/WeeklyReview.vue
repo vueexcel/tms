@@ -6,7 +6,7 @@
         <b-col xs="12" class="pt-4">
           <div>
             <div v-if="!report.length">
-              <b-alert variant="danger" show>
+              <b-alert class="alert-transparent alert-danger" show>
                 <span>No checkin's found from previous week to submit weekly report</span>
               </b-alert>
             </div>
