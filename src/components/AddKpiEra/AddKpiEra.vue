@@ -7,6 +7,7 @@
             <h4 class="pl-4 pt-3">
               {{ team.kpi_name }}
               <i
+                v-if="team.kpi_json.length < 2 && team.era_json.length < 2"
                 class="fas fa-times-circle text-secondary cursor pull-right pt-1 pr-4"
                 @click="deleteFullKpi(team)"
               ></i>
@@ -87,6 +88,23 @@
                             aria-hidden="true"
                           ></i>
                         </span>
+                        <!-- sort btn up down ends -->
+                        <span
+                          v-if="kpiera.title !== '' && kpiera.desc!== '' && kpiera.edit == false"
+                          class="pull-right mr-3"
+                        >
+                          <i
+                            v-if="indexkpi !== 1"
+                            class="glyphicon glyphicon-chevron-up cursor"
+                            @click="sort( team.kpi_json, kpiera,indexkpi,'UP',team )"
+                          ></i>
+                          <i
+                            v-if="team.kpi_json.length-1 !== indexkpi"
+                            class="glyphicon glyphicon-chevron-down ml-2 cursor"
+                            @click="sort( team.kpi_json, kpiera,indexkpi,'DOWN',team )"
+                          ></i>
+                        </span>
+                        <!-- sort btn up down ends -->
                         <input
                           v-on:keyup.enter="updateKpi(indexkpi, kpiera, team, index)"
                           v-model="kpiera.title"
@@ -174,6 +192,23 @@
                             class="fa fa-pencil ml-3 text-secondary cursor"
                             aria-hidden="true"
                           ></i>
+                          <!-- sort btn up down ends -->
+                          <span
+                            v-if="kpiera.title !== '' && kpiera.desc!== '' && kpiera.edit == false"
+                            class="pull-right mr-3"
+                          >
+                            <i
+                              v-if="indexera !== 1"
+                              class="glyphicon glyphicon-chevron-up cursor"
+                              @click="sort( team.era_json, kpiera,indexera,'UP',team )"
+                            ></i>
+                            <i
+                              v-if="team.era_json.length-1 !== indexera"
+                              class="glyphicon glyphicon-chevron-down ml-2 cursor"
+                              @click="sort( team.era_json, kpiera,indexera,'DOWN',team )"
+                            ></i>
+                          </span>
+                          <!-- sort btn up down ends -->
                         </span>
                         <input
                           v-show="kpiera.edit == true"
@@ -284,6 +319,7 @@ export default {
     api_delKpi: call("adminKPI/delKpi"),
     api_updateKpi: call("adminKPI/updateKpi"),
     api_deleteKpi: call("adminKPI/deleteKpi"),
+    api_updateSorting: call("adminKPI/updateKpiEra"),
     inputHandler(e) {
       if (e.keyCode === 13 && !e.shiftKey) {
         e.preventDefault();
@@ -392,6 +428,21 @@ export default {
     addNewERA(index, team) {
       team.era_json[0].addEra = false;
       this.showEraform = index;
+    },
+    // soritng KPI/ ERA
+    sort(arr, kpiera, index, pos, team) {
+      arr.splice(index, 1);
+      if (pos === "UP") {
+        arr.splice(index - 1, 0, kpiera);
+      } else {
+        arr.splice(index + 1, 0, kpiera);
+      }
+      let sortedData = {};
+      sortedData._id = team._id;
+      sortedData.kpi_json = team.kpi_json;
+      sortedData.era_json = team.era_json;
+      sortedData.kpi_name = team.kpi_name;
+      this.api_updateSorting(sortedData);
     }
   },
   created() {

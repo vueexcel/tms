@@ -160,7 +160,7 @@ export default {
       canShowmore: true,
       canShowless: false,
       image: dummyimage,
-      error:"",
+      error: ""
     };
   },
   components: { Widget, StandUpWidget, Comments, GenReport },
@@ -232,17 +232,15 @@ export default {
         task_completed: report.task_completed,
         task_not_completed_reason: report.task_not_completed_reason,
         highlight: report.highlight,
-        highlight_task_reason: report.highlightTaskReason,
         date: report.date
       }).then(res => {
         console.log(res);
         this.getAllCheckinsAPI();
         this.getProfile(res.date);
       });
-      if(response === false){
-        this.error = 'Invalid Request'
+      if (response === false) {
+        this.error = "Invalid Request";
       }
-      
     },
     deleteCheckin(deleteReport) {
       this.deleteDailyCheckin(deleteReport);

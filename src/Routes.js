@@ -66,7 +66,7 @@ const router = new Router({
           component: Checkin
         },
         {
-          path: "weeklyReview",
+          path: "weeklyCheckin", //previously weeklyReview
           name: "WeeklyReview",
           component: WeeklyReview
         },
@@ -141,14 +141,14 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-  if($cookies.get("keepLoggedIn") && to.path == "/"){
-      next({
-        path : '/admin'
-      })
-  }else{
+  if ($cookies.get("keepLoggedIn") && to.path == "/") {
+    next({
+      path: '/admin'
+    })
+  } else {
     next()
   }
-    
+
   return;
 });
 

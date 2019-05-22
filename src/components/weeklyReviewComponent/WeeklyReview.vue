@@ -3,8 +3,8 @@
     <div
       class="text-center"
       @click="checkEmployee(employee)"
-      v-bind:class="{activeClassWeekly : employee._id === activeId && page === 'Weekly' , activeClass : employee._id === activeId && page != 'Weekly' }"
-      :style="{'background-color': backgroungColor,'border': borderColor, 'border-radius': '8px'}"
+      :class="{activeClassWeekly : employee._id === activeId && page === 'Weekly' , activeClass : employee._id === activeId && page != 'Weekly' }"
+      :style="{'background-color': backgroundColor,'border': borderColor, 'border-radius': '8px'}"
     >
       <!--  -->
       <div>
@@ -49,7 +49,7 @@ export default {
     }
   },
   computed: {
-    backgroungColor() {
+    backgroundColor() {
       return "#" + this.activeClass.background_color;
     },
     borderColor() {
