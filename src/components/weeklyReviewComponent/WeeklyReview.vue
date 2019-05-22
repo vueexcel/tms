@@ -33,7 +33,7 @@ export default {
     activeId: { type: String, default: null },
     activeClass: { type: Object },
     page: { type: String },
-    allemployee: { type: Array, default: [] }
+    allemployee: { type: Array, default: [] },
   },
   data() {
     return {
