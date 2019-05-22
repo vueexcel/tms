@@ -4,11 +4,7 @@
   *=======================================================================-->
   <div>
     <div v-if="error">
-      <b-alert
-            show
-            dismissible
-            class="alert-transparent alert-danger mt-5"
-          >{{error}}</b-alert>
+      <b-alert show dismissible class="alert-transparent alert-danger mt-5">{{error}}</b-alert>
     </div>
     <b-form @submit.prevent="submitReport">
       <Widget>
@@ -29,18 +25,21 @@
         ></b-form-textarea>
         <div class="mt-3">
           <input type="checkbox" id="checkbox-1-1" class="regular-checkbox mr-2" v-model="status">
-          <label class="checkbox_label">Was task completed as per the standup</label>
+          <label for="checkbox-1-1" class="checkbox_label">Was task not completed as per the standup</label>
         </div>
-        <!-- <b-form-checkbox
-          class="pt-3"
-          id="checkbox1"
-          v-model="status"
-        ></b-form-checkbox>-->
-        <b-alert class="alert alert-info alert-transparent alert-sm mt-3" show dismissible>
+        <b-alert class="alert alert-info alert-transparent alert-sm mt-3" show>
           <span class="fw-bold">Info:</span>
           <span class="fs-sm">&nbsp;If not why? /or if something went wrong!</span>
-          <a class="btn btn-default btn-xs float-md-right mr" @click="reason = false">Ignore</a>
-          <a class="btn btn-info btn-xs float-md-right mr-xs" @click="reason = true">Give Reason</a>
+          <a
+            class="btn btn-default btn-xs float-md-right mr"
+            v-if="reason"
+            @click="reason = false"
+          >x</a>
+          <a
+            class="btn btn-info btn-xs float-md-right mr-xs"
+            v-if="!reason"
+            @click="reason = true"
+          >Give Reason</a>
         </b-alert>
         <b-form-textarea
           v-show="reason"
@@ -63,32 +62,7 @@
           :rows="3"
           :max-rows="6"
         ></b-form-textarea>
-        <b-alert class="alert alert-warning alert-transparent alert-sm mt-3" show dismissible>
-          <span class="fw-bold">Info:</span>
-          <span class="fs-sm">
-            Want to mention anything specific
-            which went wrong/ not correct which you like to improve
-            in future?
-          </span>
-          <!-- <a
-            class="btn btn-default btn-xs float-md-right mr"
-            @click="reasonHighlight = false"
-          >Ignore</a>-->
-          <a
-            class="btn btn-info btn-xs float-md-right mr-xs mt-1"
-            @click="reasonHighlight = true"
-          >Give Reason</a>
-        </b-alert>
-        <b-form-textarea
-          v-show="reasonHighlight"
-          class="alert alert-warning alert-transparent alert-sm"
-          id="highlightTaskReason"
-          v-model="highlightTaskReason"
-          placeholder="Write anything specific which went wrong/ not correct which you like to improve in future?"
-          :rows="3"
-          :max-rows="6"
-        ></b-form-textarea>
-        <button type="submit" class="btn btn-primary btn-lg mb-xs fs-sm pl-4 pr-4">SUBMIT</button>
+        <button type="submit" class="btn btn-primary btn-lg mb-xs fs-sm pl-4 pr-4 mt-3">SUBMIT</button>
       </Widget>
     </b-form>
     <!-- Modal for missed checkins -->
@@ -118,11 +92,9 @@ export default {
     changeSelectOption: sync("checkin/changeSelectOption"),
     status: sync("checkin/status"),
     reason: sync("checkin/reason"),
-    reasonHighlight: sync("checkin/reasonHighlight"),
     genReport: sync("checkin/genReport"),
     genReportReason: sync("checkin/genReportReason"),
     highlightTask: sync("checkin/highlightTask"),
-    highlightTaskReason: sync("checkin/highlightTaskReason"),
     reports: get("checkin/reports")
   },
   mounted() {
@@ -140,12 +112,12 @@ export default {
       found: null
     };
   },
-  props:{
-    error:{
+  props: {
+    error: {
       type: String,
-      default:""
+      default: ""
     }
-  },  
+  },
   methods: {
     makeOptions() {
       if (this.missedCheckin && Object.keys(this.missedCheckin).length) {
@@ -167,6 +139,8 @@ export default {
       }
     },
     submitReport() {
+      console.log("submit clicked");
+
       this.found = null;
       if (this.reports.length) {
         this.found = this.reports.find(function(element) {
@@ -192,7 +166,6 @@ export default {
       this.status = false;
       this.genReportReason = "";
       this.highlightTask = "";
-      this.highlightTaskReason = "";
     },
     emitFormData() {
       this.$emit("report", {
@@ -200,7 +173,6 @@ export default {
         task_completed: this.status,
         task_not_completed_reason: this.genReportReason,
         highlight: this.highlightTask,
-        highlightTaskReason: this.highlightTaskReason,
         date: this.changeSelectOption
       });
       this.clearForm();

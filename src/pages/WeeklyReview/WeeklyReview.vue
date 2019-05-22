@@ -1,11 +1,16 @@
 <template>
   <div>
-    <h1 class="page-title">WeeklyReview</h1>
+    <h1 class="page-title">WeeklyCheckin</h1>
     <b-container class="bg-white no-gutters p-4" fluid>
       <b-row>
         <b-col xs="12" class="pt-4">
           <div>
-            <form class="form-horizontal" >
+            <div v-if="!report.length">
+              <b-alert class="alert-transparent alert-danger" show>
+                <span>No checkin's found from previous week to submit weekly report</span>
+              </b-alert>
+            </div>
+            <form class="form-horizontal" v-if="report.length">
               <fieldset>
                 <div class="form-group row">
                   <label
@@ -107,10 +112,20 @@
               <div class="form-actions">
                 <div class="row">
                   <div class="col-md-4 col-12">
-                    <button type="button" class="btn btn-success" v-if="deleteReport === false" @click="submitWeeklyReview">Submit</button>
+                    <button
+                      type="button"
+                      class="btn btn-success"
+                      v-if="deleteReport === false"
+                      @click="submitWeeklyReview"
+                    >Submit</button>
                   </div>
-                   <div class="col-md-4 col-12">
-                    <button type="button" class="btn btn-danger" v-if="deleteReport === true" @click="deletereportFunct">Delete</button>
+                  <div class="col-md-4 col-12">
+                    <button
+                      type="button"
+                      class="btn btn-danger"
+                      v-if="deleteReport === true"
+                      @click="deletereportFunct"
+                    >Delete</button>
                   </div>
                 </div>
               </div>
@@ -149,18 +164,18 @@ export default {
       selectedDay: null,
       id: null,
       kpieraarray: [],
-      kpikradescriotionlist: [],
+      kpikradescriotionlist: []
     };
   },
   mounted() {
     this.get_report();
-    this.getReviewedReport()
-    this.clearform()
+    this.getReviewedReport();
+    this.clearform();
   },
   computed: {
     user: get("profile/user"),
     report: get("weeklyReview/report"),
-    reviewedReport_:get("weeklyReview/reviewedReport"),
+    reviewedReport_: get("weeklyReview/reviewedReport"),
     date() {
       if (this.user.kpi) {
         this.kpieraarray = this.user.kpi.kpi_json.concat(
@@ -178,25 +193,25 @@ export default {
         }
       });
     },
-    deleteReport(){
-      let count = 0
-      if(this.reviewedReport_.length){
-        if(this.reviewedReport_[0].is_reviewed.length){
-          this.reviewedReport_[0].is_reviewed.map(manager =>{
-            if(manager.reviewed){
-              count++
+    deleteReport() {
+      let count = 0;
+      if (this.reviewedReport_.length) {
+        if (this.reviewedReport_[0].is_reviewed.length) {
+          this.reviewedReport_[0].is_reviewed.map(manager => {
+            if (manager.reviewed) {
+              count++;
             }
-          })
-          if(count === this.reviewedReport_[0].is_reviewed.length){
-            this.kpiKraDescription = this.reviewedReport_[0].k_highlight
-            this.ratedStar = this.reviewedReport_[0].difficulty
-            this.extraWorkDescription = this.reviewedReport_[0].extra
-            this.selected = this.reviewedReport_[0].k_highlight.kra
-            return true
+          });
+          if (count === this.reviewedReport_[0].is_reviewed.length) {
+            this.kpiKraDescription = this.reviewedReport_[0].k_highlight;
+            this.ratedStar = this.reviewedReport_[0].difficulty;
+            this.extraWorkDescription = this.reviewedReport_[0].extra;
+            this.selected = this.reviewedReport_[0].k_highlight.kra;
+            return true;
           }
         }
       } else {
-        return false
+        return false;
       }
     }
   },
@@ -208,11 +223,11 @@ export default {
     get_report: function() {
       this.getReport();
     },
-    clearform(){
-      this.ratedStar= 1
-      this.kpiKraDescription= ""
-      this.extraWorkDescription= ""
-      this.kpikradescriotionlist= []
+    clearform() {
+      this.ratedStar = 1;
+      this.kpiKraDescription = "";
+      this.extraWorkDescription = "";
+      this.kpikradescriotionlist = [];
     },
     submitWeeklyReview: function() {
       // alert('==========================')
@@ -225,10 +240,10 @@ export default {
         select_days: [this.id],
         difficulty: this.ratedStar
       });
-      this.extraWorkDescription = ""
-      this.ratedStar = 1
-      this.selected = null
-      this.kpiKraDescription = ""
+      this.extraWorkDescription = "";
+      this.ratedStar = 1;
+      this.selected = null;
+      this.kpiKraDescription = "";
     },
     submitStarRate(value) {
       this.ratedStar = value;
@@ -244,16 +259,18 @@ export default {
     removeDescription(index) {
       this.kpikradescriotionlist.splice(index, 1);
     },
-    getReviewedReport(){
-      this.getReviewedReports_()
+    getReviewedReport() {
+      this.getReviewedReports_();
     },
-    deletereportFunct(){
-      let response = this.deleteWeeklyReport_({_id: this.reviewedReport_[0]._id})
-      if(response) {
-        this.kpiKraDescription = ""
-        this.ratedStar = 1
-        this.extraWorkDescription = ""
-        this.deleteReport =  false
+    deletereportFunct() {
+      let response = this.deleteWeeklyReport_({
+        _id: this.reviewedReport_[0]._id
+      });
+      if (response) {
+        this.kpiKraDescription = "";
+        this.ratedStar = 1;
+        this.extraWorkDescription = "";
+        this.deleteReport = false;
       }
     }
   }

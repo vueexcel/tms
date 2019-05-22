@@ -3,8 +3,8 @@
     <span class="page-title ml-3 row" style="font-size: 43px;">Weekly Report Review</span>
     <div class="shadow pt-4">
       <!-- <div class="w-100"> -->
-        <h5 class="page-title ml-3 row" style="font-size: 24px;">Team View</h5>
-        <i class="fas fa-circle-notch text-success fa-spin float-right mr-5 size" v-if="loading"></i>
+      <h5 class="page-title ml-3 row" style="font-size: 24px;">Team View</h5>
+      <i class="fas fa-circle-notch text-success fa-spin float-right mr-5 size" v-if="loading"></i>
       <!-- </div> -->
       <b-container class="no-gutters">
         <div v-if="weeklyData.length <0 && allweeklyData.length<0">
@@ -15,7 +15,14 @@
           >{{errorMessage}}</b-alert>
         </div>
         <b-row v-if="weeklyData.length">
-          <b-col lg="2" md="4" xs="12" class="column" v-for="employee in weeklyData" :key="employee._id">
+          <b-col
+            lg="2"
+            md="4"
+            xs="12"
+            class="column"
+            v-for="employee in weeklyData"
+            :key="employee._id"
+          >
             <WeeklyReviewComponent
               :employee="employee"
               @setActive="setActive"
@@ -82,7 +89,7 @@ export default {
       allweeklyData: [],
       loading: false,
       error: false,
-      errorMessage:''
+      errorMessage: ""
     };
   },
   mounted() {
@@ -127,18 +134,18 @@ export default {
       this.loading = true;
       this.getallWeeklyReport_()
         .then(resp => {
-          if(!resp.data.length){
-            this.error = true
-            this.errorMessage = 'There is no data to review'
+          if (!resp.data.length) {
+            this.error = true;
+            this.errorMessage = "There is no data to review";
           } else {
             this.allweeklyData = resp.data;
           }
-          this.loading = false
+          this.loading = false;
         })
         .catch(err => {
           this.loading = false;
           this.error = true;
-          this.errorMessage = 'There is some issue to getting result'
+          this.errorMessage = "There is some issue to getting result";
         });
     },
     async getAllJuniors(){

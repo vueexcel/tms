@@ -91,8 +91,8 @@
         isHeader
       />
       <NavLink
-        header="Weekly Review"
-        link="/app/weeklyReview"
+        header="Weekly Checkin"
+        link="/app/weeklyCheckin"
         iconName="fas fa-file-signature"
         index="tables"
         isHeader
