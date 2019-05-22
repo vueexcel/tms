@@ -1,7 +1,5 @@
 <template>
   <div class="pb-5">
-    <!-- <div>{{error}}**********{{dateDropdown}}**************{{activeReport}}</div> -->
-
     <div>
       <span v-if="!error">
         <div class="mb-xs row">
