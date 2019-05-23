@@ -35,7 +35,7 @@ ll<template>
         >{{error}}</b-alert>
           </div>
           <br>
-          <div v-for="img in allManagers" :key="img._id">
+          <div v-for="img in managersArray" :key="img._id">
             <b-collapse
               :id="'manager' + managerObj._id+employee._id"
               v-if="managerObj._id === img._id"
@@ -127,19 +127,21 @@ export default {
       managerNameWeight: "",
       searchField: "",
       error: '',
-      showError: false
+      showError: false,
+      userArray: [],
+      managersArray:[],
+      toBeManagerArray:[]
     };
   },
   props: {
-    // manager: {type : Array},
     employee: { type: Object }
   },
   computed: {
     allMembers: sync("allMember/allMember"),
     managers: get("allMember/managers"),
     searchFilterNoManager: function() {
-      if (this.allUsersWithNoManagers.length) {
-        return this.allUsersWithNoManagers.filter(item => {
+      if (this.toBeManagerArray.length) {
+        return this.toBeManagerArray.filter(item => {
           if (item.username) {
             return item.username
               .toLowerCase()
@@ -147,7 +149,7 @@ export default {
           }
         });
       } else{
-        return this.allManagers.filter(item => {
+        return this.userArray.filter(item => {
           if (item.username) {
             return item.username
               .toLowerCase()
@@ -156,31 +158,38 @@ export default {
         });
       }
     },
-    allManagers() {
-      let userArray = [];
-      this.allMembers.forEach(user => {
-        if (user._id !== this.employee._id) {
-          userArray.push(user);
-        }
-      });
-      return userArray;
+  },
+  mounted () {
+    if(this.allMembers.length){
+      this.getAlluserArray()
+      this.getAllManagersArray()
+      this.getAllToBeManagerArray()
+    }
+  },
+  methods: {
+    getAllMembers_: call("allMember/getAllMember"),
+    addManagerOfUser: call("allMember/addManager"),
+    assignManager: call("allMember/assignManager"),
+    deleteManager: call("allMember/deleteManager"),
+    getAlluserArray(){
+      this.userArray = this.allMembers.filter(manager => (manager._id !== this.employee._id))
     },
-    managersArray() {
-      let managerArray = [];      
+    getAllManagersArray(){
       if (this.employee.managers) {
-        managerArray = []
-        this.employee.managers.forEach(manager => {
-          this.allManagers.forEach(member => {
+      let managerArray = [];  
+      this.employee.managers.forEach(manager => {
+          this.userArray.forEach(member => {
             if (manager._id === member._id) {
-              member['weight'] = manager.weight
-              managerArray.push(member)
+              let managerObj = Object.assign({},member)
+              managerObj.weight = manager.weight
+              managerArray.push(managerObj)
             }
           });
         });
+        this.managersArray = managerArray
       }
-      return managerArray;
     },
-    allUsersWithNoManagers() {
+    getAllToBeManagerArray(){
       var newArr = [];
       if (this.employee.managers) {
         for (let member of this.allMembers) {
@@ -194,14 +203,8 @@ export default {
           if (count == 0) newArr.push(member);
         }
       }
-      return newArr;
-    }
-  },
-  methods: {
-    getAllMembers_: call("allMember/getAllMember"),
-    addManagerOfUser: call("allMember/addManager"),
-    assignManager: call("allMember/assignManager"),
-    deleteManager: call("allMember/deleteManager"),
+      this.toBeManagerArray = newArr
+    },
     showCollapse(value) {
       this.managerObj = value;
       this.ratedWeight = value.weight;
@@ -214,8 +217,13 @@ export default {
       };
       let response = await this.deleteManager(data);
       if (response === true) {
-        this.$emit("setMessage", "Manager Deleted Successfully");
-        this.$emit('getMember', response)
+        if(this.managersArray.length){
+          let leftManagers = this.managersArray.filter(user => (user._id !== manager._id))
+          this.managersArray = leftManagers
+          this.toBeManagerArray.push(manager)
+        }
+        this.showError = true
+        this.error = 'Manager Deleted Successfully'
         this.loading = false;
       } else {
         this.loading = false;
@@ -233,11 +241,17 @@ export default {
         manager: manager
       })
       if(response === true){
-        this.$emit("setMessage", "Weight Updated Successfully");
+        for( var i = 0; i < this.managersArray.length; i++){
+          if(this.managersArray[i]._id === manager._id){
+            this.managersArray[i].weight = index
+            this.managerObj = this.managersArray[i]
+          }
+        }
+        this.showError = true
+        this.error = 'Weight Updated Successfully'
         this.ratedWeight = null;
         this.managerObj = {};
         this.loading = false;
-        this.$emit('getMember', response)
       } else {
         this.showError = true
         this.error = response
@@ -247,38 +261,47 @@ export default {
       this.showError = false
       this.error = ''
       this.loading = true;
+      let response = null
       if (managerToBeAdded.role === "Admin") {
-        let response = await this.assignManager({
+        response = await this.assignManager({
           weight: 1,
           user: this.employee,
           manager: managerToBeAdded
         })
-        if(response === true){
-          this.$emit('getMember', response)
-          this.$emit("setMessage", "Manager Added Successfully");
-          this.ratedWeight = 1;
-          this.managerObj = managerToBeAdded;
-        } else {
-          this.showError = true
-          this.error = response
-        }
       } else {
-        let response = await this.addManagerOfUser({
+        response = await this.addManagerOfUser({
           manager: managerToBeAdded,
           user: this.employee
         });
-        if(response === true){
-          this.$emit('getMember', response)
-          this.$emit("setMessage", "Manager Added Successfully");
+      }
+      if(response === true){
+          managerToBeAdded.weight = 1
+          if(this.toBeManagerArray.length){
+            for(var i =0; i < this.toBeManagerArray.length; i++){
+              if(this.toBeManagerArray[i]._id === managerToBeAdded._id){
+                this.toBeManagerArray.splice(i,1)
+                this.managersArray.push(managerToBeAdded)
+              }
+            }
+          } else {
+            for(var i =0; i < this.userArray.length; i++){
+              if(this.userArray[i]._id === managerToBeAdded._id){
+                this.userArray.splice(i,1)
+                this.managersArray.push(managerToBeAdded)
+              }
+            }
+          }
+          this.showError = true
+          this.error = 'Manager Added Successfully'
         } else {
           this.showError = true
           this.error = response
         }
-      }
       this.loading = false
     }
   },
-  created() {}
+  created() {
+  }
 };
 </script>
 
