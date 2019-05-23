@@ -20,7 +20,7 @@
           <b-container class="no-gutters p-0">
             <b-row>
               <b-col lg="3" xs="12" v-for="(employee, index) in team.teamArray" :key="index">
-                <employeeWidget :employee="employee" :index="index" @getMember="getMemberRefresh" />
+                <employeeWidget :employee="employee" :index="index" @getMember="getMemberRefresh" :loggedInUserRole="'admin'"/>
               </b-col>
             </b-row>
           </b-container>

@@ -11,7 +11,7 @@
       >{{error}},{{dismissCountDown}}</b-alert>
       <div class="card-body text-center">
         <i class="fas fa-circle-notch text-success fa-spin float-left" v-if="loading"></i>
-        <div class="float-right">
+        <div class="float-right" v-if="loggedInUserRole === 'admin'">
           <i
             class="fas fa-edit edit-button"
             v-if="!edit"
@@ -61,8 +61,7 @@
           </a>
         </div>
       </div>
-      <ManagerComponent :employee="employee"
-      />
+      <ManagerComponent :employee="employee" :loggedInUserRole="loggedInUserRole"/>
     </div>
   </div>
 </template>
@@ -96,7 +95,8 @@ export default {
   },
   props: {
     employee: { type: Object, default: () => ({}) },
-    index: { type: Number }
+    index: { type: Number },
+    loggedInUserRole: {type: String, default: ''}
   },
   computed: {
     name: sync("manageEmployee/employeeName"),
