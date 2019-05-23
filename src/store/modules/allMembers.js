@@ -5,8 +5,7 @@ import axios from './../axios'
 // setup store
 const state = {
     allMember: [],
-    gettingMemberError: "",
-    managers: []
+    allJuniors:[]
 }
 const mutations = make.mutations(state)
 const actions = {
@@ -59,6 +58,20 @@ const actions = {
     async deleteManager({ dispatch }, payload) {
         try{
             let response = await axios.get(`/kpi/assign_manager/${payload.user._id}/${payload.manager._id}/${0}`)
+            return true
+        } catch(error){
+            if(error.response){
+                return error.response.data.msg
+            } else {
+                return 'API Server Down'
+            }
+        }
+    },
+    async getAllJuniors({state}, payload){
+        let url = '/managers_juniors'
+        try{
+            let response = await axios.get(url)
+            state.allJuniors = response.data
             return true
         } catch(error){
             if(error.response){

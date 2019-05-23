@@ -112,6 +112,14 @@
         index="performanceReview"
         isHeader
       />
+       <NavLink
+        v-if="sideBar.role === 'manager'"
+        header="Your Juniors"
+        link="/app/juniors"
+        iconName="fas fa-users"
+        isHeader
+      />
+        <!-- index="performanceReview" -->
       <NavLink
         v-if="sideBar.role === 'manager'"
         header="View Junior's Checkin"

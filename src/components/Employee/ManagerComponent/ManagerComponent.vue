@@ -1,4 +1,4 @@
-ll<template>
+<template>
   <div>
     <div class="card-footer-altered">
       <b-row>
@@ -85,7 +85,7 @@ ll<template>
               </div>
             </b-collapse>
           </div>
-          <div class="all-manager-div">
+          <div class="all-manager-div" v-if="loggedInUserRole === 'admin'">
             <div class="w-100">
               <p class="block-example mt-2">All</p>
               <!--### search bar #### -->
@@ -144,9 +144,11 @@ export default {
     };
   },
   props: {
-    employee: { type: Object }
+    employee: { type: Object },
+    loggedInUserRole:{type: String, default: ''}
   },
   computed: {
+    loggedInUser: get("profile/user"),
     allMembers: sync("allMember/allMember"),
     managers: get("allMember/managers"),
     searchFilterNoManager: function() {
@@ -220,51 +222,55 @@ export default {
       this.ratedWeight = value.weight;
     },
     async closeCollapse(manager) {
-      this.loading = true;
-      let data = {
-        manager: manager,
-        user: this.employee
-      };
-      let response = await this.deleteManager(data);
-      if (response === true) {
-        if(this.managersArray.length){
-          let leftManagers = this.managersArray.filter(user => (user._id !== manager._id))
-          this.managersArray = leftManagers
-          this.toBeManagerArray.push(manager)
+      if(this.loggedInUserRole === 'admin'){
+        this.loading = true;
+        let data = {
+          manager: manager,
+          user: this.employee
+        };
+        let response = await this.deleteManager(data);
+        if (response === true) {
+          if(this.managersArray.length){
+            let leftManagers = this.managersArray.filter(user => (user._id !== manager._id))
+            this.managersArray = leftManagers
+            this.toBeManagerArray.push(manager)
+          }
+          this.success = true
+          this.showSuccessMessage = 'Manager Deleted Successfully'
+          this.loading = false;
+        } else {
+          this.loading = false;
+          this.showError = true
+          this.error = response
         }
-        this.success = true
-        this.showSuccessMessage = 'Manager Deleted Successfully'
-        this.loading = false;
-      } else {
-        this.loading = false;
-        this.showError = true
-        this.error = response
-      }
+      } 
       this.managerObj = {};
     },
     async weightRating(index, manager) {
-      this.loading = true;
-      this.ratedWeight = index;
-      let response = await this.assignManager({
-        weight: index,
-        user: this.employee,
-        manager: manager
-      })
-      if(response === true){
-        for( var i = 0; i < this.managersArray.length; i++){
-          if(this.managersArray[i]._id === manager._id){
-            this.managersArray[i].weight = index
-            this.managerObj = this.managersArray[i]
+      if(this.loggedInUserRole === 'admin'){
+        this.loading = true;
+        this.ratedWeight = index;
+        let response = await this.assignManager({
+          weight: index,
+          user: this.employee,
+          manager: manager
+        })
+        if(response === true){
+          for( var i = 0; i < this.managersArray.length; i++){
+            if(this.managersArray[i]._id === manager._id){
+              this.managersArray[i].weight = index
+              this.managerObj = this.managersArray[i]
+            }
           }
+          this.success = true
+          this.showSuccessMessage = 'Weight Updated Successfully'
+          this.ratedWeight = null;
+          this.managerObj = {};
+          this.loading = false;
+        } else {
+          this.showError = true
+          this.error = response
         }
-        this.success = true
-        this.showSuccessMessage = 'Weight Updated Successfully'
-        this.ratedWeight = null;
-        this.managerObj = {};
-        this.loading = false;
-      } else {
-        this.showError = true
-        this.error = response
       }
     },
     async addManager(managerToBeAdded) {
