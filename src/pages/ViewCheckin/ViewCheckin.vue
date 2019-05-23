@@ -14,7 +14,7 @@
       <li
         v-for="( junior, index ) in juniorCheckin.slice().reverse()"
         :key="index"
-        :class="{onLeft:junior.highlight_task_reason == null}"
+        :class="{onLeft:junior.highlight_task_reason == ''}"
       >
         <time class="eventTime" datetime="2014-05-19 03:04">
           <span class="date">{{ junior.created_at | day }}</span>
@@ -22,11 +22,11 @@
         </time>
         <span
           class="eventIcon"
-          :class="junior.highlight_task_reason == null? 'eventIconSuccess' : 'eventIconPrimary'"
+          :class="junior.highlight_task_reason == ''? 'eventIconSuccess' : 'eventIconPrimary'"
         >
           <i
             class="glyphicon"
-            :class="junior.highlight_task_reason == null? 'glyphicon-comments' : 'glyphicon-duplicate'"
+            :class="junior.highlight_task_reason == ''? 'glyphicon-comments' : 'glyphicon-duplicate'"
           />
         </span>
 
@@ -42,9 +42,9 @@
             <a href="#">{{ junior.name }}</a>
           </h5>
           <p class="fs-sm text-muted">{{ junior.created_at | moment }}</p>
-          <p class="fs-mini">{{ junior.report }}</p>
-          <p class="fs-mini text-custom">{{ junior.highlight_task_reason }}</p>
-          <p class="fs-mini text-warning">{{ junior.task_not_completed_reason }}</p>
+          <p class="fs-mini white-space-pre">{{ junior.report }}</p>
+          <p class="fs-mini text-custom white-space-pre">{{ junior.highlight_task_reason }}</p>
+          <p class="fs-mini text-warning white-space-pre">{{ junior.task_not_completed_reason }}</p>
         </section>
       </li>
     </ul>
