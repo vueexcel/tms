@@ -43,8 +43,8 @@
           </h5>
           <p class="fs-sm text-muted">{{ junior.created_at | moment }}</p>
           <p class="fs-mini">{{ junior.report }}</p>
-          <p class="fs-mini">{{ junior.highlight_task_reason }}</p>
-          <p class="fs-mini">{{ junior.task_not_completed_reason }}</p>
+          <p class="fs-mini text-custom">{{ junior.highlight_task_reason }}</p>
+          <p class="fs-mini text-warning">{{ junior.task_not_completed_reason }}</p>
         </section>
       </li>
     </ul>
