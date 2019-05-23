@@ -61,7 +61,8 @@
           </a>
         </div>
       </div>
-      <ManagerComponent :employee="employee" @setMessage="weightMessage" @getMember="getAllMember"/>
+      <ManagerComponent :employee="employee"
+      />
     </div>
   </div>
 </template>
@@ -95,7 +96,6 @@ export default {
   },
   props: {
     employee: { type: Object, default: () => ({}) },
-    // showManager: {type: Boolean, default: true},
     index: { type: Number }
   },
   computed: {
@@ -201,10 +201,6 @@ export default {
       if(value === true){
         this.$emit('getMember', value)
       }
-    },
-    weightMessage(value) {
-      this.error = value;
-      this.dismissCountDown = this.dismissSecs;
     },
     countDownChanged(dismissCountDown) {
       this.dismissCountDown = dismissCountDown;
