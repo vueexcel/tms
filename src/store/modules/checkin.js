@@ -44,6 +44,10 @@ const actions = {
             .catch((err) => {
             })
     },
+    async juniorCheckin() {
+        let res = await axios.get('/juniors_chechkin')
+        return res
+    }
 }
 
 // create store

@@ -54,7 +54,7 @@
         target="_blank"
         href="https://docs.google.com/presentation/d/1QJo9fP90MUVdO0gNiyt9D8jddyQsjvp7fx3iRSB783g/edit?usp=sharing"
       >
-        <span class="glyphicon glyphicon-question-sign"></span>
+        <span class="glyphicon glyphicon-question-sign fa-lg"></span>
       </b-nav-item>
       <b-nav-item-dropdown class="settingsDropdown d-sm-down-none" no-caret right>
         <template slot="button-content">
