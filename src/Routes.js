@@ -20,6 +20,7 @@ import Checkin from "@/pages/Checkin/Checkin";
 import WeeklyReview from "@/pages/WeeklyReview/WeeklyReview";
 import WeeklyReport from "@/pages/WeeklyReportReview/WeeklyReport";
 import MonthlyPerformanceReview from "@/pages/MonthlyPerformanceReview/MonthlyPerformanceReview";
+import Juniors from "@/pages/Juniors/Juniors"
 import Team from "@/pages/Team/Team";
 // --admin pages--
 import ManageEmployee from "@/pages/ManageEmployee/ManageEmployee";
@@ -86,6 +87,11 @@ const router = new Router({
           component: WeeklyReport
         },
         {
+          path: 'juniors',
+          name: "Juniors",
+          component: Juniors
+        },
+        {
           path: "typography",
           name: "TypographyPage",
           component: TypographyPage
@@ -114,7 +120,7 @@ const router = new Router({
           path: "components/maps",
           name: "GoogleMapPage",
           component: GoogleMapPage
-        }
+        },
       ]
     },
     {

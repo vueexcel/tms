@@ -105,6 +105,14 @@
         index="performanceReview"
         isHeader
       />
+       <NavLink
+        v-if="sideBar.role === 'manager'"
+        header="Your Juniors"
+        link="/app/juniors"
+        iconName="fas fa-users"
+        isHeader
+      />
+        <!-- index="performanceReview" -->
       <!-- <NavLink
         header="Performance Review"
         link="/app/PerformanceReview"
