@@ -34,6 +34,14 @@ ll<template>
           class="alert-danger alert-transparent mt-3"
         >{{error}}</b-alert>
           </div>
+          <div v-if="success">
+            <b-alert
+          :show="success"
+          variant="success"
+          dismissible
+          class="alert-transparent mt-3"
+        >{{showSuccessMessage}}</b-alert>
+          </div>
           <br>
           <div v-for="img in managersArray" :key="img._id">
             <b-collapse
@@ -130,7 +138,9 @@ export default {
       showError: false,
       userArray: [],
       managersArray:[],
-      toBeManagerArray:[]
+      toBeManagerArray:[],
+      success: false,
+      showSuccessMessage: ''
     };
   },
   props: {
@@ -222,8 +232,8 @@ export default {
           this.managersArray = leftManagers
           this.toBeManagerArray.push(manager)
         }
-        this.showError = true
-        this.error = 'Manager Deleted Successfully'
+        this.success = true
+        this.showSuccessMessage = 'Manager Deleted Successfully'
         this.loading = false;
       } else {
         this.loading = false;
@@ -247,8 +257,8 @@ export default {
             this.managerObj = this.managersArray[i]
           }
         }
-        this.showError = true
-        this.error = 'Weight Updated Successfully'
+        this.success = true
+        this.showSuccessMessage = 'Weight Updated Successfully'
         this.ratedWeight = null;
         this.managerObj = {};
         this.loading = false;
@@ -291,8 +301,8 @@ export default {
               }
             }
           }
-          this.showError = true
-          this.error = 'Manager Added Successfully'
+          this.success = true
+          this.showSuccessMessage = 'Manager Added Successfully'
         } else {
           this.showError = true
           this.error = response
