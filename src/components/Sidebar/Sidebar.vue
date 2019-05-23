@@ -42,6 +42,12 @@
         index="performanceReview"
         isHeader
       />
+      <NavLink
+        header="Your Juniors"
+        link="/app/juniors"
+        iconName="fas fa-users"
+        isHeader
+      />
       <!-- <NavLink
         header="View Monthly Report"
         link="/app/PerformanceReview"
