@@ -14,7 +14,7 @@
       <li
         v-for="( junior, index ) in juniorCheckin.slice().reverse()"
         :key="index"
-        :class="{onLeft:junior.highlight_task_reason == ''}"
+        :class="{onLeft:junior.highlight_task_reason == null}"
       >
         <time class="eventTime" datetime="2014-05-19 03:04">
           <span class="date">{{ junior.created_at | day }}</span>
@@ -22,11 +22,11 @@
         </time>
         <span
           class="eventIcon"
-          :class="junior.highlight_task_reason == ''? 'eventIconSuccess' : 'eventIconPrimary'"
+          :class="junior.highlight_task_reason == null? 'eventIconSuccess' : 'eventIconPrimary'"
         >
           <i
             class="glyphicon"
-            :class="junior.highlight_task_reason == ''? 'glyphicon-comments' : 'glyphicon-duplicate'"
+            :class="junior.highlight_task_reason == null? 'glyphicon-comments' : 'glyphicon-duplicate'"
           />
         </span>
 
