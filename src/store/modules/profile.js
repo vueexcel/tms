@@ -11,21 +11,32 @@ const mutations = make.mutations(state)
 const actions = {
     ...make.actions(state),
     async getProfile({ commit }, payload) {
-        let response = await axios.get('/auth/profile')
-        if (response) {
-            commit('user', response.data)
-            if (response.data.role === 'Admin') {
-                router.push("/admin/manageKpi");
-            } else {
-                if (payload === undefined) {
-                    router.push("/app/profile");
+        try {
+            let response = await axios.get('/auth/profile')
+            if (response) {
+                console.log('insde IF');
+                commit('user', response.data)
+                if (response.data.role === 'Admin') {
+                    router.push("/admin/manageKpi");
+                } else {
+                    if (payload === undefined) {
+                        router.push("/app/profile");
+                    }
                 }
+                return true
             }
-            return true
+            else {
+                console.log('inside Else');
+                // commit('loginfailed', err)
+            }
+        } catch (error) {
+            console.log('catch block');
+
+            console.log(error.response);
+
+
         }
-        else {
-            // commit('loginfailed', err)
-        }
+
     },
 
     async getActivity({ commit }, payload) {

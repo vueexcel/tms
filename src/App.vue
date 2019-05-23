@@ -8,7 +8,7 @@ export default {
   name: "App",
   created() {
     if (this.$route.fullPath !== "/") {
-      this.getProfile();
+      // this.getProfile();
     }
   },
   methods: {

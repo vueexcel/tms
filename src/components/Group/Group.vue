@@ -60,31 +60,30 @@
         v-for="(img, i) in searchFilter"
         :key="i"
       >
-      <div v-if="!img.kpi_id && img.role !== 'Admin'">
-        <img
-          v-b-tooltip.hover
-          :title="img.username"
-          class="rounded-circle"
-          :src="img.profileImage ? img.profileImage : dummyImg"
-          width="25"
-          height="25"
-          alt="..."
-        >
-        <b-badge
-          @click="addRemoveMember(index, img, 'addMember')"
-          variant="primary"
-          class="circle-2 position-absolute badgePos p-0 top"
-        >
-          <i class="fa fa-plus" style="color:white; font-size:10px"></i>
-        </b-badge>
-        <!-- <b-badge class="badge circle-2 position-absolute badgePos p-0 top badge-white">
+        <div v-if="!img.kpi_id && img.role !== 'Admin'">
+          <img
+            v-b-tooltip.hover
+            :title="img.name"
+            class="rounded-circle"
+            :src="img.profileImage ? img.profileImage : dummyImg"
+            width="25"
+            height="25"
+            alt="..."
+          >
+          <b-badge
+            @click="addRemoveMember(index, img, 'addMember')"
+            variant="primary"
+            class="circle-2 position-absolute badgePos p-0 top"
+          >
+            <i class="fa fa-plus" style="color:white; font-size:10px"></i>
+          </b-badge>
+          <!-- <b-badge class="badge circle-2 position-absolute badgePos p-0 top badge-white">
           <i
             class="fa fa-check-circle text-success"
             v-if="img.kpi_id && img.kpi_id === allMembers[index]._id"
           ></i>
-        </b-badge> -->
-
-      </div>
+          </b-badge>-->
+        </div>
       </span>
       <!-- ======================================================
               ======= MEMBER Image with badge (loop) ends
@@ -108,7 +107,9 @@ export default {
     index: { type: Number },
     array_: { type: Array }
   },
-  created() {},
+  created() {
+    console.log(this.$props.array_);
+  },
   methods: {
     addMembers_: call("adminKPI/addMember"),
     getAllMembers_: call("allMember/getAllMember"),

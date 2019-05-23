@@ -17,6 +17,7 @@ import GoogleMapPage from "@/pages/Maps/Google";
 // === Main
 import Profile from "@/pages/Profile/Profile";
 import Checkin from "@/pages/Checkin/Checkin";
+import ViewCheckin from "@/pages/ViewCheckin/ViewCheckin";
 import WeeklyReview from "@/pages/WeeklyReview/WeeklyReview";
 import WeeklyReport from "@/pages/WeeklyReportReview/WeeklyReport";
 import MonthlyPerformanceReview from "@/pages/MonthlyPerformanceReview/MonthlyPerformanceReview";
@@ -64,6 +65,11 @@ const router = new Router({
           path: "checkin",
           name: "Checkin",
           component: Checkin
+        },
+        {
+          path: "viewCheckin",
+          name: "ViewCheckin",
+          component: ViewCheckin
         },
         {
           path: "weeklyCheckin", //previously weeklyReview
