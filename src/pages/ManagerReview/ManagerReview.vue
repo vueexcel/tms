@@ -40,9 +40,9 @@
             </h4>
             <p class="fs-sm text-muted">{{ report.created_at | moment }}</p>
             <p class="fs-mini white-space-pre">KPI?/KRA : &nbsp;{{ report.k_highlight.kra }}</p>
-            <p class="fs-mini white-space-pre">Highlight : &nbsp;{{ report.k_highlight.kpi }}</p>
+            <p class="fs-mini white-space-pre hightlight">Highlight : &nbsp;{{ report.k_highlight.kpi }}</p>
             <p class="fs-mini text-custom white-space-pre">{{ report.extra }}</p>
-            <p class="fs-mini white-space-pre">
+            <p class="reportStar">
               <Stars
                 :displayStar="5"
                 :ratedStar="Number(report.difficulty)"
@@ -68,7 +68,7 @@
                       {{managerReview.manager_id.username}}
                       <small>{{managerReview.created_at | time}}</small>
                     </h6>
-                    <p>
+                    <p class="manager_comment">
                       <span v-if="managerReview.comment">{{managerReview.comment}}</span>
                       <span v-else>No comment from your Manager</span>
                     </p>
@@ -121,16 +121,6 @@ export default {
   mounted() {
     this.callApi();
   },
-  computed: {
-    //   managerRview() {
-    //       if(this.reviewedReport.length){
-    //           for(let i = 0; i < this.reviewedReport.length; i++ ){
-    //           console.log(this.reviewedReport[i]);
-    //               if(this.reviewedReport[i].rev)
-    //         }
-    //       }
-    //   }
-  },
   components: {
     Stars
   },
@@ -139,12 +129,17 @@ export default {
     async callApi() {
       this.loading = true;
       let response = await this.getManagersReview_();
-      if (response.length) {
+      if (response.length && typeof response !== "string") {
         this.reviewedReport = response;
       } else {
-        this.error = true;
-        this.errorMessage =
-          "None of your manager has been reviewed your report ! ";
+        if (typeof response === "string") {
+          this.error = true;
+          this.errorMessage = response;
+        } else {
+          this.error = true;
+          this.errorMessage =
+            "None of your manager has been reviewed your report ! ";
+        }
       }
       this.loading = false;
     }
