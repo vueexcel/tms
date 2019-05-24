@@ -38,26 +38,26 @@
                         </span>
                       </span>
                     </p>
-                    <p :class="{not_completed : report.task_completed === false}">
+                    <p
+                      class="white-space-pre mt-0 pt-0"
+                      :class="{not_completed : report.task_completed === false}"
+                    >
                       {{report.report}}
-                      <br>
-                      <br>
-                      {{report.highlight}}
                     </p>
                     <span
                       v-if="report.task_not_completed_reason !== '' || report.highlight_task_reason !=='' "
                     >
                       <p @click="showData" v-if="canShowmore" class="text-primary btn">Read more..</p>
                       <p
-                        class="textColor"
+                        class="textColor white-space-pre"
                         v-if="canShowreason"
                         :class="{not_completed : report.task_completed === false}"
                       >{{report.task_not_completed_reason}}</p>
                       <p
-                        class="text-warning"
+                        class="text-warning white-space-pre"
                         v-if="canShowreason"
                         :class="{not_completed : report.task_completed === false}"
-                      >{{report.highlight_task_reason}}</p>
+                      >{{report.highlight}}</p>
                       <p @click="showData" v-if="canShowless" class="text-primary btn">Read less..</p>
                     </span>
                   </div>
