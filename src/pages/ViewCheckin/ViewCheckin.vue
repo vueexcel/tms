@@ -14,7 +14,7 @@
       <li
         v-for="( junior, index ) in juniorCheckin.slice().reverse()"
         :key="index"
-        :class="{onLeft:junior.highlight_task_reason == ''}"
+        :class="{onLeft:junior.highlight == '' || junior.task_not_completed_reason == '' }"
       >
         <time class="eventTime" datetime="2014-05-19 03:04">
           <span class="date">{{ junior.created_at | day }}</span>
@@ -22,11 +22,11 @@
         </time>
         <span
           class="eventIcon"
-          :class="junior.highlight_task_reason == ''? 'eventIconSuccess' : 'eventIconPrimary'"
+          :class="junior.highlight == '' || junior.task_not_completed_reason == ''? 'eventIconSuccess' : 'eventIconPrimary'"
         >
           <i
             class="glyphicon"
-            :class="junior.highlight_task_reason == ''? 'glyphicon-comments' : 'glyphicon-duplicate'"
+            :class="junior.highlight == '' || junior.task_not_completed_reason == ''? 'glyphicon-comments' : 'glyphicon-duplicate'"
           />
         </span>
 
@@ -34,16 +34,16 @@
           <span class="thumb-xs avatar pull-left mr-sm">
             <img
               class="rounded-circle"
-              :src="junior.profileImage ? junior.profileImage: image"
+              :src="junior.user.profileImage ? junior.user.profileImage: image"
               alt="..."
             >
           </span>
           <h5 class="eventHeading">
-            <a href="#">{{ junior.name }}</a>
+            <a class="text-primary">{{ junior.user.name }}</a>
           </h5>
           <p class="fs-sm text-muted">{{ junior.created_at | moment }}</p>
           <p class="fs-mini white-space-pre">{{ junior.report }}</p>
-          <p class="fs-mini text-custom white-space-pre">{{ junior.highlight_task_reason }}</p>
+          <p class="fs-mini text-custom white-space-pre">{{ junior.highlight }}</p>
           <p class="fs-mini text-warning white-space-pre">{{ junior.task_not_completed_reason }}</p>
         </section>
       </li>
