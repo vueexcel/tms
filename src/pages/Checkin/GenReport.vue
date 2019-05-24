@@ -139,8 +139,6 @@ export default {
       }
     },
     submitReport() {
-      console.log("submit clicked");
-
       this.found = null;
       if (this.reports.length) {
         this.found = this.reports.find(function(element) {

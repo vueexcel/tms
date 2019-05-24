@@ -107,9 +107,7 @@ export default {
     index: { type: Number },
     array_: { type: Array }
   },
-  created() {
-    console.log(this.$props.array_);
-  },
+  created() {},
   methods: {
     addMembers_: call("adminKPI/addMember"),
     getAllMembers_: call("allMember/getAllMember"),

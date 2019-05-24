@@ -14,7 +14,6 @@ const actions = {
         try {
             let response = await axios.get('/auth/profile')
             if (response) {
-                console.log('insde IF');
                 commit('user', response.data)
                 if (response.data.role === 'Admin') {
                     router.push("/admin/manageKpi");
@@ -26,15 +25,10 @@ const actions = {
                 return true
             }
             else {
-                console.log('inside Else');
                 // commit('loginfailed', err)
             }
         } catch (error) {
-            console.log('catch block');
-
             console.log(error.response);
-
-
         }
 
     },

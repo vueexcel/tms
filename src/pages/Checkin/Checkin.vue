@@ -41,24 +41,28 @@
                     <p
                       class="white-space-pre mt-0 pt-0"
                       :class="{not_completed : report.task_completed === false}"
-                    >
-                      {{report.report}}
-                    </p>
-                    <span
-                      v-if="report.task_not_completed_reason !== '' || report.highlight_task_reason !=='' "
-                    >
-                      <p @click="showData" v-if="canShowmore" class="text-primary btn">Read more..</p>
+                    >{{report.report}}</p>
+                    <span v-if="report.task_not_completed_reason !== '' || report.highlight !=='' ">
+                      <p
+                        @click="showData = index"
+                        v-if="showData!==index"
+                        class="text-primary btn"
+                      >Read more..</p>
                       <p
                         class="textColor white-space-pre"
-                        v-if="canShowreason"
+                        v-if="showData==index"
                         :class="{not_completed : report.task_completed === false}"
                       >{{report.task_not_completed_reason}}</p>
                       <p
                         class="text-warning white-space-pre"
-                        v-if="canShowreason"
+                        v-if="showData==index"
                         :class="{not_completed : report.task_completed === false}"
                       >{{report.highlight}}</p>
-                      <p @click="showData" v-if="canShowless" class="text-primary btn">Read less..</p>
+                      <p
+                        @click="showData = -1"
+                        v-if="showData == index"
+                        class="text-primary btn"
+                      >Read less..</p>
                     </span>
                   </div>
                   <div class="time">
@@ -156,9 +160,11 @@ export default {
   data() {
     return {
       generatedReport: [],
-      canShowreason: false,
-      canShowmore: true,
-      canShowless: false,
+      // canShowreason: false,
+      // canShowmore: true,
+      // canShowless: false,
+      read_more: [],
+      showData: -1,
       image: dummyimage,
       error: ""
     };
@@ -234,7 +240,6 @@ export default {
         highlight: report.highlight,
         date: report.date
       }).then(res => {
-        console.log(res);
         this.getAllCheckinsAPI();
         this.getProfile(res.date);
       });
@@ -245,7 +250,7 @@ export default {
     deleteCheckin(deleteReport) {
       this.deleteDailyCheckin(deleteReport);
     },
-    showData: function() {
+    showData_: function() {
       this.canShowmore = !this.canShowmore;
       this.canShowless = !this.canShowless;
       this.canShowreason = !this.canShowreason;

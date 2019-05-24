@@ -42,12 +42,7 @@
         index="performanceReview"
         isHeader
       />
-      <NavLink
-        header="Your Juniors"
-        link="/app/juniors"
-        iconName="fas fa-users"
-        isHeader
-      />
+      <NavLink header="Your Juniors" link="/app/juniors" iconName="fas fa-users" isHeader/>
       <!-- <NavLink
         header="View Monthly Report"
         link="/app/PerformanceReview"
@@ -118,20 +113,27 @@
         index="performanceReview"
         isHeader
       />
-       <NavLink
+      <NavLink
         v-if="sideBar.role === 'manager'"
         header="Your Juniors"
         link="/app/juniors"
         iconName="fas fa-users"
         isHeader
       />
-        <!-- index="performanceReview" -->
+      <!-- index="performanceReview" -->
       <NavLink
         v-if="sideBar.role === 'manager'"
         header="View Junior's Checkin"
         link="/app/viewCheckin"
         iconName="fas fa-folder-open"
         index="performanceReview"
+        isHeader
+      />
+      <NavLink
+        header="Feedback"
+        link="/app/feedback"
+        iconName="fas fa-file-signature"
+        index="feedback"
         isHeader
       />
       <!-- <NavLink
