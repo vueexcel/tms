@@ -54,7 +54,7 @@ export default {
         return;
       }
 
-      state.chatOpen = e.direction === 2;
+      // state.chatOpen = e.direction === 2;
     },
     changeSidebarActive(state, index) {
       state.sidebarActiveElement = index;
