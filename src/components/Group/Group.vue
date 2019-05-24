@@ -107,7 +107,6 @@ export default {
     index: { type: Number },
     array_: { type: Array }
   },
-  created() {},
   methods: {
     addMembers_: call("adminKPI/addMember"),
     getAllMembers_: call("allMember/getAllMember"),

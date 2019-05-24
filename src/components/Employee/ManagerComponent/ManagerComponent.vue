@@ -188,17 +188,7 @@ export default {
     },
     getAllManagersArray(){
       if (this.employee.managers) {
-      let managerArray = [];  
-      this.employee.managers.forEach(manager => {
-          this.userArray.forEach(member => {
-            if (manager._id === member._id) {
-              let managerObj = Object.assign({},member)
-              managerObj.weight = manager.weight
-              managerArray.push(managerObj)
-            }
-          });
-        });
-        this.managersArray = managerArray
+        this.managersArray = this.employee.managers
       }
     },
     getAllToBeManagerArray(){

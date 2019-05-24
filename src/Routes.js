@@ -21,7 +21,8 @@ import ViewCheckin from "@/pages/ViewCheckin/ViewCheckin";
 import WeeklyReview from "@/pages/WeeklyReview/WeeklyReview";
 import WeeklyReport from "@/pages/WeeklyReportReview/WeeklyReport";
 import MonthlyPerformanceReview from "@/pages/MonthlyPerformanceReview/MonthlyPerformanceReview";
-import Juniors from "@/pages/Juniors/Juniors"
+import Juniors from "@/pages/Juniors/Juniors";
+import ManagerReview from "@/pages/ManagerReview/ManagerReview"
 import Team from "@/pages/Team/Team";
 import Feedback from "@/pages/Feedback/Feedback";
 // --admin pages--
@@ -102,6 +103,11 @@ const router = new Router({
           path: 'feedback',
           name: "Feedback",
           component: Feedback
+        },
+        {
+          path: 'managerReview',
+          name: "ManagerReview",
+          component: ManagerReview
         },
         {
           path: "typography",

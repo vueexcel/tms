@@ -234,7 +234,7 @@ export default {
       this.weeklyReview_({
         k_highlight: {
           kra: this.selected,
-          kpi: this.kpikradescriotionlist
+          kpi: this.kpikradescriotionlist.length ? this.kpikradescriotionlist : this.kpiKraDescription
         },
         extra: this.extraWorkDescription,
         select_days: [this.id],

@@ -129,11 +129,18 @@
         index="performanceReview"
         isHeader
       />
+
       <NavLink
         header="Feedback"
         link="/app/feedback"
         iconName="fas fa-file-signature"
         index="feedback"
+        isHeader
+      />
+      <NavLink
+        header="View Manager's Review"
+        link="/app/managerReview"
+        iconName="fas fa-file-text"
         isHeader
       />
       <!-- <NavLink
