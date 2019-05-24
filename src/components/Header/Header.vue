@@ -23,7 +23,7 @@
       <i class="fa fa-circle text-gray mr-n-sm"/>
       <i class="fa fa-circle text-warning"/>
       &nbsp;
-      sing
+      TMS
       &nbsp;
       <i class="fa fa-circle text-warning mr-n-sm"/>
       <i class="fa fa-circle text-gray"/>
@@ -60,46 +60,20 @@
         <template slot="button-content">
           <i class="la la-cog px-2"/>
         </template>
-        <!-- <b-dropdown-item>
-          <i class="la la-user"/> My Account
-        </b-dropdown-item>
-        <b-dropdown-divider/>
-        <b-dropdown-item>Calendar</b-dropdown-item>
-        <b-dropdown-item>Inbox &nbsp;&nbsp;
-          <b-badge variant="danger" pill class="animated bounceIn">9</b-badge>
-        </b-dropdown-item>
-        <b-dropdown-divider/>-->
         <b-dropdown-item-button @click="logout">
           <i class="la la-sign-out"/> Log Out
         </b-dropdown-item-button>
       </b-nav-item-dropdown>
-      <!-- <b-nav-item>
-        <a class="d-sm-down-none px-2" id="toggle-chat" href="#" @click="toggleChat">
-          <i class="la la-globe" />
-        </a>
-        <div id="chat-notification" class="chatNotification hide">
-          <div class="chatNotificationInner">
-            <h6 class="title d-flex text-white">
-              <span class="thumb-xs">
-                <img src="../../assets/people/a6.jpg" alt=""
-                  class="rounded-circle mr-xs float-left" />
-              </span>
-              Jess Smith
-            </h6>
-            <p class="text">
-              Hi there! <br /> This is a completely new version of Sing App <br />
-              built with <strong class="text-primary">Vue</strong>
-            </p>
-          </div>
-        </div>
-      </b-nav-item>-->
-      <b-nav-item class="fs-lg d-md-none">
-        <a href="#" @click="toggleChat">
+      <b-nav-item-dropdown class="settingsDropdown d-md-none" no-caret right>
+        <template slot="button-content">
           <span class="rounded rounded-lg bg-gray text-white">
-            <i class="la la-globe"/>
+            <i class="la la-cog px-2"/>
           </span>
-        </a>
-      </b-nav-item>
+        </template>
+        <b-dropdown-item-button @click="logout">
+          <i class="la la-sign-out"/> Log Out
+        </b-dropdown-item-button>
+      </b-nav-item-dropdown>
     </b-nav>
   </b-navbar>
 </template>
