@@ -21,7 +21,8 @@ import ViewCheckin from "@/pages/ViewCheckin/ViewCheckin";
 import WeeklyReview from "@/pages/WeeklyReview/WeeklyReview";
 import WeeklyReport from "@/pages/WeeklyReportReview/WeeklyReport";
 import MonthlyPerformanceReview from "@/pages/MonthlyPerformanceReview/MonthlyPerformanceReview";
-import Juniors from "@/pages/Juniors/Juniors"
+import Juniors from "@/pages/Juniors/Juniors";
+import ManagerReview from "@/pages/ManagerReview/ManagerReview"
 import Team from "@/pages/Team/Team";
 // --admin pages--
 import ManageEmployee from "@/pages/ManageEmployee/ManageEmployee";
@@ -96,6 +97,11 @@ const router = new Router({
           path: 'juniors',
           name: "Juniors",
           component: Juniors
+        },
+        {
+          path: 'managerReview',
+          name: "ManagerReview",
+          component: ManagerReview
         },
         {
           path: "typography",

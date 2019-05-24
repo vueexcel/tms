@@ -129,7 +129,9 @@ export default {
       let reportArray = [];
       this.error = false
       this.errorMessage = ''
-      reportArray =  this.performanceData.filter(data => (data.user === this.employee._id))
+      if(this.employee){
+        reportArray =  this.performanceData.filter(data => (data.user === this.employee._id))
+      }
       if(!reportArray.length){
         this.error = true;
         this.errorMessage = "No Report Available";
@@ -163,7 +165,7 @@ export default {
         difficulty: this.ratedStarDifficulty,
         rating: this.ratedStarWeekly,
         comment: this.text,
-        id: this.activeEmployee._id
+        id: this.activeReport._id
       }).then(res => {
         this.ratedStarWeekly = 1;
         this.ratedStarDifficulty = 1;
@@ -194,7 +196,7 @@ export default {
               reportData.is_reviewed.map(manager => {
                 if (manager._id === this.userProfile._id) {
                   reportData["canReview"] =
-                    manager.reviewed === true ? false : true;
+                  manager.reviewed === true ? false : true;
                   reportData["reportExist"] = true;
                 }
                 this.activeReport = reportData;

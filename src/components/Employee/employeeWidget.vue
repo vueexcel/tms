@@ -44,7 +44,7 @@
             >{{employee_.kpi}}</p>-->
             <p v-if="!edit">
               <a class="btn btn-rounded-f button-for-employee">
-                <div class="text-gray size_font" >{{employee_.kpi}}</div>
+                <div class="text-gray size_font" v-if="employee_.kpi_id">{{employee_.kpi}}</div>
                 <div class="text-gray size_font" v-if="!employee_.kpi_id">KPI/ERA Not Assigned</div>
               </a>
             </p>
@@ -119,14 +119,18 @@ export default {
     employee_() {
       let employeeToManipulate = this.employee;
       if (employeeToManipulate.kpi_id) {
-        if (this.addNewTeam.length) {
-          this.addNewTeam.forEach(kpiOrEra => {
-            if (kpiOrEra._id === employeeToManipulate.kpi_id) {
-              employeeToManipulate["kpi"] = kpiOrEra.kpi_name;
-            }
-          });
+        if(typeof(employeeToManipulate.kpi_id) === 'string'){
+          if (this.addNewTeam.length) {
+            this.addNewTeam.forEach(kpiOrEra => {
+              if (kpiOrEra._id === employeeToManipulate.kpi_id) {
+                employeeToManipulate["kpi"] = kpiOrEra.kpi_name;
+              }
+            });
+          }
+        } else {
+          employeeToManipulate["kpi"] = employeeToManipulate.kpi_id.kpi_name
         }
-      }
+      } 
       return this.employee;
     },
     options() {
