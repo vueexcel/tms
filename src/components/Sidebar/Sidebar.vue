@@ -134,6 +134,12 @@
         index="performanceReview"
         isHeader
       />
+      <NavLink
+        header="View Manager's Review"
+        link="/app/managerReview"
+        iconName="fas fa-file-text"
+        isHeader
+      />
       <!-- <NavLink
         header="Performance Review"
         link="/app/PerformanceReview"

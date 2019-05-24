@@ -52,10 +52,8 @@ export default {
         allJuniors_: get("allMember/allJuniors"),
     },
     methods: {
-        // getAllMembers_: call("allMember/getAllMember"),
         getAllJuniors_: call("allMember/getAllJuniors"),
         async getAllData(){
-            // await this.getAllMembers_()
             await this.getAllJuniors();
         },
         async getAllJuniors() {

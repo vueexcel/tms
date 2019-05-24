@@ -38,6 +38,19 @@ const actions = {
           return 'API Server Down'
       }
     }
+  },
+  async getManagersReview({state}){
+    try{
+      let response = await axios.get('/junior_review_response')
+      return response.data
+    } catch(err){
+      if(err.response){
+        return err.response.data.msg
+      } else {
+          return 'API Server Down'
+      }
+    }
+    
   }
 };
 // create store
