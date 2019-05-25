@@ -43,6 +43,13 @@
         isHeader
       />
       <NavLink header="Your Juniors" link="/app/juniors" iconName="fas fa-users" isHeader/>
+      <NavLink
+      header="Juniors Weekly Report"
+      link="/app/juniorWeekReport"
+      iconName="fa fa-flag-checkered"
+      index="feedback"
+      isHeader
+      />
       <!-- <NavLink
         header="View Monthly Report"
         link="/app/PerformanceReview"

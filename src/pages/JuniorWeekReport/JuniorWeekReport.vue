@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="page-title">View Junior's Checkin</h1>
+    <h1 class="page-title">View Junior's Weekly Report</h1>
     <div v-if="error">
       <b-alert class="alert-transparent alert-danger" show>
         <span>{{errorMessage}}</span>
@@ -14,7 +14,7 @@
       <li
         v-for="( junior, index ) in juniorReport.slice().reverse()"
         :key="index"
-        :class="{onLeft: (index%2 == 0) }"
+        :class="{onLeft: (junior.reviewedByUser ? true : false) }"
       >
         <time class="eventTime" datetime="2014-05-19 03:04">
           <span class="date">{{ junior.created_at | day }}</span>
@@ -22,11 +22,11 @@
         </time>
         <span
           class="eventIcon"
-          :class="junior.highlight == '' ? 'eventIconSuccess' : 'eventIconPrimary'"
+          :class="junior.reviewedByUser ?  'eventIconPrimary' : 'eventIconSuccess'"
         >
           <i
             class="glyphicon"
-            :class="junior.highlight == '' ? 'glyphicon-comments' : 'glyphicon-duplicate'"
+            :class="junior.reviewedByUser  ?  'glyphicon-duplicate' : 'glyphicon-comments'"
           />
         </span>
 
@@ -42,16 +42,18 @@
             <a class="text-primary">{{ junior.user.name }}</a>
           </h5>
           <p class="fs-sm text-muted">{{ junior.created_at | moment }}</p>
-          <p class="fs-mini white-space-pre">{{ junior.extra }}</p>
-          <p class="fs-mini text-custom white-space-pre">{{ junior.k_highlight }}</p>
-          <span>
+          <p v-if="junior.k_highlight.kra"><strong>For Kpi/Kra :</strong> &nbsp;{{junior.k_highlight.kra}}</p>
+          <p class="fs-mini white-space-pre"><strong>Extra Work : &nbsp;</strong>{{ junior.extra }}</p>
+          <p class="fs-mini text-custom white-space-pre"><strong>Highlight : &nbsp;</strong>{{ junior.k_highlight.kpi }}</p>
+          <div class="starClass">
+            <strong>Difficulty Level : &nbsp;</strong>
               <Stars
                 :displayStar="5"
                 :ratedStar="Number(junior.difficulty)"
-                :starSize="'10px'"
+                :starSize="'15px'"
                 :disableStar="false"
                 />
-          </span>
+          </div>
         </section>
       </li>
     </ul>
@@ -60,7 +62,7 @@
 
 <script>
 import moment from "moment";
-import { call } from "vuex-pathify";
+import { get,call } from "vuex-pathify";
 import image from "./../../assets/avatar.png";
 import Stars from "@/components/Star/Star.vue";
 
@@ -78,6 +80,9 @@ export default {
   components: {
       Stars,
   },
+  computed: {
+    user: get("profile/user"),
+  },
   created() {
     this.getJuniorWeekReport();
   },
@@ -87,6 +92,7 @@ export default {
       this.loading = true;
       let response = await this.juniorWeeklyReport_api()
       if(response.length && typeof(response) !== 'string'){
+          this.isReviewed(response)
         this.juniorReport = response
       } else {
             this.error = true
@@ -97,7 +103,18 @@ export default {
         }
       }
       this.loading = false
-    }
+    },
+    isReviewed(reportArray){
+      for(var i = 0; i < reportArray.length; i++){
+        if(reportArray[i].is_reviewed){
+            var found = reportArray[i].is_reviewed.find(manager =>{
+                if(manager._id === this.user._id){
+                    reportArray[i]['reviewedByUser'] = manager.reviewed
+                } 
+            })
+        }
+      }
+    },
   },
   filters: {
     moment: function(date) {
