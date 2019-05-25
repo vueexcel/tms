@@ -9,7 +9,14 @@
     <b-row v-if="!fetchingData">
       <b-col lg="6" xs="12">
         <Widget>
-          <b-form class="mt" @submit.prevent="postFeedback">
+          <div v-if="users.length && month == users[0].month">
+            <span class="fw-semi-bold text-danger">Only one feedback per month is allowed</span>
+          </div>
+          <b-form
+            class="mt"
+            @submit.prevent="postFeedback"
+            v-if="!users.length || month !== users[0].month"
+          >
             <b-form-group class="mb-2">
               <Label class="sr-only" for="new-event">New event</Label>
               <b-form-textarea
@@ -88,6 +95,7 @@
 import Widget from "@/components/Widget/Widget";
 import { call } from "vuex-pathify";
 import image from "./../../assets/avatar.png";
+import moment from "moment";
 
 export default {
   name: "Profile",
@@ -100,11 +108,13 @@ export default {
       errorMessage: null,
       fetchingData: false,
       users: [],
-      avatar: image
+      avatar: image,
+      month: ""
     };
   },
   created() {
     this.getFeedback();
+    this.getMonth();
   },
   methods: {
     api_postFeedback: call("feedback/postFeedback"),
@@ -141,6 +151,9 @@ export default {
           console.log(err);
           this.fetchingData = false;
         });
+    },
+    getMonth() {
+      this.month = moment().format("MMMM");
     }
   }
 };
