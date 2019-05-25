@@ -11,6 +11,7 @@ import manageEmployee from "./modules/manageEmployee";
 import performanceReview from "./modules/performanceReview";
 import allMember from './modules/allMembers'
 import weeklyReportReview from './modules/weeklyReportReview'
+import feedback from './modules/feedback'
 
 import layout from "./layout";
 
@@ -27,6 +28,7 @@ export default new Vuex.Store({
     manageEmployee,
     performanceReview,
     allMember,
-    weeklyReportReview
+    weeklyReportReview,
+    feedback
   }
 });

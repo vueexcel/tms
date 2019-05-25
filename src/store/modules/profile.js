@@ -25,15 +25,10 @@ const actions = {
                 return true
             }
             else {
-                console.log('inside Else');
                 // commit('loginfailed', err)
             }
         } catch (error) {
-            console.log('catch block');
-
             console.log(error.response);
-
-
         }
 
     },
