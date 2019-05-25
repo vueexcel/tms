@@ -237,6 +237,7 @@ export default {
       this.getAllCheckins();
     },
     async getAllSlackChannels(){
+      this.slackChannels = []
       let response = await this.getAllSlackChannels_();
       if(response.length && typeof(response) !== 'string'){
         this.slackChannels = response

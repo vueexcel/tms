@@ -180,6 +180,7 @@ export default {
       this.status = false;
       this.genReportReason = "";
       this.highlightTask = "";
+      this.selected = []
     },
     emitFormData() {
       this.$emit("report", {
