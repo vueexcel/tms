@@ -16,7 +16,7 @@
         v-for="( report, index ) in reviewedReport.slice().reverse()"
         :key="index"
       >
-        <li :class="{onLeft : (index/2 == 0)}">
+        <li :class="{onLeft : (index%2 == 0)}">
           <time class="eventTime" datetime="2014-05-19 03:04">
             <span class="date">{{ report.created_at | day }}</span>
             <span class="time">{{ report.created_at | time }}</span>
@@ -50,50 +50,6 @@
                 :disableStar="false"
               />
             </p>
-            <footer>
-              <a href class="text-muted">Manager's Review</a>
-              <ul class="postComments">
-                <li v-for="(managerReview, reviewIndex) in report.review" :key="reviewIndex">
-                  <span class="thumb-xs avatar pull-left mr-sm">
-                    <img
-                      class="rounded-circle"
-                      :src="managerReview.manager_id.profileImage 
-                    ? managerReview.manager_id.profileImage : 
-                    image"
-                      alt="..."
-                    >
-                  </span>
-                  <div class="commentBody">
-                    <h6 class="author fs-sm fw-semi-bold">
-                      {{managerReview.manager_id.username}}
-                      <small>{{managerReview.created_at | time}}</small>
-                    </h6>
-                    <p class="manager_comment">
-                      <span v-if="managerReview.comment">{{managerReview.comment}}</span>
-                      <span v-else>No comment from your Manager</span>
-                    </p>
-                    <div class="starClass">
-                      Difficulty :
-                      <Stars
-                        :displayStar="5"
-                        :ratedStar="Number(managerReview.difficulty)"
-                        :starSize="'10px'"
-                        :disableStar="false"
-                      />
-                    </div>
-                    <div class="starClass">
-                      Overall Rating :
-                      <Stars
-                        :displayStar="5"
-                        :ratedStar="Number(managerReview.rating)"
-                        :starSize="'10px'"
-                        :disableStar="false"
-                      />
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </footer>
           </section>
         </li>
       </ul>

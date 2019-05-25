@@ -172,11 +172,9 @@ export default {
     },
   },
   mounted () {
-    if(this.allMembers.length){
       this.getAlluserArray()
       this.getAllManagersArray()
       this.getAllToBeManagerArray()
-    }
   },
   methods: {
     getAllMembers_: call("allMember/getAllMember"),

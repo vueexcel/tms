@@ -256,7 +256,8 @@ export default {
         task_completed: report.task_completed,
         task_not_completed_reason: report.task_not_completed_reason,
         highlight: report.highlight,
-        date: report.date
+        date: report.date,
+        slackChannels: report.slackChannels
       }).then(res => {
         this.getAllCheckinsAPI();
         this.getProfile(res.date);

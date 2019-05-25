@@ -23,7 +23,6 @@ const actions = {
         const checkDate = payload.date
         let res = await axios.post('/checkin', payload)
         return { res: res, date: checkDate }
-
     },
     async deleteDailyCheckin({ commit, dispatch }, payload) {
         await axios

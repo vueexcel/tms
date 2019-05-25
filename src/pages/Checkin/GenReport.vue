@@ -3,7 +3,6 @@
           * Right general report
   *=======================================================================-->
   <div>
-    {{slackChannels}}
     <div v-if="error">
       <b-alert show dismissible class="alert-transparent alert-danger mt-5">{{error}}</b-alert>
     </div>
@@ -65,53 +64,13 @@
         ></b-form-textarea>
 
         <br/>
-        <legend>Submit Checkin on #Slack Channel</legend>
         <div >
-          <b-form-group class="abc-checkbox abc-checkbox-success" v-model="selected">
-            <div v-for="channel in slackChannels" :key="channel.value">
-              <input
-                type="checkbox"
-                :value="channel.value"
-                id="checkbox-primary"
-                :checked="true"
-              />
-              <label for="checkbox-primary">{{channel.text}}</label>
-
-            </div>
+          <b-form-group label="Submit Checkin on #Slack Channel">
+            <b-form-checkbox-group id="checkbox-group-2" v-model="selected" name="flavour-2">
+              <b-form-checkbox :value="channel.value" v-for="channel in slackChannels" :key="channel.value">{{channel.text}}</b-form-checkbox>
+            </b-form-checkbox-group>
           </b-form-group>
-            <!-- <b-form-group class="abc-checkbox abc-checkbox-success">
-            <input
-              type="checkbox"
-              id="checkbox-success"
-            />
-            <label for="checkbox-success">Success</label>
-          </b-form-group>
-          <b-form-group class="abc-checkbox abc-checkbox-info">
-            <input
-              type="checkbox"
-              id="checkbox-info"
-              :checked="true"
-            />
-            <label for="checkbox-info">Info</label>
-          </b-form-group>
-          <b-form-group class="abc-checkbox abc-checkbox-warning">
-            <input
-              type="checkbox"
-              id="checkbox-warning"
-              :checked="true"
-            />
-            <label for="checkbox-warning">Warning</label>
-          </b-form-group>
-          <b-form-group class="abc-checkbox abc-checkbox-danger">
-            <input
-              type="checkbox"
-              id="checkbox-danger"
-              :checked="true"
-            />
-            <label for="checkbox-danger">Check me out</label>
-          </b-form-group> -->
         </div>
-
         <button type="submit" class="btn btn-primary btn-lg mb-xs fs-sm pl-4 pr-4 mt-3">SUBMIT</button>
       </Widget>
       
@@ -138,11 +97,6 @@ import { sync, call, get } from "vuex-pathify";
 import Widget from "@/components/Widget/Widget";
 
 export default {
-  data() {
-    return {
-      selected: []
-    }
-  },
   components: { Widget },
   computed: {
     missedCheckin: get("profile/user"),
@@ -166,7 +120,8 @@ export default {
     return {
       options: [],
       modalShow: false,
-      found: null
+      found: null,
+      selected: []
     };
   },
   props: {
@@ -232,7 +187,8 @@ export default {
         task_completed: this.status,
         task_not_completed_reason: this.genReportReason,
         highlight: this.highlightTask,
-        date: this.changeSelectOption
+        date: this.changeSelectOption,
+        slackChannels: this.selected
       });
       this.clearForm();
     },

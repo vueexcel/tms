@@ -137,6 +137,13 @@
         isHeader
       />
       <NavLink
+      header="Juniors Weekly Report"
+      link="/app/juniorWeekReport"
+      iconName="fa fa-flag-checkered"
+      index="feedback"
+      isHeader
+      />
+      <NavLink
         header="Feedback"
         link="/app/feedback"
         iconName="fas fa-file-signature"

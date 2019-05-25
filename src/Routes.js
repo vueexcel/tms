@@ -25,6 +25,7 @@ import Juniors from "@/pages/Juniors/Juniors";
 import ManagerReview from "@/pages/ManagerReview/ManagerReview"
 import Team from "@/pages/Team/Team";
 import Feedback from "@/pages/Feedback/Feedback";
+import JuniorWeekReport from "@/pages/JuniorWeekReport/JuniorWeekReport"
 // --admin pages--
 import ManageEmployee from "@/pages/ManageEmployee/ManageEmployee";
 import ManageKPI from "@/pages/Kpi/Kpi";
@@ -108,6 +109,11 @@ const router = new Router({
           path: 'managerReview',
           name: "ManagerReview",
           component: ManagerReview
+        },
+        {
+          path: 'juniorWeekReport',
+          name:"JuniorWeekReport",
+          component: JuniorWeekReport
         },
         {
           path: "typography",
