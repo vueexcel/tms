@@ -3,6 +3,7 @@
           * Right general report
   *=======================================================================-->
   <div>
+    {{slackChannels}}
     <div v-if="error">
       <b-alert show dismissible class="alert-transparent alert-danger mt-5">{{error}}</b-alert>
     </div>
@@ -62,9 +63,60 @@
           :rows="3"
           :max-rows="6"
         ></b-form-textarea>
+
+        <br/>
+        <legend>Submit Checkin on #Slack Channel</legend>
+        <div >
+          <b-form-group class="abc-checkbox abc-checkbox-success" v-model="selected">
+            <div v-for="channel in slackChannels" :key="channel.value">
+              <input
+                type="checkbox"
+                :value="channel.value"
+                id="checkbox-primary"
+                :checked="true"
+              />
+              <label for="checkbox-primary">{{channel.text}}</label>
+
+            </div>
+          </b-form-group>
+            <!-- <b-form-group class="abc-checkbox abc-checkbox-success">
+            <input
+              type="checkbox"
+              id="checkbox-success"
+            />
+            <label for="checkbox-success">Success</label>
+          </b-form-group>
+          <b-form-group class="abc-checkbox abc-checkbox-info">
+            <input
+              type="checkbox"
+              id="checkbox-info"
+              :checked="true"
+            />
+            <label for="checkbox-info">Info</label>
+          </b-form-group>
+          <b-form-group class="abc-checkbox abc-checkbox-warning">
+            <input
+              type="checkbox"
+              id="checkbox-warning"
+              :checked="true"
+            />
+            <label for="checkbox-warning">Warning</label>
+          </b-form-group>
+          <b-form-group class="abc-checkbox abc-checkbox-danger">
+            <input
+              type="checkbox"
+              id="checkbox-danger"
+              :checked="true"
+            />
+            <label for="checkbox-danger">Check me out</label>
+          </b-form-group> -->
+        </div>
+
         <button type="submit" class="btn btn-primary btn-lg mb-xs fs-sm pl-4 pr-4 mt-3">SUBMIT</button>
       </Widget>
+      
     </b-form>
+
     <!-- Modal for missed checkins -->
     <div>
       <!-- <b-button @click="modalShow = !modalShow">Open Modal</b-button> -->
@@ -86,6 +138,11 @@ import { sync, call, get } from "vuex-pathify";
 import Widget from "@/components/Widget/Widget";
 
 export default {
+  data() {
+    return {
+      selected: []
+    }
+  },
   components: { Widget },
   computed: {
     missedCheckin: get("profile/user"),
@@ -95,7 +152,7 @@ export default {
     genReport: sync("checkin/genReport"),
     genReportReason: sync("checkin/genReportReason"),
     highlightTask: sync("checkin/highlightTask"),
-    reports: get("checkin/reports")
+    reports: get("checkin/reports"),
   },
   mounted() {
     this.makeOptions();
@@ -116,6 +173,10 @@ export default {
     error: {
       type: String,
       default: ""
+    },
+    slackChannels:{
+      type: Array,
+      default: []
     }
   },
   methods: {
@@ -139,8 +200,6 @@ export default {
       }
     },
     submitReport() {
-      console.log("submit clicked");
-
       this.found = null;
       if (this.reports.length) {
         this.found = this.reports.find(function(element) {

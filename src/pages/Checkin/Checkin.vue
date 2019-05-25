@@ -130,7 +130,7 @@
           * Right general report
         *=======================================================================-->
         <b-col class="p-0">
-          <GenReport @report="report" @deleteCheckin="deleteCheckin" :error="error"></GenReport>
+          <GenReport @report="report" @deleteCheckin="deleteCheckin" :error="error" :slackChannels="slackChannels"></GenReport>
         </b-col>
       </b-row>
     </b-container>
@@ -160,7 +160,9 @@ export default {
       canShowmore: true,
       canShowless: false,
       image: dummyimage,
-      error: ""
+      error: "",
+      errorMessage: false,
+      slackChannels: []
     };
   },
   components: { Widget, StandUpWidget, Comments, GenReport },
@@ -217,14 +219,30 @@ export default {
   },
   mounted() {
     this.getAllCheckinsAPI();
+    this.getAllSlackChannels();
   },
   methods: {
     dailyCheckin: call("checkin/dailyCheckin"),
     deleteDailyCheckin: call("checkin/deleteDailyCheckin"),
     getProfile: call("profile/getProfile"),
     getAllCheckins: call("checkin/getAllCheckins"),
+    getAllSlackChannels_: call("checkin/getAllSlackChannels"),
     getAllCheckinsAPI: function() {
-      this.getAllCheckins(localStorage.getItem("authenticated"));
+      this.getAllCheckins();
+    },
+    async getAllSlackChannels(){
+      let response = await this.getAllSlackChannels_();
+      if(response.length && typeof(response) !== 'string'){
+        this.slackChannels = response
+      } else {
+        this.errorMessage = true
+        if(typeof(response) === 'string'){
+          this.error = response
+        } else {
+          this.error = 'No Slack Channel Found'
+        }
+      }
+      
     },
     async report(report) {
       let response = await this.dailyCheckin({

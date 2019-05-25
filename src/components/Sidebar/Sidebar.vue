@@ -140,6 +140,12 @@
         iconName="fas fa-file-text"
         isHeader
       />
+      <NavLink
+        header="Junior's Weekly Report"
+        link="/app/juniorWeeklyReport"
+        iconName="fas fa-file-text"
+        isHeader
+      />
       <!-- <NavLink
         header="Performance Review"
         link="/app/PerformanceReview"
