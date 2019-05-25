@@ -1,9 +1,9 @@
 <template>
   <div>
     <h1 class="page-title">View Junior's Checkin</h1>
-    <div v-if="!loading && !juniorReport.length">
+    <div v-if="error">
       <b-alert class="alert-transparent alert-danger" show>
-        <span>None of your Junior have created Weekly Report</span>
+        <span>{{errorMessage}}</span>
       </b-alert>
     </div>
     <div class="text-center" v-if="loading">
