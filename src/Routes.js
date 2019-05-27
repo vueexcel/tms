@@ -26,6 +26,7 @@ import ManagerReview from "@/pages/ManagerReview/ManagerReview"
 import Team from "@/pages/Team/Team";
 import Feedback from "@/pages/Feedback/Feedback";
 import JuniorWeekReport from "@/pages/JuniorWeekReport/JuniorWeekReport"
+import ViewFeedback from "@/pages/ViewFeedback/ViewFeedback";
 // --admin pages--
 import ManageEmployee from "@/pages/ManageEmployee/ManageEmployee";
 import ManageKPI from "@/pages/Kpi/Kpi";
@@ -104,6 +105,11 @@ const router = new Router({
           path: 'feedback',
           name: "Feedback",
           component: Feedback
+        },
+        {
+          path: 'viewfeedback',
+          name: "ViewFeedback",
+          component: ViewFeedback
         },
         {
           path: 'managerReview',

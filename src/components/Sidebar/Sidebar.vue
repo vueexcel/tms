@@ -48,7 +48,13 @@
       link="/app/juniorWeekReport"
       iconName="fa fa-flag-checkered"
       index="feedback"
-      isHeader
+      isHeader/>
+      <!-- index="performanceReview" -->
+      <NavLink
+        header="View Feedback"
+        link="/app/viewfeedback"
+        iconName="fas fa-comments"
+        isHeader
       />
       <!-- <NavLink
         header="View Monthly Report"
@@ -136,7 +142,7 @@
         index="performanceReview"
         isHeader
       />
-      
+
       <NavLink
         header="View Manager's Review"
         link="/app/managerReview"
