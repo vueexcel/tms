@@ -115,14 +115,14 @@
                     v-b-popover.hover="`This is the weighted reviewed given by your seniors. This is score is most important and reflects your performance.`"
                     class="fas fa-question-circle fs-sm text-danger"
                   ></i>
-                  <span class="float-right">{{Overall_rating}}%</span>
+                  <span class="float-right">{{Overall_rating}} / 10</span>
                 </h6>
                 <span class="text-secondary fs-sm">Overall performance review</span>
                 <b-progress
                   class="w-75"
                   style="height: 5px"
                   variant="danger"
-                  :value="user.Overall_rating"
+                  :value="user.Overall_rating * 10"
                   :max="100"
                 />
               </div>
