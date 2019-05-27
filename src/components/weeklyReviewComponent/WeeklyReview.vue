@@ -51,18 +51,18 @@ export default {
   },
   computed: {
     backgroundColor() {
+      return "#" + this.activeClass.background_color;
+    },
+    borderColor() {
       if(this.highlightEployeeArray.length){
         for(var i=0;i<this.highlightEployeeArray.length;i++){
           if(this.employee._id === this.highlightEployeeArray[i]._id){
-            return '#44A37D'
+            return '1px solid #006400'
           }
         }
       } else {
-        return "#" + this.activeClass.background_color;
+        return "1px solid #" + this.activeClass.border;
       }
-    },
-    borderColor() {
-      return "1px solid #" + this.activeClass.border;
     }
   }
 };
