@@ -45,7 +45,7 @@
       <div>
         <div class="feedback mt-4 pb-2 pl-3">Highlight Check-in</div>
         <span v-for="(reporthighlight, index) in user.select_days" :key="index">
-          <h6 class="ml-3 mt-3">{{reporthighlight.report }}</h6>
+          <h6 class="ml-3 mt-3 white-space-pre ">{{reporthighlight.report }}</h6>
         </span>
       </div>
       <div>

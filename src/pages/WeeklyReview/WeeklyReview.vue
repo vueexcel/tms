@@ -19,10 +19,11 @@
                   >Submit work done/ highlights of the work done in week</label>
                   <div class="col-md-8">
                     <b-form-select v-model="selected" v-if="user.kpi" class="mb-3">
+                      <option :value="''">Please select an option</option>
                       <option
                         v-for="(kpi,index) in kpieraarray"
                         :key="index"
-                        v-bind:value="kpi.title"
+                        :value="kpi.title"
                       >{{ kpi.title }}</option>
                     </b-form-select>
                   </div>
@@ -92,6 +93,7 @@
                         </b-tab>
                       </b-tabs>
                     </b-card>
+
                     <!-- ======= ACCORDION RIGHT ENDS=================-->
                   </div>
                 </div>
@@ -159,6 +161,7 @@ export default {
     return {
       ratedStar: 1,
       selected: "",
+      selectedDays: [],
       kpiKraDescription: "",
       extraWorkDescription: "",
       selectedDay: null,
@@ -178,9 +181,15 @@ export default {
     reviewedReport_: get("weeklyReview/reviewedReport"),
     date() {
       if (this.user.kpi) {
-        this.kpieraarray = this.user.kpi.kpi_json.concat(
-          this.user.kpi.era_json
-        );
+        // ES6 version use destructuring/ spread operator for adding arrays
+        this.kpieraarray = [
+          ...this.user.kpi.kpi_json.filter(element => {
+            return element.title !== "";
+          }),
+          ...this.user.kpi.era_json.filter(element => {
+            return element.title !== "";
+          })
+        ];
       }
       Array.prototype.forEach.call(this.report, date => {
         var time = this.$moment(date.created_at)
@@ -234,16 +243,20 @@ export default {
       this.weeklyReview_({
         k_highlight: {
           kra: this.selected,
-          kpi: this.kpikradescriotionlist.length ? this.kpikradescriotionlist : this.kpiKraDescription
+          kpi: this.kpikradescriotionlist.length
+            ? this.kpikradescriotionlist
+            : this.kpiKraDescription
         },
         extra: this.extraWorkDescription,
+        // select_days: this.selectedDays,
         select_days: [this.id],
         difficulty: this.ratedStar
       });
       this.extraWorkDescription = "";
       this.ratedStar = 1;
-      this.selected = null;
+      this.selected = "";
       this.kpiKraDescription = "";
+      // this.selectedDays = [];
     },
     submitStarRate(value) {
       this.ratedStar = value;
