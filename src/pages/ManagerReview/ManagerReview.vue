@@ -75,7 +75,7 @@
                     <div class="starClass">
                       Difficulty :
                       <Stars
-                        :displayStar="5"
+                        :displayStar="10"
                         :ratedStar="Number(managerReview.difficulty)"
                         :starSize="'10px'"
                         :disableStar="false"
@@ -84,7 +84,7 @@
                     <div class="starClass">
                       Overall Rating :
                       <Stars
-                        :displayStar="5"
+                        :displayStar="10"
                         :ratedStar="Number(managerReview.rating)"
                         :starSize="'10px'"
                         :disableStar="false"

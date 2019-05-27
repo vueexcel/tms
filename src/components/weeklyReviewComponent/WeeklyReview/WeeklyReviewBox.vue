@@ -10,6 +10,13 @@
             </div>
           </b-dropdown>
         </div>
+        <div v-if="success">
+          <b-alert
+            :show="success"
+            dismissible
+            class="alert-transparent alert-success mt-3 w-100"
+          >{{showSuccess}}</b-alert>
+        </div>
         <div v-if="!activeReport.reportExist" class="row">
           <b-alert
             show
@@ -106,7 +113,9 @@ export default {
       errorMessage: "",
       selected: "Select Date",
       activeReport: {},
-      loading : false
+      loading : false,
+      success: false,
+      showSuccess: ''
     };
   },
   components: {
@@ -167,14 +176,14 @@ export default {
         comment: this.text,
         id: this.activeReport._id
       }).then(res => {
+        this.success = true
+        this.showSuccess = 'Your have reviewed successfully'
         this.ratedStarWeekly = 1;
         this.ratedStarDifficulty = 1;
         this.text = "";
       });
     },
     submitStarRateWeekly(value) {
-      console.log(value, 'ratedStarWeekly');
-      
       this.ratedStarWeekly = value;
     },
     submitStarRateDifficulty(value) {

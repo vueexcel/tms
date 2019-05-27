@@ -9,11 +9,6 @@
       >KPI/KRA</b-btn>
       <b-collapse id="collapse2">
         <b-container>
-          <!-- <div class="mt-2" v-for="(kpi,index) in user.kpi_json" :key="index">
-            <span v-if="kpi.desc" class="text-uppercase fw-semi-bold text-secondary">{{ kpi.title }}</span>
-            <p v-if="kpi.desc">{{ kpi.desc }}</p>
-            <hr v-if="kpi.desc && user.kpi_json.length-1 !== index">
-          </div> -->
           <div class="mt-2">
             <span class="text-uppercase fw-semi-bold text-secondary">
               <span v-if="user.k_highlight.kra">{{user.k_highlight.kra}}</span>
@@ -30,14 +25,6 @@
       >Work done in Week</b-btn>
       <b-collapse id="collapse3">
         <b-container>
-          <!-- <div class="mt-2" v-for="(era, index) in user.era_json" :key="index">
-            <span
-              class="text-uppercase fw-semi-bold text-secondary"
-              v-if="era.title"
-            >{{ era.title }}</span>
-            <p v-if="era.desc">{{ era.desc }}</p>
-            <hr v-if="era.desc && user.era_json.length-1 !== index">
-          </div> -->
           <div class="mt-2">
             <span class="text-uppercase fw-semi-bold text-secondary">
               <span v-if="user.k_highlight.kpi">{{user.k_highlight.kpi}}</span>
