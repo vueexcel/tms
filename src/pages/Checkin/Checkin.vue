@@ -44,24 +44,24 @@
                     >{{report.report}}</p>
                     <span v-if="report.task_not_completed_reason !== '' || report.highlight !=='' ">
                       <p
-                        @click="showData = index"
-                        v-if="showData!==index"
                         class="text-primary btn"
+                        v-if="!read_more[index]"
+                        @click="showData( index,'readMore' )"
                       >Read more..</p>
                       <p
+                        v-if="read_more[index]"
                         class="textColor white-space-pre"
-                        v-if="showData==index"
                         :class="{not_completed : report.task_completed === false}"
                       >{{report.task_not_completed_reason}}</p>
                       <p
+                        v-if="read_more[index]"
                         class="text-warning white-space-pre"
-                        v-if="showData==index"
                         :class="{not_completed : report.task_completed === false}"
                       >{{report.highlight}}</p>
                       <p
-                        @click="showData = -1"
-                        v-if="showData == index"
                         class="text-primary btn"
+                        v-if="read_more[index]"
+                        @click="showData( index,'readLess' )"
                       >Read less..</p>
                     </span>
                   </div>
@@ -134,7 +134,12 @@
           * Right general report
         *=======================================================================-->
         <b-col class="p-0">
-          <GenReport @report="report" @deleteCheckin="deleteCheckin" :error="error" :slackChannels="slackChannels"></GenReport>
+          <GenReport
+            @report="report"
+            @deleteCheckin="deleteCheckin"
+            :error="error"
+            :slackChannels="slackChannels"
+          ></GenReport>
         </b-col>
       </b-row>
     </b-container>
@@ -143,6 +148,8 @@
 
 <script>
 import $ from "jquery";
+import Vue from "vue";
+
 /* eslint-disable */
 import "imports-loader?jQuery=jquery,this=>window!flot";
 import "imports-loader?jQuery=jquery,this=>window!flot/jquery.flot.pie";
@@ -160,11 +167,7 @@ export default {
   data() {
     return {
       generatedReport: [],
-      // canShowreason: false,
-      // canShowmore: true,
-      // canShowless: false,
       read_more: [],
-      showData: -1,
       image: dummyimage,
       error: "",
       errorMessage: false,
@@ -236,20 +239,19 @@ export default {
     getAllCheckinsAPI: function() {
       this.getAllCheckins();
     },
-    async getAllSlackChannels(){
-      this.slackChannels = []
+    async getAllSlackChannels() {
+      this.slackChannels = [];
       let response = await this.getAllSlackChannels_();
-      if(response.length && typeof(response) !== 'string'){
-        this.slackChannels = response
+      if (response.length && typeof response !== "string") {
+        this.slackChannels = response;
       } else {
-        this.errorMessage = true
-        if(typeof(response) === 'string'){
-          this.error = response
+        this.errorMessage = true;
+        if (typeof response === "string") {
+          this.error = response;
         } else {
-          this.error = 'No Slack Channel Found'
+          this.error = "No Slack Channel Found";
         }
       }
-      
     },
     async report(report) {
       let response = await this.dailyCheckin({
@@ -270,10 +272,12 @@ export default {
     deleteCheckin(deleteReport) {
       this.deleteDailyCheckin(deleteReport);
     },
-    showData_: function() {
-      this.canShowmore = !this.canShowmore;
-      this.canShowless = !this.canShowless;
-      this.canShowreason = !this.canShowreason;
+    showData: function(index, mode) {
+      if (mode === "readMore") {
+        Vue.set(this.read_more, index, true);
+      } else {
+        Vue.set(this.read_more, index, false);
+      }
     }
   },
   filters: {

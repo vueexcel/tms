@@ -45,16 +45,18 @@
       <NavLink header="Your Juniors" link="/app/juniors" iconName="fas fa-users" isHeader/>
 
       <NavLink
-      header="Juniors Weekly Report"
-      link="/app/juniorWeekReport"
-      iconName="fa fa-flag-checkered"
-      index="feedback"
-      isHeader/>
+        header="Juniors Weekly Report"
+        link="/app/juniorWeekReport"
+        iconName="fa fa-flag-checkered"
+        index="feedback"
+        isHeader
+      />
       <!-- index="performanceReview" -->
       <NavLink
         header="View Feedback"
         link="/app/viewfeedback"
         iconName="fas fa-comments"
+        :badge="feedbackCount"
         isHeader
       />
       <!-- <NavLink
@@ -151,12 +153,12 @@
         isHeader
       />
       <NavLink
-      v-if="sideBar.role === 'manager'"
-      header="Juniors Weekly Report"
-      link="/app/juniorWeekReport"
-      iconName="fa fa-flag-checkered"
-      index="feedback"
-      isHeader
+        v-if="sideBar.role === 'manager'"
+        header="Juniors Weekly Report"
+        link="/app/juniorWeekReport"
+        iconName="fa fa-flag-checkered"
+        index="feedback"
+        isHeader
       />
       <NavLink
         header="Feedback"
@@ -289,7 +291,11 @@ export default {
       activeItem: state => state.sidebarActiveElement
     }),
     sidebar: get("login/sidebar"),
-    sideBar: get("profile/user")
+    sideBar: get("profile/user"),
+    feedback: get("feedback/feedbacksCount"),
+    feedbackCount() {
+      return this.feedback.length;
+    }
   }
 };
 </script>
