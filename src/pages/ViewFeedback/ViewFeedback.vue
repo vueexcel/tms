@@ -32,12 +32,11 @@ export default {
   },
   methods: {
     api_fetchFeedbacks: call("feedback/fetchFeedback"),
-    api_postFeedbacks: call("feedback/postFeedback"),
+    api_postFeedbacks: call("feedback/postFeedbackAdmin"),
     getFeedback() {
       this.comments = [];
       this.api_fetchFeedbacks()
         .then(res => {
-          console.log(res.data);
           res.data.forEach(element => {
             this.comments.push(element);
           });

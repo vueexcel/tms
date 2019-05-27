@@ -13,7 +13,10 @@
             <span class="fw-semi-bold">pm</span>
           </span>
         </time>-->
-        <span class="eventIcon eventIconPrimary">
+        <span
+          class="eventIcon"
+          :class="{ eventIconSuccess: comment.admin_response, eventIconWarning: !comment.admin_response }"
+        >
           <i class="glyphicon glyphicon-envelope"/>
         </span>
         <section class="event">
