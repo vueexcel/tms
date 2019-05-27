@@ -43,6 +43,7 @@
         isHeader
       />
       <NavLink header="Your Juniors" link="/app/juniors" iconName="fas fa-users" isHeader/>
+
       <NavLink
       header="Juniors Weekly Report"
       link="/app/juniorWeekReport"
