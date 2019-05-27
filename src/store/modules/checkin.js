@@ -23,7 +23,6 @@ const actions = {
         const checkDate = payload.date
         let res = await axios.post('/checkin', payload)
         return { res: res, date: checkDate }
-
     },
     async deleteDailyCheckin({ commit, dispatch }, payload) {
         await axios
@@ -43,6 +42,19 @@ const actions = {
             })
             .catch((err) => {
             })
+    },
+    async getAllSlackChannels({state, commit}){
+        try{
+            let response = await axios.get('/slack')
+            return response.data
+        } catch(err) {
+            if(err.response){
+                return err.response.data.msg
+            } else {
+                return 'API Server Down'
+            }
+        }
+        
     },
     async juniorCheckin() {
         let res = await axios.get('/juniors_chechkin')

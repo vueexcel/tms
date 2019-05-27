@@ -134,7 +134,7 @@
           * Right general report
         *=======================================================================-->
         <b-col class="p-0">
-          <GenReport @report="report" @deleteCheckin="deleteCheckin" :error="error"></GenReport>
+          <GenReport @report="report" @deleteCheckin="deleteCheckin" :error="error" :slackChannels="slackChannels"></GenReport>
         </b-col>
       </b-row>
     </b-container>
@@ -166,7 +166,9 @@ export default {
       read_more: [],
       showData: -1,
       image: dummyimage,
-      error: ""
+      error: "",
+      errorMessage: false,
+      slackChannels: []
     };
   },
   components: { Widget, StandUpWidget, Comments, GenReport },
@@ -223,14 +225,31 @@ export default {
   },
   mounted() {
     this.getAllCheckinsAPI();
+    this.getAllSlackChannels();
   },
   methods: {
     dailyCheckin: call("checkin/dailyCheckin"),
     deleteDailyCheckin: call("checkin/deleteDailyCheckin"),
     getProfile: call("profile/getProfile"),
     getAllCheckins: call("checkin/getAllCheckins"),
+    getAllSlackChannels_: call("checkin/getAllSlackChannels"),
     getAllCheckinsAPI: function() {
-      this.getAllCheckins(localStorage.getItem("authenticated"));
+      this.getAllCheckins();
+    },
+    async getAllSlackChannels(){
+      this.slackChannels = []
+      let response = await this.getAllSlackChannels_();
+      if(response.length && typeof(response) !== 'string'){
+        this.slackChannels = response
+      } else {
+        this.errorMessage = true
+        if(typeof(response) === 'string'){
+          this.error = response
+        } else {
+          this.error = 'No Slack Channel Found'
+        }
+      }
+      
     },
     async report(report) {
       let response = await this.dailyCheckin({
@@ -238,7 +257,8 @@ export default {
         task_completed: report.task_completed,
         task_not_completed_reason: report.task_not_completed_reason,
         highlight: report.highlight,
-        date: report.date
+        date: report.date,
+        slackChannels: report.slackChannels
       }).then(res => {
         this.getAllCheckinsAPI();
         this.getProfile(res.date);

@@ -50,7 +50,18 @@ const actions = {
           return 'API Server Down'
       }
     }
-    
+  },
+  async juniorWeeklyReport({state}){
+    try{
+      let response = await axios.get('junior_weekly_report')
+      return response.data
+    } catch(error){
+      if(err.response){
+        return err.response.data.msg
+      } else {
+          return 'API Server Down'
+      }
+    }
   }
 };
 // create store

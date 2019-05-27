@@ -158,7 +158,7 @@ export default {
   data() {
     return {
       ratedStar: 1,
-      selected: "kpi",
+      selected: "",
       kpiKraDescription: "",
       extraWorkDescription: "",
       selectedDay: null,
