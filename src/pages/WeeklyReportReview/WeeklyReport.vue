@@ -38,6 +38,7 @@
             <WeeklyReviewComponent
               :employee="employee"
               @setActive="setActive"
+              :highlightEployeeArray="highlightEmployees"
               :activeId="activeId"
               :page="'Weekly'"
               :allemployee="allJuniors_"
@@ -90,8 +91,7 @@ export default {
       loading: false,
       error: false,
       errorMessage: "",
-        slide: 0,
-        sliding: null
+      highlightEmployees: []
     };
   },
   mounted() {
@@ -147,6 +147,7 @@ export default {
             this.errorMessage = "There is no data to review";
           } else {
             this.allweeklyData = resp.data;
+            this.setActiveEmployeeReports(this.allweeklyData)
           }
           this.loading = false;
         })
@@ -155,6 +156,15 @@ export default {
           this.error = true;
           this.errorMessage = "There is some issue to getting result";
         });
+    },
+    setActiveEmployeeReports(array){
+      array.forEach(data =>{
+        for(var i = 0; i < this.allJuniors_.length ; i++){
+          if(data.user === this.allJuniors_[i]._id){
+            this.highlightEmployees.push(this.allJuniors_[i])
+          }
+        }
+      })
     },
     async getAllJuniors(){
       let response = await this.getAllJuniors_()
