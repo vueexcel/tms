@@ -49,8 +49,7 @@
       link="/app/juniorWeekReport"
       iconName="fa fa-flag-checkered"
       index="feedback"
-      isHeader
-      />
+      isHeader/>
       <!-- index="performanceReview" -->
       <NavLink
         header="View Feedback"

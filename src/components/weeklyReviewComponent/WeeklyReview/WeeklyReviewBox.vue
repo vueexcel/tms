@@ -34,7 +34,7 @@
               </div>
               <starRating
                 class="border-bottom"
-                :displayStar="5"
+                :displayStar="10"
                 :ratedStar="ratedStarWeekly"
                 :starSize="starSize"
                 @starRatingSelected="submitStarRateWeekly"
@@ -42,10 +42,10 @@
               />
               <div
                 class="mt-2 font-weight"
-              >Difficulty level of Project (if project work you did was difficult/required more effort)</div>
+              >As a manager how do you rate the difficulty level of projects which employee has worked on in last week</div>
               <starRating
                 class="border-bottom"
-                :displayStar="5"
+                :displayStar="10"
                 :ratedStar="ratedStarDifficulty"
                 :starSize="starSize"
                 @starRatingSelected="submitStarRateDifficulty"
@@ -98,8 +98,8 @@ export default {
   data() {
     return {
       text: "",
-      ratedStarWeekly: 2,
-      ratedStarDifficulty: 2,
+      ratedStarWeekly: 0,
+      ratedStarDifficulty: 0,
       starSize: "20px",
       id: null,
       error: false,
@@ -173,6 +173,8 @@ export default {
       });
     },
     submitStarRateWeekly(value) {
+      console.log(value, 'ratedStarWeekly');
+      
       this.ratedStarWeekly = value;
     },
     submitStarRateDifficulty(value) {
@@ -217,7 +219,6 @@ export default {
       }
     }
   },
-
 };
 </script>
 

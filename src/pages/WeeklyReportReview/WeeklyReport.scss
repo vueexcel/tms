@@ -6,3 +6,10 @@
 .heading{
     margin: 0 auto;
 }
+
+.employees{
+    height: 140px;
+    overflow: auto;
+    white-space: nowrap;
+    display: -webkit-box;
+}

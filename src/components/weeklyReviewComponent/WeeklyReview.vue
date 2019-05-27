@@ -33,7 +33,8 @@ export default {
     activeId: { type: String, default: null },
     activeClass: { type: Object },
     page: { type: String },
-    allemployee: { type: Array, default: [] }
+    allemployee: { type: Array, default: [] },
+    highlightEployeeArray: {type: Array, default : []}
   },
   data() {
     return {
@@ -50,7 +51,15 @@ export default {
   },
   computed: {
     backgroundColor() {
-      return "#" + this.activeClass.background_color;
+      if(this.highlightEployeeArray.length){
+        for(var i=0;i<this.highlightEployeeArray.length;i++){
+          if(this.employee._id === this.highlightEployeeArray[i]._id){
+            return '#44A37D'
+          }
+        }
+      } else {
+        return "#" + this.activeClass.background_color;
+      }
     },
     borderColor() {
       return "1px solid #" + this.activeClass.border;

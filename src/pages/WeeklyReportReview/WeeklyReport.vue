@@ -14,7 +14,7 @@
             class="alert-transparent alert-danger mt-5"
           >{{errorMessage}}</b-alert>
         </div>
-        <b-row v-if="weeklyData.length">
+        <b-row v-if="weeklyData.length" class="employees">
           <b-col
             lg="2"
             md="4"
@@ -33,11 +33,12 @@
             />
           </b-col>
         </b-row>
-        <b-row v-else>
+        <b-row v-else class="employees">
           <b-col lg="2"  md="4" xs="12"   class="column" v-for="employee in allJuniors_" :key="employee._id">
             <WeeklyReviewComponent
               :employee="employee"
               @setActive="setActive"
+              :highlightEployeeArray="highlightEmployees"
               :activeId="activeId"
               :page="'Weekly'"
               :allemployee="allJuniors_"
@@ -89,7 +90,8 @@ export default {
       allweeklyData: [],
       loading: false,
       error: false,
-      errorMessage: ""
+      errorMessage: "",
+      highlightEmployees: []
     };
   },
   mounted() {
@@ -112,6 +114,12 @@ export default {
       this.activeId = employee._id;
       this.activeEmp = employee;
     },
+    onSlideStart(slide) {
+        this.sliding = true
+      },
+      onSlideEnd(slide) {
+        this.sliding = false
+      },
     fetchWeeklyReport() {
       // this.loading = true;
       // this.getWeeklyReport_()
@@ -139,6 +147,7 @@ export default {
             this.errorMessage = "There is no data to review";
           } else {
             this.allweeklyData = resp.data;
+            this.setActiveEmployeeReports(this.allweeklyData)
           }
           this.loading = false;
         })
@@ -147,6 +156,15 @@ export default {
           this.error = true;
           this.errorMessage = "There is some issue to getting result";
         });
+    },
+    setActiveEmployeeReports(array){
+      array.forEach(data =>{
+        for(var i = 0; i < this.allJuniors_.length ; i++){
+          if(data.user === this.allJuniors_[i]._id){
+            this.highlightEmployees.push(this.allJuniors_[i])
+          }
+        }
+      })
     },
     async getAllJuniors(){
       let response = await this.getAllJuniors_()
