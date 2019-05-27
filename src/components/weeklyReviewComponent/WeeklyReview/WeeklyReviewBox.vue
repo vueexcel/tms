@@ -1,5 +1,18 @@
 <template>
   <div class="pb-5">
+     <div>
+        <b-modal v-model="success" size="sm" centered 
+         :headerBgVariant="header" >{{showSuccess}}
+          <div slot="modal-footer" class="w-100">
+            <b-button
+              variant="white"
+              size="sm"
+              class="float-right"
+              @click="success=false"
+            >Close</b-button>
+          </div>
+        </b-modal>
+        </div>
     <div>
       <span v-if="!error">
         <div class="mb-xs row">
@@ -9,13 +22,6 @@
               <b-dropdown-item @click="selectDate(date)">{{date}}</b-dropdown-item>
             </div>
           </b-dropdown>
-        </div>
-        <div v-if="success">
-          <b-alert
-            :show="success"
-            dismissible
-            class="alert-transparent alert-success mt-3 w-100"
-          >{{showSuccess}}</b-alert>
         </div>
         <div v-if="!activeReport.reportExist" class="row">
           <b-alert
@@ -69,16 +75,20 @@
                   id="default-textarea"
                   placeholder="Performance or general comments (if any)..."
                 />
-                <b-button
-                  :disabled="activeReport.canReview == false"
-                  class="btn btn-default btn-lg mb-xs bg-primary text-white mt-4"
-                  @click="submit"
-                >Submit</b-button>
-                <b-button
-                  variant="danger"
-                  class="btn-lg width-100 mb-xs mr-xs mt-4 float-right"
-                  :disabled="userProfile.role == 'admin'?true:false"
-                >Delete</b-button>
+                <span v-if="activeReport.canReview == true">
+                  <b-button
+                    :disabled="activeReport.canReview == false"
+                    class="btn btn-default btn-lg mb-xs bg-primary text-white mt-4"
+                    @click="submit"
+                  >Submit</b-button>
+                </span>
+                <span v-if="activeReport.canReview == false">
+                  <b-button
+                    variant="danger"
+                    class="btn-lg width-100 mb-xs mr-xs mt-4 float-right"
+                    :disabled="userProfile.role == 'admin'?true:false"
+                  >Delete</b-button>
+                </span>
               </b-form>
             </b-col>
           </b-row>
@@ -115,7 +125,8 @@ export default {
       activeReport: {},
       loading : false,
       success: false,
-      showSuccess: ''
+      showSuccess: '',
+      header:'success'
     };
   },
   components: {
@@ -177,11 +188,16 @@ export default {
         id: this.activeReport._id
       }).then(res => {
         this.success = true
+        this.header = 'success'
         this.showSuccess = 'Your have reviewed successfully'
         this.ratedStarWeekly = 1;
         this.ratedStarDifficulty = 1;
         this.text = "";
-      });
+      }).catch((err) =>{
+        this.success = true
+        this.showSuccess = 'Sorry there is some error'
+        this.header = 'danger'
+      })
     },
     submitStarRateWeekly(value) {
       this.ratedStarWeekly = value;
