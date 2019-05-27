@@ -16,7 +16,7 @@
         v-for="( report, index ) in reviewedReport.slice().reverse()"
         :key="index"
       >
-        <li :class="{onLeft : (index/2 == 0)}">
+        <li :class="{onLeft : (index%2 == 0)}">
           <time class="eventTime" datetime="2014-05-19 03:04">
             <span class="date">{{ report.created_at | day }}</span>
             <span class="time">{{ report.created_at | time }}</span>
