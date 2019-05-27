@@ -55,7 +55,7 @@ const actions = {
     try{
       let response = await axios.get('junior_weekly_report')
       return response.data
-    } catch(error){
+    } catch(err){
       if(err.response){
         return err.response.data.msg
       } else {
