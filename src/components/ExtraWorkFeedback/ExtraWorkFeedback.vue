@@ -1,21 +1,19 @@
 <template>
   <div xs="12" sm="6">
     {{result}}
-    <!-- <span> -->
-    <!-- @mouseover="activeCollapse" -->
-    <!-- :class="{hover_variant : activeCollapse}" -->
     <span v-if="user">
       <b-btn
         v-b-toggle="'collapse2'"
         class="m-1 mt-2 collapse-button h2"
         v-bind:style="{'color': variant }"
-      >KPI</b-btn>
+      >KPI/KRA</b-btn>
       <b-collapse id="collapse2">
         <b-container>
-          <div class="mt-2" v-for="(kpi,index) in user.kpi_json" :key="index">
-            <span v-if="kpi.desc" class="text-uppercase fw-semi-bold text-secondary">{{ kpi.title }}</span>
-            <p v-if="kpi.desc">{{ kpi.desc }}</p>
-            <hr v-if="kpi.desc && user.kpi_json.length-1 !== index">
+          <div class="mt-2">
+            <span class="text-uppercase fw-semi-bold text-secondary">
+              <span v-if="user.k_highlight.kra">{{user.k_highlight.kra}}</span>
+              <span v-else>KPI/ERA Did not mentioned</span>
+            </span>
           </div>
           <div class="border-top text-light"></div>
         </b-container>
@@ -24,16 +22,14 @@
         v-b-toggle="'collapse3'"
         class="m-1 collapse-button"
         v-bind:style="{'color': variant }"
-      >ERA</b-btn>
+      >Work done in Week</b-btn>
       <b-collapse id="collapse3">
         <b-container>
-          <div class="mt-2" v-for="(era, index) in user.era_json" :key="index">
-            <span
-              class="text-uppercase fw-semi-bold text-secondary"
-              v-if="era.title"
-            >{{ era.title }}</span>
-            <p v-if="era.desc">{{ era.desc }}</p>
-            <hr v-if="era.desc && user.era_json.length-1 !== index">
+          <div class="mt-2">
+            <span class="text-uppercase fw-semi-bold text-secondary">
+              <span v-if="user.k_highlight.kpi">{{user.k_highlight.kpi}}</span>
+              <span v-else>No Description mentioned</span>
+            </span>
           </div>
           <div class="border-top text-light"></div>
         </b-container>

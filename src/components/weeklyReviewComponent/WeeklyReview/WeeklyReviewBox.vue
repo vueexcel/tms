@@ -10,6 +10,13 @@
             </div>
           </b-dropdown>
         </div>
+        <div v-if="success">
+          <b-alert
+            :show="success"
+            dismissible
+            class="alert-transparent alert-success mt-3 w-100"
+          >{{showSuccess}}</b-alert>
+        </div>
         <div v-if="!activeReport.reportExist" class="row">
           <b-alert
             show
@@ -34,7 +41,7 @@
               </div>
               <starRating
                 class="border-bottom"
-                :displayStar="5"
+                :displayStar="10"
                 :ratedStar="ratedStarWeekly"
                 :starSize="starSize"
                 @starRatingSelected="submitStarRateWeekly"
@@ -42,10 +49,10 @@
               />
               <div
                 class="mt-2 font-weight"
-              >Difficulty level of Project (if project work you did was difficult/required more effort)</div>
+              >As a manager how do you rate the difficulty level of projects which employee has worked on in last week</div>
               <starRating
                 class="border-bottom"
-                :displayStar="5"
+                :displayStar="10"
                 :ratedStar="ratedStarDifficulty"
                 :starSize="starSize"
                 @starRatingSelected="submitStarRateDifficulty"
@@ -98,15 +105,17 @@ export default {
   data() {
     return {
       text: "",
-      ratedStarWeekly: 2,
-      ratedStarDifficulty: 2,
+      ratedStarWeekly: 0,
+      ratedStarDifficulty: 0,
       starSize: "20px",
       id: null,
       error: false,
       errorMessage: "",
       selected: "Select Date",
       activeReport: {},
-      loading : false
+      loading : false,
+      success: false,
+      showSuccess: ''
     };
   },
   components: {
@@ -167,6 +176,8 @@ export default {
         comment: this.text,
         id: this.activeReport._id
       }).then(res => {
+        this.success = true
+        this.showSuccess = 'Your have reviewed successfully'
         this.ratedStarWeekly = 1;
         this.ratedStarDifficulty = 1;
         this.text = "";
@@ -217,7 +228,6 @@ export default {
       }
     }
   },
-
 };
 </script>
 

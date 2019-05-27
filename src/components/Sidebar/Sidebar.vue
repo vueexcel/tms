@@ -153,6 +153,7 @@
         isHeader
       />
       <NavLink
+        v-if="sideBar.role === 'manager'"
         header="Juniors Weekly Report"
         link="/app/juniorWeekReport"
         iconName="fa fa-flag-checkered"

@@ -25,9 +25,6 @@ export default {
     variantWarning: { type: Boolean, default: true },
     disableStar: { type: Boolean }
   },
-  created() {
-    this.rating(1);
-  },
   methods: {
     rating(value) {
       this.$emit("starRatingSelected", value);
