@@ -29,10 +29,11 @@
         isHeader
       />
       <NavLink
-        header="Weekly Report Review"
+        header="Weekly Report"
         link="/app/WeeklyReport"
         iconName="fas fa-chart-bar"
         index="performanceReview"
+        :badge="countToReviewReport_ ? countToReviewReport_ : false "
         isHeader
       />
       <NavLink
@@ -123,10 +124,11 @@
       />
       <NavLink
         v-if="sideBar.role === 'manager'"
-        header="Weekly Report Review"
+        header="Weekly Report"
         link="/app/WeeklyReport"
         iconName="fas fa-chart-bar"
         index="performanceReview"
+        :badge="countToReviewReport_ ? countToReviewReport_ : false "
         isHeader
       />
       <NavLink
@@ -293,6 +295,7 @@ export default {
     sidebar: get("login/sidebar"),
     sideBar: get("profile/user"),
     feedback: get("feedback/feedbacksCount"),
+    countToReviewReport_: get("weeklyReportReview/countToReviewReport"),
     feedbackCount() {
       return this.feedback.length;
     }

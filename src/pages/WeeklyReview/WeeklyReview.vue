@@ -43,13 +43,22 @@
                     ></b-form-textarea>
                     <br>
                     <div v-for="(kpikra,index) in kpikradescriotionlist" :key="index">
-                      <b-card-text>
-                        {{kpikra}}
+                      <span>
+                        <div class="mt-2">
+                          <span>
+                            <strong>KpiEra :</strong>
+                            &nbsp;{{kpikra.KpiEra}}
+                          </span>
+                          <div class="white-space-pre" v-if="kpikra.description">
+                            <strong>Work Done/ Highlights :</strong>
+                            &nbsp;{{kpikra.description}}
+                          </div>
+                        </div>
                         <i
                           class="fas fa-times-circle text-secondary cursor pull-right pt-1 pr-4"
                           @click="removeDescription(index)"
                         ></i>
-                      </b-card-text>
+                      </span>
                     </div>
                     <a class="btn btn-default btn-sm mt-2 pl-4 pr-4" @click="addDescription">
                       <i class="fas fa-plus" style="color:green;"></i>&nbsp;&nbsp;
@@ -204,6 +213,7 @@ export default {
     },
     deleteReport() {
       let count = 0;
+      let obj = {}
       if (this.reviewedReport_.length) {
         if (this.reviewedReport_[0].is_reviewed.length) {
           this.reviewedReport_[0].is_reviewed.map(manager => {
@@ -212,7 +222,7 @@ export default {
             }
           });
           if (count === this.reviewedReport_[0].is_reviewed.length) {
-            this.kpiKraDescription = this.reviewedReport_[0].k_highlight;
+            this.kpiKraDescription = this.reviewedReport_[0].k_highlight.kpi;
             this.ratedStar = this.reviewedReport_[0].difficulty;
             this.extraWorkDescription = this.reviewedReport_[0].extra;
             this.selected = this.reviewedReport_[0].k_highlight.kra;
@@ -239,16 +249,17 @@ export default {
       this.kpikradescriotionlist = [];
     },
     submitWeeklyReview: function() {
+      if(this.kpiKraDescription){
+        let data = {
+          kra: this.selected,
+          kpi: this.kpiKraDescription
+        }
+        this.kpikradescriotionlist.push(data)
+      }
       // alert('==========================')
       this.weeklyReview_({
-        k_highlight: {
-          kra: this.selected,
-          kpi: this.kpikradescriotionlist.length
-            ? this.kpikradescriotionlist
-            : this.kpiKraDescription
-        },
+        k_highlight:this.kpikradescriotionlist,
         extra: this.extraWorkDescription,
-        // select_days: this.selectedDays,
         select_days: [this.id],
         difficulty: this.ratedStar
       });
@@ -256,7 +267,9 @@ export default {
       this.ratedStar = 1;
       this.selected = "";
       this.kpiKraDescription = "";
-      // this.selectedDays = [];
+      this.kpikradescriotionlist = []
+      this.selectedDays = [];
+      this.deleteReport = true
     },
     submitStarRate(value) {
       this.ratedStar = value;
@@ -266,8 +279,13 @@ export default {
       this.id = reportdata._id;
     },
     addDescription() {
-      this.kpikradescriotionlist.push(this.kpiKraDescription);
+      let obj = {
+        KpiEra: this.selected,
+        description: this.kpiKraDescription
+      };
+      this.kpikradescriotionlist.push(obj);
       this.kpiKraDescription = "";
+      this.selected = "";
     },
     removeDescription(index) {
       this.kpikradescriotionlist.splice(index, 1);
@@ -283,6 +301,7 @@ export default {
         this.kpiKraDescription = "";
         this.ratedStar = 1;
         this.extraWorkDescription = "";
+        this.kpikradescriotionlist = []
         this.deleteReport = false;
       }
     }
