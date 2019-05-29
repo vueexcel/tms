@@ -1,21 +1,16 @@
 <template>
   <div class="pb-5">
     <div>
-      <b-modal v-model="success" size="sm" centered 
-         :headerBgVariant="header" >{{showSuccess}}
-          <div slot="modal-footer" class="w-100">
-            <b-button
-              variant="white"
-              size="sm"
-              class="float-right"
-              @click="success=false"
-            >Close</b-button>
-          </div>
-        </b-modal>
+      <b-modal v-model="success" size="sm" centered :headerBgVariant="header">
+        {{showSuccess}}
+        <div slot="modal-footer" class="w-100">
+          <b-button variant="white" size="sm" class="float-right" @click="success=false">Close</b-button>
         </div>
+      </b-modal>
+    </div>
     <div>
       <span v-if="!error">
-        <div class="mb-xs row">
+        <div class="mb-xs row" v-if="true">
           <b-dropdown variant="info" :text="selected" v-if="dateDropdown.length > 1">
             <b-dropdown-item @click="selectDate()">Select</b-dropdown-item>
             <div v-for="(date,index) in dateDropdown" :key="index">
@@ -76,9 +71,10 @@
                     placeholder="Performance or general comments (if any)..."
                   />
                 </div>
-                <div v-else class=" text-info font-weight-bold text-left">
-                  {{reviewedComments.comment}}
-                </div>
+                <div
+                  v-else
+                  class="text-info font-weight-bold text-left"
+                >{{reviewedComments.comment}}</div>
                 <span v-if="activeReport.canReview == true">
                   <b-button
                     :disabled="activeReport.canReview == false"
@@ -128,11 +124,11 @@ export default {
       errorMessage: "",
       selected: "Select Date",
       activeReport: {},
-      loading : false,
+      loading: false,
       success: false,
-      showSuccess: '',
-      header:'success',
-      reviewedComments:{}
+      showSuccess: "",
+      header: "success",
+      reviewedComments: {}
     };
   },
   components: {
@@ -149,19 +145,24 @@ export default {
       default: []
     }
   },
+  mounted() {
+    console.log(this.$props.performanceData);
+  },
   computed: {
     userProfile: get("profile/user"),
     activeEmployee() {
       let reportArray = [];
-      this.error = false
-      this.errorMessage = ''
-      if(this.employee){
-        reportArray =  this.performanceData.filter(data => (data.user === this.employee._id))
+      this.error = false;
+      this.errorMessage = "";
+      if (this.employee) {
+        reportArray = this.performanceData.filter(
+          data => data.user === this.employee._id
+        );
       }
-      if(!reportArray.length){
+      if (!reportArray.length) {
         this.error = true;
         this.errorMessage = "No Report Available";
-      } 
+      }
       return reportArray;
     },
     dateDropdown() {
@@ -192,24 +193,39 @@ export default {
         rating: this.ratedStarWeekly,
         comment: this.text,
         id: this.activeReport._id
-        } 
-      await this.setWeeklyReportReview(data).then(res => {
-        this.activeReport.canReview = false 
-        this.reviewedComments = data
-        this.success = true
-        this.header = 'success'
-        this.showSuccess = 'Your have reviewed successfully'
-        this.ratedStarWeekly = 0;
-        this.ratedStarDifficulty = 0;
-        this.text = "";
-      }).catch((err) =>{
-        this.success = true
-        this.showSuccess = 'Sorry there is some error'
-        this.header = 'danger'
-      })
+      };
+      await this.setWeeklyReportReview(data)
+        .then(res => {
+          this.activeReport.canReview = false;
+          this.reviewedComments = data;
+          this.success = true;
+          this.header = "success";
+          this.showSuccess = "Your have reviewed successfully";
+          this.ratedStarWeekly = 0;
+          this.ratedStarDifficulty = 0;
+          this.text = "";
+        })
+        .catch(err => {
+          this.success = true;
+          this.showSuccess = "Sorry there is some error";
+          this.header = "danger";
+        })
+        .then(res => {
+          this.success = true;
+          this.header = "success";
+          this.showSuccess = "Your have reviewed successfully";
+          this.ratedStarWeekly = 1;
+          this.ratedStarDifficulty = 1;
+          this.text = "";
+        })
+        .catch(err => {
+          this.success = true;
+          this.showSuccess = "Sorry there is some error";
+          this.header = "danger";
+        });
     },
-    async deleteReport(){
-      this.$emit('deleteReview',this.activeReport)      
+    async deleteReport() {
+      this.$emit("deleteReview", this.activeReport);
     },
     submitStarRateWeekly(value) {
       this.ratedStarWeekly = value;
@@ -221,8 +237,9 @@ export default {
       if (date) {
         this.selected = date;
         this.setActiveReport(date);
-      } 
+      }
     },
+    // SETTING ACTIVE REPORT TO SEND TO COMPONENT
     setActiveReport(reportDate) {
       this.activeReport = {};
       if (this.activeEmployee.length > 1) {
@@ -235,13 +252,13 @@ export default {
               reportData.is_reviewed.map(manager => {
                 if (manager._id === this.userProfile._id) {
                   reportData["reportExist"] = true;
-                  if(manager.reviewed) {
-                    reportData["canReview"] = false
-                    this.reviewedComments = this.getManagerComment(reportData)
-                  } else{
-                    reportData["canReview"] = true
-                    this.reviewedComments = {}
-                  }    
+                  if (manager.reviewed) {
+                    reportData["canReview"] = false;
+                    this.reviewedComments = this.getManagerComment(reportData);
+                  } else {
+                    reportData["canReview"] = true;
+                    this.reviewedComments = {};
+                  }
                 }
                 this.activeReport = reportData;
               });
@@ -249,35 +266,40 @@ export default {
           }
         });
       } else {
-        if( this.activeEmployee[0] && this.activeEmployee[0].is_reviewed.length){
+        if (
+          this.activeEmployee[0] &&
+          this.activeEmployee[0].is_reviewed.length
+        ) {
           this.activeEmployee[0].is_reviewed.forEach(manager => {
-            if(manager._id === this.userProfile._id){
-              this.activeEmployee[0]['reportExist'] = true
-              if(manager.reviewed) {
-                this.activeEmployee[0]['canReview'] = false
-                this.reviewedComments = this.getManagerComment(this.activeEmployee[0])
-              } else{
-                this.activeEmployee[0]['canReview'] = true
-                this.reviewedComments = {}
-              }    
+            if (manager._id === this.userProfile._id) {
+              this.activeEmployee[0]["reportExist"] = true;
+              if (manager.reviewed) {
+                this.activeEmployee[0]["canReview"] = false;
+                this.reviewedComments = this.getManagerComment(
+                  this.activeEmployee[0]
+                );
+              } else {
+                this.activeEmployee[0]["canReview"] = true;
+                this.reviewedComments = {};
+              }
             }
-            this.activeReport = this.activeEmployee[0]
+            this.activeReport = this.activeEmployee[0];
           });
-        }      
+        }
       }
     },
-    getManagerComment(report){
-      let reportObj = {}
-      if(report.review){
-        for(var i = 0; i< report.review.length; i++){
-          if(this.userProfile._id === report.review[i].manager_id){
-            reportObj = report.review[i]
+    getManagerComment(report) {
+      let reportObj = {};
+      if (report.review) {
+        for (var i = 0; i < report.review.length; i++) {
+          if (this.userProfile._id === report.review[i].manager_id) {
+            reportObj = report.review[i];
           }
         }
       }
-      return reportObj
+      return reportObj;
     }
-  },
+  }
 };
 </script>
 

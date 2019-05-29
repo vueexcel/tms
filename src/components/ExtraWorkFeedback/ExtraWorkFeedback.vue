@@ -112,6 +112,9 @@ export default {
       type: String
     }
   },
+  mounted() {
+    console.log(this.$props.user);
+  },
   computed: {
     date() {
       if (this.$props.user) {

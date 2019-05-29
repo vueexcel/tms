@@ -6,7 +6,8 @@
         <span class="page-title ml-3" style="font-size: 24px;">
           Team View
           <span class="fs-sm">
-            <i class="pl-5 fa fa-circle" style="color: #006400"/> Report Available ( Border color )
+            <i class="pl-5 fa fa-circle text-info"/> Selected
+            <i class="pl-1 fa fa-circle" style="color: #006400"/> Report Available ( Border color )
           </span>
         </span>
         <i class="fas fa-circle-notch text-success fa-spin float-right mr-5 size" v-if="loading"></i>

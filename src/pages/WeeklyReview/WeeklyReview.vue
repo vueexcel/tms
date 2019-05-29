@@ -66,7 +66,7 @@
                     </a>
                   </div>
                   <div v-if="highlightList.length">
-                      <div v-for="(kpikra,index) in highlightList" :key="index">
+                    <div v-for="(kpikra,index) in highlightList" :key="index">
                       <span>
                         <div class="mt-2">
                           <span>
@@ -163,6 +163,7 @@
                     <button
                       type="button"
                       class="btn btn-danger"
+                      :disabled="disableDelete"
                       v-if="deleteReport === true"
                       @click="deletereportFunct"
                     >Delete</button>
@@ -204,8 +205,9 @@ export default {
       kpieraarray: [],
       kpikradescriotionlist: [],
       submittedReport: [],
-      highlightList : [],
-      deleteReport:false
+      highlightList: [],
+      deleteReport: false,
+      disableDelete: false
     };
   },
   mounted() {
@@ -256,30 +258,30 @@ export default {
       this.kpikradescriotionlist = [];
     },
     async submitWeeklyReview() {
-      if(this.kpiKraDescription){
+      if (this.kpiKraDescription) {
         let data = {
           KpiEra: this.selected,
           description: this.kpiKraDescription
-        }
-        this.kpikradescriotionlist.push(data)
+        };
+        this.kpikradescriotionlist.push(data);
       }
       // alert('==========================')
       let response = await this.weeklyReview_({
-        k_highlight:this.kpikradescriotionlist,
+        k_highlight: this.kpikradescriotionlist,
         extra: this.extraWorkDescription,
         select_days: [this.id],
         difficulty: this.ratedStar
       });
-      if(response === true){
-        this.highlightList = []
-        this.kpikradescriotionlist = []
-        this.kpiKraDescription = ''
-        this.ratedStar = 0
-        this.extraWorkDescription = ''
-        this.getReviewedReport()
-      } else{
-        this.error = true
-        this.errorMessage = response
+      if (response === true) {
+        this.highlightList = [];
+        this.kpikradescriotionlist = [];
+        this.kpiKraDescription = "";
+        this.ratedStar = 0;
+        this.extraWorkDescription = "";
+        this.getReviewedReport();
+      } else {
+        this.error = true;
+        this.errorMessage = response;
       }
     },
     submitStarRate(value) {
@@ -303,15 +305,20 @@ export default {
     },
     async getReviewedReport() {
       let response = await this.getReports_();
-      if(response.length && typeof(response) !== 'string'){
-        this.submittedReport = response
-        this.highlightList = this.submittedReport[0].k_highlight
-        this.deleteReport = true        
-      }else {
-        if(typeof(response) == 'string'){
-          this.error = true
-          this.errorMessage = response
-        } 
+      if (response.length && typeof response !== "string") {
+        let disablebtn = response[0].is_reviewed.some(v => {
+          return v.reviewed === true;
+        });
+        console.log(disablebtn);
+        this.disableDelete = disablebtn;
+        this.submittedReport = response;
+        this.highlightList = this.submittedReport[0].k_highlight;
+        this.deleteReport = true;
+      } else {
+        if (typeof response == "string") {
+          this.error = true;
+          this.errorMessage = response;
+        }
       }
     },
     async deletereportFunct() {
@@ -319,12 +326,12 @@ export default {
         _id: this.submittedReport[0]._id
       });
       if (response === true) {
-        this.submittedReport = []
-        this.highlightList = []
+        this.submittedReport = [];
+        this.highlightList = [];
         this.deleteReport = false;
       } else {
-        this.error = true
-        this.errorMessage = response
+        this.error = true;
+        this.errorMessage = response;
       }
     }
   }
