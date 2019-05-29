@@ -17,7 +17,7 @@
                     for="normal-field"
                     class="col-md-4 form-control-label text-md-left"
                   >Submit work done/ highlights of the work done in week</label>
-                  <div class="col-md-8">
+                  <div class="col-md-8" v-if="!highlightList.length">
                     <b-form-select v-model="selected" v-if="user.kpi" class="mb-3">
                       <option :value="''">Please select an option</option>
                       <option
@@ -33,7 +33,7 @@
                     <!-- Label hint
                     <span class="help-block">Some help text</span>-->
                   </label>
-                  <div class="col-md-8">
+                  <div class="col-md-8" v-if="!highlightList.length">
                     <b-form-textarea
                       id="textarea1"
                       v-model="kpiKraDescription"
@@ -65,13 +65,29 @@
                       Add
                     </a>
                   </div>
+                  <div v-if="highlightList.length">
+                      <div v-for="(kpikra,index) in highlightList" :key="index">
+                      <span>
+                        <div class="mt-2">
+                          <span>
+                            <strong>KpiEra :</strong>
+                            &nbsp;{{kpikra.KpiEra}}
+                          </span>
+                          <div class="white-space-pre" v-if="kpikra.description">
+                            <strong>Work Done/ Highlights :</strong>
+                            &nbsp;{{kpikra.description}}
+                          </div>
+                        </div>
+                      </span>
+                    </div>
+                  </div>
                 </div>
                 <!-- add button here -->
                 <div class="form-group row">
                   <label
                     class="col-md-4 control-label text-md-left"
                   >Any extra work/ feedback/issues which you want to bring to the notice of manager</label>
-                  <div class="col-md-8">
+                  <div class="col-md-8" v-if="!submittedReport.length">
                     <b-form-textarea
                       id="textarea1"
                       v-model="extraWorkDescription"
@@ -79,6 +95,9 @@
                       :rows="3"
                       :max-rows="6"
                     ></b-form-textarea>
+                  </div>
+                  <div class="col-md-8 font-weight-bold">
+                    <span v-if="submittedReport.length">{{submittedReport[0].extra}}</span>
                   </div>
                 </div>
                 <hr>
@@ -95,10 +114,11 @@
                           v-for="(reportdata,index) in report"
                           :key="index"
                           :title="reportdata.day"
-                          class="border-0"
+                          class="border-0 white-space-pre pl-3 pr-3 pb-3 pt-0"
                           @click="pickDay(index,reportdata)"
                         >
-                          <b-card-text>{{reportdata.report}}</b-card-text>
+                          {{reportdata.report}}
+                          <!-- <b-card-text></b-card-text> -->
                         </b-tab>
                       </b-tabs>
                     </b-card>
@@ -113,11 +133,20 @@
                     <br>(i.e., if project work did you did was difficult and
                     required more effort than usual)
                   </label>
-                  <starRating
-                    :displayStar="5"
-                    :ratedStar="ratedStar"
-                    @starRatingSelected="submitStarRate"
-                  />
+                  <div v-if="!submittedReport.length">
+                    <starRating
+                      :displayStar="5"
+                      :ratedStar="ratedStar"
+                      @starRatingSelected="submitStarRate"
+                    />
+                  </div>
+                  <div v-if="submittedReport.length">
+                    <starRating
+                      :displayStar="5"
+                      :ratedStar="submittedReport[0].difficulty"
+                      @starRatingSelected="submitStarRate"
+                    />
+                  </div>
                 </div>
               </fieldset>
               <div class="form-actions">
@@ -151,11 +180,8 @@
 
 
 <script>
-// import $ from 'jquery';
-/* eslint-disable */
 import "imports-loader?jQuery=jquery,this=>window!flot";
 import "imports-loader?jQuery=jquery,this=>window!flot/jquery.flot.pie";
-/* eslint-enable */
 import starRating from "@/components/Star/Star";
 import Widget from "@/components/Widget/Widget";
 import { get, call } from "vuex-pathify";
@@ -176,7 +202,10 @@ export default {
       selectedDay: null,
       id: null,
       kpieraarray: [],
-      kpikradescriotionlist: []
+      kpikradescriotionlist: [],
+      submittedReport: [],
+      highlightList : [],
+      deleteReport:false
     };
   },
   mounted() {
@@ -210,34 +239,12 @@ export default {
           date["day"] = this.$moment(date.created_at).format("dddd");
         }
       });
-    },
-    deleteReport() {
-      let count = 0;
-      let obj = {}
-      if (this.reviewedReport_.length) {
-        if (this.reviewedReport_[0].is_reviewed.length) {
-          this.reviewedReport_[0].is_reviewed.map(manager => {
-            if (manager.reviewed) {
-              count++;
-            }
-          });
-          if (count === this.reviewedReport_[0].is_reviewed.length) {
-            this.kpiKraDescription = this.reviewedReport_[0].k_highlight.kpi;
-            this.ratedStar = this.reviewedReport_[0].difficulty;
-            this.extraWorkDescription = this.reviewedReport_[0].extra;
-            this.selected = this.reviewedReport_[0].k_highlight.kra;
-            return true;
-          }
-        }
-      } else {
-        return false;
-      }
     }
   },
   methods: {
     getReport: call("weeklyReview/getReport"),
     weeklyReview_: call("weeklyReview/weeklyReview"),
-    getReviewedReports_: call("weeklyReview/getReviewedReports"),
+    getReports_: call("weeklyReview/getReports"),
     deleteWeeklyReport_: call("weeklyReview/deleteWeeklyReport"),
     get_report: function() {
       this.getReport();
@@ -248,28 +255,32 @@ export default {
       this.extraWorkDescription = "";
       this.kpikradescriotionlist = [];
     },
-    submitWeeklyReview: function() {
+    async submitWeeklyReview() {
       if(this.kpiKraDescription){
         let data = {
-          kra: this.selected,
-          kpi: this.kpiKraDescription
+          KpiEra: this.selected,
+          description: this.kpiKraDescription
         }
         this.kpikradescriotionlist.push(data)
       }
       // alert('==========================')
-      this.weeklyReview_({
+      let response = await this.weeklyReview_({
         k_highlight:this.kpikradescriotionlist,
         extra: this.extraWorkDescription,
         select_days: [this.id],
         difficulty: this.ratedStar
       });
-      this.extraWorkDescription = "";
-      this.ratedStar = 1;
-      this.selected = "";
-      this.kpiKraDescription = "";
-      this.kpikradescriotionlist = []
-      this.selectedDays = [];
-      this.deleteReport = true
+      if(response === true){
+        this.highlightList = []
+        this.kpikradescriotionlist = []
+        this.kpiKraDescription = ''
+        this.ratedStar = 0
+        this.extraWorkDescription = ''
+        this.getReviewedReport()
+      } else{
+        this.error = true
+        this.errorMessage = response
+      }
     },
     submitStarRate(value) {
       this.ratedStar = value;
@@ -290,19 +301,30 @@ export default {
     removeDescription(index) {
       this.kpikradescriotionlist.splice(index, 1);
     },
-    getReviewedReport() {
-      this.getReviewedReports_();
+    async getReviewedReport() {
+      let response = await this.getReports_();
+      if(response.length && typeof(response) !== 'string'){
+        this.submittedReport = response
+        this.highlightList = this.submittedReport[0].k_highlight
+        this.deleteReport = true        
+      }else {
+        if(typeof(response) == 'string'){
+          this.error = true
+          this.errorMessage = response
+        } 
+      }
     },
-    deletereportFunct() {
-      let response = this.deleteWeeklyReport_({
-        _id: this.reviewedReport_[0]._id
+    async deletereportFunct() {
+      let response = await this.deleteWeeklyReport_({
+        _id: this.submittedReport[0]._id
       });
-      if (response) {
-        this.kpiKraDescription = "";
-        this.ratedStar = 1;
-        this.extraWorkDescription = "";
-        this.kpikradescriotionlist = []
+      if (response === true) {
+        this.submittedReport = []
+        this.highlightList = []
         this.deleteReport = false;
+      } else {
+        this.error = true
+        this.errorMessage = response
       }
     }
   }

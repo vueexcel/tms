@@ -6,6 +6,10 @@
         <span>None of your Junior have submitted checkin for this week</span>
       </b-alert>
     </div>
+    <span class="fs-sm" v-if="juniorCheckin.length">
+      <i class="fa fa-circle text-info"/> Give Reason (task not completed)
+      <i class="ml-1 fa fa-circle text-warning"/> Highlighted task (task not completed)
+    </span>
     <div class="text-center" v-if="loading">
       <i class="fas fa-circle-notch text-success fa-spin fa-3x"></i>
       <div>Loading...</div>
@@ -14,8 +18,9 @@
       <li
         v-for="( junior, index ) in juniorCheckin.slice().reverse()"
         :key="index"
-        :class="{onLeft:junior.highlight == '' || junior.task_not_completed_reason == '' }"
+        :class="{ onLeft: index %2 ==0 }"
       >
+        <!-- :class="{onLeft:junior.highlight == '' || junior.task_not_completed_reason == '' }" -->
         <time class="eventTime" datetime="2014-05-19 03:04">
           <span class="date">{{ junior.created_at | day }}</span>
           <span class="time">{{ junior.created_at | time }}</span>

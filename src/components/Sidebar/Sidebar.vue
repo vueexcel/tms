@@ -5,10 +5,11 @@
     @mouseleave="sidebarMouseLeave"
   >
     <header class="logo">
-      <router-link v-show="sidebarOpened || sidebarStatic===true" to="/app">
+      <router-link v-show="sidebarOpened || sidebarStatic===true" to>
         <img class="pl-1 pr-4" src="@/images/logo.png" width="100%" alt="logo">
       </router-link>
-      <router-link v-show="!sidebarOpened || sidebarStatic===false" to="/app">
+      <!-- to="/app" -->
+      <router-link v-show="!sidebarOpened || sidebarStatic===false" to>
         <img class="pl-1 pr-4" src="@/images/X_logo.png" width="50px" alt="logo">
       </router-link>
     </header>
@@ -33,7 +34,7 @@
         link="/app/WeeklyReport"
         iconName="fas fa-chart-bar"
         index="performanceReview"
-        :badge="countToReviewReport_ ? countToReviewReport_ : false "
+        :badge="countToReviewReport_ ? JSON.stringify(countToReviewReport_) : '0' "
         isHeader
       />
       <NavLink
@@ -128,7 +129,7 @@
         link="/app/WeeklyReport"
         iconName="fas fa-chart-bar"
         index="performanceReview"
-        :badge="countToReviewReport_ ? countToReviewReport_ : false "
+        :badge="countToReviewReport_ ? JSON.stringify(countToReviewReport_) : '0' "
         isHeader
       />
       <NavLink
