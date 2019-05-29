@@ -51,12 +51,15 @@ export default {
   },
   computed: {
     backgroundColor() {
+      console.log(this.highlightEployeeArray);
+      
       return "#" + this.activeClass.background_color;
     },
     borderColor() {
       if(this.highlightEployeeArray.length){
         for(var i=0;i<this.highlightEployeeArray.length;i++){
           if(this.employee._id === this.highlightEployeeArray[i]._id){
+
             return '1px solid #006400'
           }
         }
