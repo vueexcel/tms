@@ -17,17 +17,24 @@ const actions = {
     }
   },
   async weeklyReview({ state, commit }, payload) {
-    let res = await axios.post("/weekly", payload)
-      .then(res => {
-        alert("weekly review submitted success");
-      })
-      .catch(err => { });
+    try{
+      let response = await axios.post("/weekly", payload)
+        if(response){
+          alert("weekly review submitted success");
+          return true
+        }
+    } catch(err){
+      if(err.response){
+        return err.response
+      } else {
+        return 'Api Server Down'
+      }
+    }
   },
   async getReports({state,commit},){
     try{
-      let response = await axios.get('/weekly').then(res =>{
-        return response.data 
-      })
+      let response = await axios.get('/weekly')
+      return response.data 
     } catch (err){
       if(err.response){
         return err.response
@@ -37,11 +44,18 @@ const actions = {
     }
   },
   async deleteWeeklyReport({state},payload){
-    let url = `/delete_weekly/${payload._id}`
-    await axios.delete(url).then(response =>{
-      console.log(url);
-      return true
-    })
+    try{
+      let response = await axios.delete(`/delete_weekly/${payload._id}`)
+      if(response){
+        return true
+      }
+    } catch (err){
+      if(err.response){
+        return err.response
+      } else {
+        return 'Api server Down'
+      }
+    }
   }
 };
 
