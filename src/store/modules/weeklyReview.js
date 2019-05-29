@@ -23,11 +23,18 @@ const actions = {
       })
       .catch(err => { });
   },
-  async getReviewedReports({state,commit},payload){
-    let url = '/week_reviewed_reports'
-    await axios.get(url).then(res =>{
-      commit('reviewedReport', res.data)
-    })
+  async getReports({state,commit},){
+    try{
+      let response = await axios.get('/weekly').then(res =>{
+        return response.data 
+      })
+    } catch (err){
+      if(err.response){
+        return err.response
+      } else {
+        return 'Api server down'
+      }
+    }
   },
   async deleteWeeklyReport({state},payload){
     let url = `/delete_weekly/${payload._id}`

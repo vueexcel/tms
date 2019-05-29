@@ -33,7 +33,7 @@
         link="/app/WeeklyReport"
         iconName="fas fa-chart-bar"
         index="performanceReview"
-        :badge="countToReviewReport_ ? countToReviewReport_ : false "
+        :badge="countToReviewReport_ ? JSON.stringify(countToReviewReport_) : '0' "
         isHeader
       />
       <NavLink
@@ -128,7 +128,7 @@
         link="/app/WeeklyReport"
         iconName="fas fa-chart-bar"
         index="performanceReview"
-        :badge="countToReviewReport_ ? countToReviewReport_ : false "
+        :badge="countToReviewReport_ ? JSON.stringify(countToReviewReport_) : '0' "
         isHeader
       />
       <NavLink

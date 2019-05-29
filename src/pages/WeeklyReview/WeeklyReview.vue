@@ -222,6 +222,8 @@ export default {
             }
           });
           if (count === this.reviewedReport_[0].is_reviewed.length) {
+            console.log(this.reviewedReport_[0].is_reviewed);
+            
             this.kpiKraDescription = this.reviewedReport_[0].k_highlight.kpi;
             this.ratedStar = this.reviewedReport_[0].difficulty;
             this.extraWorkDescription = this.reviewedReport_[0].extra;
@@ -237,7 +239,7 @@ export default {
   methods: {
     getReport: call("weeklyReview/getReport"),
     weeklyReview_: call("weeklyReview/weeklyReview"),
-    getReviewedReports_: call("weeklyReview/getReviewedReports"),
+    getReports_: call("weeklyReview/getReports"),
     deleteWeeklyReport_: call("weeklyReview/deleteWeeklyReport"),
     get_report: function() {
       this.getReport();
@@ -290,8 +292,10 @@ export default {
     removeDescription(index) {
       this.kpikradescriotionlist.splice(index, 1);
     },
-    getReviewedReport() {
-      this.getReviewedReports_();
+    async getReviewedReport() {
+      let response = await this.getReports_();
+      console.log(response);
+      
     },
     deletereportFunct() {
       let response = this.deleteWeeklyReport_({

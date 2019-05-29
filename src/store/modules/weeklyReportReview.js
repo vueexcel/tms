@@ -61,6 +61,7 @@ const actions = {
   async deleteWeeklyReview({state},payload){
     try{
       let response = await axios.delete(`/delete_manager_response/${payload._id}`)
+      state.countToReviewReport--
       return true
     } catch(err){
       if(err.response){
