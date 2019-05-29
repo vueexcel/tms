@@ -26,6 +26,8 @@
 <script>
 import Vue from "vue";
 import dummyImage from "./../../assets/people/dummy.jpeg";
+import { get, call } from "vuex-pathify";
+
 export default {
   name: "WeeklyReviewComponent",
   props: {
@@ -34,7 +36,8 @@ export default {
     activeClass: { type: Object },
     page: { type: String },
     allemployee: { type: Array, default: [] },
-    highlightEployeeArray: {type: Array, default : []}
+    highlightEployeeArray: {type: Array, default : []},
+    allreport: {type: Array,default : []}
   },
   data() {
     return {
@@ -50,6 +53,7 @@ export default {
     }
   },
   computed: {
+    userProfile: get("profile/user"),
     backgroundColor() {
       return "#" + this.activeClass.background_color;
     },
@@ -57,6 +61,7 @@ export default {
       if(this.highlightEployeeArray.length){
         for(var i=0;i<this.highlightEployeeArray.length;i++){
           if(this.employee._id === this.highlightEployeeArray[i]._id){
+
             return '1px solid #006400'
           }
         }

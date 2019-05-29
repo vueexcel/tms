@@ -1,7 +1,7 @@
 <template>
   <div class="pb-5">
-     <div>
-        <b-modal v-model="success" size="sm" centered 
+    <div>
+      <b-modal v-model="success" size="sm" centered 
          :headerBgVariant="header" >{{showSuccess}}
           <div slot="modal-footer" class="w-100">
             <b-button
@@ -48,10 +48,10 @@
               <starRating
                 class="border-bottom"
                 :displayStar="10"
-                :ratedStar="ratedStarWeekly"
+                :ratedStar="activeReport.canReview === false ? reviewedComments.rating :ratedStarWeekly"
                 :starSize="starSize"
                 @starRatingSelected="submitStarRateWeekly"
-                :disableStar="activeReport.canReview === false"
+                :disableStar="activeReport.canReview === false ? true : false"
               />
               <div
                 class="mt-2 font-weight"
@@ -59,22 +59,26 @@
               <starRating
                 class="border-bottom"
                 :displayStar="10"
-                :ratedStar="ratedStarDifficulty"
+                :ratedStar="activeReport.canReview === false ? reviewedComments.difficulty :ratedStarDifficulty"
                 :starSize="starSize"
                 @starRatingSelected="submitStarRateDifficulty"
-                :disableStar="activeReport.canReview === false"
+                :disableStar="activeReport.canReview === false ? true : false"
               />
               <div sm="6">
                 <h6 class="text-inverse">Comments</h6>
               </div>
               <b-form>
-                <b-form-textarea
-                  :rows="3"
-                  :disabled="activeReport.canReview == false"
-                  v-model="text"
-                  id="default-textarea"
-                  placeholder="Performance or general comments (if any)..."
-                />
+                <div v-if="activeReport.canReview === true">
+                  <b-form-textarea
+                    :rows="3"
+                    v-model="text"
+                    id="default-textarea"
+                    placeholder="Performance or general comments (if any)..."
+                  />
+                </div>
+                <div v-else class=" text-info font-weight-bold text-left">
+                  {{reviewedComments.comment}}
+                </div>
                 <span v-if="activeReport.canReview == true">
                   <b-button
                     :disabled="activeReport.canReview == false"
@@ -87,6 +91,7 @@
                     variant="danger"
                     class="btn-lg width-100 mb-xs mr-xs mt-4 float-right"
                     :disabled="userProfile.role == 'admin'?true:false"
+                    @click="deleteReport()"
                   >Delete</b-button>
                 </span>
               </b-form>
@@ -126,7 +131,8 @@ export default {
       loading : false,
       success: false,
       showSuccess: '',
-      header:'success'
+      header:'success',
+      reviewedComments:{}
     };
   },
   components: {
@@ -181,23 +187,29 @@ export default {
   methods: {
     setWeeklyReportReview: call("weeklyReportReview/setWeeklyReportReview"),
     async submit() {
-      await this.setWeeklyReportReview({
+      let data = {
         difficulty: this.ratedStarDifficulty,
         rating: this.ratedStarWeekly,
         comment: this.text,
         id: this.activeReport._id
-      }).then(res => {
+        } 
+      await this.setWeeklyReportReview(data).then(res => {
+        this.activeReport.canReview = false 
+        this.reviewedComments = data
         this.success = true
         this.header = 'success'
         this.showSuccess = 'Your have reviewed successfully'
-        this.ratedStarWeekly = 1;
-        this.ratedStarDifficulty = 1;
+        this.ratedStarWeekly = 0;
+        this.ratedStarDifficulty = 0;
         this.text = "";
       }).catch((err) =>{
         this.success = true
         this.showSuccess = 'Sorry there is some error'
         this.header = 'danger'
       })
+    },
+    async deleteReport(){
+      this.$emit('deleteReview',this.activeReport)      
     },
     submitStarRateWeekly(value) {
       this.ratedStarWeekly = value;
@@ -222,9 +234,14 @@ export default {
             if (reportData.is_reviewed.length) {
               reportData.is_reviewed.map(manager => {
                 if (manager._id === this.userProfile._id) {
-                  reportData["canReview"] =
-                  manager.reviewed === true ? false : true;
                   reportData["reportExist"] = true;
+                  if(manager.reviewed) {
+                    reportData["canReview"] = false
+                    this.reviewedComments = this.getManagerComment(reportData)
+                  } else{
+                    reportData["canReview"] = true
+                    this.reviewedComments = {}
+                  }    
                 }
                 this.activeReport = reportData;
               });
@@ -235,13 +252,30 @@ export default {
         if( this.activeEmployee[0] && this.activeEmployee[0].is_reviewed.length){
           this.activeEmployee[0].is_reviewed.forEach(manager => {
             if(manager._id === this.userProfile._id){
-              this.activeEmployee[0]['canReview'] = manager.reviewed === true ? false : true
               this.activeEmployee[0]['reportExist'] = true
+              if(manager.reviewed) {
+                this.activeEmployee[0]['canReview'] = false
+                this.reviewedComments = this.getManagerComment(this.activeEmployee[0])
+              } else{
+                this.activeEmployee[0]['canReview'] = true
+                this.reviewedComments = {}
+              }    
             }
             this.activeReport = this.activeEmployee[0]
           });
         }      
       }
+    },
+    getManagerComment(report){
+      let reportObj = {}
+      if(report.review){
+        for(var i = 0; i< report.review.length; i++){
+          if(this.userProfile._id === report.review[i].manager_id){
+            reportObj = report.review[i]
+          }
+        }
+      }
+      return reportObj
     }
   },
 };
