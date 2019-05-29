@@ -1,8 +1,7 @@
 <template>
   <div xs="12" sm="6">
-    {{result}}
     <span v-if="user">
-      <b-btn
+      <!-- <b-btn
         v-b-toggle="'collapse2'"
         class="m-1 mt-2 collapse-button h2"
         v-bind:style="{'color': variant }"
@@ -33,7 +32,21 @@
           </div>
           <div class="border-top text-light"></div>
         </b-container>
-      </b-collapse>
+      </b-collapse> -->
+      <div class="mt-2">
+        <div class="feedback pb-2 mt-4 pl-3">Highlight</div>
+        <div class="ml-3 pt-3" v-for="(highlight,index) in user.k_highlight" :key="index">
+          <div>
+            <strong class="text-secondary">KPI/Era : &nbsp;</strong>
+            <span>{{highlight.KpiEra}}</span>
+          </div>
+          <div>
+            <strong class="text-secondary">Highlight Work done in week  : &nbsp;</strong>
+            <span class="white-space-pre">{{highlight.description}}</span>
+          </div>
+          <br/>
+        </div>
+      </div>
       <div class="mt-2">
         <div class="feedback pb-2 mt-4 pl-3">Extra work/ Feedback/ Issues</div>
         <h6 class="ml-3 pt-3">{{ user.extra }}</h6>
@@ -59,9 +72,6 @@
       </div>
       <!-- row -->
       <div class="form-group">
-        <!-- col-md-4  -->
-        <!-- <label class="control-label text-md-left">All Checkins</label> -->
-        <!-- class="col-md-8" -->
         <div class="feedback mt-4 pb-2 pl-3">All weeks checkins</div>
         <div class="pt-2">
           <!-- ======= ACCORDION RIGHT =================-->
@@ -75,8 +85,6 @@
                 class="border-0 white-space-pre pl-3 pr-3 pb-3 pt-0"
               >
                 {{reportdata.report}}
-                <!-- @click="pickDay(index,reportdata)" -->
-                <!-- <b-card-text>{{reportdata.report}}</b-card-text> -->
               </b-tab>
             </b-tabs>
           </b-card>
@@ -108,7 +116,6 @@ export default {
     console.log(this.$props.user);
   },
   computed: {
-    result() {},
     date() {
       if (this.$props.user) {
         this.$props.user.all_chekin.forEach((v, i) => {

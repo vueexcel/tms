@@ -32,7 +32,6 @@
             alt="..."
           >
         </div>
-
         <div>
           <span class="fs-larger text-capitalize">
             <span class="employee-name">{{employee_.name}}</span>
@@ -59,6 +58,11 @@
           <a class="employee-technology">
             <div class="text-primary" style="font-size: 14px;">{{employee_.jobtitle}}</div>
           </a>
+          <span v-if="loggedInUserRole !== 'admin'">
+            <strong>Overall Rating</strong> &nbsp; <span>{{employee_.Overall_rating}} / 10</span>
+            <br>
+            <strong>Checkin Rating</strong> &nbsp; <span>{{employee_.Checkin_rating.toFixed(2) }} %</span>
+          </span>
         </div>
       </div>
       <ManagerComponent :employee="employee" :loggedInUserRole="loggedInUserRole"/>

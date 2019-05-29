@@ -13,41 +13,15 @@
         <i class="fas fa-circle-notch text-success fa-spin float-right mr-5 size" v-if="loading"></i>
       </div>
       <b-container class="no-gutters">
-        <div v-if="weeklyData.length <0 && allweeklyData.length<0">
+        <div v-if="!allweeklyData.length ">
           <b-alert
             :show="error"
             dismissible
             class="alert-transparent alert-danger mt-5"
           >{{errorMessage}}</b-alert>
         </div>
-        <b-row v-if="weeklyData.length" class="employees">
-          <b-col
-            lg="2"
-            md="4"
-            xs="12"
-            class="column"
-            v-for="employee in weeklyData"
-            :key="employee._id"
-          >
-            <WeeklyReviewComponent
-              :employee="employee"
-              @setActive="setActive"
-              :activeId="activeId"
-              :page="'Weekly'"
-              :activeClass="activeClass"
-              :allemployee="weeklyData"
-            />
-          </b-col>
-        </b-row>
-        <b-row v-else class="employees">
-          <b-col
-            lg="2"
-            md="4"
-            xs="12"
-            class="column"
-            v-for="employee in allJuniors_"
-            :key="employee._id"
-          >
+        <b-row class="employees" v-if="allJuniors_.length">
+          <b-col lg="2"  md="4" xs="12"   class="column" v-for="employee in allJuniors_" :key="employee._id">
             <WeeklyReviewComponent
               :employee="employee"
               @setActive="setActive"
@@ -55,19 +29,29 @@
               :activeId="activeId"
               :page="'Weekly'"
               :allemployee="allJuniors_"
+              :allreport="allweeklyData"
               :activeClass="activeClass"
             />
           </b-col>
         </b-row>
       </b-container>
       <div class="container-fluid">
-        <div class="mt-5 mb-3 row"></div>
-        <div v-if="allweeklyData.length">
-          <PerformanceBox :performanceData="allweeklyData" :employee="activeEmp"/>
+        <div class="mt-5 mb-3 row">
         </div>
-        <div v-else class="pb-5">
-          <b-alert show dismissible class="alert-transparent alert-danger mt-5">No Report</b-alert>
-        </div>
+        <div v-if="allweeklyData.length && allJuniors_.length">
+          <PerformanceBox
+            :performanceData="allweeklyData"
+            :employee="activeEmp"
+            @deleteReview="deleteReviewUser"
+          />
+          </div>
+          <div v-if="!allweeklyData.length && !error" class="pb-5">
+            <b-alert
+            show
+            dismissible
+            class="alert-transparent alert-danger mt-5"
+            >No Report</b-alert>
+          </div>
       </div>
     </div>
   </div>
@@ -100,17 +84,18 @@ export default {
     };
   },
   mounted() {
-    this.fetchWeeklyReport();
     this.fetchallWeeklyReport();
     this.getAllJuniors();
   },
   computed: {
-    allJuniors_: get("weeklyReportReview/allJuniors")
+    allJuniors_: get("weeklyReportReview/allJuniors"),
+    userProfile: get("profile/user"),
   },
   methods: {
-    getWeeklyReport_: call("weeklyReportReview/getWeeklyReport"),
     getallWeeklyReport_: call("weeklyReportReview/getallWeeklyReport"),
-    getAllJuniors_: call("weeklyReportReview/getAllJuniors"),
+    getAllJuniors_:call("weeklyReportReview/getAllJuniors"),
+    setCountToReview_: call("weeklyReportReview/setCountToReview"),
+    deleteWeeklyReview_: call("weeklyReportReview/deleteWeeklyReview"),
     setActive(employee) {
       this.show = !this.show;
       setTimeout(() => {
@@ -120,29 +105,11 @@ export default {
       this.activeEmp = employee;
     },
     onSlideStart(slide) {
-      this.sliding = true;
-    },
-    onSlideEnd(slide) {
-      this.sliding = false;
-    },
-    fetchWeeklyReport() {
-      // this.loading = true;
-      // this.getWeeklyReport_()
-      //   .then(resp => {
-      //     if(!resp.data.length){
-      //       this.error = true
-      //       this.errorMessage = 'There is no data to review'
-      //     } else {
-      //       this.weeklyData = resp.data;
-      //     }
-      //     this.loading  = false
-      //   })
-      //   .catch(err => {
-      //     this.loading = false;
-      //     this.error = true;
-      //     this.errorMessage = 'There is some issue to getting result'
-      //   });
-    },
+        this.sliding = true
+      },
+      onSlideEnd(slide) {
+        this.sliding = false
+      },
     fetchallWeeklyReport() {
       this.loading = true;
       this.getallWeeklyReport_()
@@ -162,14 +129,27 @@ export default {
           this.errorMessage = "There is some issue to getting result";
         });
     },
-    setActiveEmployeeReports(array) {
-      array.forEach(data => {
-        for (var i = 0; i < this.allJuniors_.length; i++) {
-          if (data.user === this.allJuniors_[i]._id) {
-            this.highlightEmployees.push(this.allJuniors_[i]);
+    async deleteReviewUser(report){
+      let resp = await this.deleteWeeklyReview_(report)
+      if(resp == true){
+        this.fetchallWeeklyReport()
+      }else {
+        this.error = true;
+        this.errorMessage = "There is some issue to getting result";
+      }
+    },
+    setActiveEmployeeReports(array){
+      array.forEach(data =>{
+        for(var i = 0; i < this.allJuniors_.length ; i++){
+          if(data.user === this.allJuniors_[i]._id){
+            this.highlightEmployees.push(this.allJuniors_[i])
           }
         }
-      });
+      })
+      this.setCountToReview_({
+        user:this.userProfile,
+        reportArray: this.allweeklyData
+      })
     },
     async getAllJuniors() {
       let response = await this.getAllJuniors_();
