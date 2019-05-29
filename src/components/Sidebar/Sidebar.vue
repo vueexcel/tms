@@ -34,7 +34,7 @@
         link="/app/WeeklyReport"
         iconName="fas fa-chart-bar"
         index="performanceReview"
-        :badge="countToReviewReport_ ? JSON.stringify(countToReviewReport_) : '0' "
+        :badge="count"
         isHeader
       />
       <NavLink
@@ -58,7 +58,7 @@
         header="View Feedback"
         link="/app/viewfeedback"
         iconName="fas fa-comments"
-        :badge="feedbackCount"
+        :badge="JSON.stringify(feedbackCount)"
         isHeader
       />
       <!-- <NavLink
@@ -129,7 +129,7 @@
         link="/app/WeeklyReport"
         iconName="fas fa-chart-bar"
         index="performanceReview"
-        :badge="countToReviewReport_ ? JSON.stringify(countToReviewReport_) : '0' "
+        :badge="count "
         isHeader
       />
       <NavLink
@@ -297,6 +297,13 @@ export default {
     sideBar: get("profile/user"),
     feedback: get("feedback/feedbacksCount"),
     countToReviewReport_: get("weeklyReportReview/countToReviewReport"),
+    count(){
+      if(this.countToReviewReport_){
+        return JSON.stringify(this.countToReviewReport_)
+      } else {
+        return '0'
+      }
+    },
     feedbackCount() {
       return this.feedback.length;
     }

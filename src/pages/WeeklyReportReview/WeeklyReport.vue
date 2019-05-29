@@ -28,6 +28,7 @@
               :activeId="activeId"
               :page="'Weekly'"
               :allemployee="allJuniors_"
+              :allreport="allweeklyData"
               :activeClass="activeClass"
             />
           </b-col>
