@@ -95,10 +95,11 @@
                           v-for="(reportdata,index) in report"
                           :key="index"
                           :title="reportdata.day"
-                          class="border-0"
+                          class="border-0 white-space-pre pl-3 pr-3 pb-3 pt-0"
                           @click="pickDay(index,reportdata)"
                         >
-                          <b-card-text>{{reportdata.report}}</b-card-text>
+                          {{reportdata.report}}
+                          <!-- <b-card-text></b-card-text> -->
                         </b-tab>
                       </b-tabs>
                     </b-card>

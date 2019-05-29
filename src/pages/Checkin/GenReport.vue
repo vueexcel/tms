@@ -9,8 +9,8 @@
     <b-form @submit.prevent="submitReport">
       <Widget>
         <b-form-group>
-          <h5 class="pb-2">Missed Checkins</h5>
           <div v-if="options.length > 1">
+            <h5 class="pb-2">Missed Checkins</h5>
             <b-form-select v-model="changeSelectOption" :options="options"></b-form-select>
           </div>
         </b-form-group>
@@ -63,17 +63,16 @@
           :max-rows="6"
         ></b-form-textarea>
 
-        <br/>
-        <div >
+        <br>
+        <!-- <div >
           <b-form-group label="Submit Checkin on #Slack Channel">
             <b-form-checkbox-group id="checkbox-group-2" v-model="selected" name="flavour-2">
               <b-form-checkbox :value="channel.value" v-for="channel in slackChannels" :key="channel.value">{{channel.text}}</b-form-checkbox>
             </b-form-checkbox-group>
           </b-form-group>
-        </div>
+        </div>-->
         <button type="submit" class="btn btn-primary btn-lg mb-xs fs-sm pl-4 pr-4 mt-3">SUBMIT</button>
       </Widget>
-      
     </b-form>
 
     <!-- Modal for missed checkins -->
@@ -106,7 +105,7 @@ export default {
     genReport: sync("checkin/genReport"),
     genReportReason: sync("checkin/genReportReason"),
     highlightTask: sync("checkin/highlightTask"),
-    reports: get("checkin/reports"),
+    reports: get("checkin/reports")
   },
   mounted() {
     this.makeOptions();
@@ -128,11 +127,11 @@ export default {
     error: {
       type: String,
       default: ""
-    },
-    slackChannels:{
-      type: Array,
-      default: []
     }
+    // slackChannels:{
+    //   type: Array,
+    //   default: []
+    // }
   },
   methods: {
     makeOptions() {
@@ -180,7 +179,7 @@ export default {
       this.status = false;
       this.genReportReason = "";
       this.highlightTask = "";
-      this.selected = []
+      this.selected = [];
     },
     emitFormData() {
       this.$emit("report", {
@@ -188,8 +187,8 @@ export default {
         task_completed: this.status,
         task_not_completed_reason: this.genReportReason,
         highlight: this.highlightTask,
-        date: this.changeSelectOption,
-        slackChannels: this.selected
+        date: this.changeSelectOption
+        // slackChannels: this.selected
       });
       this.clearForm();
     },

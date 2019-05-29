@@ -1,6 +1,10 @@
 <template>
   <div>
     <h1 class="page-title">Check-Ins</h1>
+    <span class="fs-sm" v-if="reports.length">
+      <i class="fa fa-circle text-info"/> Give Reason (task not completed)
+      <i class="ml-1 fa fa-circle text-warning"/> Highlighted task (task not completed)
+    </span>
     <b-container class="no-gutters p-0">
       <b-row>
         <b-col lg="6" xs="12">
@@ -134,12 +138,8 @@
           * Right general report
         *=======================================================================-->
         <b-col class="p-0">
-          <GenReport
-            @report="report"
-            @deleteCheckin="deleteCheckin"
-            :error="error"
-            :slackChannels="slackChannels"
-          ></GenReport>
+          <GenReport @report="report" @deleteCheckin="deleteCheckin" :error="error"></GenReport>
+          <!-- :slackChannels="slackChannels" -->
         </b-col>
       </b-row>
     </b-container>
@@ -170,8 +170,8 @@ export default {
       read_more: [],
       image: dummyimage,
       error: "",
-      errorMessage: false,
-      slackChannels: []
+      errorMessage: false
+      // slackChannels: []
     };
   },
   components: { Widget, StandUpWidget, Comments, GenReport },
@@ -228,39 +228,39 @@ export default {
   },
   mounted() {
     this.getAllCheckinsAPI();
-    this.getAllSlackChannels();
+    // this.getAllSlackChannels();
   },
   methods: {
     dailyCheckin: call("checkin/dailyCheckin"),
     deleteDailyCheckin: call("checkin/deleteDailyCheckin"),
     getProfile: call("profile/getProfile"),
     getAllCheckins: call("checkin/getAllCheckins"),
-    getAllSlackChannels_: call("checkin/getAllSlackChannels"),
+    // getAllSlackChannels_: call("checkin/getAllSlackChannels"),
     getAllCheckinsAPI: function() {
       this.getAllCheckins();
     },
-    async getAllSlackChannels() {
-      this.slackChannels = [];
-      let response = await this.getAllSlackChannels_();
-      if (response.length && typeof response !== "string") {
-        this.slackChannels = response;
-      } else {
-        this.errorMessage = true;
-        if (typeof response === "string") {
-          this.error = response;
-        } else {
-          this.error = "No Slack Channel Found";
-        }
-      }
-    },
+    // async getAllSlackChannels() {
+    //   this.slackChannels = [];
+    //   let response = await this.getAllSlackChannels_();
+    //   if (response.length && typeof response !== "string") {
+    //     this.slackChannels = response;
+    //   } else {
+    //     this.errorMessage = true;
+    //     if (typeof response === "string") {
+    //       this.error = response;
+    //     } else {
+    //       this.error = "No Slack Channel Found";
+    //     }
+    //   }
+    // },
     async report(report) {
       let response = await this.dailyCheckin({
         report: report.report,
         task_completed: report.task_completed,
         task_not_completed_reason: report.task_not_completed_reason,
         highlight: report.highlight,
-        date: report.date,
-        slackChannels: report.slackChannels
+        date: report.date
+        // slackChannels: report.slackChannels
       }).then(res => {
         this.getAllCheckinsAPI();
         this.getProfile(res.date);

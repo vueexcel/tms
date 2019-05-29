@@ -29,6 +29,11 @@
             <div>{{reviewreport.Message}}</div>
           </span>
         </span>
+        <span v-if="recentactivity.Junior_weekly">
+          <span v-for="(reviewreport,index) in recentactivity.Junior_weekly" :key="index">
+            <div>{{reviewreport.Message}}</div>
+          </span>
+        </span>
       </span>
     </b-list-group-item>
   </b-list-group>
@@ -53,6 +58,7 @@ export default {
     activity: get("profile/activity"),
     date() {
       this.activity.forEach(activity => {
+        console.log(activity);
         if (activity.missed_checkin) {
           activity.missed_checkin.forEach(dates => {
             var date = this.$moment(dates.checkin_missed_message);

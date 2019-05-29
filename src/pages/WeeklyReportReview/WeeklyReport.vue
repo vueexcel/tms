@@ -1,11 +1,16 @@
 <template>
   <div>
     <span class="page-title ml-3 row" style="font-size: 43px;">Weekly Report Review</span>
-    <div class="shadow pt-4 pb-5">
-      <!-- <div class="w-100"> -->
-      <h5 class="page-title ml-3 row" style="font-size: 24px;">Team View</h5>
-      <i class="fas fa-circle-notch text-success fa-spin float-right mr-5 size" v-if="loading"></i>
-      <!-- </div> -->
+    <div class="shadow pt-4">
+      <div class="w-100">
+        <span class="page-title ml-3" style="font-size: 24px;">
+          Team View
+          <span class="fs-sm">
+            <i class="pl-5 fa fa-circle" style="color: #006400"/> Report Available ( Border color )
+          </span>
+        </span>
+        <i class="fas fa-circle-notch text-success fa-spin float-right mr-5 size" v-if="loading"></i>
+      </div>
       <b-container class="no-gutters">
         <div v-if="!allweeklyData.length ">
           <b-alert
@@ -78,7 +83,7 @@ export default {
   },
   mounted() {
     this.fetchallWeeklyReport();
-    this.getAllJuniors()
+    this.getAllJuniors();
   },
   computed: {
     allJuniors_: get("weeklyReportReview/allJuniors"),
@@ -112,7 +117,7 @@ export default {
             this.errorMessage = "There is no data to review";
           } else {
             this.allweeklyData = resp.data;
-            this.setActiveEmployeeReports(this.allweeklyData)
+            this.setActiveEmployeeReports(this.allweeklyData);
           }
           this.loading = false;
         })
@@ -144,12 +149,12 @@ export default {
         reportArray: this.allweeklyData
       })
     },
-    async getAllJuniors(){
-      let response = await this.getAllJuniors_()
-      if(response !== true){
+    async getAllJuniors() {
+      let response = await this.getAllJuniors_();
+      if (response !== true) {
         this.loading = false;
         this.error = true;
-        this.errorMessage = response
+        this.errorMessage = response;
       }
     }
   }
