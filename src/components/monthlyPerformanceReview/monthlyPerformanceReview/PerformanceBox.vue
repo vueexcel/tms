@@ -2,7 +2,7 @@
   <div>
     <b-row class="shadow">
       <b-col xs="12" sm="6" class="bg-warning rounded-left">
-        <ExtraWorkFeedback :user="data[activeId]" :variant="'text-warning'"/>
+        <ExtraWorkFeedback :user="data_[activeId]" :variant="'text-warning'"/>
       </b-col>
       <b-col xs="12" sm="6" class="rounded-right">
         <b-alert
@@ -49,7 +49,7 @@ export default {
     return {
       text: "",
       ratedStar: 1,
-      data: [
+      data_: [
         {
           _id: "5cd2b27243ea5f000a05e1e7",
           created_at: "Fri, 03 May 2019 10:41:54 GMT",

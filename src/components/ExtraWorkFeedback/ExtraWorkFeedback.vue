@@ -104,6 +104,9 @@ export default {
       type: String
     }
   },
+  mounted() {
+    console.log(this.$props.user);
+  },
   computed: {
     result() {},
     date() {

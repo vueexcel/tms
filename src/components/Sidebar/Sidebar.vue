@@ -66,7 +66,7 @@
         iconName="fas fa-calendar"
         index="notifications"
         isHeader
-      />-->
+      /> -->
       <!-- link="/app/weeklyReview" -->
       <!-- <NavLink
         header="View Check-ins"
@@ -130,6 +130,14 @@
         index="performanceReview"
         isHeader
       />
+      <!-- <NavLink
+        v-if="sideBar.role === 'manager' || sideBar.role === 'Employee'"
+        header="Monthly Report"
+        link="/app/monthlyReport"
+        iconName="fas fa-calendar"
+        index="notifications"
+        isHeader
+      /> -->
       <NavLink
         v-if="sideBar.role === 'manager'"
         header="Your Juniors"
@@ -168,6 +176,7 @@
         index="feedback"
         isHeader
       />
+
       <!-- <NavLink
         header="Performance Review"
         link="/app/PerformanceReview"
