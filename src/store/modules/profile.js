@@ -28,7 +28,13 @@ const actions = {
                 // commit('loginfailed', err)
             }
         } catch (error) {
-            console.log(error.response);
+            console.log(error.response.data.msg);
+            if (error.response.data.msg === 'Token has expired') {
+                localStorage.removeItem('authenticated')
+                $cookies.remove("keepLoggedIn");
+                // alert(error.response.data.msg + ' login again to continue')
+                router.push('/')
+            }
         }
 
     },

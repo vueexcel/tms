@@ -38,6 +38,7 @@ import ChartsPage from "@/pages/Charts/Charts";
 import IconsPage from "@/pages/Icons/Icons";
 import NotificationsPage from "@/pages/Notifications/Notifications";
 import { relativeTimeRounding } from "moment";
+import store from "./store/index";
 
 Vue.use(Router);
 
@@ -49,11 +50,11 @@ const router = new Router({
       name: "Login",
       component: Login
     },
-    {
-      path: "/error",
-      name: "Error",
-      component: ErrorPage
-    },
+    // {
+    //   path: "/error",
+    //   name: "Error",
+    //   component: ErrorPage
+    // },
     {
       path: "/app",
       name: "Layout",
@@ -118,7 +119,7 @@ const router = new Router({
         },
         {
           path: 'juniorWeekReport',
-          name:"JuniorWeekReport",
+          name: "JuniorWeekReport",
           component: JuniorWeekReport
         },
         {
@@ -177,15 +178,29 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-  if ($cookies.get("keepLoggedIn") && to.path == "/") {
-    next({
-      path: '/admin'
-    })
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!localStorage.getItem('authenticated') && !$cookies.get("keepLoggedIn")) {
+      next({
+        path: '/',
+      })
+    } else {
+      next()
+    }
+  } else if ((localStorage.getItem('authenticated') && to.path == "/") || ($cookies.get("keepLoggedIn") && to.path == "/")) {
+    if (store.state.profile.user.role === 'Admin') {
+      next({
+        path: '/admin/manageKpi'
+      })
+    } else {
+      next({
+        path: '/app/profile'
+      })
+    }
+    // next()
   } else {
     next()
   }
+})
 
-  return;
-});
 
 export default router;

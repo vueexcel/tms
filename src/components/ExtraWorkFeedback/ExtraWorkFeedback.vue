@@ -107,7 +107,7 @@ export default {
   computed: {
     result() {},
     date() {
-      if(this.$props.user){
+      if (this.$props.user) {
         this.$props.user.all_chekin.forEach((v, i) => {
           v.day = this.$moment(v.created_at).format("dddd");
         });
