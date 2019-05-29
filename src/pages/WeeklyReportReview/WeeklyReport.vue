@@ -2,10 +2,15 @@
   <div>
     <span class="page-title ml-3 row" style="font-size: 43px;">Weekly Report Review</span>
     <div class="shadow pt-4">
-      <!-- <div class="w-100"> -->
-      <h5 class="page-title ml-3 row" style="font-size: 24px;">Team View</h5>
-      <i class="fas fa-circle-notch text-success fa-spin float-right mr-5 size" v-if="loading"></i>
-      <!-- </div> -->
+      <div class="w-100">
+        <span class="page-title ml-3" style="font-size: 24px;">
+          Team View
+          <span class="fs-sm">
+            <i class="pl-5 fa fa-circle" style="color: #006400"/> Report Available ( Border color )
+          </span>
+        </span>
+        <i class="fas fa-circle-notch text-success fa-spin float-right mr-5 size" v-if="loading"></i>
+      </div>
       <b-container class="no-gutters">
         <div v-if="weeklyData.length <0 && allweeklyData.length<0">
           <b-alert
@@ -34,7 +39,14 @@
           </b-col>
         </b-row>
         <b-row v-else class="employees">
-          <b-col lg="2"  md="4" xs="12"   class="column" v-for="employee in allJuniors_" :key="employee._id">
+          <b-col
+            lg="2"
+            md="4"
+            xs="12"
+            class="column"
+            v-for="employee in allJuniors_"
+            :key="employee._id"
+          >
             <WeeklyReviewComponent
               :employee="employee"
               @setActive="setActive"
@@ -48,21 +60,13 @@
         </b-row>
       </b-container>
       <div class="container-fluid">
-        <div class="mt-5 mb-3 row">
-        </div>
+        <div class="mt-5 mb-3 row"></div>
         <div v-if="allweeklyData.length">
-          <PerformanceBox
-            :performanceData="allweeklyData"
-            :employee="activeEmp"
-          />
-          </div>
-          <div v-else class="pb-5">
-            <b-alert
-            show
-            dismissible
-            class="alert-transparent alert-danger mt-5"
-            >No Report</b-alert>
-          </div>
+          <PerformanceBox :performanceData="allweeklyData" :employee="activeEmp"/>
+        </div>
+        <div v-else class="pb-5">
+          <b-alert show dismissible class="alert-transparent alert-danger mt-5">No Report</b-alert>
+        </div>
       </div>
     </div>
   </div>
@@ -97,15 +101,15 @@ export default {
   mounted() {
     this.fetchWeeklyReport();
     this.fetchallWeeklyReport();
-    this.getAllJuniors()
+    this.getAllJuniors();
   },
   computed: {
-    allJuniors_: get("weeklyReportReview/allJuniors"),
+    allJuniors_: get("weeklyReportReview/allJuniors")
   },
   methods: {
     getWeeklyReport_: call("weeklyReportReview/getWeeklyReport"),
     getallWeeklyReport_: call("weeklyReportReview/getallWeeklyReport"),
-    getAllJuniors_:call("weeklyReportReview/getAllJuniors"),
+    getAllJuniors_: call("weeklyReportReview/getAllJuniors"),
     setActive(employee) {
       this.show = !this.show;
       setTimeout(() => {
@@ -115,11 +119,11 @@ export default {
       this.activeEmp = employee;
     },
     onSlideStart(slide) {
-        this.sliding = true
-      },
-      onSlideEnd(slide) {
-        this.sliding = false
-      },
+      this.sliding = true;
+    },
+    onSlideEnd(slide) {
+      this.sliding = false;
+    },
     fetchWeeklyReport() {
       // this.loading = true;
       // this.getWeeklyReport_()
@@ -147,7 +151,7 @@ export default {
             this.errorMessage = "There is no data to review";
           } else {
             this.allweeklyData = resp.data;
-            this.setActiveEmployeeReports(this.allweeklyData)
+            this.setActiveEmployeeReports(this.allweeklyData);
           }
           this.loading = false;
         })
@@ -157,21 +161,21 @@ export default {
           this.errorMessage = "There is some issue to getting result";
         });
     },
-    setActiveEmployeeReports(array){
-      array.forEach(data =>{
-        for(var i = 0; i < this.allJuniors_.length ; i++){
-          if(data.user === this.allJuniors_[i]._id){
-            this.highlightEmployees.push(this.allJuniors_[i])
+    setActiveEmployeeReports(array) {
+      array.forEach(data => {
+        for (var i = 0; i < this.allJuniors_.length; i++) {
+          if (data.user === this.allJuniors_[i]._id) {
+            this.highlightEmployees.push(this.allJuniors_[i]);
           }
         }
-      })
+      });
     },
-    async getAllJuniors(){
-      let response = await this.getAllJuniors_()
-      if(response !== true){
+    async getAllJuniors() {
+      let response = await this.getAllJuniors_();
+      if (response !== true) {
         this.loading = false;
         this.error = true;
-        this.errorMessage = response
+        this.errorMessage = response;
       }
     }
   }

@@ -41,12 +41,12 @@
       <div>
         <div class="feedback mt-4 pb-2 pl-3">Highlight Check-in</div>
         <span v-for="(reporthighlight, index) in user.select_days" :key="index">
-          <h6 class="ml-3 mt-3 white-space-pre ">{{reporthighlight.report }}</h6>
+          <h6 class="ml-3 mt-3 white-space-pre">{{reporthighlight.report }}</h6>
         </span>
       </div>
       <div>
         <div class="feedback mt-4 pb-2 pl-3">Project Difficulty Level</div>
-        <div class="text-dark ml-3 mb-5 mt-2">
+        <div class="text-dark ml-3 mt-2">
           <starRating
             :variantWarning="false"
             class="border-bottom"
@@ -57,12 +57,40 @@
           />
         </div>
       </div>
+      <!-- row -->
+      <div class="form-group">
+        <!-- col-md-4  -->
+        <!-- <label class="control-label text-md-left">All Checkins</label> -->
+        <!-- class="col-md-8" -->
+        <div class="feedback mt-4 pb-2 pl-3">All weeks checkins</div>
+        <div class="pt-2">
+          <!-- ======= ACCORDION RIGHT =================-->
+          <b-card no-body class="border-0">
+            <b-tabs pills card vertical end class="border-0">
+              {{date}}
+              <b-tab
+                v-for="(reportdata,index) in user.all_chekin.slice().reverse()"
+                :key="index"
+                :title="reportdata.day"
+                class="border-0 white-space-pre pl-3 pr-3 pb-3 pt-0"
+              >
+                {{reportdata.report}}
+                <!-- @click="pickDay(index,reportdata)" -->
+                <!-- <b-card-text>{{reportdata.report}}</b-card-text> -->
+              </b-tab>
+            </b-tabs>
+          </b-card>
+
+          <!-- ======= ACCORDION RIGHT ENDS=================-->
+        </div>
+      </div>
     </span>
   </div>
 </template>
 
 <script>
 import starRating from "@/components/Star/Star";
+import { get } from "vuex-pathify";
 export default {
   name: "ExtraWorkFeedback",
   components: {
@@ -77,7 +105,12 @@ export default {
     }
   },
   computed: {
-    result() {}
+    result() {},
+    date() {
+      this.$props.user.all_chekin.forEach((v, i) => {
+        v.day = this.$moment(v.created_at).format("dddd");
+      });
+    }
   },
   data() {
     return {
