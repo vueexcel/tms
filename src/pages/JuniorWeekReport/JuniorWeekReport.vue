@@ -11,10 +11,11 @@
       <div>Loading...</div>
     </div>
     <ul class="timeline">
+      <!-- :class="{onLeft: (junior.reviewedByUser ? true : false) }" -->
       <li
         v-for="( junior, index ) in juniorReport.slice().reverse()"
         :key="index"
-        :class="{onLeft: (junior.reviewedByUser ? true : false) }"
+        :class="{onLeft: index %2===0 }"
       >
         <time class="eventTime" datetime="2014-05-19 03:04">
           <span class="date">{{ junior.created_at | day }}</span>
@@ -22,11 +23,12 @@
         </time>
         <span
           class="eventIcon"
-          :class="junior.reviewedByUser ?  'eventIconPrimary' : 'eventIconSuccess'"
+          :class="junior.review ?  'eventIconPrimary' : 'eventIconSuccess'"
         >
+            <!-- :class="junior.reviewedByUser  ?  'glyphicon-duplicate' : 'glyphicon-comments'" -->
           <i
             class="glyphicon"
-            :class="junior.reviewedByUser  ?  'glyphicon-duplicate' : 'glyphicon-comments'"
+            :class="junior.review  ?  'glyphicon-duplicate' : 'glyphicon-comments'"
           />
         </span>
 
@@ -64,13 +66,17 @@
             />
           </div>
           <footer class="eventFooter pt-0">
-            <ul class="post-comments" v-if="junior.review.length">
+            <ul class="post-comments" v-if="junior.review">
               <li v-for="(comment, index) in junior.review" :key="index">
                 <span class="thumb-xs avatar pull-left mr-sm">
-                  <img class="rounded-circle" :src="image" alt="...">
+                  <img
+                    class="rounded-circle"
+                    :src="junior.is_reviewed[index]._id.profileImage ? junior.is_reviewed[index]._id.profileImage: image"
+                    alt="..."
+                  >
                 </span>
                 <div class="comment-body">
-                  <h6 class="author fs-sm fw-semi-bold">{{comment.manager_id.name}}</h6>
+                  <h6 class="author fs-sm fw-semi-bold">{{ junior.is_reviewed[index]._id.name }}</h6>
                   <p>{{ comment.comment }}</p>
                 </div>
               </li>
@@ -131,12 +137,13 @@ export default {
       for (var i = 0; i < reportArray.length; i++) {
         if (reportArray[i].is_reviewed) {
           var found = reportArray[i].is_reviewed.find(manager => {
-            if (manager._id === this.user._id) {
+            if (manager._id._id === this.user._id) {
               reportArray[i]["reviewedByUser"] = manager.reviewed;
             }
           });
         }
       }
+      // this.juniorReport = reportArray;
     }
   },
   filters: {
