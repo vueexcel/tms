@@ -11,10 +11,11 @@
       <div>Loading...</div>
     </div>
     <ul class="timeline">
+      <!-- :class="{onLeft: (junior.reviewedByUser ? true : false) }" -->
       <li
         v-for="( junior, index ) in juniorReport.slice().reverse()"
         :key="index"
-        :class="{onLeft: (junior.reviewedByUser ? true : false) }"
+        :class="{onLeft: index %2===0 }"
       >
         <time class="eventTime" datetime="2014-05-19 03:04">
           <span class="date">{{ junior.created_at | day }}</span>
@@ -22,11 +23,12 @@
         </time>
         <span
           class="eventIcon"
-          :class="junior.reviewedByUser ?  'eventIconPrimary' : 'eventIconSuccess'"
+          :class="junior.review ?  'eventIconPrimary' : 'eventIconSuccess'"
         >
+            <!-- :class="junior.reviewedByUser  ?  'glyphicon-duplicate' : 'glyphicon-comments'" -->
           <i
             class="glyphicon"
-            :class="junior.reviewedByUser  ?  'glyphicon-duplicate' : 'glyphicon-comments'"
+            :class="junior.review  ?  'glyphicon-duplicate' : 'glyphicon-comments'"
           />
         </span>
 
@@ -42,18 +44,45 @@
             <a class="text-primary">{{ junior.user.name }}</a>
           </h5>
           <p class="fs-sm text-muted">{{ junior.created_at | moment }}</p>
-          <p v-if="junior.k_highlight.kra"><strong>For Kpi/Kra :</strong> &nbsp;{{junior.k_highlight.kra}}</p>
-          <p class="fs-mini white-space-pre"><strong>Extra Work : &nbsp;</strong>{{ junior.extra }}</p>
-          <p class="fs-mini text-custom white-space-pre"><strong>Highlight : &nbsp;</strong>{{ junior.k_highlight.kpi }}</p>
+          <p v-if="junior.k_highlight.kra">
+            <strong>For Kpi/Kra :</strong>
+            &nbsp;{{junior.k_highlight.kra}}
+          </p>
+          <p class="fs-mini white-space-pre">
+            <strong>Extra Work : &nbsp;</strong>
+            {{ junior.extra }}
+          </p>
+          <p class="fs-mini text-custom white-space-pre">
+            <strong>Highlight : &nbsp;</strong>
+            {{ junior.k_highlight.kpi }}
+          </p>
           <div class="starClass">
             <strong>Difficulty Level : &nbsp;</strong>
-              <Stars
-                :displayStar="5"
-                :ratedStar="Number(junior.difficulty)"
-                :starSize="'15px'"
-                :disableStar="false"
-                />
+            <Stars
+              :displayStar="5"
+              :ratedStar="Number(junior.difficulty)"
+              :starSize="'15px'"
+              :disableStar="false"
+            />
           </div>
+          <footer class="eventFooter pt-0">
+            <ul class="post-comments" v-if="junior.review">
+              <li v-for="(comment, index) in junior.review" :key="index">
+                <span class="thumb-xs avatar pull-left mr-sm">
+                  <img
+                    class="rounded-circle"
+                    :src="junior.is_reviewed[index]._id.profileImage ? junior.is_reviewed[index]._id.profileImage: image"
+                    alt="..."
+                  >
+                </span>
+                <div class="comment-body">
+                  <h6 class="author fs-sm fw-semi-bold">{{ junior.is_reviewed[index]._id.name }}</h6>
+                  <p>{{ comment.comment }}</p>
+                </div>
+              </li>
+            </ul>
+            <div class="text-danger" v-else>No comments yet!</div>
+          </footer>
         </section>
       </li>
     </ul>
@@ -62,7 +91,7 @@
 
 <script>
 import moment from "moment";
-import { get,call } from "vuex-pathify";
+import { get, call } from "vuex-pathify";
 import image from "./../../assets/avatar.png";
 import Stars from "@/components/Star/Star.vue";
 
@@ -74,14 +103,14 @@ export default {
       juniorReport: [],
       loading: false,
       error: false,
-      errorMessage: ''
+      errorMessage: ""
     };
   },
   components: {
-      Stars,
+    Stars
   },
   computed: {
-    user: get("profile/user"),
+    user: get("profile/user")
   },
   created() {
     this.getJuniorWeekReport();
@@ -90,31 +119,32 @@ export default {
     juniorWeeklyReport_api: call("weeklyReportReview/juniorWeeklyReport"),
     async getJuniorWeekReport() {
       this.loading = true;
-      let response = await this.juniorWeeklyReport_api()
-      if(response.length && typeof(response) !== 'string'){
-          this.isReviewed(response)
-        this.juniorReport = response
+      let response = await this.juniorWeeklyReport_api();
+      if (response.length && typeof response !== "string") {
+        this.isReviewed(response);
+        this.juniorReport = response;
       } else {
-            this.error = true
-            if(typeof(response) === 'string'){
-                this.errorMessage = response
-            } else {
-            this.errorMessage = 'No Weekly report from you juiniors'
+        this.error = true;
+        if (typeof response === "string") {
+          this.errorMessage = response;
+        } else {
+          this.errorMessage = "No Weekly report from you juiniors";
         }
       }
-      this.loading = false
+      this.loading = false;
     },
-    isReviewed(reportArray){
-      for(var i = 0; i < reportArray.length; i++){
-        if(reportArray[i].is_reviewed){
-            var found = reportArray[i].is_reviewed.find(manager =>{
-                if(manager._id === this.user._id){
-                    reportArray[i]['reviewedByUser'] = manager.reviewed
-                } 
-            })
+    isReviewed(reportArray) {
+      for (var i = 0; i < reportArray.length; i++) {
+        if (reportArray[i].is_reviewed) {
+          var found = reportArray[i].is_reviewed.find(manager => {
+            if (manager._id._id === this.user._id) {
+              reportArray[i]["reviewedByUser"] = manager.reviewed;
+            }
+          });
         }
       }
-    },
+      // this.juniorReport = reportArray;
+    }
   },
   filters: {
     moment: function(date) {
