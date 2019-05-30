@@ -146,7 +146,7 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$props.performanceData);
+    // console.log(this.$props.employee);
   },
   computed: {
     userProfile: get("profile/user"),

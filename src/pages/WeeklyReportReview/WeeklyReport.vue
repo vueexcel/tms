@@ -21,7 +21,14 @@
           >{{errorMessage}}</b-alert>
         </div>
         <b-row class="employees" v-if="allJuniors_.length">
-          <b-col lg="2"  md="4" xs="12"   class="column" v-for="employee in allJuniors_" :key="employee._id">
+          <b-col
+            lg="2"
+            md="4"
+            xs="12"
+            class="column"
+            v-for="employee in allJuniors_"
+            :key="employee._id"
+          >
             <WeeklyReviewComponent
               :employee="employee"
               @setActive="setActive"
@@ -31,27 +38,23 @@
               :allemployee="allJuniors_"
               :allreport="allweeklyData"
               :activeClass="activeClass"
+              :allData="allDataToComponent"
             />
           </b-col>
         </b-row>
       </b-container>
       <div class="container-fluid">
-        <div class="mt-5 mb-3 row">
-        </div>
+        <div class="mt-5 mb-3 row"></div>
         <div v-if="allweeklyData.length && allJuniors_.length">
           <PerformanceBox
             :performanceData="allweeklyData"
             :employee="activeEmp"
             @deleteReview="deleteReviewUser"
           />
-          </div>
-          <div v-if="!allweeklyData.length && !error" class="pb-5">
-            <b-alert
-            show
-            dismissible
-            class="alert-transparent alert-danger mt-5"
-            >No Report</b-alert>
-          </div>
+        </div>
+        <div v-if="!allweeklyData.length && !error" class="pb-5">
+          <b-alert show dismissible class="alert-transparent alert-danger mt-5">No Report</b-alert>
+        </div>
       </div>
     </div>
   </div>
@@ -80,7 +83,8 @@ export default {
       loading: false,
       error: false,
       errorMessage: "",
-      highlightEmployees: []
+      highlightEmployees: [],
+      allDataToComponent: []
     };
   },
   mounted() {
@@ -89,11 +93,11 @@ export default {
   },
   computed: {
     allJuniors_: get("weeklyReportReview/allJuniors"),
-    userProfile: get("profile/user"),
+    userProfile: get("profile/user")
   },
   methods: {
     getallWeeklyReport_: call("weeklyReportReview/getallWeeklyReport"),
-    getAllJuniors_:call("weeklyReportReview/getAllJuniors"),
+    getAllJuniors_: call("weeklyReportReview/getAllJuniors"),
     setCountToReview_: call("weeklyReportReview/setCountToReview"),
     deleteWeeklyReview_: call("weeklyReportReview/deleteWeeklyReview"),
     setActive(employee) {
@@ -105,11 +109,11 @@ export default {
       this.activeEmp = employee;
     },
     onSlideStart(slide) {
-        this.sliding = true
-      },
-      onSlideEnd(slide) {
-        this.sliding = false
-      },
+      this.sliding = true;
+    },
+    onSlideEnd(slide) {
+      this.sliding = false;
+    },
     fetchallWeeklyReport() {
       this.loading = true;
       this.getallWeeklyReport_()
@@ -129,27 +133,28 @@ export default {
           this.errorMessage = "There is some issue to getting result";
         });
     },
-    async deleteReviewUser(report){
-      let resp = await this.deleteWeeklyReview_(report)
-      if(resp == true){
-        this.fetchallWeeklyReport()
-      }else {
+    async deleteReviewUser(report) {
+      let resp = await this.deleteWeeklyReview_(report);
+      if (resp == true) {
+        this.fetchallWeeklyReport();
+      } else {
         this.error = true;
         this.errorMessage = "There is some issue to getting result";
       }
     },
-    setActiveEmployeeReports(array){
-      array.forEach(data =>{
-        for(var i = 0; i < this.allJuniors_.length ; i++){
-          if(data.user === this.allJuniors_[i]._id){
-            this.highlightEmployees.push(this.allJuniors_[i])
+    setActiveEmployeeReports(array) {
+      this.allDataToComponent = array;
+      array.forEach(data => {
+        for (var i = 0; i < this.allJuniors_.length; i++) {
+          if (data.user === this.allJuniors_[i]._id) {
+            this.highlightEmployees.push(this.allJuniors_[i]);
           }
         }
-      })
+      });
       this.setCountToReview_({
-        user:this.userProfile,
+        user: this.userProfile,
         reportArray: this.allweeklyData
-      })
+      });
     },
     async getAllJuniors() {
       let response = await this.getAllJuniors_();
