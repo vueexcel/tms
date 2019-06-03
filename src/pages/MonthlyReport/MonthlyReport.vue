@@ -10,11 +10,14 @@
                 <span>No report found</span>
               </b-alert>
             </div>
-            <form class="form-horizontal" v-if="user">
-              <fieldset>
+            <form class="form-horizontal" @submit.prevent="submit" v-if="user">
+              <fieldset v-if="!kpiArray.length">
                 <!-- add button here -->
                 <h3>KPI</h3>
                 <hr>
+                {{ EraArray }}
+                <hr>
+                {{ kpiArray }}
                 <div class="form-group row" v-for="(kpi, index) in user.kpi.kpi_json" :key="index">
                   <label class="col-md-6 control-label text-md-left" v-if="kpi.title">
                     <span class="fw-bold">{{ kpi.title }}</span>
@@ -31,10 +34,36 @@
                       v-model="KpiDescription[index]"
                       :rows="3"
                       :max-rows="6"
+                      required
                     ></b-form-textarea>
                   </div>
                 </div>
               </fieldset>
+              <!----------------- 
+                *if no data found 
+              ------------------->
+              <fieldset v-if="kpiArray.length">
+                <!-- add button here -->
+                <h3>KPI</h3>
+                <hr>
+                <!-- {{ EraArray }}
+                <hr>
+                {{ kpiArray }}-->
+                <div class="form-group row" v-for="(kpi, index) in kpiArray" :key="index">
+                  <label class="col-md-6 control-label text-md-left">
+                    <span class="fw-bold">{{ kpi.title }}</span>
+                    <br>
+                    <!-- <span>{{ kpi.desc }}</span> -->
+                  </label>
+                  <!-- <span>{{ kpi.desc }}</span> -->
+                  <div class="col-md-6">
+                    <h4>{{ kpi.value }}</h4>
+                  </div>
+                </div>
+              </fieldset>
+              <!----------------- 
+                *if no data found ends
+              ------------------->
               <fieldset>
                 <!-- add button here -->
                 <h3>ERA</h3>
@@ -55,6 +84,7 @@
                       :rows="3"
                       v-model="EraDescription[index]"
                       :max-rows="6"
+                      required
                     ></b-form-textarea>
                   </div>
                 </div>
@@ -63,7 +93,7 @@
               <div class="form-actions">
                 <div class="row">
                   <div class="col-md-4 col-12">
-                    <button type="button" class="btn btn-success" @click="submit">Submit</button>
+                    <button type="submit" class="btn btn-success">Submit</button>
                   </div>
                   <div class="col-md-4 col-12" v-if="false">
                     <button type="button" class="btn btn-danger">Delete</button>
@@ -87,26 +117,77 @@ export default {
     return {
       KpiDescription: [],
       EraDescription: [],
-      newArray: {}
+      newArray: {},
+      userKpi: {},
+      userEra: {},
+      EraArray: [],
+      kpiArray: []
     };
   },
   computed: {
     user: get("profile/user")
   },
+  mounted() {
+    this.getReport();
+  },
   methods: {
     api_postReview: call("monthlyReport/postReview"),
+    api_getReview: call("monthlyReport/getReview"),
     async submit() {
       let obj = {
         kpi: this.KpiDescription,
         era: this.EraDescription
       };
       let response = await this.callFunction("kpi");
-      let response2 = await this.callFunction("kra");
+      let response2 = await this.callFunction("era");
       if (response && response2) {
-        this.api_postReview(this.newArray);
+        // this.api_postReview(JSON.stringify(this.newArray));
+        this.api_postReview(this.newArray)
+          .then(res => {
+            this.getReport();
+          })
+          .catch(err => {
+            console.log(err);
+          });
       }
       this.KpiDescription = [];
       this.EraDescription = [];
+    },
+    getReport() {
+      this.api_getReview()
+        .then(res => {
+          // console.log(res.data[0].report);
+          this.user.kpi.kpi_json.forEach(element => {
+            if (element.title !== "") {
+              this.userKpi[element.title] = res.data[0].report[element.title];
+              this.userKpi[desc] = element.desc;
+              this.$forceUpdate();
+            }
+          });
+          this.user.kpi.era_json.forEach(element => {
+            if (element.title !== "") {
+              this.userEra[element.title] = res.data[0].report[element.title];
+              this.userEra[desc] = element.desc;
+              this.$forceUpdate();
+            }
+          });
+          for (var key in this.userKpi) {
+            this.kpiArray.push({
+              title: key,
+              value: this.userKpi[key]
+            });
+          }
+          for (var key in this.userEra) {
+            this.EraArray.push({
+              title: key,
+              value: this.userEra[key]
+            });
+          }
+          console.log(this.EraArray, this.kpiArray);
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
     callFunction(key) {
       if (key === "kpi") {
@@ -116,7 +197,7 @@ export default {
             this.newArray[`${element.title}`] = this.KpiDescription[i];
           }
         });
-      } else if (key === "kra") {
+      } else if (key === "era") {
         this.user.kpi.era_json.forEach((element, i) => {
           if (element.title !== "") {
             let title = element.title;

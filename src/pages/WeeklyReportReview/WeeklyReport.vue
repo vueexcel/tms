@@ -53,6 +53,7 @@
             :performanceData="allweeklyData"
             :employee="activeEmp"
             @deleteReview="deleteReviewUser"
+            @update-highlight="updateHighlight"
           />
         </div>
         <div v-if="!allweeklyData.length && !error" class="pb-5">
@@ -103,6 +104,9 @@ export default {
     getAllJuniors_: call("weeklyReportReview/getAllJuniors"),
     setCountToReview_: call("weeklyReportReview/setCountToReview"),
     deleteWeeklyReview_: call("weeklyReportReview/deleteWeeklyReview"),
+    updateHighlight(val) {
+      this.fetchallWeeklyReport();
+    },
     setActive(employee) {
       this.show = !this.show;
       setTimeout(() => {

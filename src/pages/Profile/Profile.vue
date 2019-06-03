@@ -136,7 +136,7 @@
                     v-b-popover.hover="`project difficulty`"
                     class="fas fa-question-circle fs-sm text-danger"
                   ></i>
-                  <span class="float-right">{{user.project_difficulty}} / 10</span>
+                  <span class="float-right">{{user.project_difficulty}} %</span>
                 </h6>
                 <span class="text-secondary fs-sm">Project dificulty</span>
                 <b-progress
@@ -144,7 +144,7 @@
                   style="height: 5px"
                   variant="success"
                   :value="user.project_difficulty"
-                  :max="10"
+                  :max="100"
                 />
               </div>
             </div>
