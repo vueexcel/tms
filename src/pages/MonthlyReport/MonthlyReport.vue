@@ -27,6 +27,8 @@
                       v-if="kpi.title"
                       id="textarea1"
                       placeholder="Description.."
+                      :ref="kpi.title"
+                      v-model="KpiDescription[index]"
                       :rows="3"
                       :max-rows="6"
                     ></b-form-textarea>
@@ -49,7 +51,9 @@
                       v-if="era.title"
                       id="textarea1"
                       placeholder="Description.."
+                      :ref="era.title"
                       :rows="3"
+                      v-model="EraDescription[index]"
                       :max-rows="6"
                     ></b-form-textarea>
                   </div>
@@ -59,7 +63,7 @@
               <div class="form-actions">
                 <div class="row">
                   <div class="col-md-4 col-12">
-                    <button type="button" class="btn btn-success">Submit</button>
+                    <button type="button" class="btn btn-success" @click="submit">Submit</button>
                   </div>
                   <div class="col-md-4 col-12" v-if="false">
                     <button type="button" class="btn btn-danger">Delete</button>
@@ -75,11 +79,53 @@
 </template>
 
 <script>
-import { get } from "vuex-pathify";
+import { get, call } from "vuex-pathify";
+import Vue from "vue";
 export default {
   name: "monthlyReport",
+  data() {
+    return {
+      KpiDescription: [],
+      EraDescription: [],
+      newArray: {}
+    };
+  },
   computed: {
     user: get("profile/user")
+  },
+  methods: {
+    api_postReview: call("monthlyReport/postReview"),
+    async submit() {
+      let obj = {
+        kpi: this.KpiDescription,
+        era: this.EraDescription
+      };
+      let response = await this.callFunction("kpi");
+      let response2 = await this.callFunction("kra");
+      if (response && response2) {
+        this.api_postReview(this.newArray);
+      }
+      this.KpiDescription = [];
+      this.EraDescription = [];
+    },
+    callFunction(key) {
+      if (key === "kpi") {
+        this.user.kpi.kpi_json.forEach((element, i) => {
+          if (element.title !== "") {
+            let title = element.title;
+            this.newArray[`${element.title}`] = this.KpiDescription[i];
+          }
+        });
+      } else if (key === "kra") {
+        this.user.kpi.era_json.forEach((element, i) => {
+          if (element.title !== "") {
+            let title = element.title;
+            this.newArray[`${element.title}`] = this.EraDescription[i];
+          }
+        });
+      }
+      return true;
+    }
   }
 };
 </script>
