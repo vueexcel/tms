@@ -16,7 +16,7 @@
         <i class="fas fa-circle-notch text-success fa-spin float-right mr-5 size" v-if="loading"></i>
       </div>
       <b-container class="no-gutters">
-        <div v-if="!allweeklyData.length ">
+        <div v-if="!allweeklyReport_.length ">
           <b-alert
             :show="error"
             dismissible
@@ -39,7 +39,7 @@
               :activeId="activeId"
               :page="'Weekly'"
               :allemployee="allJuniors_"
-              :allreport="allweeklyData"
+              :allreport="allweeklyReport_"
               :activeClass="activeClass"
               :allData="allDataToComponent"
             />
@@ -47,18 +47,23 @@
         </b-row>
       </b-container>
       <div class="container-fluid">
-        <div class="mt-5 mb-3 row"></div>
-        <div v-if="allweeklyData.length && allJuniors_.length">
+        <div class="mt-5 mb-3 row">
+        </div>
+        <div v-if="allweeklyReport_.length && allJuniors_.length">
           <PerformanceBox
-            :performanceData="allweeklyData"
+            :performanceData="allweeklyReport_"
             :employee="activeEmp"
             @deleteReview="deleteReviewUser"
             @update-highlight="updateHighlight"
           />
-        </div>
-        <div v-if="!allweeklyData.length && !error" class="pb-5">
-          <b-alert show dismissible class="alert-transparent alert-danger mt-5">No Report</b-alert>
-        </div>
+          </div>
+          <div v-if="!allweeklyReport_.length && !error" class="pb-5">
+            <b-alert
+            show
+            dismissible
+            class="alert-transparent alert-danger mt-5"
+            >No Report</b-alert>
+          </div>
       </div>
     </div>
   </div>
@@ -82,8 +87,6 @@ export default {
         background_color: "fafbff",
         border: "c1ccd3"
       },
-      weeklyData: [],
-      allweeklyData: [],
       loading: false,
       error: false,
       errorMessage: "",
@@ -97,7 +100,8 @@ export default {
   },
   computed: {
     allJuniors_: get("weeklyReportReview/allJuniors"),
-    userProfile: get("profile/user")
+    userProfile: get("profile/user"),
+    allweeklyReport_: get("weeklyReportReview/allweeklyReport")
   },
   methods: {
     getallWeeklyReport_: call("weeklyReportReview/getallWeeklyReport"),
@@ -116,29 +120,21 @@ export default {
       this.activeEmp = employee;
     },
     onSlideStart(slide) {
-      this.sliding = true;
-    },
-    onSlideEnd(slide) {
-      this.sliding = false;
-    },
-    fetchallWeeklyReport() {
+        this.sliding = true
+      },
+      onSlideEnd(slide) {
+        this.sliding = false
+      },
+    async fetchallWeeklyReport() {
       this.loading = true;
-      this.getallWeeklyReport_()
-        .then(resp => {
-          if (!resp.data.length) {
-            this.error = true;
-            this.errorMessage = "There is no data to review";
-          } else {
-            this.allweeklyData = resp.data;
-            this.setActiveEmployeeReports(this.allweeklyData);
-          }
-          this.loading = false;
-        })
-        .catch(err => {
-          this.loading = false;
-          this.error = true;
-          this.errorMessage = "There is some issue to getting result";
-        });
+      let response = await this.getallWeeklyReport_()
+      if(response !== true){
+        this.error = true
+        this.errorMessage = response
+      } else {
+        this.setActiveEmployeeReports();
+      }
+      this.loading = false
     },
     async deleteReviewUser(report) {
       let resp = await this.deleteWeeklyReview_(report);
@@ -149,19 +145,18 @@ export default {
         this.errorMessage = "There is some issue to getting result";
       }
     },
-    setActiveEmployeeReports(array) {
-      this.allDataToComponent = array;
-      array.forEach(data => {
-        for (var i = 0; i < this.allJuniors_.length; i++) {
-          if (data.user === this.allJuniors_[i]._id) {
-            this.highlightEmployees.push(this.allJuniors_[i]);
+    setActiveEmployeeReports(){
+      this.allweeklyReport_.forEach(data =>{
+        for(var i = 0; i < this.allJuniors_.length ; i++){
+          if(data.user === this.allJuniors_[i]._id){
+            this.highlightEmployees.push(this.allJuniors_[i])
           }
         }
       });
       this.setCountToReview_({
-        user: this.userProfile,
-        reportArray: this.allweeklyData
-      });
+        user:this.userProfile,
+        reportArray: this.allweeklyReport_
+      })
     },
     async getAllJuniors() {
       let response = await this.getAllJuniors_();

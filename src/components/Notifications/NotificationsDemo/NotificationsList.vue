@@ -58,13 +58,14 @@ export default {
     activity: get("profile/activity"),
     date() {
       this.activity.forEach(activity => {
+        console.log(activity);
+
         if (activity.missed_checkin) {
           activity.missed_checkin.forEach(dates => {
-            var date = this.$moment(dates.checkin_missed_message);
+            // var date = this.$moment(dates.checkin_message);
+            var date = dates.checkin_message;
             if (date) {
-              dates["day"] = this.$moment(date.checkin_missed_message).format(
-                " MMMM DD, YYYY"
-              );
+              dates["day"] = this.$moment(date).format("MMMM Do YYYY");
             }
           });
         }
