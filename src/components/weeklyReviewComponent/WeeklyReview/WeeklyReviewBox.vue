@@ -146,8 +146,6 @@ export default {
     }
   },
   mounted() {
-    console.log('call every mount');
-    
   },
   computed: {
     userProfile: get("profile/user"),
@@ -158,6 +156,7 @@ export default {
       if (this.employee) {
         this.ratedStarDifficulty = 0
         this.ratedStarWeekly = 0
+        this.text = ''
         reportArray = this.performanceData.filter(
           data => data.user === this.employee._id
         );
