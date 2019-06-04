@@ -67,7 +67,7 @@
         iconName="fas fa-calendar"
         index="notifications"
         isHeader
-      /> -->
+      />-->
       <!-- link="/app/weeklyReview" -->
       <!-- <NavLink
         header="View Check-ins"
@@ -132,14 +132,13 @@
         :badge="count "
         isHeader
       />
-      <!-- <NavLink
-        v-if="sideBar.role === 'manager' || sideBar.role === 'Employee'"
+      <NavLink
         header="Monthly Report"
         link="/app/monthlyReport"
         iconName="fas fa-calendar"
         index="notifications"
         isHeader
-      /> -->
+      />
       <NavLink
         v-if="sideBar.role === 'manager'"
         header="Your Juniors"
@@ -306,11 +305,11 @@ export default {
     sideBar: get("profile/user"),
     feedback: get("feedback/feedbacksCount"),
     countToReviewReport_: get("weeklyReportReview/countToReviewReport"),
-    count(){
-      if(this.countToReviewReport_){
-        return JSON.stringify(this.countToReviewReport_)
+    count() {
+      if (this.countToReviewReport_) {
+        return JSON.stringify(this.countToReviewReport_);
       } else {
-        return '0'
+        return "0";
       }
     },
     feedbackCount() {

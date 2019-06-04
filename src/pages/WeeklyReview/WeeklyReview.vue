@@ -195,7 +195,7 @@ export default {
   },
   data() {
     return {
-      ratedStar: 1,
+      ratedStar: 0,
       selected: "",
       selectedDays: [],
       kpiKraDescription: "",
@@ -252,7 +252,7 @@ export default {
       this.getReport();
     },
     clearform() {
-      this.ratedStar = 1;
+      this.ratedStar = 0;
       this.kpiKraDescription = "";
       this.extraWorkDescription = "";
       this.kpikradescriotionlist = [];

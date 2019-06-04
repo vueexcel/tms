@@ -12,6 +12,7 @@ import performanceReview from "./modules/performanceReview";
 import allMember from './modules/allMembers'
 import weeklyReportReview from './modules/weeklyReportReview'
 import feedback from './modules/feedback'
+import monthlyReport from './modules/monthlyReport'
 
 import layout from "./layout";
 
@@ -29,6 +30,7 @@ export default new Vuex.Store({
     performanceReview,
     allMember,
     weeklyReportReview,
-    feedback
+    feedback,
+    monthlyReport
   }
 });

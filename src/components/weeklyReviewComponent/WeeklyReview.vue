@@ -36,8 +36,9 @@ export default {
     activeClass: { type: Object },
     page: { type: String },
     allemployee: { type: Array, default: [] },
-    highlightEployeeArray: {type: Array, default : []},
-    allreport: {type: Array,default : []}
+    highlightEployeeArray: { type: Array, default: [] },
+    allreport: { type: Array, default: [] },
+    allData: { type: Array }
   },
   data() {
     return {
@@ -58,13 +59,30 @@ export default {
       return "#" + this.activeClass.background_color;
     },
     borderColor() {
-      if(this.highlightEployeeArray.length){
-        for(var i=0;i<this.highlightEployeeArray.length;i++){
-          if(this.employee._id === this.highlightEployeeArray[i]._id){
-
-            return '1px solid #006400'
+      let report = {};
+      let color = "";
+      if (this.highlightEployeeArray.length) {
+        for (let i = 0; i < this.allemployee.length; i++) {
+          const element = this.allemployee[i];
+          if (element._id == this.employee._id) {
+            for (let k = 0; k < this.allreport.length; k++) {
+              if (element._id === this.allreport[k].user) {
+                report = this.allreport[k];
+                report.is_reviewed.find(manager => {
+                  if (manager._id === this.userProfile._id) {
+                    if (manager.reviewed === true) {
+                      color = "orange";
+                    } else {
+                      color = "purple";
+                    }
+                  }
+                });
+              }
+            }
           }
         }
+        console.log(report, color, this.employee);
+        return "1px solid "+ color;
       } else {
         return "1px solid #" + this.activeClass.border;
       }

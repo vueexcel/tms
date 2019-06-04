@@ -7,7 +7,10 @@
           Team View
           <span class="fs-sm">
             <i class="pl-5 fa fa-circle text-info"/> Selected
-            <i class="pl-1 fa fa-circle" style="color: #006400"/> Report Available ( Border color )
+            <!-- <i class="pl-1 fa fa-circle" style="color: #006400"/> Report Available ( Border color ) -->
+            <i class="pl-1 fa fa-circle" style="color: purple"/> Report Available ( Border color )
+            <i class="pl-1 fa fa-circle" style="color: orange"/> Report Reviewed ( Border color )
+            <i class="pl-1 fa fa-circle" style="color: black"/> No Report ( Border color )
           </span>
         </span>
         <i class="fas fa-circle-notch text-success fa-spin float-right mr-5 size" v-if="loading"></i>
@@ -21,7 +24,14 @@
           >{{errorMessage}}</b-alert>
         </div>
         <b-row class="employees" v-if="allJuniors_.length">
-          <b-col lg="2"  md="4" xs="12"   class="column" v-for="employee in allJuniors_" :key="employee._id">
+          <b-col
+            lg="2"
+            md="4"
+            xs="12"
+            class="column"
+            v-for="employee in allJuniors_"
+            :key="employee._id"
+          >
             <WeeklyReviewComponent
               :employee="employee"
               @setActive="setActive"
@@ -31,6 +41,7 @@
               :allemployee="allJuniors_"
               :allreport="allweeklyReport_"
               :activeClass="activeClass"
+              :allData="allDataToComponent"
             />
           </b-col>
         </b-row>
@@ -78,7 +89,8 @@ export default {
       loading: false,
       error: false,
       errorMessage: "",
-      highlightEmployees: []
+      highlightEmployees: [],
+      allDataToComponent: []
     };
   },
   mounted() {
@@ -92,7 +104,7 @@ export default {
   },
   methods: {
     getallWeeklyReport_: call("weeklyReportReview/getallWeeklyReport"),
-    getAllJuniors_:call("weeklyReportReview/getAllJuniors"),
+    getAllJuniors_: call("weeklyReportReview/getAllJuniors"),
     setCountToReview_: call("weeklyReportReview/setCountToReview"),
     deleteWeeklyReview_: call("weeklyReportReview/deleteWeeklyReview"),
     setActive(employee) {
@@ -120,11 +132,11 @@ export default {
       }
       this.loading = false
     },
-    async deleteReviewUser(report){
-      let resp = await this.deleteWeeklyReview_(report)
-      if(resp == true){
-        this.fetchallWeeklyReport()
-      }else {
+    async deleteReviewUser(report) {
+      let resp = await this.deleteWeeklyReview_(report);
+      if (resp == true) {
+        this.fetchallWeeklyReport();
+      } else {
         this.error = true;
         this.errorMessage = "There is some issue to getting result";
       }
@@ -136,7 +148,7 @@ export default {
             this.highlightEmployees.push(this.allJuniors_[i])
           }
         }
-      })
+      });
       this.setCountToReview_({
         user:this.userProfile,
         reportArray: this.allweeklyReport_

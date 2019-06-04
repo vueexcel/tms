@@ -32,7 +32,7 @@
           </div>
           <div class="border-top text-light"></div>
         </b-container>
-      </b-collapse> -->
+      </b-collapse>-->
       <div class="mt-2">
         <div class="feedback pb-2 mt-4 pl-3">Highlight</div>
         <div class="ml-3 pt-3" v-for="(highlight,index) in user.k_highlight" :key="index">
@@ -41,10 +41,10 @@
             <span>{{highlight.KpiEra}}</span>
           </div>
           <div>
-            <strong class="text-secondary">Highlight Work done in week  : &nbsp;</strong>
+            <strong class="text-secondary">Highlight Work done in week : &nbsp;</strong>
             <span class="white-space-pre">{{highlight.description}}</span>
           </div>
-          <br/>
+          <br>
         </div>
       </div>
       <div class="mt-2">
@@ -83,9 +83,7 @@
                 :key="index"
                 :title="reportdata.day"
                 class="border-0 white-space-pre pl-3 pr-3 pb-3 pt-0"
-              >
-                {{reportdata.report}}
-              </b-tab>
+              >{{reportdata.report}}</b-tab>
             </b-tabs>
           </b-card>
 
@@ -113,7 +111,7 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$props.user);
+    // console.log(this.$props.user);
   },
   computed: {
     date() {

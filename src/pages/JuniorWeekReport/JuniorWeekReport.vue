@@ -21,11 +21,8 @@
           <span class="date">{{ junior.created_at | day }}</span>
           <span class="time">{{ junior.created_at | time }}</span>
         </time>
-        <span
-          class="eventIcon"
-          :class="junior.review ?  'eventIconPrimary' : 'eventIconSuccess'"
-        >
-            <!-- :class="junior.reviewedByUser  ?  'glyphicon-duplicate' : 'glyphicon-comments'" -->
+        <span class="eventIcon" :class="junior.review ?  'eventIconPrimary' : 'eventIconSuccess'">
+          <!-- :class="junior.reviewedByUser  ?  'glyphicon-duplicate' : 'glyphicon-comments'" -->
           <i
             class="glyphicon"
             :class="junior.review  ?  'glyphicon-duplicate' : 'glyphicon-comments'"
@@ -71,17 +68,38 @@
                 <span class="thumb-xs avatar pull-left mr-sm">
                   <img
                     class="rounded-circle"
-                    :src="junior.is_reviewed[index]._id.profileImage ? junior.is_reviewed[index]._id.profileImage: image"
+                    :src="comment.manager_id.profileImage ? comment.manager_id.profileImage: image"
                     alt="..."
                   >
                 </span>
                 <div class="comment-body">
-                  <h6 class="author fs-sm fw-semi-bold">{{ junior.is_reviewed[index]._id.name }}</h6>
-                  <p>{{ comment.comment }}</p>
+                  <h6 class="author fs-sm fw-semi-bold">{{ comment.manager_id.name }}</h6>
+                  <p class="mb-0">{{ comment.comment }}</p>
+                  <div class="starClass">
+                    <strong>Difficulty : &nbsp;</strong>
+                    <Stars
+                      :displayStar="10"
+                      :ratedStar="comment.difficulty"
+                      :starSize="'15px'"
+                      :disableStar="false"
+                    />
+                  </div>
+                  <div class="starClass">
+                    <strong>Overall Rating : &nbsp;</strong>
+                    <Stars
+                      :displayStar="10"
+                      :ratedStar="comment.rating"
+                      :starSize="'15px'"
+                      :disableStar="false"
+                    />
+                  </div>
                 </div>
               </li>
             </ul>
-            <div class="text-danger" v-else>No comments yet!</div>
+            <div
+              class="text-danger"
+              v-else
+            >Put in your weekly report, before seeing other managers review!</div>
           </footer>
         </section>
       </li>

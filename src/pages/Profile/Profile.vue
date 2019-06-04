@@ -127,6 +127,27 @@
                 />
               </div>
             </div>
+            <!-- third bar -->
+            <div>
+              <div>
+                <h6 class="text-dark fs-larger">
+                  Project Difficulty
+                  <i
+                    v-b-popover.hover="`project difficulty`"
+                    class="fas fa-question-circle fs-sm text-danger"
+                  ></i>
+                  <span class="float-right">{{user.project_difficulty}} / 10</span>
+                </h6>
+                <span class="text-secondary fs-sm">Project dificulty</span>
+                <b-progress
+                  class="w-75"
+                  style="height: 5px"
+                  variant="success"
+                  :value="user.project_difficulty"
+                  :max="10"
+                />
+              </div>
+            </div>
             <!-- Recent Activities -->
           </div>
           <div class="h-auto mt-5">
@@ -345,8 +366,12 @@ export default {
       });
     },
     sortedArray() {
-      this.checkin_rating = this.user.Checkin_rating ? Math.round(this.user.Checkin_rating) : 0;
-      this.Overall_rating = this.user.Overall_rating ? Math.round(this.user.Overall_rating) : 0;
+      this.checkin_rating = this.user.Checkin_rating
+        ? Math.round(this.user.Checkin_rating)
+        : 0;
+      this.Overall_rating = this.user.Overall_rating
+        ? Math.round(this.user.Overall_rating)
+        : 0;
       let managers = this.user.managers;
       if (managers) {
         function compare(a, b) {
