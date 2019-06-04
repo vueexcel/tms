@@ -4,20 +4,30 @@ import axios from "axios";
 // setup store
 const state = {
   allJuniors: [],
+  allweeklyReport: [],
   countToReviewReport: 0
 };
 const mutations = make.mutations(state);
 const actions = {
   ...make.actions(state),
   async getallWeeklyReport({ state, commit }, payload) {
-    let res = await axios.get("/manager_weekly_all");
-    if (res) {
-      return res;
+    try{
+      let res = await axios.get("/manager_weekly_all");
+      state.allweeklyReport = res.data
+      return true
+    } catch(err){
+      if(err.response){
+        return err.response.data.msg
+      } else {
+          return 'API Server Down'
+      }
     }
   },
-  async setWeeklyReportReview({ state, commit }, payload) {
+  async setWeeklyReportReview({ state, dispatch }, payload) {
     let res = await axios.post(`/manager_weekly/${payload.id}`, payload);
     if(res) {
+      dispatch('getallWeeklyReport')
+      state.countToReviewReport--
       return true
     }
   },
@@ -61,7 +71,7 @@ const actions = {
   async deleteWeeklyReview({state},payload){
     try{
       let response = await axios.delete(`/delete_manager_response/${payload._id}`)
-      state.countToReviewReport--
+      state.countToReviewReport++
       return true
     } catch(err){
       if(err.response){

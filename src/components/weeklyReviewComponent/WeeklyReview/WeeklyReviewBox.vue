@@ -50,7 +50,7 @@
               />
               <div
                 class="mt-2 font-weight"
-              >As a manager how do you rate the difficulty level of projects which employee has worked on in last week</div>
+              >As a manager how do you rate the difficulty level of projects which employee has worked on in last week <strong>(Optional)</strong></div>
               <starRating
                 class="border-bottom"
                 :displayStar="10"
@@ -146,7 +146,6 @@ export default {
     }
   },
   mounted() {
-    // console.log(this.$props.employee);
   },
   computed: {
     userProfile: get("profile/user"),
@@ -155,6 +154,9 @@ export default {
       this.error = false;
       this.errorMessage = "";
       if (this.employee) {
+        this.ratedStarDifficulty = 0
+        this.ratedStarWeekly = 0
+        this.text = ''
         reportArray = this.performanceData.filter(
           data => data.user === this.employee._id
         );
@@ -214,8 +216,8 @@ export default {
           this.success = true;
           this.header = "success";
           this.showSuccess = "Your have reviewed successfully";
-          this.ratedStarWeekly = 1;
-          this.ratedStarDifficulty = 1;
+          this.ratedStarWeekly = 0;
+          this.ratedStarDifficulty = 0;
           this.text = "";
         })
         .catch(err => {
