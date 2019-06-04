@@ -1,19 +1,22 @@
 <template>
   <div>
     <b-row class="shadow">
+      <!-- user/ employee data ( LEFT BOX ) -->
       <b-col xs="12" sm="6" class="bg-warning rounded-left">
-        <ExtraWorkFeedback :user="data_[activeId]" :variant="'text-warning'"/>
+        <UserMonthlyReport :user="data_[activeId]" :variant="'text-warning'"/>
       </b-col>
-      <b-col xs="12" sm="6" class="rounded-right">
+      <!-- user/ employee data ( LEFT BOX ) ends-->
+      <!--#### RIGHT SIDE FORM ####-->
+      <b-col xs="12" sm="6" class="rounded-right mb-3">
         <b-alert
           show
           dismissible
           class="alert-class mt-3"
-        >Info: Overall rating/ comments mandatory for managers based on weekly report</b-alert>
-        <div class="mb-3">
+        >Info: Overall rating/ comments mandatory for managers based on monthly report</b-alert>
+        <div class="mb-3 mt-3">
           <h6 class="rating-header mb-2">Overall Rating</h6>
           <div class="border-top"></div>
-          <div class="mt-2 font-weight">Based on Weekly Review</div>
+          <div class="mt-2 font-weight">Based on Monthly Review</div>
         </div>
         <starRating :displayStar="5" :ratedStar="ratedStar" @starRatingSelected="submitStarRate"/>
         <div sm="6">
@@ -27,9 +30,21 @@
             placeholder="Performance or general comments (if any)..."
             required
           />
-          <b-button variant="primary" class="width-100 mb-xs mr-xs mt-4" type="submit">Submit</b-button>
+          <b-button
+            variant="primary"
+            v-if="true"
+            class="width-100 mb-xs mr-xs mt-4"
+            type="submit"
+          >Submit</b-button>
+          <b-button
+            variant="danger"
+            v-if="false"
+            class="width-100 mb-xs mr-xs mt-4"
+            type="button"
+          >Delete</b-button>
         </b-form>
       </b-col>
+      <!--#### RIGHT SIDE FORM ENDS ####-->
     </b-row>
   </div>
 </template>
@@ -37,6 +52,7 @@
 <script>
 import starRating from "@/components/Star/Star";
 import ExtraWorkFeedback from "./../../../components/ExtraWorkFeedback/ExtraWorkFeedback";
+import UserMonthlyReport from "@/components/UserMonthlyReport/UserMonthlyReport";
 export default {
   name: "PerformanceBox",
   props: {
@@ -488,7 +504,8 @@ export default {
   },
   components: {
     starRating: starRating,
-    ExtraWorkFeedback: ExtraWorkFeedback
+    // ExtraWorkFeedback: ExtraWorkFeedback,
+    UserMonthlyReport: UserMonthlyReport
   },
   methods: {
     submit() {

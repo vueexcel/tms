@@ -38,6 +38,13 @@
         isHeader
       />
       <NavLink
+        header="Monthly Report Review"
+        link="/app/monthlyReportReview"
+        iconName="fas fa-calendar"
+        isHeader
+      />
+      <!-- index="notifications" -->
+      <NavLink
         header="View Junior's Checkin"
         link="/app/viewCheckin"
         iconName="fas fa-folder-open"
@@ -136,6 +143,14 @@
         header="Monthly Report"
         link="/app/monthlyReport"
         iconName="fas fa-calendar"
+        index="notifications"
+        isHeader
+      />
+      <NavLink
+        v-if="sideBar.role === 'manager'"
+        header="Monthly Report Review"
+        link="/app/monthlyReportReview"
+        iconName="fas fa-calendar-check"
         index="notifications"
         isHeader
       />

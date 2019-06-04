@@ -59,7 +59,7 @@ export default {
       return "#" + this.activeClass.background_color;
     },
     borderColor() {
-      console.log("border-color initiated");
+      // console.log("border-color initiated");
       let report = {};
       let color = "";
       if (this.highlightEployeeArray.length) {
@@ -82,7 +82,7 @@ export default {
             }
           }
         }
-        console.log(report, color, this.employee);
+        // console.log(report, color, this.employee);
         return "1px solid " + color;
       } else {
         return "1px solid #" + this.activeClass.border;

@@ -12,6 +12,13 @@ const actions = {
         if (res) {
             return res
         }
+    },
+    async deleteReport({ state, commit }, payload) {
+        const monthlyReportID = payload
+        let res = await axios.delete(`/delete_monthly/${monthlyReportID}`)
+        if (res) {
+            return res
+        }
     }
 }
 //create store

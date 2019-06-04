@@ -1,0 +1,19 @@
+@import "../../styles/app";
+
+.row-altered {
+  flex-basis: 0;
+  height: 140px;
+  overflow: auto;
+  white-space: nowrap;
+  display: -webkit-box;
+  .members {
+    flex-grow: 1;
+    flex-shrink: 0;
+    min-width: 100px;
+    max-width: 118px;
+    cursor: pointer;
+  }
+  .members:not(:first-child) {
+    padding-left: 15px;
+  }
+}

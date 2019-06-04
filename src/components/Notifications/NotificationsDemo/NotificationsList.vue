@@ -58,7 +58,6 @@ export default {
     activity: get("profile/activity"),
     date() {
       this.activity.forEach(activity => {
-        console.log(activity);
         if (activity.missed_checkin) {
           activity.missed_checkin.forEach(dates => {
             var date = this.$moment(dates.checkin_missed_message);

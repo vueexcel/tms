@@ -10,14 +10,16 @@
   font-size: 12px;
   font-weight: 500;
 }
-
+.borderColor {
+  border-color: red;
+}
 .employee {
   border-radius: 8px;
   background-color: #fff3da !important;
   color: #343a40;
 }
 
-.column{
+.column {
   width: 200px;
   cursor: pointer;
 }
@@ -40,7 +42,7 @@
   color: #798892;
 }
 
-.feedback{
+.feedback {
   width: 100%;
   border-bottom: 1px solid #c1ccd3 !important;
   margin-left: 5px;
@@ -62,7 +64,7 @@
   background: transparent;
   width: 100%;
 }
-.collapse-button:hover{
+.collapse-button:hover {
   // color: #3c484f !important;
 }
 .collapse-button {
@@ -72,10 +74,10 @@
   font-weight: 600 !important;
   background: transparent !important;
   border: none !important;
-  border-radius: 0PX !important;
+  border-radius: 0px !important;
   border-bottom: 1px solid #c1ccd3 !important;
   position: relative;
-  &:hover::after{
+  &:hover::after {
     color: #3c484f !important;
   }
   &::after {
@@ -85,21 +87,21 @@
     padding: 3px;
     position: absolute;
     top: 10px;
-    transition: transform .3s;
+    transition: transform 0.3s;
     right: 10px;
     transform: rotate(-45deg);
   }
 }
 .collapse-button:not(.collapsed)::after {
-  transition: transform .3s;
+  transition: transform 0.3s;
   transform: rotate(-225deg);
 }
 
-.bold-text{
+.bold-text {
   font-weight: 450;
 }
 
-.pointer{
+.pointer {
   cursor: pointer;
   &.fa {
     font-size: 30px;
@@ -108,9 +110,9 @@
   }
 }
 
-
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
