@@ -155,97 +155,99 @@
               Recent
               <span class="fw-semi-bold">Activities</span>
             </h2>
-            <span v-for="(recentactivity,index) in activity" :key="index">
-              <span v-if="recentactivity.missed_checkin">
-                <span v-for="(misschecked,index) in recentactivity.missed_checkin" :key="index">
-                  <widget class="mb-3">
-                    <span class="thumb-md float-left mr-2 mt-1">
-                      <img
-                        class="rounded-circle"
-                        :src="user.profileImage ? user.profileImage : image"
-                        alt="..."
-                        width="25"
-                        height="25"
-                      >
-                    </span>
-                    <span class="text-primary fw-semi-bold fs-larger">{{user.name}}</span>
-                    {{date}}
-                    <p class="fs-sm">{{misschecked.datemisstime}}</p>
-                    You have missed your daily checkin on
-                    {{misschecked.datemiss}}
-                  </widget>
+            <div class="activity">
+              <span v-for="(recentactivity,index) in activity" :key="index">
+                <span v-if="recentactivity.missed_checkin">
+                  <span v-for="(misschecked,index) in recentactivity.missed_checkin" :key="index">
+                    <widget class="mb-3">
+                      <span class="thumb-md float-left mr-2 mt-1">
+                        <img
+                          class="rounded-circle"
+                          :src="user.profileImage ? user.profileImage : image"
+                          alt="..."
+                          width="25"
+                          height="25"
+                        >
+                      </span>
+                      <span class="text-primary fw-semi-bold fs-larger">{{user.name}}</span>
+                      {{date}}
+                      <p class="fs-sm">{{misschecked.datemisstime}}</p>
+                      You have missed your daily checkin on
+                      {{misschecked.datemiss}}
+                    </widget>
+                  </span>
+                </span>
+                <!-- Daily_checkin block -->
+                <span v-if="recentactivity.Daily_checkin">
+                  <span
+                    v-for="(dailycheckin,index) in recentactivity.Daily_checkin.slice().reverse()"
+                    :key="index"
+                  >
+                    <widget class="mb-3">
+                      <span class="thumb-md float-left mr-2 mt-1">
+                        <img
+                          class="rounded-circle"
+                          :src="user.profileImage ? user.profileImage : image"
+                          alt="..."
+                          width="25"
+                          height="25"
+                        >
+                      </span>
+                      <span class="text-primary fw-semi-bold fs-larger">{{user.name}}</span>
+                      {{dailydate}}
+                      <p class="fs-sm">{{dailycheckin.dailycheckintime}}</p>
+                      You have done your daily checkin on
+                      {{dailycheckin.dailycheckindate}}
+                    </widget>
+                  </span>
+                </span>
+                <!-- reviewed report block -->
+                <span v-if="recentactivity.report_reviewed">
+                  <span
+                    v-for="(reportreviewed,index) in recentactivity.report_reviewed.slice().reverse()"
+                    :key="index"
+                  >
+                    <widget class="mb-3">
+                      <span class="thumb-md float-left mr-2 mt-1">
+                        <img
+                          class="rounded-circle"
+                          :src="user.profileImage ? user.profileImage : image"
+                          alt="..."
+                          width="25"
+                          height="25"
+                        >
+                      </span>
+                      <span class="text-primary fw-semi-bold fs-larger">{{user.name}}</span>
+                      <p class="fs-sm">{{recentactivity.dates}}</p>
+                      <p>{{reportreviewed.Message}}</p>
+                    </widget>
+                  </span>
+                </span>
+                <!-- Review Report Block  -->
+                <span v-if="recentactivity.review_report">
+                  <span
+                    v-for="(reviewreport,index) in recentactivity.review_report.slice().reverse()"
+                    :key="index"
+                  >
+                    <widget class="mb-3">
+                      <span class="thumb-md float-left mr-2 mt-1">
+                        <img
+                          class="rounded-circle"
+                          :src="user.profileImage ? user.profileImage : image"
+                          alt="..."
+                          width="25"
+                          height="25"
+                        >
+                      </span>
+                      <span class="text-primary fw-semi-bold fs-larger">{{user.name}}</span>
+                      {{reportreview}}
+                      <p class="fs-sm">{{reviewreport.reportreviewtime}}</p>
+                      <p>{{reviewreport.Message}}</p>
+                    </widget>
+                  </span>
                 </span>
               </span>
-              <!-- Daily_checkin block -->
-              <span v-if="recentactivity.Daily_checkin">
-                <span
-                  v-for="(dailycheckin,index) in recentactivity.Daily_checkin.slice().reverse()"
-                  :key="index"
-                >
-                  <widget class="mb-3">
-                    <span class="thumb-md float-left mr-2 mt-1">
-                      <img
-                        class="rounded-circle"
-                        :src="user.profileImage ? user.profileImage : image"
-                        alt="..."
-                        width="25"
-                        height="25"
-                      >
-                    </span>
-                    <span class="text-primary fw-semi-bold fs-larger">{{user.name}}</span>
-                    {{dailydate}}
-                    <p class="fs-sm">{{dailycheckin.dailycheckintime}}</p>
-                    You have done your daily checkin on
-                    {{dailycheckin.dailycheckindate}}
-                  </widget>
-                </span>
-              </span>
-              <!-- reviewed report block -->
-              <span v-if="recentactivity.report_reviewed">
-                <span
-                  v-for="(reportreviewed,index) in recentactivity.report_reviewed.slice().reverse()"
-                  :key="index"
-                >
-                  <widget class="mb-3">
-                    <span class="thumb-md float-left mr-2 mt-1">
-                      <img
-                        class="rounded-circle"
-                        :src="user.profileImage ? user.profileImage : image"
-                        alt="..."
-                        width="25"
-                        height="25"
-                      >
-                    </span>
-                    <span class="text-primary fw-semi-bold fs-larger">{{user.name}}</span>
-                    <p class="fs-sm">{{recentactivity.dates}}</p>
-                    <p>{{reportreviewed.Message}}</p>
-                  </widget>
-                </span>
-              </span>
-              <!-- Review Report Block  -->
-              <span v-if="recentactivity.review_report">
-                <span
-                  v-for="(reviewreport,index) in recentactivity.review_report.slice().reverse()"
-                  :key="index"
-                >
-                  <widget class="mb-3">
-                    <span class="thumb-md float-left mr-2 mt-1">
-                      <img
-                        class="rounded-circle"
-                        :src="user.profileImage ? user.profileImage : image"
-                        alt="..."
-                        width="25"
-                        height="25"
-                      >
-                    </span>
-                    <span class="text-primary fw-semi-bold fs-larger">{{user.name}}</span>
-                    {{reportreview}}
-                    <p class="fs-sm">{{reviewreport.reportreviewtime}}</p>
-                    <p>{{reviewreport.Message}}</p>
-                  </widget>
-                </span>
-              </span>
-            </span>
+            </div>
           </div>
         </b-col>
       </b-row>
