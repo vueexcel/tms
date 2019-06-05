@@ -31,11 +31,8 @@ export default {
   name: "monthlyPerformanceReviewComponent",
   props: {
     employee: { type: Object, default: () => ({}) },
-    activeId: { type: Number, default: "" }
-  },
-  mounted() {
-    console.log(this.$props.employee);
-  },
+    activeId: { type: String, default: "" }
+  },  
   data() {
     return {
       borderColor: "",

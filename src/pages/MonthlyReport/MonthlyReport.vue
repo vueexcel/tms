@@ -13,10 +13,10 @@
             </div>
             <form
               class="form-horizontal"
+              v-if="!loading && Object.keys(user).length"
               @submit.prevent="submit"
-              v-if="Object.keys(user).length && !loading"
             >
-              <fieldset v-if="!userKpi.length">
+              <fieldset v-if="!usersMonthlyReport">
                 <h3>KPI</h3>
                 <hr>
                 <div class="form-group row" v-for="(kpi, index) in user.kpi.kpi_json" :key="index">
@@ -42,24 +42,28 @@
               <!----------------- 
                 *if no data found KPI
               ------------------->
-              <fieldset v-if="userKpi.length">
+              <fieldset v-if="usersMonthlyReport">
                 <h3>KPI</h3>
                 <hr>
-                <div class="form-group row" v-for="(kpi, index) in userKpi" :key="index">
+                <div
+                  class="form-group row"
+                  v-for="(kpi, index) in usersMonthlyReport.kpi"
+                  :key="index"
+                >
                   <label class="col-md-6 control-label text-md-left">
-                    <span class="fw-bold">{{ Object.keys(kpi)[0] }}</span>
+                    <span class="fw-bold">{{ kpi.title }}</span>
                     <br>
                     <span>{{ kpi.desc }}</span>
                   </label>
                   <div class="col-md-6">
-                    <h4 class="white-space">{{ Object.values(kpi)[0] }}</h4>
+                    <h4 class="white-space">{{ kpi.comment }}</h4>
                   </div>
                 </div>
               </fieldset>
               <!----------------- 
                 *if no data found ends KPI
               ------------------->
-              <fieldset v-if="!userEra.length">
+              <fieldset v-if="!usersMonthlyReport">
                 <h3>ERA</h3>
                 <hr>
                 <div class="form-group row" v-for="(era, index) in user.kpi.era_json" :key="index">
@@ -86,17 +90,21 @@
               <!----------------- 
                 *if no data found ERA
               ------------------->
-              <fieldset v-if="userEra.length">
+              <fieldset v-if="usersMonthlyReport">
                 <h3>ERA</h3>
                 <hr>
-                <div class="form-group row" v-for="(kpi, index) in userEra" :key="index">
+                <div
+                  class="form-group row"
+                  v-for="(kpi, index) in usersMonthlyReport.era"
+                  :key="index"
+                >
                   <label class="col-md-6 control-label text-md-left">
-                    <span class="fw-bold">{{ Object.keys(kpi)[0] }}</span>
+                    <span class="fw-bold">{{ kpi.title }}</span>
                     <br>
                     <span>{{ kpi.desc }}</span>
                   </label>
                   <div class="col-md-6">
-                    <h4 class="white-space">{{ Object.values(kpi)[0] }}</h4>
+                    <h4 class="white-space">{{ kpi.comment }}</h4>
                   </div>
                 </div>
               </fieldset>
@@ -106,11 +114,15 @@
               <div class="form-actions">
                 <div class="row">
                   <div class="col-md-4 col-12">
-                    <button v-if="!userEra.length" type="submit" class="btn btn-success">Submit</button>
+                    <button
+                      v-if="!usersMonthlyReport.kpi"
+                      type="submit"
+                      class="btn btn-success"
+                    >Submit</button>
                   </div>
                   <div class="col-md-4 col-12">
                     <button
-                      v-if="userEra.length && !reportStatus.length"
+                      v-if="usersMonthlyReport.kpi && !reportStatus.length"
                       @click="deleteMonthlyReport()"
                       type="button"
                       class="btn btn-danger"
@@ -135,12 +147,13 @@ export default {
     return {
       KpiDescription: [],
       EraDescription: [],
-      setPayload: {},
-      userKpi: [],
-      userEra: [],
+      setPayload: {}, //mainPayload
+      setPayloadKPI: [], //KPI array
+      setPayloadERA: [], //ERA array
       loading: true,
       usersMonthlyReport: "",
-      reportStatus: []
+      reportStatus: [],
+      allUserData: ""
     };
   },
   computed: {
@@ -148,7 +161,6 @@ export default {
   },
   mounted() {
     this.getReport();
-    // this.reportReviewStatus();
   },
   methods: {
     api_postReview: call("monthlyReport/postReview"),
@@ -162,6 +174,8 @@ export default {
       };
       let resKpi = await this.prepareKpiEra("kpi");
       let resEra = await this.prepareKpiEra("era");
+      this.setPayload["kpi"] = this.setPayloadKPI;
+      this.setPayload["era"] = this.setPayloadERA;
       if (resKpi && resEra) {
         this.api_postReview(this.setPayload)
           .then(res => {
@@ -173,30 +187,17 @@ export default {
       }
       this.KpiDescription = [];
       this.EraDescription = [];
+      this.setPayloadKPI = [];
+      this.setPayloadERA = [];
     },
     getReport() {
       this.loading = true;
       this.api_getReview()
         .then(res => {
           if (res.data.length) {
-            this.usersMonthlyReport = res.data;
+            this.allUserData = res.data[0];
+            this.usersMonthlyReport = res.data[0].report;
             this.reportReviewStatus(); //set review status
-            this.user.kpi.kpi_json.forEach(element => {
-              if (element.title !== "" && element.desc !== "") {
-                this.userKpi.push({
-                  [element.title]: res.data[0].report[element.title],
-                  desc: element.desc
-                });
-              }
-            });
-            this.user.kpi.era_json.forEach(element => {
-              if (element.title !== "" && element.desc !== "") {
-                this.userEra.push({
-                  [element.title]: res.data[0].report[element.title],
-                  desc: element.desc
-                });
-              }
-            });
           }
           this.loading = false;
         })
@@ -208,16 +209,24 @@ export default {
     prepareKpiEra(key) {
       if (key === "kpi") {
         this.user.kpi.kpi_json.forEach((element, i) => {
-          if (element.title !== "") {
+          if (element.title !== "" && element.desc !== "") {
             let title = element.title;
-            this.setPayload[`${element.title}`] = this.KpiDescription[i];
+            this.setPayloadKPI.push({
+              title: element.title,
+              desc: element.desc,
+              comment: this.KpiDescription[i]
+            });
           }
         });
       } else if (key === "era") {
         this.user.kpi.era_json.forEach((element, i) => {
-          if (element.title !== "") {
+          if (element.title !== "" && element.desc !== "") {
             let title = element.title;
-            this.setPayload[`${element.title}`] = this.EraDescription[i];
+            this.setPayloadERA.push({
+              title: element.title,
+              desc: element.desc,
+              comment: this.EraDescription[i]
+            });
           }
         });
       }
@@ -225,12 +234,11 @@ export default {
     },
     deleteMonthlyReport() {
       this.loading = true;
-      const reportID = this.usersMonthlyReport[0]._id;
+      const reportID = this.allUserData._id;
       this.api_deleteReport(reportID)
         .then(res => {
           if (res.status === 200) {
-            this.userKpi = [];
-            this.userEra = [];
+            this.usersMonthlyReport = "";
           }
           this.loading = false;
         })
@@ -240,8 +248,8 @@ export default {
         });
     },
     reportReviewStatus() {
-      if (this.usersMonthlyReport.length) {
-        let result = this.usersMonthlyReport[0].is_reviewed.filter(
+      if (this.allUserData) {
+        let result = this.allUserData.is_reviewed.filter(
           element => element.reviewed === true
         );
         this.reportStatus = result;

@@ -20,6 +20,7 @@ const actions = {
                 } else {
                     if (payload === undefined) {
                         router.push("/app/profile");
+
                     }
                 }
                 return true

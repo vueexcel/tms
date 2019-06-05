@@ -309,7 +309,6 @@ export default {
         let disablebtn = response[0].is_reviewed.some(v => {
           return v.reviewed === true;
         });
-        console.log(disablebtn);
         this.disableDelete = disablebtn;
         this.submittedReport = response;
         this.highlightList = this.submittedReport[0].k_highlight;

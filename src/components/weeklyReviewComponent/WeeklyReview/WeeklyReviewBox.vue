@@ -198,7 +198,6 @@ export default {
       };
       await this.setWeeklyReportReview(data)
         .then(res => {
-          console.log(data, "on submit");
           this.$emit("update-highlight", true);
           this.activeReport.canReview = false;
           this.reviewedComments = data;
