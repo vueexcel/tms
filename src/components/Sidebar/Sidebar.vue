@@ -38,6 +38,13 @@
         isHeader
       />
       <NavLink
+        header="Monthly Report Review"
+        link="/app/monthlyReportReview"
+        iconName="fas fa-calendar"
+        isHeader
+      />
+      <!-- index="notifications" -->
+      <NavLink
         header="View Junior's Checkin"
         link="/app/viewCheckin"
         iconName="fas fa-folder-open"
@@ -136,6 +143,14 @@
         header="Monthly Report"
         link="/app/monthlyReport"
         iconName="fas fa-calendar"
+        index="notifications"
+        isHeader
+      />
+      <NavLink
+        v-if="sideBar.role === 'manager'"
+        header="Monthly Report Review"
+        link="/app/monthlyReportReview"
+        iconName="fas fa-calendar-check"
         index="notifications"
         isHeader
       />
@@ -247,7 +262,7 @@
 import { mapState, mapActions } from "vuex";
 import isScreen from "@/core/screenHelper";
 import NavLink from "./NavLink/NavLink";
-import { get } from "vuex-pathify";
+import { get, call } from "vuex-pathify";
 
 export default {
   name: "Sidebar",
@@ -272,8 +287,39 @@ export default {
       ]
     };
   },
+  watch: {
+    sideBar(newValue, oldValue) {
+      this.fetchfeedbackCount();
+    },
+    countToReviewReport_(newValue, oldValue) {
+      // console.log(newValue);
+      // this.fetchfeedbackCount();
+    }
+  },
   methods: {
     ...mapActions("layout", ["changeSidebarActive", "switchSidebar"]),
+    api_fetchFeedback: call("feedback/fetchFeedback"),
+    setCountToReview_: call("weeklyReportReview/setCountToReview"),
+    api_fetchweekly: call("weeklyReportReview/getallWeeklyReport"),
+    async fetchfeedbackCount() {
+      if (this.sideBar.role === "Admin") {
+        await this.api_fetchFeedback();
+        await this.api_fetchweekly();
+        await this.setCountToReview_({
+          user: this.userProfile,
+          reportArray: this.allweeklyReport_
+        });
+      }
+      if (this.sideBar.role === "manager") {
+        this.api_fetchweekly();
+        await this.api_fetchweekly();
+        await this.setCountToReview_({
+          user: this.userProfile,
+          reportArray: this.allweeklyReport_
+        });
+      }
+    },
+
     setActiveByRoute() {
       const paths = this.$route.fullPath.split("/");
       paths.pop();
@@ -305,6 +351,10 @@ export default {
     sideBar: get("profile/user"),
     feedback: get("feedback/feedbacksCount"),
     countToReviewReport_: get("weeklyReportReview/countToReviewReport"),
+
+    userProfile: get("profile/user"),
+    allweeklyReport_: get("weeklyReportReview/allweeklyReport"),
+
     count() {
       if (this.countToReviewReport_) {
         return JSON.stringify(this.countToReviewReport_);

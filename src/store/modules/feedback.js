@@ -23,7 +23,6 @@ const actions = {
         return res
     },
     async postFeedbackAdmin({ state, commit }, payload) {
-        console.log(payload);
         let res = await axios.post(`/admin_fb_reply/${payload.user._id}`, { reply: payload.comment })
         return res
     }

@@ -1,7 +1,8 @@
 <template>
   <div>
     <h1 class="page-title">Monthly Report</h1>
-    <b-container class="shadow bg-white no-gutters p-4" fluid>
+    <i v-if="loading" class="fas fa-circle-notch text-success fa-spin float-right mr-5 mt-3 size"></i>
+    <b-container class="shadow bg-white no-gutters p-4 mh-500" fluid>
       <b-row>
         <b-col xs="12" class="pt-4">
           <div>
@@ -10,9 +11,12 @@
                 <span>No report found</span>
               </b-alert>
             </div>
-            <form class="form-horizontal" v-if="user">
-              <fieldset>
-                <!-- add button here -->
+            <form
+              class="form-horizontal"
+              v-if="!loading && Object.keys(user).length"
+              @submit.prevent="submit"
+            >
+              <fieldset v-if="!usersMonthlyReport">
                 <h3>KPI</h3>
                 <hr>
                 <div class="form-group row" v-for="(kpi, index) in user.kpi.kpi_json" :key="index">
@@ -21,7 +25,6 @@
                     <br>
                     <span>{{ kpi.desc }}</span>
                   </label>
-                  <!-- <span>{{ kpi.desc }}</span> -->
                   <div class="col-md-6">
                     <b-form-textarea
                       v-if="kpi.title"
@@ -31,12 +34,36 @@
                       v-model="KpiDescription[index]"
                       :rows="3"
                       :max-rows="6"
+                      required
                     ></b-form-textarea>
                   </div>
                 </div>
               </fieldset>
-              <fieldset>
-                <!-- add button here -->
+              <!----------------- 
+                *if no data found KPI
+              ------------------->
+              <fieldset v-if="usersMonthlyReport">
+                <h3>KPI</h3>
+                <hr>
+                <div
+                  class="form-group row"
+                  v-for="(kpi, index) in usersMonthlyReport.kpi"
+                  :key="index"
+                >
+                  <label class="col-md-6 control-label text-md-left">
+                    <span class="fw-bold">{{ kpi.title }}</span>
+                    <br>
+                    <span>{{ kpi.desc }}</span>
+                  </label>
+                  <div class="col-md-6">
+                    <h4 class="white-space">{{ kpi.comment }}</h4>
+                  </div>
+                </div>
+              </fieldset>
+              <!----------------- 
+                *if no data found ends KPI
+              ------------------->
+              <fieldset v-if="!usersMonthlyReport">
                 <h3>ERA</h3>
                 <hr>
                 <div class="form-group row" v-for="(era, index) in user.kpi.era_json" :key="index">
@@ -45,7 +72,6 @@
                     <br>
                     <span>{{ era.desc }}</span>
                   </label>
-                  <!-- <span>{{ era.desc }}</span> -->
                   <div class="col-md-6">
                     <b-form-textarea
                       v-if="era.title"
@@ -55,18 +81,52 @@
                       :rows="3"
                       v-model="EraDescription[index]"
                       :max-rows="6"
+                      required
                     ></b-form-textarea>
                   </div>
                 </div>
                 <hr>
               </fieldset>
+              <!----------------- 
+                *if no data found ERA
+              ------------------->
+              <fieldset v-if="usersMonthlyReport">
+                <h3>ERA</h3>
+                <hr>
+                <div
+                  class="form-group row"
+                  v-for="(kpi, index) in usersMonthlyReport.era"
+                  :key="index"
+                >
+                  <label class="col-md-6 control-label text-md-left">
+                    <span class="fw-bold">{{ kpi.title }}</span>
+                    <br>
+                    <span>{{ kpi.desc }}</span>
+                  </label>
+                  <div class="col-md-6">
+                    <h4 class="white-space">{{ kpi.comment }}</h4>
+                  </div>
+                </div>
+              </fieldset>
+              <!----------------- 
+                *if no data found ends ERA
+              ------------------->
               <div class="form-actions">
                 <div class="row">
                   <div class="col-md-4 col-12">
-                    <button type="button" class="btn btn-success" @click="submit">Submit</button>
+                    <button
+                      v-if="!usersMonthlyReport.kpi"
+                      type="submit"
+                      class="btn btn-success"
+                    >Submit</button>
                   </div>
-                  <div class="col-md-4 col-12" v-if="false">
-                    <button type="button" class="btn btn-danger">Delete</button>
+                  <div class="col-md-4 col-12">
+                    <button
+                      v-if="usersMonthlyReport.kpi && !reportStatus.length"
+                      @click="deleteMonthlyReport()"
+                      type="button"
+                      class="btn btn-danger"
+                    >Delete</button>
                   </div>
                 </div>
               </div>
@@ -87,48 +147,126 @@ export default {
     return {
       KpiDescription: [],
       EraDescription: [],
-      newArray: {}
+      setPayload: {}, //mainPayload
+      setPayloadKPI: [], //KPI array
+      setPayloadERA: [], //ERA array
+      loading: true,
+      usersMonthlyReport: "",
+      reportStatus: [],
+      allUserData: ""
     };
   },
   computed: {
     user: get("profile/user")
   },
+  mounted() {
+    this.getReport();
+  },
   methods: {
     api_postReview: call("monthlyReport/postReview"),
+    api_getReview: call("monthlyReport/getReview"),
+    api_deleteReport: call("monthlyReport/deleteReport"),
     async submit() {
+      this.loading = true;
       let obj = {
         kpi: this.KpiDescription,
         era: this.EraDescription
       };
-      let response = await this.callFunction("kpi");
-      let response2 = await this.callFunction("kra");
-      if (response && response2) {
-        this.api_postReview(this.newArray);
+      let resKpi = await this.prepareKpiEra("kpi");
+      let resEra = await this.prepareKpiEra("era");
+      this.setPayload["kpi"] = this.setPayloadKPI;
+      this.setPayload["era"] = this.setPayloadERA;
+      if (resKpi && resEra) {
+        this.api_postReview(this.setPayload)
+          .then(res => {
+            this.getReport();
+          })
+          .catch(err => {
+            console.log(err);
+          });
       }
       this.KpiDescription = [];
       this.EraDescription = [];
+      this.setPayloadKPI = [];
+      this.setPayloadERA = [];
     },
-    callFunction(key) {
+    getReport() {
+      this.loading = true;
+      this.api_getReview()
+        .then(res => {
+          if (res.data.length) {
+            this.allUserData = res.data[0];
+            this.usersMonthlyReport = res.data[0].report;
+            this.reportReviewStatus(); //set review status
+          }
+          this.loading = false;
+        })
+        .catch(err => {
+          console.log(err);
+          this.loading = false;
+        });
+    },
+    prepareKpiEra(key) {
       if (key === "kpi") {
         this.user.kpi.kpi_json.forEach((element, i) => {
-          if (element.title !== "") {
+          if (element.title !== "" && element.desc !== "") {
             let title = element.title;
-            this.newArray[`${element.title}`] = this.KpiDescription[i];
+            this.setPayloadKPI.push({
+              title: element.title,
+              desc: element.desc,
+              comment: this.KpiDescription[i]
+            });
           }
         });
-      } else if (key === "kra") {
+      } else if (key === "era") {
         this.user.kpi.era_json.forEach((element, i) => {
-          if (element.title !== "") {
+          if (element.title !== "" && element.desc !== "") {
             let title = element.title;
-            this.newArray[`${element.title}`] = this.EraDescription[i];
+            this.setPayloadERA.push({
+              title: element.title,
+              desc: element.desc,
+              comment: this.EraDescription[i]
+            });
           }
         });
       }
       return true;
+    },
+    deleteMonthlyReport() {
+      this.loading = true;
+      const reportID = this.allUserData._id;
+      this.api_deleteReport(reportID)
+        .then(res => {
+          if (res.status === 200) {
+            this.usersMonthlyReport = "";
+          }
+          this.loading = false;
+        })
+        .catch(err => {
+          console.log(err);
+          this.loading = false;
+        });
+    },
+    reportReviewStatus() {
+      if (this.allUserData) {
+        let result = this.allUserData.is_reviewed.filter(
+          element => element.reviewed === true
+        );
+        this.reportStatus = result;
+      }
     }
   }
 };
 </script>
 
 <style>
+.size {
+  font-size: 25px;
+}
+.mh-500 {
+  min-height: 500px;
+}
+.white-space {
+  white-space: pre-line;
+}
 </style>
