@@ -54,6 +54,8 @@
             :performanceData="allweeklyReport_"
             :employee="activeEmp"
             @deleteReview="deleteReviewUser"
+            @update-highlight="updateHighlight"
+            @skipReport="skipReportReview"
           />
           </div>
           <div v-if="!allweeklyReport_.length && !error" class="pb-5">
@@ -64,6 +66,11 @@
             >No Report</b-alert>
           </div>
       </div>
+      <Toasts
+    :rtl="true"
+    class="toast"
+    :time-out="5000"
+></Toasts>
     </div>
   </div>
 </template>
@@ -107,6 +114,21 @@ export default {
     getAllJuniors_: call("weeklyReportReview/getAllJuniors"),
     setCountToReview_: call("weeklyReportReview/setCountToReview"),
     deleteWeeklyReview_: call("weeklyReportReview/deleteWeeklyReview"),
+    skipReportReview_:call("weeklyReportReview/skipReportReview"),
+    updateHighlight(val) {
+      this.fetchallWeeklyReport();
+    },
+    async skipReportReview(value){
+      let response = await this.skipReportReview_(value)
+      if(response === true){
+        this.$toast.success(`You have skipped the report successfully.`);
+        this.fetchallWeeklyReport()
+      } else {
+        this.$toast.error(`${response}`,{
+          title: 'BootstrapVue Toast'
+        });
+      }
+    },
     setActive(employee) {
       this.show = !this.show;
       setTimeout(() => {

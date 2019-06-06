@@ -23,3 +23,38 @@
 @import 'overrides';
 @import 'general';
 @import 'utils';
+
+.ml-auto{
+    position: relative;
+    .toast-icon{
+       display: none;
+    }
+}
+
+
+
+.toast-header.bg-danger {
+    button.close{
+        color: #fff;
+        opacity: 1;
+    }
+    &~ .toast-body {
+        background: #f55d5d;
+        color:white;
+        padding: 0 10px;
+        font-weight: bold;
+    }
+}
+
+.toast-header.bg-success {
+    button.close{
+        color: #fff;
+        opacity: 1;
+    }
+    &~ .toast-body {
+        background: #3abf94;
+        color: white;
+        padding: 0 10px;
+        font-weight:bold;
+    } 
+}

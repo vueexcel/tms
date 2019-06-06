@@ -1,11 +1,23 @@
 import axios from './../axios'
 const state = {}
 const actions = {
-    async postReview({ state, commit }, payload) {
-        console.log(payload);
-        let res = await axios.post('/monthly', payload)
+    async postReview({ state, dispatch, commit }, payload) {
+        let res = await axios.post('/monthly', { report: payload })
         if (res) {
-            console.log(res);
+            return res
+        }
+    },
+    async getReview({ state, commit }) {
+        let res = await axios.get('/monthly')
+        if (res) {
+            return res
+        }
+    },
+    async deleteReport({ state, commit }, payload) {
+        const monthlyReportID = payload
+        let res = await axios.delete(`/delete_monthly/${monthlyReportID}`)
+        if (res) {
+            return res
         }
     }
 }
