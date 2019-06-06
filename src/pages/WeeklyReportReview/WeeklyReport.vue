@@ -120,12 +120,13 @@ export default {
     },
     async skipReportReview(value){
       let response = await this.skipReportReview_(value)
-      console.log(response,'9999999999999999999999');
-      
       if(response === true){
+        this.$toast.success(`You have skipped the report successfully.`);
         this.fetchallWeeklyReport()
       } else {
-        this.$toast.error(`${response}`);
+        this.$toast.error(`${response}`,{
+          title: 'BootstrapVue Toast'
+        });
       }
     },
     setActive(employee) {

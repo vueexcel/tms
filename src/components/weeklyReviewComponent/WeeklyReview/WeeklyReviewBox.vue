@@ -82,6 +82,7 @@
                     @click="submit"
                   >Submit</b-button>
                   <b-button
+                  v-if="userProfile.role === 'Admin'"
                     :disabled="activeReport.canReview == false"
                     class="btn btn-default btn-lg mb-xs bg-info text-white mt-4 float-right"
                     @click="skipReport"

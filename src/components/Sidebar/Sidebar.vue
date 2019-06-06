@@ -37,12 +37,12 @@
         :badge="count"
         isHeader
       />
-      <NavLink
+      <!-- <NavLink
         header="Monthly Report Review"
         link="/app/monthlyReportReview"
         iconName="fas fa-calendar"
         isHeader
-      />
+      /> -->
       <!-- index="notifications" -->
       <NavLink
         header="View Junior's Checkin"
@@ -139,7 +139,7 @@
         :badge="count "
         isHeader
       />
-      <NavLink
+      <!-- <NavLink
         header="Monthly Report"
         link="/app/monthlyReport"
         iconName="fas fa-calendar"
@@ -153,7 +153,7 @@
         iconName="fas fa-calendar-check"
         index="notifications"
         isHeader
-      />
+      /> -->
       <NavLink
         v-if="sideBar.role === 'manager'"
         header="Your Juniors"
