@@ -81,6 +81,11 @@
                     class="btn btn-default btn-lg mb-xs bg-primary text-white mt-4"
                     @click="submit"
                   >Submit</b-button>
+                  <b-button
+                    :disabled="activeReport.canReview == false"
+                    class="btn btn-default btn-lg mb-xs bg-info text-white mt-4 float-right"
+                    @click="skipReport"
+                  >Skip Report</b-button>
                 </span>
                 <span v-if="activeReport.canReview == false">
                   <b-button
@@ -226,6 +231,9 @@ export default {
           this.showSuccess = "Sorry there is some error";
           this.header = "danger";
         });
+    },
+    skipReport(){
+      this.$emit('skipReport',this.activeReport)
     },
     async deleteReport() {
       this.$emit("deleteReview", this.activeReport);

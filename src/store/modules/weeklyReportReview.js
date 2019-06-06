@@ -90,6 +90,20 @@ const actions = {
         }
       })
     }
+  },
+  async skipReportReview({commit},payload){
+    try{
+      let response = await axios.post(`/skip_review/${payload._id}`)
+      if(response){
+        return true
+      }
+    } catch(error){
+      if(error.response){
+        return error.response.data.msg
+      } else {
+        return 'Api Server down'
+      }
+    }
   }
 };
 // create store
