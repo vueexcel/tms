@@ -68,13 +68,13 @@
         :badge="JSON.stringify(feedbackCount)"
         isHeader
       />
-      <!-- <NavLink
+      <NavLink
         header="View Monthly Report"
         link="/app/PerformanceReview"
         iconName="fas fa-calendar"
         index="notifications"
         isHeader
-      />-->
+      />
       <!-- link="/app/weeklyReview" -->
       <!-- <NavLink
         header="View Check-ins"
