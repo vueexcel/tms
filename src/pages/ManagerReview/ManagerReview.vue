@@ -39,9 +39,17 @@
               <a href="#">{{report.username}}</a>
             </h4>
             <p class="fs-sm text-muted">{{ report.created_at | moment }}</p>
-            <p class="fs-mini white-space-pre">KPI?/KRA : &nbsp;{{ report.k_highlight.kra ? report.k_highlight.kra : report.k_highlight.KpiEra }}</p>
-            <p class="fs-mini white-space-pre hightlight">Highlight : &nbsp;{{ report.k_highlight.kpi ? report.k_highlight.kpi : report.k_highlight.description}}</p>
-            <p class="fs-mini text-custom white-space-pre">{{ report.extra }}</p>
+            <div v-if="report.k_highlight && !report.k_highlight.length">
+              <p class="fs-mini white-space-pre"><strong>KPI?/KRA :</strong> &nbsp;{{ report.k_highlight.kra ? report.k_highlight.kra : report.k_highlight.KpiEra }}</p>
+              <p class="fs-mini white-space-pre hightlight"><strong>Highlight :</strong> &nbsp;{{ report.k_highlight.kpi ? report.k_highlight.kpi : report.k_highlight.description}}</p>
+            </div>
+            <div v-if="report.k_highlight && report.k_highlight.length">
+              <div v-for="reportKPI in report.k_highlight" :key="reportKPI._id">
+                <p class="fs-mini white-space-pre"><strong>KPI?/KRA :</strong> &nbsp;{{ reportKPI.KpiEra }}</p>
+                <p class="fs-mini white-space-pre hightlight"><strong>Highlight :</strong> &nbsp;{{ reportKPI.description}}</p>
+              </div>
+            </div>
+            <p class="fs-mini text-custom white-space-pre"><strong>Extra Work/Feedback/Issues  :</strong> &nbsp;{{ report.extra }}</p>
             <p class="reportStar">
               <Stars
                 :displayStar="5"

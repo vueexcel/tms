@@ -41,17 +41,31 @@
             <a class="text-primary">{{ junior.user.name }}</a>
           </h5>
           <p class="fs-sm text-muted">{{ junior.created_at | moment }}</p>
-          <p v-if="junior.k_highlight.kra">
-            <strong>For Kpi/Kra :</strong>
-            &nbsp;{{junior.k_highlight.kra}}
-          </p>
-          <p class="fs-mini white-space-pre">
+          <div v-if="junior.k_highlight && !junior.k_highlight.length">
+            <p v-if="junior.k_highlight.kra || junior.k_highlight.KpiEra">
+              <strong>For Kpi/Kra :</strong>
+              &nbsp;{{junior.k_highlight.kra ? junior.k_highlight.kra : junior.k_highlight.KpiEra}}
+            </p>
+            <p class="fs-mini text-custom white-space-pre">
+              <strong>Highlight : &nbsp;</strong>
+              {{ junior.k_highlight.kpi ? junior.k_highlight.kpi : junior.k_highlight.description}}
+            </p>
+          </div>
+          <div v-if="junior.k_highlight && junior.k_highlight.length">
+            <div v-for="KpiEraWOrk in junior.k_highlight" :key="KpiEraWOrk._id" class="shadow-sm">
+              <p class="pl-2">
+                <strong>For Kpi/Kra :</strong>
+                &nbsp;{{KpiEraWOrk.KpiEra}}
+              </p>
+              <p class="fs-mini text-custom white-space-pre pl-2">
+                <strong>Highlight : &nbsp;</strong>
+                {{ KpiEraWOrk.description }}
+              </p>
+            </div>
+          </div>
+          <p class="fs-mini white-space-pre pl-2">
             <strong>Extra Work : &nbsp;</strong>
             {{ junior.extra }}
-          </p>
-          <p class="fs-mini text-custom white-space-pre">
-            <strong>Highlight : &nbsp;</strong>
-            {{ junior.k_highlight.kpi }}
           </p>
           <div class="starClass">
             <strong>Difficulty Level : &nbsp;</strong>
