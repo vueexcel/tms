@@ -87,7 +87,7 @@ export default {
     loginApi: call("login/login_"),
     getProfile: call("profile/getProfile"),
     login() {
-      const username = this.$refs.username.value;
+      const username = this.$refs.username.value.toLowerCase();
       const password = this.$refs.password.value;
       if (username.length !== 0 && password.length !== 0) {
         this.loader = true;
