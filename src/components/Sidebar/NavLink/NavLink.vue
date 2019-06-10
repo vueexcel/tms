@@ -9,6 +9,7 @@
     </router-link>
   </li>
   <li v-else-if="childrenLinks" :class="{headerLink: true, className}">
+    {{className}}
     <div @click="() => togglePanelCollapse(link)">
       <router-link :to="link" event="" class="d-flex">
         <span class="icon">
@@ -19,7 +20,7 @@
           <i class="fa fa-angle-left" />
         </div>
       </router-link>
-    </div> {{link}}
+    </div>
     <b-collapse :id="'collapse' + index" :visible="isActive">
       <ul>
         <NavLink v-for="link in childrenLinks"
