@@ -1,28 +1,67 @@
 <template>
   <div xs="12" sm="6">
-    <span v-if="user">
+    <!-- <span v-if="user"> -->
+    <span v-if="activeEmployeReport">
       <div class="mt-2">
         <div class="feedback pb-2 mt-4 pl-3">KPI</div>
         <!-- <div class="ml-3 pt-3" v-for="(highlight,index) in user.k_highlight" :key="index"> -->
-        <!-- <div class="ml-3 pt-3">
+        <div class="ml-3 pt-2" v-for="(kpi, index) in activeEmployeReport.report.kpi" :key="index">
           <div>
-            <strong class="text-secondary">KPI/Era : &nbsp;</strong>
-            <span>{{highlight.KpiEra}}</span>
+            <strong class="text-secondary">{{ kpi.title }}</strong>
+            <br>
+            <span>{{kpi.desc}}</span>
             <span></span>
           </div>
-          <div>
-            <strong class="text-secondary">Highlight Work done in week : &nbsp;</strong>
-            <span class="white-space-pre">{{highlight.description}}</span>
+          <div class="pt-3">
+            <h6 class="text-primary">Comment:</h6>
+            <!-- <p class="box fs-lg fw-semi-bold text-secondary">{{ kpi.comment }}</p> -->
+            <div class="dialogbox">
+              <div class="body">
+                <span class="tip tip-up"></span>
+                <div class="message">
+                  <span>{{ kpi.comment }}</span>
+                </div>
+              </div>
+            </div>
+            <!-- <span class="white-space-pre">{{highlight.description}}</span> -->
             <span class="white-space-pre"></span>
           </div>
           <br>
-        </div> -->
+        </div>
       </div>
       <div class="mt-2">
         <div class="feedback pb-2 mt-4 pl-3">ERA</div>
-        <!-- <h6 class="ml-3 pt-3">{{ user.extra }}</h6> -->
-        <h6 class="ml-3 pt-3"></h6>
+        <!-- <div class="ml-3 pt-3" v-for="(highlight,index) in user.k_highlight" :key="index"> -->
+        <div class="ml-3 pt-2" v-for="(era, index) in activeEmployeReport.report.era" :key="index">
+          <div>
+            <strong class="text-secondary">{{ era.title }}</strong>
+            <br>
+            <span>{{era.desc}}</span>
+            <span></span>
+          </div>
+          <div class="pt-3">
+            <h6 class="text-primary">Comment:</h6>
+            <!-- <p class="box fs-lg fw-semi-bold text-secondary">{{ era.comment }}</p> -->
+            <div class="dialogbox">
+              <div class="body">
+                <span class="tip tip-up"></span>
+                <div class="message">
+                  <span>{{ era.comment }}</span>
+                </div>
+              </div>
+            </div>
+            <!-- <span class="white-space-pre">{{highlight.description}}</span> -->
+            <span class="white-space-pre"></span>
+          </div>
+          <br>
+        </div>
       </div>
+      <!-- <div class="mt-2">
+        <div class="feedback pb-2 mt-4 pl-3">ERA</div>
+        {{ activeEmployeReport.report.era }}
+        <h6 class="ml-3 pt-3">{{ user.extra }}</h6>
+        <h6 class="ml-3 pt-3"></h6>
+      </div>-->
       <!-- <div>
         <div class="feedback mt-4 pb-2 pl-3">Highlight Check-in</div>
         <span v-for="(reporthighlight, index) in user.select_days" :key="index">
@@ -30,7 +69,7 @@
           <h6 class="ml-3 mt-3 white-space-pre">{{reporthighlight.report }}</h6>
           <h6 class="ml-3 mt-3 white-space-pre"></h6>
         </span>
-      </div> -->
+      </div>-->
       <!-- <div>
         <div class="feedback mt-4 pb-2 pl-3">Project Difficulty Level</div>
         <div class="text-dark ml-3 mt-2" v-if="false">
@@ -43,21 +82,33 @@
             @starRatingSelected="submitStarRateDifficulty"
           />
         </div>
-      </div> -->
+      </div>-->
       <!-- row -->
-      <div class="form-group" v-if="false">
-        <div class="feedback mt-4 pb-2 pl-3">All weeks checkins</div>
+      <div class="form-group">
+        <!-- {{ activeEmployeReport.all_weekly }} -->
+        <div class="feedback mt-4 pb-2 pl-3">All weekly checkins</div>
         <div class="pt-2">
           <!-- ======= ACCORDION RIGHT =================-->
           <b-card no-body class="border-0">
             <b-tabs pills card vertical end class="border-0">
               {{date}}
+              <!-- :title="reportdata.user" -->
               <b-tab
-                v-for="(reportdata,index) in user.all_chekin.slice().reverse()"
+                v-for="(reportdata,index) in activeEmployeReport.all_weekly"
+                :title="`Week ${index+1}`"
                 :key="index"
-                :title="reportdata.day"
                 class="border-0 white-space-pre pl-3 pr-3 pb-3 pt-0"
-              >{{reportdata.report}}</b-tab>
+              >
+                <div
+                  v-for="(highlight, indexHighlight) in reportdata.k_highlight "
+                  :key="indexHighlight"
+                >
+                  <h5>{{ highlight.KpiEra }}</h5>
+                  <h6>{{ highlight.description }}</h6>
+                </div>
+                Extra:
+                {{reportdata.extra}}
+              </b-tab>
             </b-tabs>
           </b-card>
 
@@ -88,6 +139,7 @@ export default {
     // console.log(this.$props.user);
   },
   computed: {
+    activeEmployeReport: get("monthlyReportReview/activeEmployeReport"),
     date() {
       if (this.$props.user) {
         this.$props.user.all_chekin.forEach((v, i) => {

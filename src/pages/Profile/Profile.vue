@@ -136,7 +136,7 @@
                     v-b-popover.hover="`project difficulty`"
                     class="fas fa-question-circle fs-sm text-danger"
                   ></i>
-                  <span class="float-right">{{user.project_difficulty}} %</span>
+                  <span class="float-right">{{~~user.project_difficulty}} %</span>
                 </h6>
                 <span class="text-secondary fs-sm">Project dificulty</span>
                 <b-progress
@@ -150,7 +150,7 @@
             </div>
             <!-- Recent Activities -->
           </div>
-          <div class="h-auto mt-5">
+          <div class="h-auto mt-5" v-if="false">
             <h2 class="mb-3">
               Recent
               <span class="fw-semi-bold">Activities</span>

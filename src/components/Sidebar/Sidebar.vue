@@ -38,9 +38,10 @@
         isHeader
       />
       <NavLink
-        header="Monthly Report Review"
+        header="Monthly Report"
         link="/app/monthlyReportReview"
         iconName="fas fa-calendar"
+        :badge="unreadMonthlyReport.toString()"
         isHeader
       />
       <!-- index="notifications" -->
@@ -57,6 +58,13 @@
         header="Juniors Weekly Report"
         link="/app/juniorWeekReport"
         iconName="fa fa-flag-checkered"
+        index="feedback"
+        isHeader
+      />
+      <NavLink
+        header="Juniors Monthly Report"
+        link="/app/juniorMonthlyReport"
+        iconName="fa fa-users"
         index="feedback"
         isHeader
       />
@@ -140,7 +148,7 @@
         isHeader
       />
       <NavLink
-        header="Monthly Report"
+        header="Monthly Checkin"
         link="/app/monthlyReport"
         iconName="fas fa-calendar"
         index="notifications"
@@ -148,9 +156,10 @@
       />
       <NavLink
         v-if="sideBar.role === 'manager'"
-        header="Monthly Report Review"
+        header="Monthly Report"
         link="/app/monthlyReportReview"
         iconName="fas fa-calendar-check"
+        :badge="unreadMonthlyReport.toString()"
         index="notifications"
         isHeader
       />
@@ -182,6 +191,14 @@
         header="Juniors Weekly Report"
         link="/app/juniorWeekReport"
         iconName="fa fa-flag-checkered"
+        index="feedback"
+        isHeader
+      />
+      <NavLink
+        v-if="sideBar.role === 'manager'"
+        header="Juniors Monthly Report"
+        link="/app/juniorMonthlyReport"
+        iconName="fa fa-users"
         index="feedback"
         isHeader
       />
@@ -290,6 +307,7 @@ export default {
   watch: {
     sideBar(newValue, oldValue) {
       this.fetchfeedbackCount();
+      // this.getUsersMonthlyReports();
     },
     countToReviewReport_(newValue, oldValue) {
       // console.log(newValue);
@@ -301,10 +319,14 @@ export default {
     api_fetchFeedback: call("feedback/fetchFeedback"),
     setCountToReview_: call("weeklyReportReview/setCountToReview"),
     api_fetchweekly: call("weeklyReportReview/getallWeeklyReport"),
+    api_getUsersMonthlyReports: call(
+      "monthlyReportReview/getUsersMonthlyReports"
+    ),
     async fetchfeedbackCount() {
       if (this.sideBar.role === "Admin") {
         await this.api_fetchFeedback();
         await this.api_fetchweekly();
+        await this.api_getUsersMonthlyReports();
         await this.setCountToReview_({
           user: this.userProfile,
           reportArray: this.allweeklyReport_
@@ -313,6 +335,7 @@ export default {
       if (this.sideBar.role === "manager") {
         this.api_fetchweekly();
         await this.api_fetchweekly();
+        await this.api_getUsersMonthlyReports();
         await this.setCountToReview_({
           user: this.userProfile,
           reportArray: this.allweeklyReport_
@@ -354,6 +377,7 @@ export default {
 
     userProfile: get("profile/user"),
     allweeklyReport_: get("weeklyReportReview/allweeklyReport"),
+    unreadMonthlyReport: get("monthlyReportReview/unreadMonthlyReport"),
 
     count() {
       if (this.countToReviewReport_) {

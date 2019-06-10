@@ -19,6 +19,13 @@ const actions = {
         if (res) {
             return res
         }
+    },
+    // for managers & admin to fetch juniors monthly reports
+    async getAllJuniorsMonthlyReport({ state, commit }) {
+        let res = await axios.get(`/junior_monthly_report`)
+        if (res) {
+            return res
+        }
     }
 }
 //create store

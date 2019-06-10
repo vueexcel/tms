@@ -6,7 +6,7 @@
       v-bind:class="{activeClass : employee.id === activeId}"
       :style="{border: '1px solid '+ borderColor}"
     >
-      <!-- {{setBorderColor()}} -->
+      {{setBorderColor()}}
       <div>
         <img
           class="rounded-circle mt-2 mb-2 h-auto"
@@ -26,25 +26,45 @@
 <script>
 import Vue from "vue";
 import image from "@/assets/avatar.png";
+import { get } from "vuex-pathify";
 
 export default {
   name: "monthlyPerformanceReviewComponent",
   props: {
     employee: { type: Object, default: () => ({}) },
     activeId: { type: String, default: "" }
-  },  
+  },
   data() {
     return {
       borderColor: "",
       avatar: image
     };
   },
+  computed: {
+    allemployee: get("monthlyReportReview/employee"),
+    userprofile: get("profile/user")
+  },
   methods: {
     checkEmployee(employee) {
       this.$emit("setActive", this.employee);
     },
+    // set border color per user
     setBorderColor() {
-      this.borderColor = "blue";
+      if (this.allemployee) {
+        this.allemployee.forEach(element => {
+          if (element.user.id === this.$props.employee.id) {
+            if (element.review) {
+              let response = element.review.some(ele => {
+                return ele.manager_id.username === this.userprofile.username;
+              });
+              if (response) {
+                return (this.borderColor = "orange");
+              }
+            }
+            return (this.borderColor = "red");
+          }
+        });
+      }
     }
   }
 };

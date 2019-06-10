@@ -26,6 +26,7 @@ import ManagerReview from "@/pages/ManagerReview/ManagerReview"
 import Team from "@/pages/Team/Team";
 import Feedback from "@/pages/Feedback/Feedback";
 import JuniorWeekReport from "@/pages/JuniorWeekReport/JuniorWeekReport"
+import JuniorMonthlyReport from "@/pages/JuniorMonthlyReport/JuniorMonthlyReport"
 import ViewFeedback from "@/pages/ViewFeedback/ViewFeedback";
 import MonthlyReport from "@/pages/MonthlyReport/MonthlyReport";
 import MonthlyReportReview from "@/pages/MonthlyReportReview/MonthlyReportReview";
@@ -133,6 +134,11 @@ const router = new Router({
           path: 'juniorWeekReport',
           name: "JuniorWeekReport",
           component: JuniorWeekReport
+        },
+        {
+          path: 'juniorMonthlyReport',
+          name: "JuniorMonthlyReport",
+          component: JuniorMonthlyReport
         },
         {
           path: "typography",

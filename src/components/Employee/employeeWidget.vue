@@ -59,7 +59,7 @@
             <div class="text-primary" style="font-size: 14px;">{{employee_.jobtitle}}</div>
           </a>
           <span v-if="loggedInUserRole !== 'admin'">
-            <strong>Overall Rating</strong> &nbsp; <span>{{employee_.Overall_rating}} / 10</span>
+            <strong>Overall Rating</strong> &nbsp; <span>{{~~employee_.Overall_rating}} / 10</span>
             <br>
             <strong>Checkin Rating</strong> &nbsp; <span>{{employee_.Checkin_rating.toFixed(2) }} %</span>
           </span>
