@@ -26,3 +26,9 @@ table {
 .primary{
   background: #547fff;
 }
+
+.activity{
+  height: 400px;
+  overflow-y: scroll;
+  @include scroll-bar($sidebar-scrollbar-bg);
+}
