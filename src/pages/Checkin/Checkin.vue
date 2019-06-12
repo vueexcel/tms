@@ -138,8 +138,7 @@
           * Right general report
         *=======================================================================-->
         <b-col class="p-0">
-          <GenReport @report="report" @deleteCheckin="deleteCheckin" :error="error"></GenReport>
-          <!-- :slackChannels="slackChannels" -->
+          <GenReport @report="report" :slackChannels="slackChannels" @deleteCheckin="deleteCheckin" :error="error"></GenReport>
         </b-col>
       </b-row>
     </b-container>
@@ -170,8 +169,8 @@ export default {
       read_more: [],
       image: dummyimage,
       error: "",
-      errorMessage: false
-      // slackChannels: []
+      errorMessage: false,
+      slackChannels: []
     };
   },
   components: { Widget, StandUpWidget, Comments, GenReport },
@@ -228,39 +227,39 @@ export default {
   },
   mounted() {
     this.getAllCheckinsAPI();
-    // this.getAllSlackChannels();
+    this.getAllSlackChannels();
   },
   methods: {
     dailyCheckin: call("checkin/dailyCheckin"),
     deleteDailyCheckin: call("checkin/deleteDailyCheckin"),
     getProfile: call("profile/getProfile"),
     getAllCheckins: call("checkin/getAllCheckins"),
-    // getAllSlackChannels_: call("checkin/getAllSlackChannels"),
+    getAllSlackChannels_: call("checkin/getAllSlackChannels"),
     getAllCheckinsAPI: function() {
       this.getAllCheckins();
     },
-    // async getAllSlackChannels() {
-    //   this.slackChannels = [];
-    //   let response = await this.getAllSlackChannels_();
-    //   if (response.length && typeof response !== "string") {
-    //     this.slackChannels = response;
-    //   } else {
-    //     this.errorMessage = true;
-    //     if (typeof response === "string") {
-    //       this.error = response;
-    //     } else {
-    //       this.error = "No Slack Channel Found";
-    //     }
-    //   }
-    // },
+    async getAllSlackChannels() {
+      this.slackChannels = [];
+      let response = await this.getAllSlackChannels_();
+      if (response.length && typeof response !== "string") {
+        this.slackChannels = response;
+      } else {
+        this.errorMessage = true;
+        if (typeof response === "string") {
+          this.error = response;
+        } else {
+          this.error = "No Slack Channel Found";
+        }
+      }
+    },
     async report(report) {
       let response = await this.dailyCheckin({
         report: report.report,
         task_completed: report.task_completed,
         task_not_completed_reason: report.task_not_completed_reason,
         highlight: report.highlight,
-        date: report.date
-        // slackChannels: report.slackChannels
+        date: report.date,
+        slackChannels: report.slackChannels
       }).then(res => {
         this.getAllCheckinsAPI();
         this.getProfile(res.date);

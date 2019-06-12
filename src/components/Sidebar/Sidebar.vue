@@ -30,20 +30,18 @@
         isHeader
       />
       <NavLink
-        header="Weekly Report"
-        link="/app/WeeklyReport"
+        :activeItem="activeItem"
+        header="Weekly"
+        link="/app/week"
         iconName="fas fa-chart-bar"
-        index="performanceReview"
-        :badge="count"
+        index="week"
+        :childrenLinks="[
+          { header: 'Weekly Report', link: '/app/week/WeeklyReport' },
+          {header: 'Juniors Weekly Report',link:'/app/week/juniorWeekReport'}
+        ]"
         isHeader
       />
-      <!-- <NavLink
-        header="Monthly Report Review"
-        link="/app/monthlyReportReview"
-        iconName="fas fa-calendar"
-        isHeader
-      /> -->
-      <!-- index="notifications" -->
+
       <NavLink
         header="View Junior's Checkin"
         link="/app/viewCheckin"
@@ -53,13 +51,13 @@
       />
       <NavLink header="Your Juniors" link="/app/juniors" iconName="fas fa-users" isHeader/>
 
-      <NavLink
+      <!-- <NavLink
         header="Juniors Weekly Report"
         link="/app/juniorWeekReport"
         iconName="fa fa-flag-checkered"
         index="feedback"
         isHeader
-      />
+      /> -->
       <!-- index="performanceReview" -->
       <NavLink
         header="View Feedback"
@@ -115,27 +113,25 @@
         index="dashboard"
         isHeader
       />
-
-      <NavLink 
-      :activeItem="activeItem"
-      header="Weekly"
-      iconName="fas fa-chart-bar"
-      link="/app/weekly"
-      index="weekly"
-      isHeader
-      :childrenLinks="[
-          { header: 'Weekly Checkin',  link: '/app/weeklyCheckin' },
-          { header: 'Weekly Report', link: '/app/WeeklyReport' },
-          {header: 'View Junior Checkin',link:'/app/viewCheckin'}
-        ]"
-      />
-
       <NavLink
         header="Check-ins"
         link="/app/checkin"
         iconName="fas fa-clipboard"
         index="typography"
         isHeader
+      />
+      <NavLink 
+      :activeItem="activeItem"
+      header="Weekly"
+      iconName="fas fa-chart-bar"
+      link="/app/week"
+      index="week"
+      isHeader
+      :childrenLinks="[
+          { header: 'Weekly Checkin',  link: '/app/week/weeklyCheckin' },
+          { header: 'Weekly Report', link: '/app/week/WeeklyReport' },
+          {header: 'Juniors Weekly Report',link:'/app/week/juniorWeekReport'}
+        ]"
       />
       <!-- <NavLink
         header="Weekly Checkin"
@@ -176,14 +172,14 @@
         isHeader
       />
       <!-- index="performanceReview" -->
-      <!-- <NavLink
+      <NavLink
         v-if="sideBar.role === 'manager'"
         header="View Junior's Checkin"
         link="/app/viewCheckin"
         iconName="fas fa-folder-open"
         index="performanceReview"
         isHeader
-      /> -->
+      />
 
       <NavLink
         header="View Manager's Review"
@@ -191,14 +187,14 @@
         iconName="fas fa-file-text"
         isHeader
       />
-      <NavLink
+      <!-- <NavLink
         v-if="sideBar.role === 'manager'"
         header="Juniors Weekly Report"
         link="/app/juniorWeekReport"
         iconName="fa fa-flag-checkered"
         index="feedback"
         isHeader
-      />
+      /> -->
       <NavLink
         header="Feedback"
         link="/app/feedback"
@@ -280,7 +276,7 @@
       />
       <NavLink
         header="Weekly Checkin"
-        link="/app/weeklyCheckin"
+        link="/app/week/weeklyCheckin"
         iconName="fas fa-file-signature"
         index="tables"
         isHeader
