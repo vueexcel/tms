@@ -82,7 +82,7 @@ const router = new Router({
           component: ViewCheckin
         },
         {
-          path: "weeklyCheckin", //previously weeklyReview
+          path: "week/weeklyCheckin", //previously weeklyReview
           name: "WeeklyReview",
           component: WeeklyReview
         },
@@ -97,7 +97,7 @@ const router = new Router({
           component: Team
         },
         {
-          path: "weeklyReport",
+          path: "week/weeklyReport",
           name: "WeeklyReport",
           component: WeeklyReport
         },
@@ -132,7 +132,7 @@ const router = new Router({
           component: ManagerReview
         },
         {
-          path: 'juniorWeekReport',
+          path: 'week/juniorWeekReport',
           name: "JuniorWeekReport",
           component: JuniorWeekReport
         },
