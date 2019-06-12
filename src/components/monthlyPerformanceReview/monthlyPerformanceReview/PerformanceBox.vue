@@ -200,6 +200,7 @@ export default {
         kpiArray.push({
           title: element.title,
           desc: element.desc,
+          id: element.id,
           comment: this.textkpi[i],
           rating: this.ratedStarKpi[i]
         });
@@ -208,6 +209,7 @@ export default {
         eraArray.push({
           title: element.title,
           desc: element.desc,
+          id: element.id,
           comment: this.textera[i],
           rating: this.ratedStarEra[i]
         });

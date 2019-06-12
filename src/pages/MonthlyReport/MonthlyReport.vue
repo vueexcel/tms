@@ -167,7 +167,7 @@ export default {
     api_getReview: call("monthlyReport/getReview"),
     api_deleteReport: call("monthlyReport/deleteReport"),
     async submit() {
-      this.loading = true;
+      // this.loading = true;
       let obj = {
         kpi: this.KpiDescription,
         era: this.EraDescription
@@ -214,6 +214,7 @@ export default {
             this.setPayloadKPI.push({
               title: element.title,
               desc: element.desc,
+              id: element.ID,
               comment: this.KpiDescription[i]
             });
           }
@@ -225,6 +226,7 @@ export default {
             this.setPayloadERA.push({
               title: element.title,
               desc: element.desc,
+              id: element.ID,
               comment: this.EraDescription[i]
             });
           }
