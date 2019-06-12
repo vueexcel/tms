@@ -136,28 +136,28 @@
                     v-b-popover.hover="`project difficulty`"
                     class="fas fa-question-circle fs-sm text-danger"
                   ></i>
-                  <span class="float-right">{{~~user.project_difficulty}} %</span>
+                  <span class="float-right">{{~~user.project_difficulty}} /10</span>
                 </h6>
                 <span class="text-secondary fs-sm">Project dificulty</span>
                 <b-progress
                   class="w-75"
                   style="height: 5px"
                   variant="success"
-                  :value="user.project_difficulty"
+                  :value="user.project_difficulty*10"
                   :max="100"
                 />
               </div>
             </div>
             <!-- Recent Activities -->
           </div>
-          <div class="h-auto mt-5">
+          <!-- <div class="h-auto mt-5">
             <h2 class="mb-3">
               Recent
               <span class="fw-semi-bold">Activities</span>
             </h2>
             <div class="activity">
-              <span v-for="(recentactivity,index) in activity" :key="index">
-                <span v-if="recentactivity.missed_checkin">
+              <span v-for="(recentactivity,index) in activity" :key="index"> -->
+                <!-- <span v-if="recentactivity.missed_checkin">
                   <span v-for="(misschecked,index) in recentactivity.missed_checkin" :key="index">
                     <widget class="mb-3">
                       <span class="thumb-md float-left mr-2 mt-1">
@@ -176,9 +176,9 @@
                       {{misschecked.datemiss}}
                     </widget>
                   </span>
-                </span>
+                </span> -->
                 <!-- Daily_checkin block -->
-                <span v-if="recentactivity.Daily_checkin">
+                <!-- <span v-if="recentactivity.Daily_checkin">
                   <span
                     v-for="(dailycheckin,index) in recentactivity.Daily_checkin.slice().reverse()"
                     :key="index"
@@ -200,9 +200,9 @@
                       {{dailycheckin.dailycheckindate}}
                     </widget>
                   </span>
-                </span>
+                </span> -->
                 <!-- reviewed report block -->
-                <span v-if="recentactivity.report_reviewed">
+                <!-- <span v-if="recentactivity.report_reviewed">
                   <span
                     v-for="(reportreviewed,index) in recentactivity.report_reviewed.slice().reverse()"
                     :key="index"
@@ -222,9 +222,9 @@
                       <p>{{reportreviewed.Message}}</p>
                     </widget>
                   </span>
-                </span>
+                </span> -->
                 <!-- Review Report Block  -->
-                <span v-if="recentactivity.review_report">
+                <!-- <span v-if="recentactivity.review_report">
                   <span
                     v-for="(reviewreport,index) in recentactivity.review_report.slice().reverse()"
                     :key="index"
@@ -245,10 +245,10 @@
                       <p>{{reviewreport.Message}}</p>
                     </widget>
                   </span>
-                </span>
-              </span>
+                </span> -->
+              <!-- </span>
             </div>
-          </div>
+          </div> -->
         </b-col>
       </b-row>
     </b-container>
