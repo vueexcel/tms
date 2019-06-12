@@ -65,22 +65,13 @@
           <!-- second widget -->
           <h1>Key Performance Area</h1>
           <div v-if="user.kpi">
-            <AreaComponent :eraKpiArray="user.kpi.kpi_json"/>
+            <AreaComponent :eraKpiArray="user.kpi.kpi_json" :monthlyRating="user.Monthly_rating"/>
           </div>
-          <!-- <RadialProgressBar
-            :diameter="45"
-            :completed-steps="completedSteps"
-            :total-steps="totalSteps"
-            :strokeWidth="4"
-          >
-            <p></p>
-            <p>{{ completedSteps }}</p>
-          </RadialProgressBar> -->
           <!-- second widget ends-->
           <!-- third widget -->
           <h1>Extra Resource Area</h1>
           <div v-if="user.kpi">
-            <AreaComponent :eraKpiArray="user.kpi.era_json"/>
+            <AreaComponent :eraKpiArray="user.kpi.era_json" :monthlyRating="user.Monthly_rating" />
           </div>
           <!-- third widget ends-->
         </b-col>

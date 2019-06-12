@@ -15,6 +15,9 @@ import 'moment-timezone';
 import VueCookies from 'vue-cookies'
 Vue.use(VueCookies)
 VueCookies.config('7d')
+import UUID from 'vue-uuid';
+ 
+Vue.use(UUID);
 
 import store from './store';
 import router from './Routes';

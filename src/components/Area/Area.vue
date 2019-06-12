@@ -2,7 +2,9 @@
   <div>
     <widget class="p-0">
       <section v-if="eraKpiArray">
-        <div v-for="(kpiera,index) in eraKpiArray" :key="index" class="areaBorder">
+        {{ eraKpiArray_ }}
+        <!-- <div v-for="(kpiera,index) in eraKpiArray" :key="index" class="areaBorder"> -->
+        <div v-for="(kpiera,index) in newArray" :key="index" class="areaBorder">
           <div
             class="mb-0 bg-white pl-5 pt-4 pr-4 pb-5"
             v-if="kpiera.title !== '' && kpiera.desc !== ''"
@@ -10,14 +12,15 @@
             <h4 class="text-primary capitalize">
               {{kpiera.title}}
               <RadialProgressBar
+                v-if="kpiera.rating"
                 class="pull-right"
                 :diameter="45"
-                :completed-steps="completed"
+                :completed-steps="kpiera.rating"
                 :total-steps="total"
                 :strokeWidth="5"
               >
                 <p></p>
-                <p class="fs-mini">{{ completed.toFixed(1) }}</p>
+                <p class="fs-mini">{{ kpiera.rating.toFixed(1) }}</p>
               </RadialProgressBar>
             </h4>
             {{kpiera.desc}}
@@ -42,13 +45,47 @@ export default {
   props: {
     eraKpiArray: {
       type: Array
+    },
+    monthlyRating: {
+      type: Object,
+      default: () => ({})
     }
   },
   data() {
     return {
-      completed: 5.165456,
-      total: 10
+      // completed: 5.165456,
+      total: 10,
+      newArray: []
     };
+  },
+  computed: {
+    eraKpiArray_() {
+      this.newArray = [];
+      this.$props.eraKpiArray.forEach(element => {
+        if (Object.keys(this.$props.monthlyRating).length) {
+          Object.keys(this.$props.monthlyRating).forEach(ele => {
+            if (element.ID === ele) {
+              console.log(element);
+              this.newArray.push({
+                ID: element.ID,
+                desc: element.desc,
+                edit: element.edit,
+                title: element.title,
+                rating: this.$props.monthlyRating[ele]
+              });
+            }
+          });
+        } else {
+          this.newArray.push({
+            ID: element.ID,
+            desc: element.desc,
+            edit: element.edit,
+            title: element.title,
+            rating: 0
+          });
+        }
+      });
+    }
   }
 };
 </script>
