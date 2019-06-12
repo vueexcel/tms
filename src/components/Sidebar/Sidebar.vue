@@ -42,7 +42,7 @@
         link="/app/monthlyReportReview"
         iconName="fas fa-calendar"
         isHeader
-      /> -->
+      />-->
       <!-- index="notifications" -->
       <NavLink
         header="View Junior's Checkin"
@@ -73,6 +73,13 @@
         link="/app/PerformanceReview"
         iconName="fas fa-calendar"
         index="notifications"
+        isHeader
+      />
+      <NavLink
+        header="ViewReview360"
+        link="/app/viewreview360"
+        iconName="fas fa-recycle"
+        index="review360"
         isHeader
       />
       <!-- link="/app/weeklyReview" -->
@@ -153,7 +160,7 @@
         iconName="fas fa-calendar-check"
         index="notifications"
         isHeader
-      /> -->
+      />-->
       <NavLink
         v-if="sideBar.role === 'manager'"
         header="Your Juniors"
@@ -183,6 +190,21 @@
         link="/app/juniorWeekReport"
         iconName="fa fa-flag-checkered"
         index="feedback"
+        isHeader
+      />
+      <NavLink
+        header="Review360"
+        link="/app/review360"
+        iconName="fas fa-refresh"
+        index="review360"
+        isHeader
+      />
+      <NavLink
+        v-if="sideBar.role === 'manager'"
+        header="ViewReview360"
+        link="/app/viewreview360"
+        iconName="fas fa-recycle"
+        index="review360"
         isHeader
       />
       <NavLink

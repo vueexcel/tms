@@ -67,6 +67,15 @@
           <div v-if="user.kpi">
             <AreaComponent :eraKpiArray="user.kpi.kpi_json"/>
           </div>
+          <!-- <RadialProgressBar
+            :diameter="45"
+            :completed-steps="completedSteps"
+            :total-steps="totalSteps"
+            :strokeWidth="4"
+          >
+            <p></p>
+            <p>{{ completedSteps }}</p>
+          </RadialProgressBar> -->
           <!-- second widget ends-->
           <!-- third widget -->
           <h1>Extra Resource Area</h1>
@@ -150,7 +159,7 @@
             </div>
             <!-- Recent Activities -->
           </div>
-          <div class="h-auto mt-5">
+          <div class="h-auto mt-5" v-if="false">
             <h2 class="mb-3">
               Recent
               <span class="fw-semi-bold">Activities</span>
@@ -266,6 +275,7 @@ import AreaComponent from "./../../components/Area/Area";
 import starRating from "@/components/Star/Star";
 import { get, call } from "vuex-pathify";
 import dummyimage from "@/components/Group/person-dummy.jpg";
+import RadialProgressBar from "vue-radial-progress";
 
 export default {
   name: "Profile",
@@ -276,10 +286,12 @@ export default {
       starSize: "17px",
       image: dummyimage,
       checkin_rating: "0",
-      Overall_rating: "0"
+      Overall_rating: "0",
+      completedSteps: 5,
+      totalSteps: 10
     };
   },
-  components: { Widget, AreaComponent, starRating },
+  components: { Widget, AreaComponent, starRating, RadialProgressBar },
   mounted() {
     this.get_profile();
     this.get_activity();

@@ -29,6 +29,8 @@ import JuniorWeekReport from "@/pages/JuniorWeekReport/JuniorWeekReport"
 import ViewFeedback from "@/pages/ViewFeedback/ViewFeedback";
 import MonthlyReport from "@/pages/MonthlyReport/MonthlyReport";
 import MonthlyReportReview from "@/pages/MonthlyReportReview/MonthlyReportReview";
+import Review360 from "@/pages/Review360/Review360";
+import ViewReview360 from "@/pages/ViewReview360/ViewReview360";
 // --admin pages--
 import ManageEmployee from "@/pages/ManageEmployee/ManageEmployee";
 import ManageKPI from "@/pages/Kpi/Kpi";
@@ -133,6 +135,16 @@ const router = new Router({
           path: 'juniorWeekReport',
           name: "JuniorWeekReport",
           component: JuniorWeekReport
+        },
+        {
+          path: 'review360',
+          name: "review360",
+          component: Review360
+        },
+        {
+          path: 'viewreview360',
+          name: "viewreview360",
+          component: ViewReview360
         },
         {
           path: "typography",

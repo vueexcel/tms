@@ -14,6 +14,7 @@ import weeklyReportReview from './modules/weeklyReportReview'
 import feedback from './modules/feedback'
 import monthlyReport from './modules/monthlyReport'
 import monthlyReportReview from './modules/monthlyReportReview'
+import review360 from './modules/review360'
 
 import layout from "./layout";
 
@@ -33,6 +34,7 @@ export default new Vuex.Store({
     weeklyReportReview,
     feedback,
     monthlyReport,
-    monthlyReportReview
+    monthlyReportReview,
+    review360
   }
 });
