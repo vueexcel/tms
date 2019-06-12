@@ -63,7 +63,7 @@
         iconName="fa fa-flag-checkered"
         index="feedback"
         isHeader
-      /> -->
+      />-->
       <!-- index="performanceReview" -->
       <NavLink
         header="View Feedback"
@@ -133,14 +133,14 @@
         index="typography"
         isHeader
       />
-      <NavLink 
-      :activeItem="activeItem"
-      header="Weekly"
-      iconName="fas fa-chart-bar"
-      link="/app/week"
-      index="week"
-      isHeader
-      :childrenLinks="[
+      <NavLink
+        :activeItem="activeItem"
+        header="Weekly"
+        iconName="fas fa-chart-bar"
+        link="/app/week"
+        index="week"
+        isHeader
+        :childrenLinks="[
           { header: 'Weekly Checkin',  link: '/app/week/weeklyCheckin' },
           { header: 'Weekly Report', link: '/app/week/WeeklyReport' },
           {header: 'Juniors Weekly Report',link:'/app/week/juniorWeekReport'}
@@ -152,7 +152,7 @@
         iconName="fas fa-file-signature"
         index="tables"
         isHeader
-      /> -->
+      />-->
       <!-- <NavLink
         v-if="sideBar.role === 'manager'"
         header="Weekly Report"
@@ -161,7 +161,7 @@
         index="performanceReview"
         :badge="count"
         isHeader
-      /> -->
+      />-->
       <!-- <NavLink
         header="Monthly Report"
         link="/app/monthlyReport"
@@ -207,7 +207,7 @@
         iconName="fa fa-flag-checkered"
         index="feedback"
         isHeader
-      /> -->
+      />-->
       <NavLink
         header="Review360"
         link="/app/review360"
@@ -271,7 +271,7 @@
         index="performanceReview"
         isHeader
       />-->
-      
+
       <!-- <NavLink
         link="/app/notifications"
         iconName="fas fa-calendar-minus"

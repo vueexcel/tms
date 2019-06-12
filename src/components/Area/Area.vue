@@ -62,10 +62,10 @@ export default {
     eraKpiArray_() {
       this.newArray = [];
       this.$props.eraKpiArray.forEach(element => {
+        console.log(this.$props.monthlyRating, this.$props.eraKpiArray);
         if (Object.keys(this.$props.monthlyRating).length) {
           Object.keys(this.$props.monthlyRating).forEach(ele => {
             if (element.ID === ele) {
-              console.log(element);
               this.newArray.push({
                 ID: element.ID,
                 desc: element.desc,
