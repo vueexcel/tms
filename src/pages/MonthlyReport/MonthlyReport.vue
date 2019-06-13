@@ -136,6 +136,21 @@
         </b-col>
       </b-row>
     </b-container>
+    <!-- :show="isNotificationOpen" -->
+    <b-alert
+      v-if="isNotificationOpen"
+      v-model="openalertAfter"
+      variant="danger text-center"
+      :class="{ alertTransform: true, alertAfter: alertAfter }"
+      dismissible
+    >
+      <!-- Your date of joining is 26 you can submit your monthly report after
+      <span
+        class="fw-semi-bold"
+      >19th</span>
+      of this month-->
+      {{ alertMsg }}
+    </b-alert>
   </div>
 </template>
 
@@ -154,7 +169,11 @@ export default {
       loading: true,
       usersMonthlyReport: "",
       reportStatus: [],
-      allUserData: ""
+      allUserData: "",
+      isNotificationOpen: true,
+      alertAfter: false,
+      alertMsg: "",
+      openalertAfter: false
     };
   },
   computed: {
@@ -169,6 +188,9 @@ export default {
     api_deleteReport: call("monthlyReport/deleteReport"),
     async submit() {
       // this.loading = true;
+      this.alertAfter = false;
+      this.openalertAfter = false;
+      this.alertMsg = "";
       let obj = {
         kpi: this.KpiDescription,
         era: this.EraDescription
@@ -183,7 +205,9 @@ export default {
             this.getReport();
           })
           .catch(err => {
-            console.log(err.response.data.msg);
+            this.alertMsg = err.response.data.msg;
+            this.alertAfter = true;
+            this.openalertAfter = true;
           });
       }
       this.KpiDescription = [];
@@ -277,5 +301,15 @@ export default {
 }
 .white-space {
   white-space: pre-line;
+}
+.alertTransform {
+  transition: 0.6s;
+  transition-timing-function: ease;
+  transform: translateX(-130vw);
+  padding-right: 1.25rem;
+}
+
+.alertAfter {
+  transform: translateX(0);
 }
 </style>
