@@ -202,7 +202,7 @@ export default {
           desc: element.desc,
           id: element.id,
           comment: this.textkpi[i],
-          rating: this.ratedStarKpi[i]
+          rating: this.ratedStarKpi[i] || 0
         });
       });
       this.activeEmployeReport.report.era.forEach((element, i) => {
@@ -211,7 +211,7 @@ export default {
           desc: element.desc,
           id: element.id,
           comment: this.textera[i],
-          rating: this.ratedStarEra[i]
+          rating: this.ratedStarEra[i] || 0
         });
       });
       comment = { kpi: kpiArray, era: eraArray };

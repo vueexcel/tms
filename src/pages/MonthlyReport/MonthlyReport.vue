@@ -36,11 +36,12 @@
                       :max-rows="6"
                       required
                     ></b-form-textarea>
+                    <p v-if="kpi.title" class="text-muted fw-bold text-danger">*required</p>
                   </div>
                 </div>
               </fieldset>
               <!----------------- 
-                *if no data found KPI
+                *if report data found KPI
               ------------------->
               <fieldset v-if="usersMonthlyReport">
                 <h3>KPI</h3>
@@ -61,7 +62,7 @@
                 </div>
               </fieldset>
               <!----------------- 
-                *if no data found ends KPI
+                *if report data found ends KPI
               ------------------->
               <fieldset v-if="!usersMonthlyReport">
                 <h3>ERA</h3>
@@ -81,14 +82,14 @@
                       :rows="3"
                       v-model="EraDescription[index]"
                       :max-rows="6"
-                      required
                     ></b-form-textarea>
+                    <p v-if="era.title" class="text-muted fw-bold text-success">*optional</p>
                   </div>
                 </div>
                 <hr>
               </fieldset>
               <!----------------- 
-                *if no data found ERA
+                *if report data found ERA
               ------------------->
               <fieldset v-if="usersMonthlyReport">
                 <h3>ERA</h3>
@@ -104,12 +105,12 @@
                     <span>{{ kpi.desc }}</span>
                   </label>
                   <div class="col-md-6">
-                    <h4 class="white-space">{{ kpi.comment }}</h4>
+                    <h4 class="white-space">{{ kpi.comment | nocomment }}</h4>
                   </div>
                 </div>
               </fieldset>
               <!----------------- 
-                *if no data found ends ERA
+                *if report data found ends ERA
               ------------------->
               <div class="form-actions">
                 <div class="row">
@@ -182,7 +183,7 @@ export default {
             this.getReport();
           })
           .catch(err => {
-            console.log(err);
+            console.log(err.response.data.msg);
           });
       }
       this.KpiDescription = [];
@@ -256,6 +257,12 @@ export default {
         );
         this.reportStatus = result;
       }
+    }
+  },
+  filters: {
+    nocomment: function(value) {
+      if (!value) return "null";
+      return value;
     }
   }
 };
