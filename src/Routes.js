@@ -30,6 +30,8 @@ import JuniorMonthlyReport from "@/pages/JuniorMonthlyReport/JuniorMonthlyReport
 import ViewFeedback from "@/pages/ViewFeedback/ViewFeedback";
 import MonthlyReport from "@/pages/MonthlyReport/MonthlyReport";
 import MonthlyReportReview from "@/pages/MonthlyReportReview/MonthlyReportReview";
+import Review360 from "@/pages/Review360/Review360";
+import ViewReview360 from "@/pages/ViewReview360/ViewReview360";
 // --admin pages--
 import ManageEmployee from "@/pages/ManageEmployee/ManageEmployee";
 import ManageKPI from "@/pages/Kpi/Kpi";
@@ -81,7 +83,7 @@ const router = new Router({
           component: ViewCheckin
         },
         {
-          path: "weeklyCheckin", //previously weeklyReview
+          path: "week/weeklyCheckin", //previously weeklyReview
           name: "WeeklyReview",
           component: WeeklyReview
         },
@@ -96,7 +98,7 @@ const router = new Router({
           component: Team
         },
         {
-          path: "weeklyReport",
+          path: "week/weeklyReport",
           name: "WeeklyReport",
           component: WeeklyReport
         },
@@ -131,7 +133,7 @@ const router = new Router({
           component: ManagerReview
         },
         {
-          path: 'juniorWeekReport',
+          path: 'week/juniorWeekReport',
           name: "JuniorWeekReport",
           component: JuniorWeekReport
         },
@@ -139,6 +141,15 @@ const router = new Router({
           path: 'juniorMonthlyReport',
           name: "JuniorMonthlyReport",
           component: JuniorMonthlyReport
+        }, {
+          path: '360/review360',
+          name: "review360",
+          component: Review360
+        },
+        {
+          path: '360/viewreview360',
+          name: "viewreview360",
+          component: ViewReview360
         },
         {
           path: "typography",

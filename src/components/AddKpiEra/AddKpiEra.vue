@@ -45,7 +45,7 @@
                       ></b-form-textarea>
                       <a
                         class="btn btn-default btn-sm mt-2 pl-4 pr-4"
-                        @click="addKpi(index, team); showKpiform = -1"
+                        @click="addKpi(index, team); showKpiform = -1; uuid = $uuid.v4()"
                       >
                         <i class="fas fa-plus" style="color:green;"></i>&nbsp;&nbsp;
                         Add
@@ -164,7 +164,7 @@
                       ></b-form-textarea>
                       <a
                         class="btn btn-default btn-sm mt-2 pl-4 pr-4"
-                        @click="addEra(index,team); showEraform = -1"
+                        @click="addEra(index,team); showEraform = -1; uuid = $uuid.v4()"
                       >
                         <i class="fas fa-plus" style="color:green;"></i>&nbsp;&nbsp;
                         Add
@@ -286,6 +286,7 @@ import "imports-loader?jQuery=jquery,this=>window!flot/jquery.flot.pie";
 import Widget from "@/components/Widget/Widget";
 import Group from "@/components/Group/Group";
 import { get, call, sync } from "vuex-pathify";
+import { uuid } from "vue-uuid";
 export default {
   name: "AddKpiEra",
   props: { array_: { type: Array } },
@@ -306,7 +307,10 @@ export default {
       showKpiform: -1,
       showEraform: -1,
       alertIndex: -1,
-      active: false
+      active: false,
+      uuid: uuid.v1(),
+      v1: this.$uuid.v1(),
+      v4: this.$uuid.v4()
     };
   },
   methods: {
@@ -337,7 +341,13 @@ export default {
         addKpi: true,
         _id: team_._id,
         kpi_name: team_.kpi_name,
-        kpi_json: [{ title: this.kpiHeading, desc: this.kpiDescription }]
+        kpi_json: [
+          {
+            title: this.kpiHeading,
+            desc: this.kpiDescription,
+            ID: this.uuid
+          }
+        ]
       };
       this.api_updateKpi({
         data: team
@@ -404,7 +414,13 @@ export default {
         addEra: true,
         _id: team_._id,
         kpi_name: team_.kpi_name,
-        era_json: [{ title: this.eraHeading, desc: this.eraDescription }]
+        era_json: [
+          {
+            title: this.eraHeading,
+            desc: this.eraDescription,
+            ID: this.uuid
+          }
+        ]
       };
       this.api_updateKpi({
         data: eraData

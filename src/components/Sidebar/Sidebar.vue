@@ -30,11 +30,15 @@
         isHeader
       />
       <NavLink
-        header="Weekly Report"
-        link="/app/WeeklyReport"
+        :activeItem="activeItem"
+        header="Weekly"
+        link="/app/week"
         iconName="fas fa-chart-bar"
-        index="performanceReview"
-        :badge="count"
+        index="week"
+        :childrenLinks="[
+          { header: 'Weekly Report', link: '/app/week/WeeklyReport' },
+          {header: 'Juniors Weekly Report',link:'/app/week/juniorWeekReport'}
+        ]"
         isHeader
       />
       <NavLink
@@ -54,7 +58,7 @@
       />
       <NavLink header="Your Juniors" link="/app/juniors" iconName="fas fa-users" isHeader/>
 
-      <NavLink
+      <!-- <NavLink
         header="Juniors Weekly Report"
         link="/app/juniorWeekReport"
         iconName="fa fa-flag-checkered"
@@ -67,7 +71,7 @@
         iconName="fa fa-users"
         index="feedback"
         isHeader
-      />
+      />-->
       <!-- index="performanceReview" -->
       <NavLink
         header="View Feedback"
@@ -81,6 +85,13 @@
         link="/app/PerformanceReview"
         iconName="fas fa-calendar"
         index="notifications"
+        isHeader
+      />
+      <NavLink
+        header="ViewReview360"
+        link="/app/360/viewreview360"
+        iconName="fas fa-recycle"
+        index="review360"
         isHeader
       />
       <!-- link="/app/weeklyReview" -->
@@ -115,7 +126,7 @@
     </ul>
     <!-- USER -->
     <!-- <ul class="nav" v-if="!sidebar"> -->
-    <ul class="nav" v-else>
+    <ul class="nav" v-if="sideBar.role === 'manager'">
       <NavLink
         header="Dashboard"
         link="/app/profile"
@@ -123,7 +134,6 @@
         index="dashboard"
         isHeader
       />
-
       <NavLink
         header="Check-ins"
         link="/app/checkin"
@@ -132,23 +142,37 @@
         isHeader
       />
       <NavLink
+        :activeItem="activeItem"
+        header="Weekly"
+        iconName="fas fa-chart-bar"
+        link="/app/week"
+        index="week"
+        isHeader
+        :childrenLinks="[
+          { header: 'Weekly Checkin',  link: '/app/week/weeklyCheckin' },
+          { header: 'Weekly Report', link: '/app/week/WeeklyReport' },
+          {header: 'Juniors Weekly Report',link:'/app/week/juniorWeekReport'}
+        ]"
+      />
+      <!-- <NavLink
         header="Weekly Checkin"
         link="/app/weeklyCheckin"
         iconName="fas fa-file-signature"
         index="tables"
         isHeader
-      />
-      <NavLink
+      />-->
+      <!-- <NavLink
         v-if="sideBar.role === 'manager'"
         header="Weekly Report"
         link="/app/WeeklyReport"
         iconName="fas fa-chart-bar"
         index="performanceReview"
-        :badge="count "
+        :badge="count"
         isHeader
       />
       <NavLink
         header="Monthly Checkin"
+        header="Monthly Report"
         link="/app/monthlyReport"
         iconName="fas fa-calendar"
         index="notifications"
@@ -162,17 +186,12 @@
         :badge="unreadMonthlyReport.toString()"
         index="notifications"
         isHeader
-      />
-      <NavLink
-        v-if="sideBar.role === 'manager'"
-        header="Your Juniors"
-        link="/app/juniors"
-        iconName="fas fa-users"
-        isHeader
-      />
+      />-->
+      <!-- v-if="sideBar.role === 'manager'" -->
+      <NavLink header="Your Juniors" link="/app/juniors" iconName="fas fa-users" isHeader/>
       <!-- index="performanceReview" -->
+      <!-- v-if="sideBar.role === 'manager'" -->
       <NavLink
-        v-if="sideBar.role === 'manager'"
         header="View Junior's Checkin"
         link="/app/viewCheckin"
         iconName="fas fa-folder-open"
@@ -186,14 +205,40 @@
         iconName="fas fa-file-text"
         isHeader
       />
-      <NavLink
+      <!-- <NavLink
         v-if="sideBar.role === 'manager'"
         header="Juniors Weekly Report"
         link="/app/juniorWeekReport"
         iconName="fa fa-flag-checkered"
         index="feedback"
         isHeader
+      />-->
+      <NavLink
+        :activeItem="activeItem"
+        header="360View&Review"
+        iconName="fas fa-recycle"
+        link="/app/360"
+        index="360"
+        isHeader
+        :childrenLinks="[
+          { header: 'Review360',  link: '/app/360/review360' },
+          { header: 'ViewReview360', link: '/app/360/viewreview360' },
+        ]"
       />
+      <!-- <NavLink
+        header="Review360"
+        link="/app/review360"
+        iconName="fas fa-refresh"
+        index="review360"
+        isHeader
+      />-->
+      <!-- <NavLink
+        header="ViewReview360"
+        link="/app/viewreview360"
+        iconName="fas fa-recycle"
+        index="review360"
+        isHeader
+      />-->
       <NavLink
         v-if="sideBar.role === 'manager'"
         header="Juniors Monthly Report"
@@ -250,27 +295,63 @@
         index="performanceReview"
         isHeader
       />-->
-      <!-- <NavLink
-        header="Your Team"
-        link="/app/team"
-        iconName="fas fa-users"
-        index="notifications"
-        isHeader
-      />-->
+
       <!-- <NavLink
         link="/app/notifications"
         iconName="fas fa-calendar-minus"
         index="notifications"
         isHeader
       />-->
-      <!-- <NavLink
-
+      <NavLink
         header="View Monthly Report"
         link="/app/PerformanceReview"
         iconName="fas fa-calendar"
         index="notifications"
         isHeader
-      />-->
+      />
+    </ul>
+    <ul class="nav" v-if="sideBar.role !== 'manager' && sideBar.role !== 'Admin' ">
+      <NavLink
+        header="Dashboard"
+        link="/app/profile"
+        iconName="fas fa-clone"
+        index="dashboard"
+        isHeader
+      />
+      <NavLink
+        header="Check-ins"
+        link="/app/checkin"
+        iconName="fas fa-clipboard"
+        index="typography"
+        isHeader
+      />
+      <NavLink
+        header="Weekly Checkin"
+        link="/app/week/weeklyCheckin"
+        iconName="fas fa-file-signature"
+        index="tables"
+        isHeader
+      />
+      <NavLink
+        header="View Manager's Review"
+        link="/app/managerReview"
+        iconName="fas fa-file-text"
+        isHeader
+      />
+      <NavLink
+        header="Feedback"
+        link="/app/feedback"
+        iconName="fas fa-file-signature"
+        index="feedback"
+        isHeader
+      />
+      <NavLink
+        header="Review360"
+        link="/app/360/review360"
+        iconName="fas fa-refresh"
+        index="review360"
+        isHeader
+      />
     </ul>
   </nav>
 </template>

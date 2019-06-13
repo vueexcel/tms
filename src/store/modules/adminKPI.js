@@ -1,6 +1,7 @@
 // import axios from 'axios'
 import { make, call } from 'vuex-pathify'
 import axios from './../axios'
+import { uuid } from 'vue-uuid'
 
 // setup store
 const state = {
@@ -23,7 +24,8 @@ const actions = {
                     addKpi: true,
                     title: "",
                     desc: "",
-                    edit: false
+                    edit: false,
+                    ID: uuid.v4()
                 }
             ],
             era_json: [
@@ -31,7 +33,8 @@ const actions = {
                     addEra: true,
                     title: "",
                     desc: "",
-                    edit: false
+                    edit: false,
+                    ID: uuid.v4()
                 }
             ]
         }
@@ -117,7 +120,8 @@ const actions = {
                     team.kpi_json.push({
                         title: payload.data.kpi_json[0].title,
                         desc: payload.data.kpi_json[0].desc,
-                        edit: false
+                        edit: false,
+                        ID: payload.data.kpi_json[0].ID
                     })
                     if (payload.isKraJson === true) {
                         data = {
@@ -152,7 +156,8 @@ const actions = {
                     team.era_json.push({
                         title: payload.data.era_json[0].title,
                         desc: payload.data.era_json[0].desc,
-                        edit: false
+                        edit: false,
+                        ID: payload.data.era_json[0].ID
                     })
                     if (payload.isKpiJson === true) {
                         data = {
