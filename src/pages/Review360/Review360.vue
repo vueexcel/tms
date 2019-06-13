@@ -12,61 +12,64 @@
           <div class="mb-2">
             <h5>Share Your Concerns</h5>This is a section in which employee can share any concerns / problems / grievances with manager &#38; admin. This message will be sent to manager directly for notice.
           </div>
-          <div class="pb-5">
-            <span class="fw-semi-bold text-danger">Only one review per month is allowed</span>
-          </div>Select Manager:
-          <b-form-select v-model="selected" class="mb-3">
-            <option
-              v-for="(manager, index) in managers"
-              :key="index"
-              :value="manager.id"
-            >{{manager.username }}</option>
-          </b-form-select>
-          <starRating
-            class="border-bottom"
-            :ratedStar="ratedStar"
-            :displayStar="10"
-            @starRatingSelected="submitStars"
-          />
-          <!-- :starSize="'25px'" -->
-          <!-- :disableStar="activeReport.canReview === false ? true : false" -->
+          <div v-if="errormsg" class="text-danger fw-bold">{{errormsg}}</div>
+          <div v-if="!errormsg">
+            <div class="pb-5">
+              <span class="fw-semi-bold text-danger">Only one review per month is allowed</span>
+            </div>Select Manager:
+            <b-form-select v-model="selected" class="mb-3">
+              <option
+                v-for="(manager, index) in managers"
+                :key="index"
+                :value="manager.id"
+              >{{manager.username }}</option>
+            </b-form-select>
+            <starRating
+              class="border-bottom"
+              :ratedStar="ratedStar"
+              :displayStar="10"
+              @starRatingSelected="submitStars"
+            />
+            <!-- :starSize="'25px'" -->
+            <!-- :disableStar="activeReport.canReview === false ? true : false" -->
 
-          <b-form-group class="abc-checkbox abc-checkbox-success abc-checkbox-circle">
-            <input type="checkbox" :checked="anon" v-model="anon" id="checkbox-circle">
-            <label for="checkbox-circle">Anonymous</label>
-            <!-- <p
+            <b-form-group class="abc-checkbox abc-checkbox-success abc-checkbox-circle">
+              <input type="checkbox" :checked="anon" v-model="anon" id="checkbox-circle">
+              <label for="checkbox-circle">Anonymous</label>
+              <!-- <p
               class="pl-3 fs-sm text-muted"
-            >* although manager can not see your identity, but your ID will be saved to the DB in order to prevent system abuse</p>-->
-          </b-form-group>
-          <b-form class="mt" @submit.prevent="postFeedback">
-            <b-form-group class="mb-2">
-              <!-- <Label class="sr-only" for="new-event">New event</Label> -->
-              <b-form-textarea
-                type="textarea"
-                id="new-event"
-                v-model="feedback"
-                placeholder="Post your review about your manager..."
-                :rows="6"
-                required
-              />
+              >* although manager can not see your identity, but your ID will be saved to the DB in order to prevent system abuse</p>-->
             </b-form-group>
-            <div class="btn-toolbar">
-              <b-button variant="danger" size="sm" type="submit" class="btn ml-auto">
-                <span v-if="!loading">Post</span>
-                <span v-if="loading">
-                  <i class="fas fa-circle-notch text-white fa-spin"></i>
-                </span>
-              </b-button>
-            </div>
-            <div v-if="error" class="mt-3">
-              <b-alert
-                v-model="error"
-                variant="danger"
-                class="alert-transparent"
-                dismissible
-              >{{ errorMessage }}</b-alert>
-            </div>
-          </b-form>
+            <b-form class="mt" @submit.prevent="postFeedback">
+              <b-form-group class="mb-2">
+                <!-- <Label class="sr-only" for="new-event">New event</Label> -->
+                <b-form-textarea
+                  type="textarea"
+                  id="new-event"
+                  v-model="feedback"
+                  placeholder="Post your review about your manager..."
+                  :rows="6"
+                  required
+                />
+              </b-form-group>
+              <div class="btn-toolbar">
+                <b-button variant="danger" size="sm" type="submit" class="btn ml-auto">
+                  <span v-if="!loading">Post</span>
+                  <span v-if="loading">
+                    <i class="fas fa-circle-notch text-white fa-spin"></i>
+                  </span>
+                </b-button>
+              </div>
+              <div v-if="error" class="mt-3">
+                <b-alert
+                  v-model="error"
+                  variant="danger"
+                  class="alert-transparent"
+                  dismissible
+                >{{ errorMessage }}</b-alert>
+              </div>
+            </b-form>
+          </div>
         </Widget>
       </b-col>
       <b-col lg="6" xs="12">
@@ -140,13 +143,15 @@ export default {
       managers: [],
       anon: false,
       ratedStar: 0,
-      previousPost: []
+      previousPost: [],
+      errormsg: ""
     };
   },
   created() {
     this.getFeedback();
     // this.api_getmanagers();
     this.getPost();
+    this.errormsg = "";
   },
   methods: {
     api_postFeedback: call("review360/submitPost"),
@@ -195,6 +200,7 @@ export default {
     getFeedback() {
       //   this.fetchingData = true;
       //   this.users = [];
+      this.errormsg = "";
       this.managers = [];
       this.managers.push({
         username: "Please select manager",
@@ -203,20 +209,24 @@ export default {
       });
       this.api_getmanagers()
         .then(res => {
-          res.data.forEach(element => {
-            this.managers.push({
-              username:
-                element.username.charAt(0).toUpperCase() +
-                element.username.slice(1),
-              profileImage: element.profileImage,
-              id: element._id,
-              profileImage: element.profileImage
+          if (res.status === 204) {
+            throw `currently you don't have any manager assigned`;
+          } else {
+            res.data.forEach(element => {
+              this.managers.push({
+                username:
+                  element.username.charAt(0).toUpperCase() +
+                  element.username.slice(1),
+                profileImage: element.profileImage,
+                id: element._id,
+                profileImage: element.profileImage
+              });
             });
-          });
+          }
         })
         .catch(err => {
-          console.log(err);
-          //   this.fetchingData = false;
+          this.errormsg = err;
+          // this.fetchingData = false;
         });
     },
     getPost() {

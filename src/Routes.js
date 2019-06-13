@@ -137,12 +137,12 @@ const router = new Router({
           component: JuniorWeekReport
         },
         {
-          path: 'review360',
+          path: '360/review360',
           name: "review360",
           component: Review360
         },
         {
-          path: 'viewreview360',
+          path: '360/viewreview360',
           name: "viewreview360",
           component: ViewReview360
         },

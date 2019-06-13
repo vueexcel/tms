@@ -1,56 +1,65 @@
 <template>
   <div>
     <h1 class="page-title">View All Review 360</h1>
-    <!-- <div v-if="!juniorCheckin.length && !loading"> -->
-    <div>
+    <!-- <div v-if="!allUserReviews.length && !loading"> -->
+    <!-- ###### alert made false -->
+    <div v-if="!allUserReviews.length && !loading">
       <b-alert class="alert-transparent alert-danger" show>
-        <span>None of your Junior have submitted checkin for this week</span>
+        <span>None of your Junior have submitted 360 review for this month</span>
       </b-alert>
     </div>
-    <span class="fs-sm" v-if="juniorCheckin.length">
+    <!-- <span class="fs-sm" v-if="allUserReviews.length">
       <i class="fa fa-circle text-info"/> Give Reason (task not completed)
       <i class="ml-1 fa fa-circle text-warning"/> Highlighted task (task not completed)
-    </span>
+    </span>-->
     <div class="text-center" v-if="loading">
       <i class="fas fa-circle-notch text-success fa-spin fa-3x"></i>
       <div>Loading...</div>
     </div>
-    <ul class="timeline" v-if="juniorCheckin.length">
+    <!-- <ul class="timeline" v-if="allUserReviews.length"> -->
+    <ul class="timeline" v-if="allUserReviews.length">
       <li
-        v-for="( junior, index ) in juniorCheckin.slice().reverse()"
+        v-for="( junior, index ) in allUserReviews.slice().reverse()"
         :key="index"
         :class="{ onLeft: index %2 ==0 }"
       >
         <!-- :class="{onLeft:junior.highlight == '' || junior.task_not_completed_reason == '' }" -->
         <time class="eventTime" datetime="2014-05-19 03:04">
-          <span class="date">{{ junior.created_at | day }}</span>
-          <span class="time">{{ junior.created_at | time }}</span>
+          <!-- <span class="date">{{ junior.created_at | day }}</span> -->
+          <!-- <span class="time">{{ junior.created_at | time }}</span> -->
+          <span class="time">{{ junior.month }}</span>
         </time>
-        <span
-          class="eventIcon"
-          :class="junior.highlight == '' || junior.task_not_completed_reason == ''? 'eventIconSuccess' : 'eventIconPrimary'"
-        >
-          <i
-            class="glyphicon"
-            :class="junior.highlight == '' || junior.task_not_completed_reason == ''? 'glyphicon-comments' : 'glyphicon-duplicate'"
-          />
+        <span :class="junior.anon ? 'eventIconWarning' : 'eventIconSuccess'" class="eventIcon">
+          <i :class="junior.anon ? 'glyphicon-eye-close' : 'glyphicon-eye-open'" class="glyphicon"/>
         </span>
 
         <section class="event">
           <span class="thumb-xs avatar pull-left mr-sm">
             <img
+              :src="junior.profileImage ? junior.profileImage: image"
               class="rounded-circle"
-              :src="junior.user.profileImage ? junior.user.profileImage: image"
               alt="..."
             >
           </span>
           <h5 class="eventHeading">
-            <a class="text-primary">{{ junior.user.name }}</a>
+            <a class="text-primary" v-if="junior.username">{{ junior.username }}</a>
+            <a class="text-primary" v-else>#anonymous</a>
           </h5>
-          <p class="fs-sm text-muted">{{ junior.created_at | moment }}</p>
-          <p class="fs-mini white-space-pre">{{ junior.report }}</p>
-          <p class="fs-mini text-custom white-space-pre">{{ junior.highlight }}</p>
-          <p class="fs-mini text-warning white-space-pre">{{ junior.task_not_completed_reason }}</p>
+          <p class="fs-sm text-muted">
+            <!-- {{ junior.created_at | moment }} -->
+          </p>
+          <p>
+            <!-- {{ junior.report }} -->
+            Manager:
+            <span class="fw-bold">{{ junior.manager }}</span>
+          </p>
+          <p class="fs-mini mb-0">
+            Comment:
+            <span class="white-space-pre text-info fs-lg fw-semi-bold">{{ junior.comment }}</span>
+          </p>
+          <p>
+            <starRating class :ratedStar="junior.rating" :displayStar="10" :starSize="'18px'"/>
+          </p>
         </section>
       </li>
     </ul>
@@ -60,29 +69,31 @@
 <script>
 import moment from "moment";
 import { call } from "vuex-pathify";
-import image from "./../../assets/avatar.png";
+import image from "@/assets/people/anon.svg";
+import starRating from "@/components/Star/Star";
 
 export default {
   name: "Timeline",
+  components: { starRating },
   data() {
     return {
       image,
-      juniorCheckin: [],
+      allUserReviews: [],
       loading: false
     };
   },
   created() {
-    this.getJuniorCheckin();
+    this.getall360Reviews();
   },
   methods: {
-    api_getJuniorCheckin: call("checkin/juniorCheckin"),
-    getJuniorCheckin() {
+    api_getAllJuniorReviews: call("review360/getAllJuniorReviews"),
+    getall360Reviews() {
       this.loading = true;
-      this.juniorCheckin = [];
-      this.api_getJuniorCheckin()
+      this.allUserReviews = [];
+      this.api_getAllJuniorReviews()
         .then(res => {
           res.data.forEach(element => {
-            this.juniorCheckin.push(element);
+            this.allUserReviews.push(element);
           });
           this.loading = false;
         })

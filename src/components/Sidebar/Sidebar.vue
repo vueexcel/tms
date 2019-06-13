@@ -81,7 +81,7 @@
       />
       <NavLink
         header="ViewReview360"
-        link="/app/viewreview360"
+        link="/app/360/viewreview360"
         iconName="fas fa-recycle"
         index="review360"
         isHeader
@@ -177,16 +177,11 @@
         index="notifications"
         isHeader
       />-->
-      <NavLink
-        v-if="sideBar.role === 'manager'"
-        header="Your Juniors"
-        link="/app/juniors"
-        iconName="fas fa-users"
-        isHeader
-      />
+      <!-- v-if="sideBar.role === 'manager'" -->
+      <NavLink header="Your Juniors" link="/app/juniors" iconName="fas fa-users" isHeader/>
       <!-- index="performanceReview" -->
+      <!-- v-if="sideBar.role === 'manager'" -->
       <NavLink
-        v-if="sideBar.role === 'manager'"
         header="View Junior's Checkin"
         link="/app/viewCheckin"
         iconName="fas fa-folder-open"
@@ -209,20 +204,31 @@
         isHeader
       />-->
       <NavLink
+        :activeItem="activeItem"
+        header="360View&Review"
+        iconName="fas fa-recycle"
+        link="/app/360"
+        index="360"
+        isHeader
+        :childrenLinks="[
+          { header: 'Review360',  link: '/app/360/review360' },
+          { header: 'ViewReview360', link: '/app/360/viewreview360' },
+        ]"
+      />
+      <!-- <NavLink
         header="Review360"
         link="/app/review360"
         iconName="fas fa-refresh"
         index="review360"
         isHeader
-      />
-      <NavLink
-        v-if="sideBar.role === 'manager'"
+      />-->
+      <!-- <NavLink
         header="ViewReview360"
         link="/app/viewreview360"
         iconName="fas fa-recycle"
         index="review360"
         isHeader
-      />
+      />-->
       <NavLink
         header="Feedback"
         link="/app/feedback"
@@ -320,6 +326,13 @@
         link="/app/feedback"
         iconName="fas fa-file-signature"
         index="feedback"
+        isHeader
+      />
+      <NavLink
+        header="Review360"
+        link="/app/360/review360"
+        iconName="fas fa-refresh"
+        index="review360"
         isHeader
       />
     </ul>
