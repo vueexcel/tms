@@ -39,7 +39,7 @@
             <span>{{era.desc}}</span>
             <span></span>
           </div>
-          <div class="pt-3">
+          <div v-if="era.comment" class="pt-3">
             <h6 class="text-primary">Comment:</h6>
             <!-- <p class="box fs-lg fw-semi-bold text-secondary">{{ era.comment }}</p> -->
             <div class="dialogbox">
@@ -128,9 +128,9 @@ export default {
     starRating
   },
   props: {
-    user: {
-      type: Object
-    },
+    // user: {
+    //   type: Object
+    // },
     variant: {
       type: String
     }

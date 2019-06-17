@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="page-title">View All Review 360</h1>
+    <h1 class="page-title">View All Review 360&#176;</h1>
     <!-- <div v-if="!allUserReviews.length && !loading"> -->
     <!-- ###### alert made false -->
     <div v-if="!allUserReviews.length && !loading">
@@ -32,8 +32,9 @@
         <span :class="junior.anon ? 'eventIconWarning' : 'eventIconSuccess'" class="eventIcon">
           <i :class="junior.anon ? 'glyphicon-eye-close' : 'glyphicon-eye-open'" class="glyphicon"/>
         </span>
-
-        <section class="event">
+        <!-- {{ junior.seen_id}} {{loggedInUser._id}} -->
+        <!-- <section class="event" :class="{'bg-success': !junior.seen}"> -->
+        <section class="event" :class="{'bg-success': junior.seen_id === loggedInUser._id}">
           <span class="thumb-xs avatar pull-left mr-sm">
             <img
               :src="junior.profileImage ? junior.profileImage: image"
@@ -41,6 +42,24 @@
               alt="..."
             >
           </span>
+          <b-form-group
+            v-if="junior.seen_id && loggedInUser._id === junior.manager_id"
+            class="abc-checkbox abc-checkbox-success abc-checkbox-circle float-right"
+          >
+            <!-- <input type="checkbox" :checked="anon" v-model="anon" id="checkbox-circle"> -->
+            <input
+              v-if="!spinnerLoading[index]"
+              @click="seenStatus(junior,index)"
+              :checked="anonseen[index]"
+              v-model="anonseen[index]"
+              type="checkbox"
+              :id="`checkbox-circle${index}`"
+            >
+            <label v-if="!spinnerLoading[index]" :for="`checkbox-circle${index}`">seen</label>
+            <span v-if="spinnerLoading[index]">
+              <i class="fa fa-circle-o-notch fa-spin fa-2x text-warning"></i>
+            </span>
+          </b-form-group>
           <h5 class="eventHeading">
             <a class="text-primary" v-if="junior.username">{{ junior.username }}</a>
             <a class="text-primary" v-else>#anonymous</a>
@@ -68,7 +87,7 @@
 
 <script>
 import moment from "moment";
-import { call } from "vuex-pathify";
+import { call, get } from "vuex-pathify";
 import image from "@/assets/people/anon.svg";
 import starRating from "@/components/Star/Star";
 
@@ -79,14 +98,20 @@ export default {
     return {
       image,
       allUserReviews: [],
-      loading: false
+      loading: false,
+      anonseen: [],
+      spinnerLoading: []
     };
   },
   created() {
     this.getall360Reviews();
   },
+  computed: {
+    loggedInUser: get("profile/user")
+  },
   methods: {
     api_getAllJuniorReviews: call("review360/getAllJuniorReviews"),
+    api_setSeenStatus: call("review360/setSeenStatus"),
     getall360Reviews() {
       this.loading = true;
       this.allUserReviews = [];
@@ -100,6 +125,24 @@ export default {
         .catch(err => {
           console.log(err.response);
           this.loading = false;
+        });
+    },
+    seenStatus(val, index) {
+      this.spinnerLoading[index] = true;
+      this.api_setSeenStatus(val._id)
+        .then(res => {
+          if (res.data.msg === "success seen") {
+            val.seen_id = null;
+            this.spinnerLoading[index] = false;
+            this.api_getAllJuniorReviews();
+          } else {
+            alert("something went wrong!");
+            this.spinnerLoading[index] = false;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          this.spinnerLoading[index] = false;
         });
     }
   },

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="page-title">Review 360</h1>
+    <h1 class="page-title">Review Your Manager</h1>
     <div class="text-center" v-if="false">
       <div>
         <i class="fas fa-circle-notch text-success fa-spin fa-3x"></i>
@@ -10,7 +10,7 @@
       <b-col lg="6" xs="12">
         <Widget>
           <div class="mb-2">
-            <h5>Share Your Concerns</h5>This is a section in which employee can share any concerns / problems / grievances with manager &#38; admin. This message will be sent to manager directly for notice.
+            <h5>Use this section to write review for your manager/seniors</h5>
           </div>
           <div v-if="errormsg" class="text-danger fw-bold">{{errormsg}}</div>
           <div v-if="!errormsg">
@@ -33,7 +33,7 @@
             <!-- :starSize="'25px'" -->
             <!-- :disableStar="activeReport.canReview === false ? true : false" -->
 
-            <b-form-group class="abc-checkbox abc-checkbox-success abc-checkbox-circle">
+            <b-form-group class="abc-checkbox abc-checkbox-success abc-checkbox-circle mt-3">
               <input type="checkbox" :checked="anon" v-model="anon" id="checkbox-circle">
               <label for="checkbox-circle">Anonymous</label>
               <!-- <p
@@ -158,41 +158,51 @@ export default {
     api_getmanagers: call("review360/getmanagers"),
     api_getPost: call("review360/getPost"),
     async postFeedback() {
-      this.loading = true;
-      this.error = false;
-      // find manager ID
-      var userName = "";
-      userName = await this.managers.find(element => {
-        if (element.id === this.selected) {
-          return element;
-        }
-      });
-      this.api_postFeedback({
-        manager: userName.username,
-        managerProfileImage: userName.profileImage,
-        managerID: this.selected,
-        rating: this.ratedStar,
-        comment: this.feedback,
-        anon: this.anon
-      })
-        .then(res => {
-          this.loading = false;
-          this.feedback = "";
-          this.selected = null;
-          this.ratedStar = 0;
-          this.anon = false;
-          this.getPost();
-          this.getFeedback();
-        })
-        .catch(err => {
-          this.loading = false;
-          this.feedback = "";
-          this.selected = null;
-          if (err.response.data.msg) {
-            this.error = true;
-            this.errorMessage = err.response.data.msg;
+      if (this.selected && this.ratedStar !== 0) {
+        this.loading = true;
+        this.error = false;
+        // find manager ID
+        var userName = "";
+        userName = await this.managers.find(element => {
+          if (element.id === this.selected) {
+            return element;
           }
         });
+        this.api_postFeedback({
+          manager: userName.username,
+          managerProfileImage: userName.profileImage,
+          managerID: this.selected,
+          rating: this.ratedStar,
+          comment: this.feedback,
+          anon: this.anon
+        })
+          .then(res => {
+            this.loading = false;
+            this.feedback = "";
+            this.ratedStar = 0;
+            this.anon = false;
+            if (res.status !== 204) {
+              this.getPost();
+              this.getFeedback();
+            } else {
+              alert(
+                "you have already submitted review against this manager for this month, please try again next month"
+              );
+            }
+            this.selected = null;
+          })
+          .catch(err => {
+            this.loading = false;
+            this.feedback = "";
+            this.selected = null;
+            if (err.response.data.msg) {
+              this.error = true;
+              this.errorMessage = err.response.data.msg;
+            }
+          });
+      } else {
+        alert("stars rating & manager name are mandatory");
+      }
     },
     submitStars(value) {
       this.ratedStar = value;

@@ -48,7 +48,8 @@
             <div v-for="(kpi, index) in junior.report.kpi" :key="index">
               <p class="text-primary fw-semi-bold">{{ kpi.title }}</p>
               <p class="text-secondary">{{ kpi.desc }}</p>
-              <p>Comment:
+              <p>
+                Comment:
                 <!-- <span class="text-primary">{{ kpi.comment }}</span> -->
               </p>
               <div class="dialogbox">
@@ -67,11 +68,11 @@
             <div v-for="(kpi, index) in junior.report.era" :key="index">
               <p class="text-primary fw-semi-bold">{{ kpi.title }}</p>
               <p class="text-secondary">{{ kpi.desc }}</p>
-              <p >
+              <p v-if="kpi.comment">
                 Comment:
                 <!-- <span class="text-primary">{{ kpi.comment }}</span> -->
               </p>
-              <div class="dialogbox">
+              <div v-if="kpi.comment" class="dialogbox">
                 <div class="body">
                   <span class="tip tip-up"></span>
                   <div class="message text-primary">
@@ -126,11 +127,11 @@
                     <div v-for="(kpi, index) in comment.comment.era" :key="index">
                       <p class="text-primary fw-semi-bold">Era title: {{ kpi.title }}</p>
                       <!-- <p class="text-secondary">{{ kpi.desc }}</p> -->
-                      <p>
+                      <p v-if="kpi.comment">
                         <!-- <span class="text-primary">{{ kpi.comment }}</span> -->
                         Comment:
                       </p>
-                      <div class="dialogbox">
+                      <div v-if="kpi.comment" class="dialogbox">
                         <div class="body">
                           <span class="tip tip-up"></span>
                           <div class="message">
@@ -138,7 +139,7 @@
                           </div>
                         </div>
                       </div>
-                      <p>
+                      <p v-if="kpi.comment">
                         Rating:
                         <Stars
                           :displayStar="10"
@@ -214,7 +215,6 @@ export default {
       this.loading = true;
       let response = await this.api_juniorMonthlyReport()
         .then(res => {
-          console.log(res.data);
           this.juniorReport = res.data;
         })
         .catch(err => {

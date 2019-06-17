@@ -75,6 +75,7 @@
                 </div>
               </div>
             </div>
+            <!-- ###### KPI ERA form prior review ##### -->
             <div v-if="!managerComment">
               <h3>KPI</h3>
               <hr>
@@ -103,18 +104,20 @@
                 v-for="( erareport, indexera ) in activeEmployeReport.report.era"
                 :key="indexera+activeEmployeReport.report.kpi.length"
               >
-                {{ erareport.title }}
-                <starRating
-                  :displayStar="10"
-                  :starSize="'20px'"
-                  :ratedStar="ratedStarEra[indexera]"
-                  @starRatingSelected="submitStarRateera($event, indexera)"
-                />
-                <b-form-textarea
-                  :rows="3"
-                  v-model="textera[indexera]"
-                  placeholder="Performance or general comments (if any)..."
-                />
+                <div v-if="erareport.comment">
+                  {{ erareport.title }}
+                  <starRating
+                    :displayStar="10"
+                    :starSize="'20px'"
+                    :ratedStar="ratedStarEra[indexera]"
+                    @starRatingSelected="submitStarRateera($event, indexera)"
+                  />
+                  <b-form-textarea
+                    :rows="3"
+                    v-model="textera[indexera]"
+                    placeholder="Performance or general comments (if any)..."
+                  />
+                </div>
               </div>
             </div>
             <b-alert
@@ -257,7 +260,6 @@ export default {
       this.$set(this.ratedStarKpi, i, value);
     },
     submitStarRateera(value, i) {
-      console.log(value, i);
       // this.ratedStar = value;
       this.$set(this.ratedStarEra, i, value);
     },

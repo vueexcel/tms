@@ -78,8 +78,9 @@
           <b-card no-body class="border-0">
             <b-tabs pills card vertical end class="border-0">
               {{date}}
+              <!-- v-for="(reportdata,index) in user.all_chekin.slice().reverse()" -->
               <b-tab
-                v-for="(reportdata,index) in user.all_chekin.slice().reverse()"
+                v-for="(reportdata,index) in user.all_chekin"
                 :key="index"
                 :title="reportdata.day"
                 class="border-0 white-space-pre pl-3 pr-3 pb-3 pt-0"

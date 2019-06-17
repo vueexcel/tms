@@ -103,12 +103,12 @@ const router = new Router({
           component: WeeklyReport
         },
         {
-          path: "monthlyReport",
+          path: "month/monthlyReport",
           name: "monthlyReport",
           component: MonthlyReport
         },
         {
-          path: "monthlyReportReview",
+          path: "month/monthlyReportReview",
           name: "monthlyReportReview",
           component: MonthlyReportReview
         },
@@ -138,7 +138,7 @@ const router = new Router({
           component: JuniorWeekReport
         },
         {
-          path: 'juniorMonthlyReport',
+          path: 'month/juniorMonthlyReport',
           name: "JuniorMonthlyReport",
           component: JuniorMonthlyReport
         }, {

@@ -4,7 +4,8 @@
       <span class="icon">
         <i :class="fullIconName"></i>
       </span>
-      {{header}}
+      <span v-html="header"></span>
+      <!-- {{header}} -->
       <sup v-if="label" class="headerLabel">{{label}}</sup>
       <b-badge v-if="badge" class="badge rounded-f" variant="warning" pill>{{badge}}</b-badge>
     </router-link>
@@ -15,7 +16,8 @@
         <span class="icon">
           <i :class="fullIconName"></i>
         </span>
-        {{header}}
+        <span v-html="header"></span>
+        <!-- {{header}} -->
         <sup v-if="label" class="headerLabel">{{label}}</sup>
         <div :class="{caretWrapper: true, carretActive: isActive}">
           <i class="fa fa-angle-left"/>
@@ -39,7 +41,8 @@
   </li>
   <li v-else>
     <router-link :to="index !== 'menu' && link">
-      {{header}}
+      <span v-html="header"></span>
+      <!-- {{header}} -->
       <sup v-if="label" class="headerLabel">{{label}}</sup>
       <b-badge
         v-if="link === '/app/week/WeeklyReport'"
@@ -47,6 +50,18 @@
         variant="warning"
         pill
       >{{count}}</b-badge>
+      <b-badge
+        v-if="link === '/app/month/monthlyReportReview'"
+        class="badge rounded-f float-right mt-0"
+        variant="warning"
+        pill
+      >{{countmonthly}}</b-badge>
+      <b-badge
+        v-if="link === '/app/360/viewreview360'"
+        class="badge rounded-f float-right mt-0"
+        variant="warning"
+        pill
+      >{{unreadView360}}</b-badge>
     </router-link>
   </li>
 </template>
@@ -85,6 +100,8 @@ export default {
   },
   computed: {
     countToReviewReport_: get("weeklyReportReview/countToReviewReport"),
+    unreadMonthlyReport: get("monthlyReportReview/unreadMonthlyReport"),
+    unreadView360: get("review360/count360"),
     fullIconName() {
       return `${this.iconName}`; //removed 'fi' in order use fontawesome5 icons / Dashboard
     },
@@ -98,6 +115,13 @@ export default {
     count() {
       if (this.activeItem === "/app/week" && this.countToReviewReport_) {
         return JSON.stringify(this.countToReviewReport_);
+      } else {
+        return "0";
+      }
+    },
+    countmonthly() {
+      if (this.unreadMonthlyReport) {
+        return JSON.stringify(this.unreadMonthlyReport);
       } else {
         return "0";
       }
