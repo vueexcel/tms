@@ -65,13 +65,13 @@
           <!-- second widget -->
           <h1>Key Performance Area</h1>
           <div v-if="user.kpi">
-            <AreaComponent :eraKpiArray="user.kpi.kpi_json"/>
+            <AreaComponent :eraKpiArray="user.kpi.kpi_json" :monthlyRating="user.Monthly_rating"/>
           </div>
           <!-- second widget ends-->
           <!-- third widget -->
           <h1>Extra Resource Area</h1>
           <div v-if="user.kpi">
-            <AreaComponent :eraKpiArray="user.kpi.era_json"/>
+            <AreaComponent :eraKpiArray="user.kpi.era_json" :monthlyRating="user.Monthly_rating" />
           </div>
           <!-- third widget ends-->
         </b-col>
@@ -266,6 +266,7 @@ import AreaComponent from "./../../components/Area/Area";
 import starRating from "@/components/Star/Star";
 import { get, call } from "vuex-pathify";
 import dummyimage from "@/components/Group/person-dummy.jpg";
+import RadialProgressBar from "vue-radial-progress";
 
 export default {
   name: "Profile",
@@ -276,10 +277,12 @@ export default {
       starSize: "17px",
       image: dummyimage,
       checkin_rating: "0",
-      Overall_rating: "0"
+      Overall_rating: "0",
+      completedSteps: 5,
+      totalSteps: 10
     };
   },
-  components: { Widget, AreaComponent, starRating },
+  components: { Widget, AreaComponent, starRating, RadialProgressBar },
   mounted() {
     this.get_profile();
     this.get_activity();

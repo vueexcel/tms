@@ -76,7 +76,7 @@ export default {
       loader: false,
       loginfailed: false,
       signinChecked: "",
-      loginError : ""
+      loginError: ""
     };
   },
   computed: {
@@ -91,32 +91,31 @@ export default {
       const password = this.$refs.password.value;
       if (username.length !== 0 && password.length !== 0) {
         this.loader = true;
-        this.loginApi({ username: username, password: password })
-          .then(resp => {
-            if (this.signinChecked !== "") {
-              $cookies.set("keepLoggedIn", this.authenticated);
-              this.loader = false;
-            }
-            if (resp === true) {
-              this.getProfile().then(response => {
-                if (resp === true) {
-                  this.loader = resp;
-                  this.loader = false;
-                } else {
-                  this.loader = false;
-                }
-              });
-            } else {
-              this.loader = false;
-              this.loginfailed = true;
-              this.loginError =  resp.charAt(0).toUpperCase() + resp.slice(1);
-            }
-          })
+        this.loginApi({ username: username, password: password }).then(resp => {
+          if (this.signinChecked !== "") {
+            $cookies.set("keepLoggedIn", this.authenticated);
+            this.loader = false;
+          }
+          if (resp === true) {
+            this.getProfile().then(response => {
+              if (resp === true) {
+                this.loader = resp;
+                this.loader = false;
+              } else {
+                this.loader = false;
+              }
+            });
+          } else {
+            this.loader = false;
+            this.loginfailed = true;
+            this.loginError = resp.charAt(0).toUpperCase() + resp.slice(1);
+          }
+        });
       }
     },
     closeError() {
       this.loginfailed = false;
-      this.loginError = ""
+      this.loginError = "";
     }
 
     // login() {
@@ -132,7 +131,7 @@ export default {
     //     alert("please make sure you entered correct user name & password");
     //   }
     // }
-  },
+  }
 };
 // };
 </script>

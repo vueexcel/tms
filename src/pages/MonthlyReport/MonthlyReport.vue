@@ -36,11 +36,12 @@
                       :max-rows="6"
                       required
                     ></b-form-textarea>
+                    <p v-if="kpi.title" class="text-muted fw-bold text-danger">*required</p>
                   </div>
                 </div>
               </fieldset>
               <!----------------- 
-                *if no data found KPI
+                *if report data found KPI
               ------------------->
               <fieldset v-if="usersMonthlyReport">
                 <h3>KPI</h3>
@@ -61,7 +62,7 @@
                 </div>
               </fieldset>
               <!----------------- 
-                *if no data found ends KPI
+                *if report data found ends KPI
               ------------------->
               <fieldset v-if="!usersMonthlyReport">
                 <h3>ERA</h3>
@@ -81,14 +82,14 @@
                       :rows="3"
                       v-model="EraDescription[index]"
                       :max-rows="6"
-                      required
                     ></b-form-textarea>
+                    <p v-if="era.title" class="text-muted fw-bold text-success">*optional</p>
                   </div>
                 </div>
                 <hr>
               </fieldset>
               <!----------------- 
-                *if no data found ERA
+                *if report data found ERA
               ------------------->
               <fieldset v-if="usersMonthlyReport">
                 <h3>ERA</h3>
@@ -104,12 +105,12 @@
                     <span>{{ kpi.desc }}</span>
                   </label>
                   <div class="col-md-6">
-                    <h4 class="white-space">{{ kpi.comment }}</h4>
+                    <h4 class="white-space">{{ kpi.comment | nocomment }}</h4>
                   </div>
                 </div>
               </fieldset>
               <!----------------- 
-                *if no data found ends ERA
+                *if report data found ends ERA
               ------------------->
               <div class="form-actions">
                 <div class="row">
@@ -135,6 +136,21 @@
         </b-col>
       </b-row>
     </b-container>
+    <!-- :show="isNotificationOpen" -->
+    <b-alert
+      v-if="isNotificationOpen"
+      v-model="openalertAfter"
+      variant="danger text-center"
+      :class="{ alertTransform: true, alertAfter: alertAfter }"
+      dismissible
+    >
+      <!-- Your date of joining is 26 you can submit your monthly report after
+      <span
+        class="fw-semi-bold"
+      >19th</span>
+      of this month-->
+      {{ alertMsg }}
+    </b-alert>
   </div>
 </template>
 
@@ -153,7 +169,11 @@ export default {
       loading: true,
       usersMonthlyReport: "",
       reportStatus: [],
-      allUserData: ""
+      allUserData: "",
+      isNotificationOpen: true,
+      alertAfter: false,
+      alertMsg: "",
+      openalertAfter: false
     };
   },
   computed: {
@@ -167,7 +187,10 @@ export default {
     api_getReview: call("monthlyReport/getReview"),
     api_deleteReport: call("monthlyReport/deleteReport"),
     async submit() {
-      this.loading = true;
+      // this.loading = true;
+      this.alertAfter = false;
+      this.openalertAfter = false;
+      this.alertMsg = "";
       let obj = {
         kpi: this.KpiDescription,
         era: this.EraDescription
@@ -182,7 +205,9 @@ export default {
             this.getReport();
           })
           .catch(err => {
-            console.log(err);
+            this.alertMsg = err.response.data.msg;
+            this.alertAfter = true;
+            this.openalertAfter = true;
           });
       }
       this.KpiDescription = [];
@@ -214,6 +239,7 @@ export default {
             this.setPayloadKPI.push({
               title: element.title,
               desc: element.desc,
+              id: element.ID,
               comment: this.KpiDescription[i]
             });
           }
@@ -225,6 +251,7 @@ export default {
             this.setPayloadERA.push({
               title: element.title,
               desc: element.desc,
+              id: element.ID,
               comment: this.EraDescription[i]
             });
           }
@@ -255,6 +282,12 @@ export default {
         this.reportStatus = result;
       }
     }
+  },
+  filters: {
+    nocomment: function(value) {
+      if (!value) return "null";
+      return value;
+    }
   }
 };
 </script>
@@ -268,5 +301,15 @@ export default {
 }
 .white-space {
   white-space: pre-line;
+}
+.alertTransform {
+  transition: 0.6s;
+  transition-timing-function: ease;
+  transform: translateX(-130vw);
+  padding-right: 1.25rem;
+}
+
+.alertAfter {
+  transform: translateX(0);
 }
 </style>

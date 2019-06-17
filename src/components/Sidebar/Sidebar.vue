@@ -41,7 +41,21 @@
         ]"
         isHeader
       />
-
+      <NavLink
+        header="Monthly Review"
+        link="/app/month/monthlyReportReview"
+        iconName="fas fa-calendar"
+        :badge="unreadMonthlyReport.toString()"
+        isHeader
+      />
+      <!-- :badge="unreadMonthlyReport.toString()" -->
+      <NavLink
+        header="Juniors Monthly Report"
+        link="/app/month/juniorMonthlyReport"
+        iconName="fas fa-calendar"
+        isHeader
+      />
+      <!-- index="notifications" -->
       <NavLink
         header="View Junior's Checkin"
         link="/app/viewCheckin"
@@ -57,7 +71,14 @@
         iconName="fa fa-flag-checkered"
         index="feedback"
         isHeader
-      /> -->
+      />
+      <NavLink
+        header="Juniors Monthly Report"
+        link="/app/juniorMonthlyReport"
+        iconName="fa fa-users"
+        index="feedback"
+        isHeader
+      />-->
       <!-- index="performanceReview" -->
       <NavLink
         header="View Feedback"
@@ -66,11 +87,19 @@
         :badge="JSON.stringify(feedbackCount)"
         isHeader
       />
-      <NavLink
+      <!-- <NavLink
         header="View Monthly Report"
         link="/app/PerformanceReview"
         iconName="fas fa-calendar"
         index="notifications"
+        isHeader
+      />-->
+      <NavLink
+        header="ViewReview360&#176;"
+        link="/app/360/viewreview360"
+        iconName="fas fa-recycle"
+        index="review360"
+        :badge="unreadView360.toString()"
         isHeader
       />
       <!-- link="/app/weeklyReview" -->
@@ -103,7 +132,7 @@
         isHeader
       />-->
     </ul>
-    <!-- USER -->
+    <!-- ######################### manager #############################-->
     <!-- <ul class="nav" v-if="!sidebar"> -->
     <ul class="nav" v-if="sideBar.role === 'manager'">
       <NavLink
@@ -120,14 +149,14 @@
         index="typography"
         isHeader
       />
-      <NavLink 
-      :activeItem="activeItem"
-      header="Weekly"
-      iconName="fas fa-chart-bar"
-      link="/app/week"
-      index="week"
-      isHeader
-      :childrenLinks="[
+      <NavLink
+        :activeItem="activeItem"
+        header="Weekly"
+        iconName="fas fa-chart-bar"
+        link="/app/week"
+        index="week"
+        isHeader
+        :childrenLinks="[
           { header: 'Weekly Checkin',  link: '/app/week/weeklyCheckin' },
           { header: 'Weekly Report', link: '/app/week/WeeklyReport' },
           {header: 'Juniors Weekly Report',link:'/app/week/juniorWeekReport'}
@@ -139,41 +168,57 @@
         iconName="fas fa-file-signature"
         index="tables"
         isHeader
-      /> -->
+      />-->
+      <!-- v-if="sideBar.role === 'manager'" -->
       <!-- <NavLink
-        v-if="sideBar.role === 'manager'"
         header="Weekly Report"
         link="/app/WeeklyReport"
         iconName="fas fa-chart-bar"
         index="performanceReview"
         :badge="count"
         isHeader
-      /> -->
+      />-->
+      <!-- header="Monthly Report" -->
+      <NavLink
+        :activeItem="activeItem"
+        header="Monthly"
+        iconName="fas fa-calendar"
+        link="/app/month"
+        index="month"
+        isHeader
+        :badge="unreadMonthlyReport.toString()"
+        :childrenLinks="[
+          { header: 'Monthly Report',  link: '/app/month/monthlyReport' },
+          { header: 'Monthly Review', link: '/app/month/monthlyReportReview' },
+          {header: 'Juniors Monthly Report',link:'/app/month/juniorMonthlyReport'}
+        ]"
+      />
       <!-- <NavLink
         header="Monthly Report"
         link="/app/monthlyReport"
         iconName="fas fa-calendar"
         index="notifications"
         isHeader
-      />
-      <NavLink
-        v-if="sideBar.role === 'manager'"
-        header="Monthly Report Review"
-        link="/app/monthlyReportReview"
+      />-->
+      <!-- <NavLink
+        header="Monthly Review"
+        link="/app/month/monthlyReportReview"
         iconName="fas fa-calendar-check"
+        :badge="unreadMonthlyReport.toString()"
         index="notifications"
         isHeader
-      /> -->
-      <NavLink
-        v-if="sideBar.role === 'manager'"
-        header="Your Juniors"
-        link="/app/juniors"
-        iconName="fas fa-users"
+      />-->
+      <!-- <NavLink
+        header="Juniors Monthly Report"
+        link="/app/juniorMonthlyReport"
+        iconName="fa fa-users"
+        index="feedback"
         isHeader
-      />
+      />-->
+      <NavLink header="Your Juniors" link="/app/juniors" iconName="fas fa-users" isHeader/>
       <!-- index="performanceReview" -->
+      <!-- v-if="sideBar.role === 'manager'" -->
       <NavLink
-        v-if="sideBar.role === 'manager'"
         header="View Junior's Checkin"
         link="/app/viewCheckin"
         iconName="fas fa-folder-open"
@@ -194,7 +239,35 @@
         iconName="fa fa-flag-checkered"
         index="feedback"
         isHeader
-      /> -->
+      />-->
+      <NavLink
+        :activeItem="activeItem"
+        header="360View&Review"
+        iconName="fas fa-recycle"
+        link="/app/360"
+        index="360"
+        isHeader
+        :childrenLinks="[
+          { header: 'Review360&#176;',  link: '/app/360/review360' },
+          { header: 'ViewReview360&#176;', link: '/app/360/viewreview360' },
+        ]"
+      />
+      <!-- <NavLink
+        header="Review360"
+        link="/app/review360"
+        iconName="fas fa-refresh"
+        index="review360"
+        isHeader
+      />-->
+      <!-- <NavLink
+        header="ViewReview360"
+        link="/app/viewreview360"
+        iconName="fas fa-recycle"
+        index="review360"
+        isHeader
+      />-->
+      <!-- v-if="sideBar.role === 'manager'" -->
+
       <NavLink
         header="Feedback"
         link="/app/feedback"
@@ -243,7 +316,7 @@
         index="performanceReview"
         isHeader
       />-->
-      
+
       <!-- <NavLink
         link="/app/notifications"
         iconName="fas fa-calendar-minus"
@@ -251,7 +324,6 @@
         isHeader
       />-->
       <!-- <NavLink
-
         header="View Monthly Report"
         link="/app/PerformanceReview"
         iconName="fas fa-calendar"
@@ -259,6 +331,7 @@
         isHeader
       />-->
     </ul>
+    <!-- ##################### employee/ user ############################3 -->
     <ul class="nav" v-if="sideBar.role !== 'manager' && sideBar.role !== 'Admin' ">
       <NavLink
         header="Dashboard"
@@ -282,6 +355,13 @@
         isHeader
       />
       <NavLink
+        header="Monthly Report"
+        link="/app/month/monthlyReport"
+        iconName="fas fa-calendar"
+        index="notifications"
+        isHeader
+      />
+      <NavLink
         header="View Manager's Review"
         link="/app/managerReview"
         iconName="fas fa-file-text"
@@ -292,6 +372,13 @@
         link="/app/feedback"
         iconName="fas fa-file-signature"
         index="feedback"
+        isHeader
+      />
+      <NavLink
+        header="Review360"
+        link="/app/360/review360"
+        iconName="fas fa-refresh"
+        index="review360"
         isHeader
       />
     </ul>
@@ -330,6 +417,7 @@ export default {
   watch: {
     sideBar(newValue, oldValue) {
       this.fetchfeedbackCount();
+      // this.getUsersMonthlyReports();
     },
     countToReviewReport_(newValue, oldValue) {
       // console.log(newValue);
@@ -341,10 +429,16 @@ export default {
     api_fetchFeedback: call("feedback/fetchFeedback"),
     setCountToReview_: call("weeklyReportReview/setCountToReview"),
     api_fetchweekly: call("weeklyReportReview/getallWeeklyReport"),
+    api_getAllJuniorReviews: call("review360/getAllJuniorReviews"), //360 view count
+    api_getUsersMonthlyReports: call(
+      "monthlyReportReview/getUsersMonthlyReports"
+    ),
     async fetchfeedbackCount() {
       if (this.sideBar.role === "Admin") {
         await this.api_fetchFeedback();
         await this.api_fetchweekly();
+        await this.api_getUsersMonthlyReports();
+        await this.api_getAllJuniorReviews();
         await this.setCountToReview_({
           user: this.userProfile,
           reportArray: this.allweeklyReport_
@@ -353,6 +447,8 @@ export default {
       if (this.sideBar.role === "manager") {
         this.api_fetchweekly();
         await this.api_fetchweekly();
+        await this.api_getUsersMonthlyReports();
+        await this.api_getAllJuniorReviews();
         await this.setCountToReview_({
           user: this.userProfile,
           reportArray: this.allweeklyReport_
@@ -391,9 +487,11 @@ export default {
     sideBar: get("profile/user"),
     feedback: get("feedback/feedbacksCount"),
     countToReviewReport_: get("weeklyReportReview/countToReviewReport"),
+    unreadView360: get("review360/count360"),
 
     userProfile: get("profile/user"),
     allweeklyReport_: get("weeklyReportReview/allweeklyReport"),
+    unreadMonthlyReport: get("monthlyReportReview/unreadMonthlyReport"),
 
     count() {
       if (this.countToReviewReport_) {

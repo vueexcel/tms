@@ -8,7 +8,7 @@
           <span class="fs-sm">
             <i class="pl-5 fa fa-circle text-info"/> Selected
             <!-- <i class="pl-1 fa fa-circle" style="color: #006400"/> Report Available ( Border color ) -->
-            <i class="pl-1 fa fa-circle" style="color: purple"/> Report Available ( Border color )
+            <i class="pl-1 fa fa-circle" style="color: red"/> Report Available ( Border color )
             <i class="pl-1 fa fa-circle" style="color: orange"/> Report Reviewed ( Border color )
             <i class="pl-1 fa fa-circle" style="color: black"/> No Report ( Border color )
           </span>

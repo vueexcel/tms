@@ -74,7 +74,7 @@ export default {
                     if (manager.reviewed === true) {
                       color = "orange";
                     } else {
-                      color = "purple";
+                      color = "red";
                     }
                   }
                 });

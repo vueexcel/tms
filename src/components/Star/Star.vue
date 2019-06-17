@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex justify-content-between mb-lg pb-2">
+  <div class="d-flex justify-content-between">
     <div class="text-dark">
       <h2>
         <i
@@ -27,7 +27,7 @@ export default {
   },
   methods: {
     rating(value) {
-      if(this.disableStar === false){
+      if (this.disableStar === false) {
         this.$emit("starRatingSelected", value);
       }
     }
