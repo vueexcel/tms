@@ -47,8 +47,7 @@
         </b-row>
       </b-container>
       <div class="container-fluid">
-        <div class="mt-5 mb-3 row">
-        </div>
+        <div class="mt-5 mb-3 row"></div>
         <div v-if="allweeklyReport_.length && allJuniors_.length">
           <PerformanceBox
             :performanceData="allweeklyReport_"
@@ -56,21 +55,14 @@
             @deleteReview="deleteReviewUser"
             @update-highlight="updateHighlight"
             @skipReport="skipReportReview"
+            @revoke="revoke"
           />
-          </div>
-          <div v-if="!allweeklyReport_.length && !error" class="pb-5">
-            <b-alert
-            show
-            dismissible
-            class="alert-transparent alert-danger mt-5"
-            >No Report</b-alert>
-          </div>
+        </div>
+        <div v-if="!allweeklyReport_.length && !error" class="pb-5">
+          <b-alert show dismissible class="alert-transparent alert-danger mt-5">No Report</b-alert>
+        </div>
       </div>
-      <Toasts
-    :rtl="true"
-    class="toast"
-    :time-out="5000"
-></Toasts>
+      <Toasts :rtl="true" class="toast" :time-out="5000"></Toasts>
     </div>
   </div>
 </template>
@@ -79,7 +71,7 @@
 // import 'imports-loader?$=jquery,this=>window!messenger/build/js/messenger'; // eslint-disable-line
 import WeeklyReviewComponent from "@/components/weeklyReviewComponent/WeeklyReview";
 import PerformanceBox from "@/components/weeklyReviewComponent/WeeklyReview/WeeklyReviewBox";
-import { get, call } from "vuex-pathify";
+import { get, call, sync } from "vuex-pathify";
 
 export default {
   name: "PerformanceReview",
@@ -107,25 +99,27 @@ export default {
   computed: {
     allJuniors_: get("weeklyReportReview/allJuniors"),
     userProfile: get("profile/user"),
-    allweeklyReport_: get("weeklyReportReview/allweeklyReport")
+    allweeklyReport_: get("weeklyReportReview/allweeklyReport"),
+    revokeLoader: sync("weeklyReportReview/revokeLoader")
   },
   methods: {
     getallWeeklyReport_: call("weeklyReportReview/getallWeeklyReport"),
     getAllJuniors_: call("weeklyReportReview/getAllJuniors"),
     setCountToReview_: call("weeklyReportReview/setCountToReview"),
     deleteWeeklyReview_: call("weeklyReportReview/deleteWeeklyReview"),
-    skipReportReview_:call("weeklyReportReview/skipReportReview"),
+    skipReportReview_: call("weeklyReportReview/skipReportReview"),
+    api_revokeWeekly: call("weeklyReportReview/revokeWeekly"),
     updateHighlight(val) {
       this.fetchallWeeklyReport();
     },
-    async skipReportReview(value){
-      let response = await this.skipReportReview_(value)
-      if(response === true){
+    async skipReportReview(value) {
+      let response = await this.skipReportReview_(value);
+      if (response === true) {
         this.$toast.success(`You have skipped the report successfully.`);
-        this.fetchallWeeklyReport()
+        this.fetchallWeeklyReport();
       } else {
-        this.$toast.error(`${response}`,{
-          title: 'BootstrapVue Toast'
+        this.$toast.error(`${response}`, {
+          title: "BootstrapVue Toast"
         });
       }
     },
@@ -138,21 +132,21 @@ export default {
       this.activeEmp = employee;
     },
     onSlideStart(slide) {
-        this.sliding = true
-      },
-      onSlideEnd(slide) {
-        this.sliding = false
-      },
+      this.sliding = true;
+    },
+    onSlideEnd(slide) {
+      this.sliding = false;
+    },
     async fetchallWeeklyReport() {
       this.loading = true;
-      let response = await this.getallWeeklyReport_()
-      if(response !== true){
-        this.error = true
-        this.errorMessage = response
+      let response = await this.getallWeeklyReport_();
+      if (response !== true) {
+        this.error = true;
+        this.errorMessage = response;
       } else {
         this.setActiveEmployeeReports();
       }
-      this.loading = false
+      this.loading = false;
     },
     async deleteReviewUser(report) {
       let resp = await this.deleteWeeklyReview_(report);
@@ -163,18 +157,18 @@ export default {
         this.errorMessage = "There is some issue to getting result";
       }
     },
-    setActiveEmployeeReports(){
-      this.allweeklyReport_.forEach(data =>{
-        for(var i = 0; i < this.allJuniors_.length ; i++){
-          if(data.user === this.allJuniors_[i]._id){
-            this.highlightEmployees.push(this.allJuniors_[i])
+    setActiveEmployeeReports() {
+      this.allweeklyReport_.forEach(data => {
+        for (var i = 0; i < this.allJuniors_.length; i++) {
+          if (data.user === this.allJuniors_[i]._id) {
+            this.highlightEmployees.push(this.allJuniors_[i]);
           }
         }
       });
       this.setCountToReview_({
-        user:this.userProfile,
+        user: this.userProfile,
         reportArray: this.allweeklyReport_
-      })
+      });
     },
     async getAllJuniors() {
       let response = await this.getAllJuniors_();
@@ -183,6 +177,19 @@ export default {
         this.error = true;
         this.errorMessage = response;
       }
+    },
+    revoke(report) {
+      this.revokeLoader = true;
+      this.api_revokeWeekly(report)
+        .then(res => {
+          console.log(res);
+          this.fetchallWeeklyReport();
+          this.revokeLoader = false;
+        })
+        .catch(err => {
+          console.log(err.response);
+          this.revokeLoader = false;
+        });
     }
   }
 };

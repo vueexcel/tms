@@ -10,7 +10,8 @@
     </div>
     <div>
       <span v-if="!error">
-        <div class="mb-xs row" v-if="true">
+        <!-- <div class="mb-xs row" v-if="true"> -->
+        <div class="mb-xs row">
           <b-dropdown variant="info" :text="selected" v-if="dateDropdown.length > 1">
             <b-dropdown-item @click="selectDate()">Select</b-dropdown-item>
             <div v-for="(date,index) in dateDropdown" :key="index">
@@ -18,6 +19,7 @@
             </div>
           </b-dropdown>
         </div>
+
         <div v-if="!activeReport.reportExist" class="row">
           <b-alert
             show
@@ -48,9 +50,10 @@
                 @starRatingSelected="submitStarRateWeekly"
                 :disableStar="activeReport.canReview === false ? true : false"
               />
-              <div
-                class="mt-2 font-weight"
-              >As a manager how do you rate the difficulty level of projects which employee has worked on in last week <strong>(Optional)</strong></div>
+              <div class="mt-2 font-weight">
+                As a manager how do you rate the difficulty level of projects which employee has worked on in last week
+                <strong>(Optional)</strong>
+              </div>
               <starRating
                 class="border-bottom"
                 :displayStar="10"
@@ -82,11 +85,23 @@
                     @click="submit"
                   >Submit</b-button>
                   <b-button
-                  v-if="userProfile.role === 'Admin'"
+                    v-if="userProfile.role === 'Admin'"
                     :disabled="activeReport.canReview == false"
                     class="btn btn-default btn-lg mb-xs bg-info text-white mt-4 float-right"
                     @click="skipReport"
                   >Skip Report</b-button>
+                </span>
+                <span v-if="activeReport.weekly_cron === false">
+                  <!-- :disabled="activeReport.canReview == false" -->
+                  <b-button
+                    class="btn btn-default btn-lg mb-xs bg-warning text-dark mt-4 w-25"
+                    @click="revoke(activeReport)"
+                  >
+                    <span v-if="!revokeLoader">Revoke</span>
+                    <span v-if="revokeLoader">
+                      <i class="fa fa-circle-o-notch fa-spin"></i>
+                    </span>
+                  </b-button>
                 </span>
                 <span v-if="activeReport.canReview == false">
                   <b-button
@@ -102,6 +117,7 @@
         </span>
       </span>
     </div>
+    <!-- {{performanceData[0].weekly_cron}} -->
     <div v-if="error && !activeEmployee.length" class="row">
       <b-alert
         :show="error"
@@ -115,7 +131,7 @@
 <script>
 import starRating from "@/components/Star/Star";
 import ExtraWorkFeedback from "./../../../components/ExtraWorkFeedback/ExtraWorkFeedback";
-import { get, call } from "vuex-pathify";
+import { get, call, sync } from "vuex-pathify";
 
 export default {
   name: "PerformanceBox",
@@ -151,18 +167,18 @@ export default {
       default: []
     }
   },
-  mounted() {
-  },
+  mounted() {},
   computed: {
     userProfile: get("profile/user"),
+    revokeLoader: sync("weeklyReportReview/revokeLoader"),
     activeEmployee() {
       let reportArray = [];
       this.error = false;
       this.errorMessage = "";
       if (this.employee) {
-        this.ratedStarDifficulty = 0
-        this.ratedStarWeekly = 0
-        this.text = ''
+        this.ratedStarDifficulty = 0;
+        this.ratedStarWeekly = 0;
+        this.text = "";
         reportArray = this.performanceData.filter(
           data => data.user === this.employee._id
         );
@@ -195,6 +211,7 @@ export default {
   },
   methods: {
     setWeeklyReportReview: call("weeklyReportReview/setWeeklyReportReview"),
+    api_revokeWeekly: call("weeklyReportReview/revokeWeekly"),
     async submit() {
       let data = {
         difficulty: this.ratedStarDifficulty,
@@ -233,11 +250,14 @@ export default {
           this.header = "danger";
         });
     },
-    skipReport(){
-      this.$emit('skipReport',this.activeReport)
+    skipReport() {
+      this.$emit("skipReport", this.activeReport);
     },
     async deleteReport() {
       this.$emit("deleteReview", this.activeReport);
+    },
+    async revoke(val) {
+      this.$emit("revoke", val);
     },
     submitStarRateWeekly(value) {
       this.ratedStarWeekly = value;

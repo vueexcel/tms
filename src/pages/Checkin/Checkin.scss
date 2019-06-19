@@ -1,7 +1,17 @@
-@import '../../styles/app';
+@import "../../styles/app";
+
+.report-wysiwyg {
+  /deep/ ol li {
+    list-style: decimal !important;
+    margin-left: 30px;
+  }
+  /deep/ ul li {
+    list-style: disc !important;
+    margin-left: 30px;
+  }
+}
 
 table {
-
   td,
   th {
     font-weight: $font-weight-normal;
@@ -19,42 +29,46 @@ table {
 }
 
 .regular-checkbox {
-	-webkit-appearance: none;
-	background-color: white;
-	border: 1px solid #cacece;
-	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
-	padding: 9px;
-	border-radius: 3px;
-	display: inline-block;
-	position: relative;
+  -webkit-appearance: none;
+  background-color: white;
+  border: 1px solid #cacece;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05),
+    inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
+  padding: 9px;
+  border-radius: 3px;
+  display: inline-block;
+  position: relative;
 }
-.regular-checkbox:active, .regular-checkbox:checked:active {
-	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);
+.regular-checkbox:active,
+.regular-checkbox:checked:active {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05),
+    inset 0px 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .regular-checkbox:checked {
-	background-color: white;
-	border: 1px solid #adb8c0;
-	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05), inset 15px 10px -12px rgba(255,255,255,0.1);
-	color: #99a1a7;
+  background-color: white;
+  border: 1px solid #adb8c0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05),
+    inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05),
+    inset 15px 10px -12px rgba(255, 255, 255, 0.1);
+  color: #99a1a7;
 }
 .regular-checkbox:checked:after {
-	content: '\2714';
-	font-size: 14px;
-	position: absolute;
-	top: -2px;
-	left: 3px;
-	color: #99a1a7;
+  content: "\2714";
+  font-size: 14px;
+  position: absolute;
+  top: -2px;
+  left: 3px;
+  color: #99a1a7;
 }
 
-.checkbox_label{
+.checkbox_label {
   vertical-align: middle;
   margin-bottom: 10px;
 }
 
-
-.active_class{
-  color: #495057
+.active_class {
+  color: #495057;
 }
 
 .timeline {
@@ -63,7 +77,7 @@ table {
 }
 
 .timeline:before {
-  content: '';
+  content: "";
   position: absolute;
   left: 100%;
   width: 6px;
@@ -83,11 +97,11 @@ table {
   box-sizing: border-box;
 }
 
-.not_completed{
+.not_completed {
   color: #9964e3 !important;
 }
-.textColor{
-  color:#9964e3;
+.textColor {
+  color: #9964e3;
 }
 .white-space-pre {
   white-space: pre-line;
@@ -105,9 +119,13 @@ table {
   background: #fff;
   border-radius: 5px;
 }
+.content div p.report-wysiwyg ul li {
+  list-style: initial !important;
+  font-size: 30px;
+}
 
 .timeline ul li.c1:nth-child(odd):before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   right: -16px;
@@ -123,7 +141,7 @@ table {
 }
 
 .timeline ul li.c2:nth-child(odd):before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   right: -18px;
@@ -139,7 +157,7 @@ table {
 }
 
 .timeline ul li.c3:nth-child(odd):before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   right: -16px;
@@ -155,7 +173,7 @@ table {
 }
 
 .timeline ul li.c4:nth-child(odd):before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   right: -16px;
@@ -163,7 +181,7 @@ table {
   height: 30px;
   background: rgba(0, 192, 149, 1);
   border-radius: 50%;
-  box-shadow: 0 0 0 5px rgba(0, 192, 149, 0.7)
+  box-shadow: 0 0 0 5px rgba(0, 192, 149, 0.7);
 }
 
 // .timeline ul li:nth-child(even):before {
@@ -181,7 +199,7 @@ table {
   margin: 0;
   padding: 0;
   font-weight: 600;
-  color: rgba(0, 192, 149, 1)
+  color: rgba(0, 192, 149, 1);
 }
 
 .timeline ul li p {
@@ -191,7 +209,7 @@ table {
 .comments {
   padding-left: 16px;
   padding-top: 6px;
-  background: #F8F9FA; //comments background
+  background: #f8f9fa; //comments background
 }
 
 .timeline ul li .time h4 {
@@ -227,7 +245,6 @@ table {
 }
 
 @media (max-width: 767px) {
-
   // h1 {
   // 	text-align: center;
   // 	font-size: 30px;
@@ -240,12 +257,12 @@ table {
 
   .timeline:before {
     left: 55px;
-    margin-left: 20px
+    margin-left: 20px;
   }
 
   .content {
     width: 250px;
-    margin-left: 35px
+    margin-left: 35px;
   }
 
   .timeline ul li:nth-child(odd),

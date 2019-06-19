@@ -42,10 +42,13 @@
                         </span>
                       </span>
                     </p>
-                    <p
+                    <div
                       class="white-space-pre mt-0 pt-0"
                       :class="{not_completed : report.task_completed === false}"
-                    >{{report.report}}</p>
+                    >
+                      <p class="report-wysiwyg" v-html="report.report"></p>
+                      <!-- {{report.report}} -->
+                    </div>
                     <span v-if="report.task_not_completed_reason !== '' || report.highlight !=='' ">
                       <p
                         class="text-primary btn"
@@ -138,7 +141,12 @@
           * Right general report
         *=======================================================================-->
         <b-col class="p-0">
-          <GenReport @report="report" :slackChannels="slackChannels" @deleteCheckin="deleteCheckin" :error="error"></GenReport>
+          <GenReport
+            @report="report"
+            :slackChannels="slackChannels"
+            @deleteCheckin="deleteCheckin"
+            :error="error"
+          ></GenReport>
         </b-col>
       </b-row>
     </b-container>
@@ -254,6 +262,10 @@ export default {
     },
     async report(report) {
       let response = await this.dailyCheckin({
+        slackReport: report.report
+          .replace(/<\/p>/g, "$p$")
+          .replace(/<[^>]*>?/gm, "")
+          .replace(/\$p\$/g, "\n"),
         report: report.report,
         task_completed: report.task_completed,
         task_not_completed_reason: report.task_not_completed_reason,

@@ -128,7 +128,7 @@ const router = new Router({
           component: ViewFeedback
         },
         {
-          path: 'managerReview',
+          path: 'week/managerReview',
           name: "ManagerReview",
           component: ManagerReview
         },

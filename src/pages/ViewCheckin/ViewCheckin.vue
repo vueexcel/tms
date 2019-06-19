@@ -47,7 +47,8 @@
             <a class="text-primary">{{ junior.user.name }}</a>
           </h5>
           <p class="fs-sm text-muted">{{ junior.created_at | moment }}</p>
-          <p class="fs-mini white-space-pre">{{ junior.report }}</p>
+          <!-- <p class="fs-mini white-space-pre">{{ junior.report }}</p> -->
+          <div v-html="junior.report" class="report-wysiwyg"></div>
           <p class="fs-mini text-custom white-space-pre">{{ junior.highlight }}</p>
           <p class="fs-mini text-warning white-space-pre">{{ junior.task_not_completed_reason }}</p>
         </section>

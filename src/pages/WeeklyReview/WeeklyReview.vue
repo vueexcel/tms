@@ -296,17 +296,21 @@ export default {
         KpiEra: this.selected,
         description: this.kpiKraDescription
       };
-      var objectToremove = this.kpieraarray.find(o => o.title === this.selected);
+      var objectToremove = this.kpieraarray.find(
+        o => o.title === this.selected
+      );
       this.kpieraarray.splice(this.kpieraarray.indexOf(objectToremove), 1);
       this.kpikradescriotionlist.push(obj);
       this.kpiKraDescription = "";
       this.selected = "";
     },
     removeDescription(index) {
-      let objectToAdd = {}
-      for(var i = 0; i < this.kpikradescriotionlist.length; i++){
-        if(i === index){
-          this.kpieraarray.push({title : this.kpikradescriotionlist[i].KpiEra})
+      let objectToAdd = {};
+      for (var i = 0; i < this.kpikradescriotionlist.length; i++) {
+        if (i === index) {
+          this.kpieraarray.push({
+            title: this.kpikradescriotionlist[i].KpiEra
+          });
         }
       }
       this.kpikradescriotionlist.splice(index, 1);
