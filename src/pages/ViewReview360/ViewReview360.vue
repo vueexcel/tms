@@ -55,7 +55,12 @@
               type="checkbox"
               :id="`checkbox-circle${index}`"
             >
-            <label v-if="!spinnerLoading[index]" :for="`checkbox-circle${index}`">seen</label>
+            <label
+              v-b-tooltip.hover
+              title="Your Junior won't know if you have seen this or not"
+              v-if="!spinnerLoading[index]"
+              :for="`checkbox-circle${index}`"
+            >seen</label>
             <span v-if="spinnerLoading[index]">
               <i class="fa fa-circle-o-notch fa-spin fa-2x text-warning"></i>
             </span>

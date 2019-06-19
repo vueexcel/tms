@@ -5,7 +5,8 @@ import axios from "axios";
 const state = {
   allJuniors: [],
   allweeklyReport: [],
-  countToReviewReport: 0
+  countToReviewReport: 0,
+  revokeLoader: false
 };
 const mutations = make.mutations(state);
 const actions = {
@@ -91,18 +92,32 @@ const actions = {
       })
     }
   },
-  async skipReportReview({commit},payload){
-    try{
+  async skipReportReview({ commit }, payload) {
+    try {
       let response = await axios.post(`/skip_review/${payload._id}`)
-      if(response){
+      if (response) {
         return true
       }
-    } catch(error){
-      if(error.response){
+    } catch (error) {
+      if (error.response) {
         return error.response.data.msg
       } else {
         return 'Api Server down'
       }
+    }
+  },
+  // @bp.route('/weekly_revoked/<string:weekly_id>', methods=["PUT"])
+  async revokeWeekly({ commit }, payload) {
+    const id = payload._id
+    const report = {
+      user: payload.user,
+      created_at: payload.created_at
+    }
+    // api call
+    let response = await axios.put(`/weekly_revoked/${id}`, report)
+    if (response) {
+      // console.log(response);
+      return true
     }
   }
 };

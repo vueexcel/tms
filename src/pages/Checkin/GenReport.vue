@@ -15,14 +15,15 @@
           </div>
         </b-form-group>
         <h5 class="pb-2">Write general report for the day</h5>
-        <b-form-textarea
+        <!-- <b-form-textarea
           id="genReport"
           v-model="genReport"
           placeholder="Report..."
           required
           :rows="3"
           :max-rows="6"
-        ></b-form-textarea>
+        ></b-form-textarea> -->
+        <vue-editor v-model="genReport" :editorToolbar="customToolbar"></vue-editor>
         <div class="mt-3">
           <input type="checkbox" id="checkbox-1-1" class="regular-checkbox mr-2" v-model="status">
           <label for="checkbox-1-1" class="checkbox_label">Was task not completed as per the standup</label>
@@ -64,10 +65,14 @@
         ></b-form-textarea>
 
         <br>
-        <div >
+        <div>
           <b-form-group label="Submit Checkin on #Slack Channel">
             <b-form-checkbox-group id="checkbox-group-2" v-model="selected" name="flavour-2">
-              <b-form-checkbox :value="channel.value" v-for="channel in slackChannels" :key="channel.value">{{channel.text}}</b-form-checkbox>
+              <b-form-checkbox
+                :value="channel.value"
+                v-for="channel in slackChannels"
+                :key="channel.value"
+              >{{channel.text}}</b-form-checkbox>
             </b-form-checkbox-group>
           </b-form-group>
         </div>
@@ -94,9 +99,10 @@
 <script>
 import { sync, call, get } from "vuex-pathify";
 import Widget from "@/components/Widget/Widget";
+import { VueEditor } from "vue2-editor";
 
 export default {
-  components: { Widget },
+  components: { Widget, VueEditor },
   computed: {
     missedCheckin: get("profile/user"),
     changeSelectOption: sync("checkin/changeSelectOption"),
@@ -120,7 +126,15 @@ export default {
       options: [],
       modalShow: false,
       found: null,
-      selected: []
+      selected: [],
+      customToolbar: [
+        [{ header: [1, 2, 3, 4, 5, 6, false] }],
+        ["bold", "italic", "underline", "strike"],
+        [{ list: "ordered" }, { list: "bullet" }],
+        [{ color: [] }, { background: [] }],
+        ["blockquote", "code-block"],
+        ["clean"]
+      ]
     };
   },
   props: {
@@ -128,7 +142,7 @@ export default {
       type: String,
       default: ""
     },
-    slackChannels:{
+    slackChannels: {
       type: Array,
       default: []
     }

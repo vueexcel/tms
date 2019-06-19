@@ -3,6 +3,13 @@
     <h1 class="page-title">Monthly Report</h1>
     <i v-if="loading" class="fas fa-circle-notch text-success fa-spin float-right mr-5 mt-3 size"></i>
     <b-container class="shadow bg-white no-gutters p-4 mh-500" fluid>
+      <!-- <h5>{{ $moment(user.dateofjoining).format("D") -7 }}</h5> -->
+      <b-alert v-if="todaysDate < checkDoj" class="alert-transparent alert-success" show>
+        <span>
+          You can only submit your monthly report afterwards
+          <span class="fw-bold">{{ checkDoj }}</span> th of this month
+        </span>
+      </b-alert>
       <b-row>
         <b-col xs="12" class="pt-4">
           <div>
@@ -13,7 +20,7 @@
             </div>
             <form
               class="form-horizontal"
-              v-if="!loading && Object.keys(user).length"
+              v-if="!loading && Object.keys(user).length && todaysDate >= checkDoj"
               @submit.prevent="submit"
             >
               <fieldset v-if="!usersMonthlyReport">
@@ -156,11 +163,13 @@
 
 <script>
 import { get, call } from "vuex-pathify";
+import moment from "moment-timezone";
 import Vue from "vue";
 export default {
   name: "monthlyReport",
   data() {
     return {
+      todaysDate: moment().format("D"),
       KpiDescription: [],
       EraDescription: [],
       setPayload: {}, //mainPayload
@@ -177,7 +186,15 @@ export default {
     };
   },
   computed: {
-    user: get("profile/user")
+    user: get("profile/user"),
+    checkDoj() {
+      if (moment(this.user.dateofjoining).format("D") > 7) {
+        return moment(this.user.dateofjoining).format("D") - 7;
+      } else {
+        return moment(this.user.dateofjoining).format("D");
+      }
+      // return this.$moment(val).format("D");
+    }
   },
   mounted() {
     this.getReport();
@@ -288,6 +305,14 @@ export default {
       if (!value) return "null";
       return value;
     }
+    // checkDoj(val) {
+    //   if (moment(val).format("D") > 7) {
+    //     return moment(val).format("D") - 7;
+    //   } else {
+    //     return moment(val).format("D");
+    //   }
+    //   // return this.$moment(val).format("D");
+    // }
   }
 };
 </script>

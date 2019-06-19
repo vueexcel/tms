@@ -18,7 +18,7 @@
       <!-- <div v-if="getActiveEmp">{{getActiveEmp.user.name}}</div> -->
       <b-row class="row-altered">
         <!-- list of all employees -->
-        <div class="members pl-3" v-for="employee in emp_arr" :key="employee.id">
+        <div class="members ml-5" v-for="employee in emp_arr" :key="employee.id">
           <MonthlyReviewComponent :employee="employee" @setActive="setActive" :activeId="activeId"/>
         </div>
         <!-- list of all employees ends -->

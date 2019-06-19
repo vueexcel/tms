@@ -1,4 +1,14 @@
 @import "./../../styles/app";
+.report-wysiwyg {
+  /deep/ ol li {
+    list-style: decimal !important;
+    margin-left: 30px;
+  }
+  /deep/ ul li {
+    list-style: disc !important;
+    margin-left: 30px;
+  }
+}
 
 /*           Post Comments         */
 .postComments {

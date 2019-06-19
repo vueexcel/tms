@@ -71,10 +71,12 @@ export default {
                 report = this.allreport[k];
                 report.is_reviewed.find(manager => {
                   if (manager._id === this.userProfile._id) {
-                    if (manager.reviewed === true) {
-                      color = "orange";
-                    } else {
+                    if (manager.reviewed === false) {
+                      // color = "orange";
                       color = "red";
+                    } else {
+                      // color = "red";
+                      color = "orange";
                     }
                   }
                 });

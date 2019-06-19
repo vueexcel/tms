@@ -42,19 +42,31 @@
         isHeader
       />
       <NavLink
+        :activeItem="activeItem"
+        header="Monthly"
+        link="/app/month"
+        iconName="fas fa-calendar"
+        index="month"
+        :childrenLinks="[
+          { header: 'Monthly Review', link: '/app/month/monthlyReportReview' },
+          {header: 'Juniors Monthly Report',link:'/app/month/juniorMonthlyReport'}
+        ]"
+        isHeader
+      />
+      <!-- <NavLink
         header="Monthly Review"
         link="/app/month/monthlyReportReview"
         iconName="fas fa-calendar"
         :badge="unreadMonthlyReport.toString()"
         isHeader
-      />
+      /> -->
       <!-- :badge="unreadMonthlyReport.toString()" -->
-      <NavLink
+      <!-- <NavLink
         header="Juniors Monthly Report"
         link="/app/month/juniorMonthlyReport"
         iconName="fas fa-calendar"
         isHeader
-      />
+      /> -->
       <!-- index="notifications" -->
       <NavLink
         header="View Junior's Checkin"
@@ -159,7 +171,8 @@
         :childrenLinks="[
           { header: 'Weekly Checkin',  link: '/app/week/weeklyCheckin' },
           { header: 'Weekly Report', link: '/app/week/WeeklyReport' },
-          {header: 'Juniors Weekly Report',link:'/app/week/juniorWeekReport'}
+          {header: 'Juniors Weekly Report',link:'/app/week/juniorWeekReport'},
+          {header: `View Manager's Review`,link:'/app/week/managerReview'}
         ]"
       />
       <!-- <NavLink
@@ -226,12 +239,12 @@
         isHeader
       />
 
-      <NavLink
+      <!-- <NavLink
         header="View Manager's Review"
         link="/app/managerReview"
         iconName="fas fa-file-text"
         isHeader
-      />
+      /> -->
       <!-- <NavLink
         v-if="sideBar.role === 'manager'"
         header="Juniors Weekly Report"
@@ -363,7 +376,7 @@
       />
       <NavLink
         header="View Manager's Review"
-        link="/app/managerReview"
+        link="/app/week/managerReview"
         iconName="fas fa-file-text"
         isHeader
       />

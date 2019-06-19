@@ -15,7 +15,7 @@
           <div v-if="errormsg" class="text-danger fw-bold">{{errormsg}}</div>
           <div v-if="!errormsg">
             <div class="pb-5">
-              <span class="fw-semi-bold text-danger">Only one review per month is allowed</span>
+              <span class="fw-semi-bold text-danger">Only one review per manager per month is allowed</span>
             </div>Select Manager:
             <b-form-select v-model="selected" class="mb-3">
               <option
