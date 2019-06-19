@@ -331,19 +331,6 @@ export default {
       }
       return reportObj;
     }
-    //## revoke ##
-    // revoke(report) {
-    //   this.revokeLoader = true;
-    //   this.api_revokeWeekly(report)
-    //     .then(res => {
-    //       console.log(res);
-    //       this.revokeLoader = false;
-    //     })
-    //     .catch(err => {
-    //       console.log(err.response);
-    //       this.revokeLoader = false;
-    //     });
-    // }
   }
 };
 </script>
