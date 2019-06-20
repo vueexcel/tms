@@ -3,13 +3,6 @@
     <h1 class="page-title">Monthly Report</h1>
     <i v-if="loading" class="fas fa-circle-notch text-success fa-spin float-right mr-5 mt-3 size"></i>
     <b-container class="shadow bg-white no-gutters p-4 mh-500" fluid>
-      <!-- <h5>{{ $moment(user.dateofjoining).format("D") -7 }}</h5> -->
-      <b-alert v-if="todaysDate < checkDoj" class="alert-transparent alert-success" show>
-        <span>
-          You can only submit your monthly report afterwards
-          <span class="fw-bold">{{ checkDoj }}</span> th of this month
-        </span>
-      </b-alert>
       <b-row>
         <b-col xs="12" class="pt-4">
           <div>
@@ -20,7 +13,7 @@
             </div>
             <form
               class="form-horizontal"
-              v-if="!loading && Object.keys(user).length && todaysDate >= checkDoj"
+              v-if="!loading && Object.keys(user).length"
               @submit.prevent="submit"
             >
               <fieldset v-if="!usersMonthlyReport">
