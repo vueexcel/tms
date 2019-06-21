@@ -41,6 +41,21 @@
               </b-form-group>
               <b-form-group
                 horizontal
+                label-for="normal-field"
+                label-class="text-md-right"
+                :label-cols="2"
+                breakpoint="md"
+              >
+                <div slot="label">Secret key</div>
+                <b-form-input
+                  type="text"
+                  v-model="slackTokens.secret_key"
+                  id="label-hint"
+                  required
+                />
+              </b-form-group>
+              <b-form-group
+                horizontal
                 label
                 label-for="transparent-field"
                 :label-cols="2"
@@ -253,7 +268,8 @@ export default {
       loaderSchedularSettings: false,
       slackTokens: {
         webhook_url: "",
-        slack_token: ""
+        slack_token: "",
+        secret_key: ""
       },
       reminderMessage: {
         monthly_remainder: "",
@@ -284,6 +300,7 @@ export default {
         .then(res => {
           this.slackTokens.webhook_url = res.data[0].webhook_url;
           this.slackTokens.slack_token = res.data[0].slack_token;
+          this.slackTokens.secret_key = res.data[0].secret_key;
         })
         .catch(err => console.log(err));
     },
