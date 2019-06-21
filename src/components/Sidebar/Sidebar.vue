@@ -59,14 +59,14 @@
         iconName="fas fa-calendar"
         :badge="unreadMonthlyReport.toString()"
         isHeader
-      /> -->
+      />-->
       <!-- :badge="unreadMonthlyReport.toString()" -->
       <!-- <NavLink
         header="Juniors Monthly Report"
         link="/app/month/juniorMonthlyReport"
         iconName="fas fa-calendar"
         isHeader
-      /> -->
+      />-->
       <!-- index="notifications" -->
       <NavLink
         header="View Junior's Checkin"
@@ -112,6 +112,13 @@
         iconName="fas fa-recycle"
         index="review360"
         :badge="unreadView360.toString()"
+        isHeader
+      />
+      <NavLink
+        header="Settings"
+        link="/admin/settings"
+        iconName="fas fa-gears"
+        index="setting"
         isHeader
       />
       <!-- link="/app/weeklyReview" -->
@@ -244,7 +251,7 @@
         link="/app/managerReview"
         iconName="fas fa-file-text"
         isHeader
-      /> -->
+      />-->
       <!-- <NavLink
         v-if="sideBar.role === 'manager'"
         header="Juniors Weekly Report"

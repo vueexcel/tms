@@ -263,7 +263,9 @@ export default {
     async report(report) {
       let response = await this.dailyCheckin({
         slackReport: report.report
-          .replace(/<\/p>/g, "$p$")
+          // .replace(/<\/p>/g, "$p$")
+          .replace(/\*/g, " *")
+          .replace(/<\/p>|<\/li>|<br>|<\/blockquote>/g, "$p$")
           .replace(/<[^>]*>?/gm, "")
           .replace(/\$p\$/g, "\n"),
         report: report.report,

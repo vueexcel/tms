@@ -29,10 +29,7 @@
                   </div>
                 </div>
                 <div class="form-group row">
-                  <label for="hint-field" class="col-md-4 control-label text-md-left">
-                    <!-- Label hint
-                    <span class="help-block">Some help text</span>-->
-                  </label>
+                  <label for="hint-field" class="col-md-4 control-label text-md-left"></label>
                   <div class="col-md-8" v-if="!highlightList.length">
                     <b-form-textarea
                       id="textarea1"
@@ -117,8 +114,7 @@
                           class="border-0 white-space-pre pl-3 pr-3 pb-3 pt-0"
                           @click="pickDay(index,reportdata)"
                         >
-                          {{reportdata.report}}
-                          <!-- <b-card-text></b-card-text> -->
+                          <div v-html="reportdata.report" class="report-wysiwyg"></div>
                         </b-tab>
                       </b-tabs>
                     </b-card>

@@ -35,6 +35,7 @@ import ViewReview360 from "@/pages/ViewReview360/ViewReview360";
 // --admin pages--
 import ManageEmployee from "@/pages/ManageEmployee/ManageEmployee";
 import ManageKPI from "@/pages/Kpi/Kpi";
+import Settings from "@/pages/Settings/Settings";
 
 // Charts
 import ChartsPage from "@/pages/Charts/Charts";
@@ -199,6 +200,12 @@ const router = new Router({
           path: "manageEmployee",
           name: "ManageEmployee",
           component: ManageEmployee,
+          meta: { requiresAuth: true }
+        },
+        {
+          path: "settings",
+          name: "Settings",
+          component: Settings,
           meta: { requiresAuth: true }
         }
       ]
