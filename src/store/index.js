@@ -15,6 +15,7 @@ import feedback from './modules/feedback'
 import monthlyReport from './modules/monthlyReport'
 import monthlyReportReview from './modules/monthlyReportReview'
 import review360 from './modules/review360'
+import settings from './modules/settings'
 
 import layout from "./layout";
 
@@ -35,6 +36,7 @@ export default new Vuex.Store({
     feedback,
     monthlyReport,
     monthlyReportReview,
-    review360
+    review360,
+    settings
   }
 });

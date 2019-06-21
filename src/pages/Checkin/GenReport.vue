@@ -22,9 +22,12 @@
           required
           :rows="3"
           :max-rows="6"
-        ></b-form-textarea> -->
+        ></b-form-textarea>-->
         <vue-editor v-model="genReport" :editorToolbar="customToolbar"></vue-editor>
-        <div class="mt-3">
+        <div
+          class="text-muted float-right"
+        >slack formatting: *bold* | _italics_ | ~strike~ | `code` | ```preformatted```</div>
+        <div class="mt-5">
           <input type="checkbox" id="checkbox-1-1" class="regular-checkbox mr-2" v-model="status">
           <label for="checkbox-1-1" class="checkbox_label">Was task not completed as per the standup</label>
         </div>
@@ -131,10 +134,17 @@ export default {
         [{ header: [1, 2, 3, 4, 5, 6, false] }],
         ["bold", "italic", "underline", "strike"],
         [{ list: "ordered" }, { list: "bullet" }],
-        [{ color: [] }, { background: [] }],
-        ["blockquote", "code-block"],
+        ["blockquote"],
         ["clean"]
       ]
+      // customToolbar: [
+      //   [{ header: [1, 2, 3, 4, 5, 6, false] }],
+      //   ["bold", "italic", "underline", "strike"],
+      //   [{ list: "ordered" }, { list: "bullet" }],
+      //   [{ color: [] }, { background: [] }],
+      //   ["blockquote", "code-block"],
+      //   ["clean"]
+      // ]
     };
   },
   props: {
