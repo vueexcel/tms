@@ -22,16 +22,17 @@ import WeeklyReview from "@/pages/WeeklyReview/WeeklyReview";
 import WeeklyReport from "@/pages/WeeklyReportReview/WeeklyReport";
 import MonthlyPerformanceReview from "@/pages/MonthlyPerformanceReview/MonthlyPerformanceReview";
 import Juniors from "@/pages/Juniors/Juniors";
-import ManagerReview from "@/pages/ManagerReview/ManagerReview"
+import ManagerReview from "@/pages/ManagerReview/ManagerReview";
 import Team from "@/pages/Team/Team";
 import Feedback from "@/pages/Feedback/Feedback";
-import JuniorWeekReport from "@/pages/JuniorWeekReport/JuniorWeekReport"
-import JuniorMonthlyReport from "@/pages/JuniorMonthlyReport/JuniorMonthlyReport"
+import JuniorWeekReport from "@/pages/JuniorWeekReport/JuniorWeekReport";
+import JuniorMonthlyReport from "@/pages/JuniorMonthlyReport/JuniorMonthlyReport";
 import ViewFeedback from "@/pages/ViewFeedback/ViewFeedback";
 import MonthlyReport from "@/pages/MonthlyReport/MonthlyReport";
 import MonthlyReportReview from "@/pages/MonthlyReportReview/MonthlyReportReview";
 import Review360 from "@/pages/Review360/Review360";
 import ViewReview360 from "@/pages/ViewReview360/ViewReview360";
+import ViewManagerReiewMonthly from "@/pages/ViewManagerReviewMonthly/ViewManagerReviewMonthly";
 // --admin pages--
 import ManageEmployee from "@/pages/ManageEmployee/ManageEmployee";
 import ManageKPI from "@/pages/Kpi/Kpi";
@@ -114,43 +115,49 @@ const router = new Router({
           component: MonthlyReportReview
         },
         {
-          path: 'juniors',
+          path: "juniors",
           name: "Juniors",
           component: Juniors
         },
         {
-          path: 'feedback',
+          path: "feedback",
           name: "Feedback",
           component: Feedback
         },
         {
-          path: 'viewfeedback',
+          path: "viewfeedback",
           name: "ViewFeedback",
           component: ViewFeedback
         },
         {
-          path: 'week/managerReview',
+          path: "week/managerReview",
           name: "ManagerReview",
           component: ManagerReview
         },
         {
-          path: 'week/juniorWeekReport',
+          path: "week/juniorWeekReport",
           name: "JuniorWeekReport",
           component: JuniorWeekReport
         },
         {
-          path: 'month/juniorMonthlyReport',
+          path: "month/juniorMonthlyReport",
           name: "JuniorMonthlyReport",
           component: JuniorMonthlyReport
-        }, {
-          path: '360/review360',
+        },
+        {
+          path: "360/review360",
           name: "review360",
           component: Review360
         },
         {
-          path: '360/viewreview360',
+          path: "360/viewreview360",
           name: "viewreview360",
           component: ViewReview360
+        },
+        {
+          path: "month/viewManagerReiewMonthly",
+          name: "ViewManagerReiewMonthly",
+          component: ViewManagerReiewMonthly
         },
         {
           path: "typography",
@@ -181,7 +188,7 @@ const router = new Router({
           path: "components/maps",
           name: "GoogleMapPage",
           component: GoogleMapPage
-        },
+        }
       ]
     },
     {
@@ -215,28 +222,33 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (!localStorage.getItem('authenticated') && !$cookies.get("keepLoggedIn")) {
+    if (
+      !localStorage.getItem("authenticated") &&
+      !$cookies.get("keepLoggedIn")
+    ) {
       next({
-        path: '/',
-      })
+        path: "/"
+      });
     } else {
-      next()
+      next();
     }
-  } else if ((localStorage.getItem('authenticated') && to.path == "/") || ($cookies.get("keepLoggedIn") && to.path == "/")) {
-    if (store.state.profile.user.role === 'Admin') {
+  } else if (
+    (localStorage.getItem("authenticated") && to.path == "/") ||
+    ($cookies.get("keepLoggedIn") && to.path == "/")
+  ) {
+    if (store.state.profile.user.role === "Admin") {
       next({
-        path: '/admin/manageKpi'
-      })
+        path: "/admin/manageKpi"
+      });
     } else {
       next({
-        path: '/app/profile'
-      })
+        path: "/app/profile"
+      });
     }
     // next()
   } else {
-    next()
+    next();
   }
-})
-
+});
 
 export default router;

@@ -26,6 +26,13 @@ const actions = {
         if (res) {
             return res
         }
+    },
+    // for employee, manager to fetch their submitted monthly report 
+    async getViewMonthlyManagerReview({ state, commit }) {
+        let res = await axios.get(`/manager_monthly_response`)
+        if (res) {
+            return res
+        }
     }
 }
 //create store

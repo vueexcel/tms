@@ -210,9 +210,11 @@
         :childrenLinks="[
           { header: 'Monthly Report',  link: '/app/month/monthlyReport' },
           { header: 'Monthly Review', link: '/app/month/monthlyReportReview' },
-          {header: 'Juniors Monthly Report',link:'/app/month/juniorMonthlyReport'}
+          { header: 'Juniors Monthly Report',link:'/app/month/juniorMonthlyReport'},
+          { header: `View Manager's Review`,link:'/app/month/viewManagerReiewMonthly'}
         ]"
       />
+
       <!-- <NavLink
         header="Monthly Report"
         link="/app/monthlyReport"
@@ -375,6 +377,12 @@
         isHeader
       />
       <NavLink
+        header="View Manager's Review"
+        link="/app/week/managerReview"
+        iconName="fas fa-file-text"
+        isHeader
+      />
+      <NavLink
         header="Monthly Report"
         link="/app/month/monthlyReport"
         iconName="fas fa-calendar"
@@ -383,8 +391,9 @@
       />
       <NavLink
         header="View Manager's Review"
-        link="/app/week/managerReview"
-        iconName="fas fa-file-text"
+        link="/app/month/viewManagerReiewMonthly"
+        iconName="fas fa-calendar-check"
+        index="viewManagerReiewMonthly"
         isHeader
       />
       <NavLink

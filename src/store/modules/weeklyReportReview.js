@@ -6,7 +6,8 @@ const state = {
   allJuniors: [],
   allweeklyReport: [],
   countToReviewReport: 0,
-  revokeLoader: false
+  revokeLoader: false,
+  errorMessageDelete: ""
 };
 const mutations = make.mutations(state);
 const actions = {
@@ -69,13 +70,15 @@ const actions = {
       }
     }
   },
-  async deleteWeeklyReview({ state }, payload) {
+  async deleteWeeklyReview({ state, commit }, payload) {
+    state.errorMessageDelete = ""
     try {
       let response = await axios.delete(`/delete_manager_response/${payload._id}`)
       state.countToReviewReport++
       return true
     } catch (err) {
       if (err.response) {
+        state.errorMessageDelete = err.response.data.msg
         return err.response.data.msg
       } else {
         return 'API Server Down'
