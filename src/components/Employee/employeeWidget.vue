@@ -26,10 +26,11 @@
         </div>
         <div>
           <img
-            class="rounded-circle h-auto"
+            class="rounded-circle h-auto pointer"
             :src="employee_.profileImage ? employee_.profileImage : defaultImage"
             width="75"
             alt="..."
+            @click="sendToDashboard(employee_)"
           >
         </div>
         <div>
@@ -151,6 +152,7 @@ export default {
     saveEmployeeInfo: call("manageEmployee/saveEmployeeInfo"),
     addMembers_: call("adminKPI/addMember"),
     getAllMembers_: call("allMember/getAllMember"),
+    goToDashboard_:call('allMember/goToDashboard'),
     editEmployee(employee) {
       this.edit = true;
       this.technologySelect = employee.kpi;
@@ -212,6 +214,14 @@ export default {
     },
     countDownChanged(dismissCountDown) {
       this.dismissCountDown = dismissCountDown;
+    },
+    async sendToDashboard(clickedEmployee){
+      let response = await this.goToDashboard_(clickedEmployee)
+      if(typeof(response) === 'string'){
+        this.error = response
+      } else{
+        this.$router.push({name: 'Profile'});
+      }
     }
   },
   mounted() {}

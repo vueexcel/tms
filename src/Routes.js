@@ -71,7 +71,8 @@ const router = new Router({
           path: "profile",
           name: "Profile",
           component: Profile,
-          meta: { requiresAuth: true }
+          props: true,
+          // meta: { requiresAuth: true }
         },
         {
           path: "checkin",
@@ -213,30 +214,30 @@ const router = new Router({
   ]
 });
 
-router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (!localStorage.getItem('authenticated') && !$cookies.get("keepLoggedIn")) {
-      next({
-        path: '/',
-      })
-    } else {
-      next()
-    }
-  } else if ((localStorage.getItem('authenticated') && to.path == "/") || ($cookies.get("keepLoggedIn") && to.path == "/")) {
-    if (store.state.profile.user.role === 'Admin') {
-      next({
-        path: '/admin/manageKpi'
-      })
-    } else {
-      next({
-        path: '/app/profile'
-      })
-    }
-    // next()
-  } else {
-    next()
-  }
-})
+// router.beforeEach((to, from, next) => {
+//   if (to.matched.some(record => record.meta.requiresAuth)) {
+//     if (!localStorage.getItem('authenticated') && !$cookies.get("keepLoggedIn")) {
+//       next({
+//         path: '/',
+//       })
+//     } else {
+//       next()
+//     }
+//   } else if ((localStorage.getItem('authenticated') && to.path == "/") || ($cookies.get("keepLoggedIn") && to.path == "/")) {
+//     if (store.state.profile.user.role === 'Admin') {
+//       next({
+//         path: '/admin/manageKpi'
+//       })
+//     } else {
+//       next({
+//         path: '/app/profile'
+//       })
+//     }
+//     next()
+//   } else {
+//     next()
+//   }
+// })
 
 
 export default router;

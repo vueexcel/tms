@@ -264,7 +264,7 @@ import "imports-loader?jQuery=jquery,this=>window!flot/jquery.flot.pie";
 import Widget from "@/components/Widget/Widget";
 import AreaComponent from "./../../components/Area/Area";
 import starRating from "@/components/Star/Star";
-import { get, call } from "vuex-pathify";
+import { get, call,sync } from "vuex-pathify";
 import dummyimage from "@/components/Group/person-dummy.jpg";
 import RadialProgressBar from "vue-radial-progress";
 
@@ -287,9 +287,19 @@ export default {
     this.get_profile();
     this.get_activity();
   },
+  created () {
+    this.fetchData();
+  },
+  props: {
+    userData: {
+      type: String,
+      default: ''
+    }
+  },
   computed: {
     user: get("profile/user"),
     activity: get("profile/activity"),
+    userToCheckByAdmin_:sync("allMember/userToCheckByAdmin"),
     // time() {
     //   console.log(this.activity,'@@@@@');
 
@@ -418,6 +428,10 @@ export default {
     },
     get_activity: function() {
       this.getActivity();
+    },
+    fetchData(){
+      console.log(this.userToCheckByAdmin_,'66666666666666666666666666',this.user);
+      
     },
     submitStarRateOne(value) {
       this.ratedStar = value;
