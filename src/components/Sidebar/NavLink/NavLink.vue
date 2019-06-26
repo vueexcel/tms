@@ -45,19 +45,19 @@
       <!-- {{header}} -->
       <sup v-if="label" class="headerLabel">{{label}}</sup>
       <b-badge
-        v-if="link === '/app/week/WeeklyReportauth'"
+        v-if="link === '/app/week/WeeklyReport'"
         class="badge rounded-f float-right mt-0"
         variant="warning"
         pill
       >{{count}}</b-badge>
       <b-badge
-        v-if="link === '/app/month/monthlyReportReviewauth'"
+        v-if="link === '/app/month/monthlyReportReview'"
         class="badge rounded-f float-right mt-0"
         variant="warning"
         pill
       >{{countmonthly}}</b-badge>
       <b-badge
-        v-if="link === '/app/360/viewreview360auth'"
+        v-if="link === '/app/360/viewreview360'"
         class="badge rounded-f float-right mt-0"
         variant="warning"
         pill

@@ -81,9 +81,10 @@ const router = new Router({
           component: Checkin
         },
         {
-          path: "viewCheckinauth",
+          path: "viewCheckin",
           name: "ViewCheckin",
-          component: ViewCheckin
+          component: ViewCheckin,
+          meta: { user: 'manager' }
         },
         {
           path: "week/weeklyCheckin", //previously weeklyReview
@@ -101,9 +102,10 @@ const router = new Router({
           component: Team
         },
         {
-          path: "week/weeklyReportauth",
+          path: "week/weeklyReport",
           name: "WeeklyReport",
-          component: WeeklyReport
+          component: WeeklyReport,
+          meta: { user: 'manager' }
         },
         {
           path: "month/monthlyReport",
@@ -111,14 +113,16 @@ const router = new Router({
           component: MonthlyReport
         },
         {
-          path: "month/monthlyReportReviewauth",
+          path: "month/monthlyReportReview",
           name: "monthlyReportReview",
-          component: MonthlyReportReview
+          component: MonthlyReportReview,
+          meta: { user: 'manager' }
         },
         {
-          path: "juniorsauth",
+          path: "juniors",
           name: "Juniors",
-          component: Juniors
+          component: Juniors,
+          meta: { user: 'manager' }
         },
         {
           path: "feedback",
@@ -131,14 +135,16 @@ const router = new Router({
           component: ManagerReview
         },
         {
-          path: "week/juniorWeekReportauth",
+          path: "week/juniorWeekReport",
           name: "JuniorWeekReport",
-          component: JuniorWeekReport
+          component: JuniorWeekReport,
+          meta: { user: 'manager' }
         },
         {
-          path: "month/juniorMonthlyReportauth",
+          path: "month/juniorMonthlyReport",
           name: "JuniorMonthlyReport",
-          component: JuniorMonthlyReport
+          component: JuniorMonthlyReport,
+          meta: { user: 'manager' }
         },
         {
           path: "360/review360",
@@ -146,9 +152,10 @@ const router = new Router({
           component: Review360
         },
         {
-          path: "360/viewreview360auth",
+          path: "360/viewreview360",
           name: "viewreview360",
-          component: ViewReview360
+          component: ViewReview360,
+          meta: { user: 'manager' }
         },
         {
           path: "month/viewManagerReiewMonthly",
@@ -233,7 +240,7 @@ router.beforeEach((to, from, next) => {
       });
     } else {
       if (to.fullPath.includes('admin') && userProfile.state.user.role !== 'Admin' ||
-        to.fullPath.includes('auth') && userProfile.state.user.role === 'employee'
+        to.matched.some(record => record.meta.user === 'manager') && userProfile.state.user.role === 'employee'
       ) {
         next({
           path: "/"
