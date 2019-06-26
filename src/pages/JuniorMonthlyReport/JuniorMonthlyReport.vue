@@ -49,7 +49,7 @@
               <p class="text-primary fw-semi-bold">{{ kpi.title }}</p>
               <p class="text-secondary">{{ kpi.desc }}</p>
               <p>
-                Comment:
+                <span class="text-monospace">Report:</span>
                 <!-- <span class="text-primary">{{ kpi.comment }}</span> -->
               </p>
               <div class="dialogbox">
@@ -69,7 +69,8 @@
               <p class="text-primary fw-semi-bold">{{ kpi.title }}</p>
               <p class="text-secondary">{{ kpi.desc }}</p>
               <p v-if="kpi.comment">
-                Comment:
+                <!-- Comment: -->
+                <span class="text-monospace">Report:</span>
                 <!-- <span class="text-primary">{{ kpi.comment }}</span> -->
               </p>
               <div v-if="kpi.comment" class="dialogbox">

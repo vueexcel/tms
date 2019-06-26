@@ -346,17 +346,15 @@ export default {
       this.api_getSchedularMsg()
         .then(res => {
           this.reminderMessage.monthly_remainder =
-            res.data[0].monthly_remainder + " :@slack_id";
+            res.data[0].monthly_remainder;
           this.reminderMessage.weekly_remainder1 =
-            "@slack_id: " + res.data[0].weekly_remainder1;
+            res.data[0].weekly_remainder1;
           this.reminderMessage.weekly_remainder2 =
-            res.data[0].weekly_remainder2 + " :@slack_id";
-          this.reminderMessage.review_activity =
-            "@slack_id: " + res.data[0].review_activity;
+            res.data[0].weekly_remainder2;
+          this.reminderMessage.review_activity = res.data[0].review_activity;
           this.reminderMessage.monthly_manager_reminder =
-            "@slack_id: " + res.data[0].monthly_manager_reminder;
-          this.reminderMessage.missed_checkin =
-            "@slack_id: " + res.data[0].missed_checkin + " :date checkin:";
+            res.data[0].monthly_manager_reminder;
+          this.reminderMessage.missed_checkin = res.data[0].missed_checkin;
         })
         .catch(err => {
           console.log(err);
@@ -364,33 +362,7 @@ export default {
     },
     setSchedularMsg() {
       this.loadingReminderMessage = true;
-      var schedularPayload = {
-        monthly_manager_reminder: this.reminderMessage.monthly_manager_reminder.replace(
-          "@slack_id: ",
-          ""
-        ),
-        monthly_remainder: this.reminderMessage.monthly_remainder.replace(
-          " :@slack_id",
-          ""
-        ),
-        review_activity: this.reminderMessage.review_activity.replace(
-          "@slack_id: ",
-          ""
-        ),
-        weekly_remainder1: this.reminderMessage.weekly_remainder1.replace(
-          "@slack_id: ",
-          ""
-        ),
-        weekly_remainder2: this.reminderMessage.weekly_remainder2.replace(
-          " :@slack_id",
-          ""
-        ),
-        missed_checkin: this.reminderMessage.missed_checkin.replace(
-          /@slack_id: | :date checkin:/gi,
-          ""
-        )
-      };
-      this.api_setSchedularMsg(schedularPayload)
+      this.api_setSchedularMsg(this.reminderMessage)
         .then(res => {
           this.loadingReminderMessage = false;
         })
