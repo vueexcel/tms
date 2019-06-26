@@ -36,8 +36,8 @@
         iconName="fas fa-chart-bar"
         index="week"
         :childrenLinks="[
-          { header: 'Weekly Report', link: '/app/week/WeeklyReport' },
-          {header: 'Juniors Weekly Report',link:'/app/week/juniorWeekReport'}
+          { header: 'Weekly Report', link: '/app/week/WeeklyReportauth' },
+          {header: 'Juniors Weekly Report',link:'/app/week/juniorWeekReportauth'}
         ]"
         isHeader
       />
@@ -48,8 +48,8 @@
         iconName="fas fa-calendar"
         index="month"
         :childrenLinks="[
-          { header: 'Monthly Review', link: '/app/month/monthlyReportReview' },
-          {header: 'Juniors Monthly Report',link:'/app/month/juniorMonthlyReport'}
+          { header: 'Monthly Review', link: '/app/month/monthlyReportReviewauth' },
+          {header: 'Juniors Monthly Report',link:'/app/month/juniorMonthlyReportauth'}
         ]"
         isHeader
       />
@@ -70,12 +70,12 @@
       <!-- index="notifications" -->
       <NavLink
         header="View Junior's Checkin"
-        link="/app/viewCheckin"
+        link="/app/viewCheckinauth"
         iconName="fas fa-folder-open"
         index="performanceReview"
         isHeader
       />
-      <NavLink header="Your Juniors" link="/app/juniors" iconName="fas fa-users" isHeader/>
+      <NavLink header="Your Juniors" link="/app/juniorsauth" iconName="fas fa-users" isHeader/>
 
       <!-- <NavLink
         header="Juniors Weekly Report"
@@ -94,7 +94,7 @@
       <!-- index="performanceReview" -->
       <NavLink
         header="View Feedback"
-        link="/app/viewfeedback"
+        link="/admin/viewfeedback"
         iconName="fas fa-comments"
         :badge="JSON.stringify(feedbackCount)"
         isHeader
@@ -108,7 +108,7 @@
       />-->
       <NavLink
         header="ViewReview360&#176;"
-        link="/app/360/viewreview360"
+        link="/app/360/viewreview360auth"
         iconName="fas fa-recycle"
         index="review360"
         :badge="unreadView360.toString()"
@@ -177,8 +177,8 @@
         isHeader
         :childrenLinks="[
           { header: 'Weekly Checkin',  link: '/app/week/weeklyCheckin' },
-          { header: 'Weekly Report', link: '/app/week/WeeklyReport' },
-          {header: 'Juniors Weekly Report',link:'/app/week/juniorWeekReport'},
+          { header: 'Weekly Report', link: '/app/week/WeeklyReportauth' },
+          {header: 'Juniors Weekly Report',link:'/app/week/juniorWeekReportauth'},
           {header: `View Manager's Review`,link:'/app/week/managerReview'}
         ]"
       />
@@ -209,8 +209,8 @@
         :badge="unreadMonthlyReport.toString()"
         :childrenLinks="[
           { header: 'Monthly Report',  link: '/app/month/monthlyReport' },
-          { header: 'Monthly Review', link: '/app/month/monthlyReportReview' },
-          { header: 'Juniors Monthly Report',link:'/app/month/juniorMonthlyReport'},
+          { header: 'Monthly Review', link: '/app/month/monthlyReportReviewauth' },
+          { header: 'Juniors Monthly Report',link:'/app/month/juniorMonthlyReportauth'},
           { header: `View Manager's Review`,link:'/app/month/viewManagerReiewMonthly'}
         ]"
       />
@@ -237,12 +237,12 @@
         index="feedback"
         isHeader
       />-->
-      <NavLink header="Your Juniors" link="/app/juniors" iconName="fas fa-users" isHeader/>
+      <NavLink header="Your Juniors" link="/app/juniorsauth" iconName="fas fa-users" isHeader/>
       <!-- index="performanceReview" -->
       <!-- v-if="sideBar.role === 'manager'" -->
       <NavLink
         header="View Junior's Checkin"
-        link="/app/viewCheckin"
+        link="/app/viewCheckinauth"
         iconName="fas fa-folder-open"
         index="performanceReview"
         isHeader
@@ -271,7 +271,7 @@
         isHeader
         :childrenLinks="[
           { header: 'Review360&#176;',  link: '/app/360/review360' },
-          { header: 'ViewReview360&#176;', link: '/app/360/viewreview360' },
+          { header: 'ViewReview360&#176;', link: '/app/360/viewreview360auth' },
         ]"
       />
       <!-- <NavLink

@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
+import userProfile from './store/modules/profile'
 
 import Layout from "@/components/Layout/Layout";
 import LayoutAdmin from "@/components/Layout/Layout";
@@ -80,7 +81,7 @@ const router = new Router({
           component: Checkin
         },
         {
-          path: "viewCheckin",
+          path: "viewCheckinauth",
           name: "ViewCheckin",
           component: ViewCheckin
         },
@@ -100,7 +101,7 @@ const router = new Router({
           component: Team
         },
         {
-          path: "week/weeklyReport",
+          path: "week/weeklyReportauth",
           name: "WeeklyReport",
           component: WeeklyReport
         },
@@ -110,12 +111,12 @@ const router = new Router({
           component: MonthlyReport
         },
         {
-          path: "month/monthlyReportReview",
+          path: "month/monthlyReportReviewauth",
           name: "monthlyReportReview",
           component: MonthlyReportReview
         },
         {
-          path: "juniors",
+          path: "juniorsauth",
           name: "Juniors",
           component: Juniors
         },
@@ -125,22 +126,17 @@ const router = new Router({
           component: Feedback
         },
         {
-          path: "viewfeedback",
-          name: "ViewFeedback",
-          component: ViewFeedback
-        },
-        {
           path: "week/managerReview",
           name: "ManagerReview",
           component: ManagerReview
         },
         {
-          path: "week/juniorWeekReport",
+          path: "week/juniorWeekReportauth",
           name: "JuniorWeekReport",
           component: JuniorWeekReport
         },
         {
-          path: "month/juniorMonthlyReport",
+          path: "month/juniorMonthlyReportauth",
           name: "JuniorMonthlyReport",
           component: JuniorMonthlyReport
         },
@@ -150,7 +146,7 @@ const router = new Router({
           component: Review360
         },
         {
-          path: "360/viewreview360",
+          path: "360/viewreview360auth",
           name: "viewreview360",
           component: ViewReview360
         },
@@ -214,7 +210,13 @@ const router = new Router({
           name: "Settings",
           component: Settings,
           meta: { requiresAuth: true }
-        }
+        },
+        {
+          path: "viewfeedback",
+          name: "ViewFeedback",
+          component: ViewFeedback,
+          meta: { requiresAuth: true }
+        },
       ]
     }
   ]
@@ -230,6 +232,15 @@ router.beforeEach((to, from, next) => {
         path: "/"
       });
     } else {
+      if (to.fullPath.includes('admin') && userProfile.state.user.role !== 'Admin' ||
+        to.fullPath.includes('auth') && userProfile.state.user.role === 'employee'
+      ) {
+        next({
+          path: "/"
+        })
+      } else {
+        next();
+      }
       next();
     }
   } else if (
@@ -245,7 +256,6 @@ router.beforeEach((to, from, next) => {
         path: "/app/profile"
       });
     }
-    // next()
   } else {
     next();
   }
