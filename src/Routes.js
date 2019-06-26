@@ -232,8 +232,7 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (
-      !localStorage.getItem("authenticated") &&
-      !$cookies.get("keepLoggedIn")
+      !localStorage.getItem("authenticated")
     ) {
       next({
         path: "/"
@@ -251,8 +250,7 @@ router.beforeEach((to, from, next) => {
       next();
     }
   } else if (
-    (localStorage.getItem("authenticated") && to.path == "/") ||
-    ($cookies.get("keepLoggedIn") && to.path == "/")
+    (localStorage.getItem("authenticated") && to.path == "/")
   ) {
     if (store.state.profile.user.role === "Admin") {
       next({

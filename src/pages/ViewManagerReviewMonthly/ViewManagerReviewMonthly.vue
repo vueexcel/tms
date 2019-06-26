@@ -202,6 +202,8 @@ export default {
       if (response.status === 200) {
         this.reviewedReport = response.data;
       } else {
+        console.log(response.status);
+        
         this.error = true;
         this.errorMessage =
           "None of your manager has reviewed your report yet! ";

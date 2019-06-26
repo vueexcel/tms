@@ -2,6 +2,7 @@ import {
     make
 } from 'vuex-pathify'
 import axios from 'axios'
+import router from './../../Routes'
 
 // setup store
 
@@ -38,23 +39,28 @@ const actions = {
         let res = await axios
             .get('/reports')
             .then((res) => {
+
                 commit('reports', res.data)
             })
             .catch((err) => {
+                console.log(err.response.status);
+                if (err.response.status === 401) {
+                    router.push("/")
+                }
             })
     },
-    async getAllSlackChannels({state, commit}){
-        try{
+    async getAllSlackChannels({ state, commit }) {
+        try {
             let response = await axios.get('/slack')
             return response.data
-        } catch(err) {
-            if(err.response){
+        } catch (err) {
+            if (err.response) {
                 return err.response.data.msg
             } else {
                 return 'API Server Down'
             }
         }
-        
+
     },
     async juniorCheckin() {
         let res = await axios.get('/juniors_chechkin')

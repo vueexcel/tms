@@ -1,4 +1,5 @@
 import axios from './../axios'
+import router from '../../Routes';
 const state = {}
 const actions = {
     async postReview({ state, dispatch, commit }, payload) {
@@ -29,9 +30,15 @@ const actions = {
     },
     // for employee, manager to fetch their submitted monthly report 
     async getViewMonthlyManagerReview({ state, commit }) {
-        let res = await axios.get(`/manager_monthly_response`)
-        if (res) {
-            return res
+        try {
+            let res = await axios.get(`/manager_monthly_response`)
+            if (res) {
+                return res
+            }
+        } catch (error) {
+            if (error.response.status === 401) {
+                router.push("/")
+            }
         }
     }
 }

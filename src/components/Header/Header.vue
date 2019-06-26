@@ -162,7 +162,6 @@ export default {
       window.localStorage.setItem("authenticated", false);
       // this.$router.push("/login");
       localStorage.clear();
-      this.$cookies.remove("keepLoggedIn");
       this.$router.push("/");
     }
   },

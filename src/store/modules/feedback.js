@@ -1,4 +1,5 @@
 import axios from './../axios'
+import router from '../../Routes';
 const state = {
     feedbacksCount: []
 }
@@ -8,8 +9,14 @@ const actions = {
         return res
     },
     async getFeedback({ state, commit }) {
-        let res = await axios.get('/employee_feedback')
-        return res
+        try {
+            let res = await axios.get('/employee_feedback')
+            return res
+        } catch (error) {
+            if (error.response.status === 401) {
+                router.push("/")
+            }
+        }
     },
     // for admin only - to fetch feedbacks
     async fetchFeedback({ state, commit }) {
