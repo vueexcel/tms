@@ -6,7 +6,6 @@
       :class="{activeClassWeekly : employee._id === activeId && page === 'Weekly' , activeClass : employee._id === activeId && page != 'Weekly' }"
       :style="{'background-color': backgroundColor,'border': borderColor, 'border-radius': '8px'}"
     >
-      <!--  -->
       <div>
         <img
           class="rounded-circle mt-2 mb-2 h-auto"
@@ -59,11 +58,9 @@ export default {
       return "#" + this.activeClass.background_color;
     },
     borderColor() {
-      console.log("border-color initiated");
       let report = {};
       let color = "";
       if (this.highlightEployeeArray.length) {
-        console.log(this.highlightEployeeArray.length);
         for (let i = 0; i < this.allemployee.length; i++) {
           const element = this.allemployee[i];
           if (element._id == this.employee._id) {
@@ -72,12 +69,9 @@ export default {
                 report = this.allreport[k];
                 report.is_reviewed.find(manager => {
                   if (manager._id === this.userProfile._id) {
-
                     if (manager.reviewed === false) {
-                      // color = "orange";
                       color = "red";
                     } else {
-                      // color = "red";
                       color = "orange";
                     }
                   }
@@ -86,7 +80,6 @@ export default {
             }
           }
         }
-        // console.log(report, color, this.employee);
         return "1px solid " + color;
       } else {
         return "1px solid #" + this.activeClass.border;

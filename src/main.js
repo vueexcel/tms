@@ -12,10 +12,6 @@ import VueTouch from 'vue-touch';
 import Trend from 'vuetrend';
 import moment from 'moment';
 import 'moment-timezone';
-import VueCookies from 'vue-cookies'
-
-Vue.use(VueCookies)
-VueCookies.config('7d')
 import UUID from 'vue-uuid';
  
 Vue.use(UUID);

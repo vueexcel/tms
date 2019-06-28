@@ -31,7 +31,6 @@ const actions = {
         } catch (error) {
             if (error.response.data.msg === 'Token has expired') {
                 localStorage.removeItem('authenticated')
-                $cookies.remove("keepLoggedIn");
                 router.push('/')
             }
         }
