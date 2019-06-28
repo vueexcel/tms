@@ -265,7 +265,7 @@ export default {
               title: element.title,
               desc: element.desc,
               id: element.ID,
-              comment: this.EraDescription[i]
+              comment: this.EraDescription[i] ? this.EraDescription[i] : '-NA-'
             });
           }
         });

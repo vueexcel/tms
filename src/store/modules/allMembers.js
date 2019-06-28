@@ -5,7 +5,8 @@ import axios from './../axios'
 // setup store
 const state = {
     allMember: [],
-    allJuniors:[]
+    allJuniors:[],
+    userToCheckByAdmin:{}
 }
 const mutations = make.mutations(state)
 const actions = {
@@ -72,6 +73,20 @@ const actions = {
         try{
             let response = await axios.get(url)
             state.allJuniors = response.data
+            return true
+        } catch(error){
+            if(error.response){
+                return error.response.data.msg
+            } else {
+                return 'API Server Down'
+            }
+        }
+    },
+    async goToDashboard({state},payload){
+        let url = `/auth/dashboard_profile/${payload._id}`
+        try{
+            let response = await axios.get(url)
+            state.userToCheckByAdmin = response.data
             return true
         } catch(error){
             if(error.response){
