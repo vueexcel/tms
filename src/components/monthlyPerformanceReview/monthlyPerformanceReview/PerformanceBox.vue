@@ -112,7 +112,7 @@
                 v-for="( erareport, indexera ) in activeEmployeReport.report.era"
                 :key="indexera+activeEmployeReport.report.kpi.length"
               >
-                <div v-if="erareport.comment">
+                <div>
                   <h5 class="text-primary fw-bold">{{ erareport.title }}</h5>
                   <h6 class="fs-semi-bold mb-3">{{ erareport.desc }}</h6>
                   <h6 class="text-monospace">Report:</h6>
@@ -120,7 +120,7 @@
                     <div class="body">
                       <span class="tip tip-up"></span>
                       <div class="message">
-                        <span>{{ erareport.comment }}</span>
+                        <span>{{ erareport.comment ? erareport.comment : '-NA-'  }}</span>
                       </div>
                     </div>
                   </div>
