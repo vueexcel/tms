@@ -71,7 +71,7 @@
           <!-- third widget -->
           <h1>Extra Resource Area</h1>
           <div v-if="user.kpi">
-            <AreaComponent :eraKpiArray="user.kpi.era_json" :monthlyRating="user.Monthly_rating" />
+            <AreaComponent :eraKpiArray="user.kpi.era_json" :monthlyRating="user.Monthly_rating"/>
           </div>
           <!-- third widget ends-->
         </b-col>
@@ -156,8 +156,8 @@
               <span class="fw-semi-bold">Activities</span>
             </h2>
             <div class="activity">
-              <span v-for="(recentactivity,index) in activity" :key="index"> -->
-                <!-- <span v-if="recentactivity.missed_checkin">
+          <span v-for="(recentactivity,index) in activity" :key="index">-->
+          <!-- <span v-if="recentactivity.missed_checkin">
                   <span v-for="(misschecked,index) in recentactivity.missed_checkin" :key="index">
                     <widget class="mb-3">
                       <span class="thumb-md float-left mr-2 mt-1">
@@ -176,9 +176,9 @@
                       {{misschecked.datemiss}}
                     </widget>
                   </span>
-                </span> -->
-                <!-- Daily_checkin block -->
-                <!-- <span v-if="recentactivity.Daily_checkin">
+          </span>-->
+          <!-- Daily_checkin block -->
+          <!-- <span v-if="recentactivity.Daily_checkin">
                   <span
                     v-for="(dailycheckin,index) in recentactivity.Daily_checkin.slice().reverse()"
                     :key="index"
@@ -200,9 +200,9 @@
                       {{dailycheckin.dailycheckindate}}
                     </widget>
                   </span>
-                </span> -->
-                <!-- reviewed report block -->
-                <!-- <span v-if="recentactivity.report_reviewed">
+          </span>-->
+          <!-- reviewed report block -->
+          <!-- <span v-if="recentactivity.report_reviewed">
                   <span
                     v-for="(reportreviewed,index) in recentactivity.report_reviewed.slice().reverse()"
                     :key="index"
@@ -222,9 +222,9 @@
                       <p>{{reportreviewed.Message}}</p>
                     </widget>
                   </span>
-                </span> -->
-                <!-- Review Report Block  -->
-                <!-- <span v-if="recentactivity.review_report">
+          </span>-->
+          <!-- Review Report Block  -->
+          <!-- <span v-if="recentactivity.review_report">
                   <span
                     v-for="(reviewreport,index) in recentactivity.review_report.slice().reverse()"
                     :key="index"
@@ -245,10 +245,10 @@
                       <p>{{reviewreport.Message}}</p>
                     </widget>
                   </span>
-                </span> -->
-              <!-- </span>
+          </span>-->
+          <!-- </span>
             </div>
-          </div> -->
+          </div>-->
         </b-col>
       </b-row>
     </b-container>
@@ -264,7 +264,7 @@ import "imports-loader?jQuery=jquery,this=>window!flot/jquery.flot.pie";
 import Widget from "@/components/Widget/Widget";
 import AreaComponent from "./../../components/Area/Area";
 import starRating from "@/components/Star/Star";
-import { get, call,sync } from "vuex-pathify";
+import { get, call, sync } from "vuex-pathify";
 import dummyimage from "@/components/Group/person-dummy.jpg";
 import RadialProgressBar from "vue-radial-progress";
 
@@ -279,27 +279,33 @@ export default {
       checkin_rating: "0",
       Overall_rating: "0",
       completedSteps: 5,
-      totalSteps: 10
+      totalSteps: 10,
+      user: {}
     };
   },
   components: { Widget, AreaComponent, starRating, RadialProgressBar },
-  mounted() {
-    this.get_profile();
-    this.get_activity();
+  async mounted() {
+    if (!Object.keys(this.$route.params).length) {
+      await this.get_profile();
+      await this.get_activity();
+      this.user = this.userProfile;
+    }
   },
-  created () {
-    this.fetchData();
+  created() {
+    if (Object.keys(this.$route.params).length) {
+      this.fetchData();
+    }
   },
   props: {
     userData: {
       type: String,
-      default: ''
+      default: ""
     }
   },
   computed: {
-    user: get("profile/user"),
+    userProfile: get("profile/user"),
     activity: get("profile/activity"),
-    userToCheckByAdmin_:sync("allMember/userToCheckByAdmin"),
+    userToCheckByAdmin_: sync("allMember/userToCheckByAdmin"),
     // time() {
     //   console.log(this.activity,'@@@@@');
 
@@ -429,9 +435,8 @@ export default {
     get_activity: function() {
       this.getActivity();
     },
-    fetchData(){
-      console.log(this.userToCheckByAdmin_,'66666666666666666666666666',this.user);
-      
+    fetchData() {
+      this.user = this.userToCheckByAdmin_;
     },
     submitStarRateOne(value) {
       this.ratedStar = value;

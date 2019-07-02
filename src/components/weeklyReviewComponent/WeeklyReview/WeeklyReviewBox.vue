@@ -112,6 +112,13 @@
                   >Delete</b-button>
                 </span>
               </b-form>
+              <div class="mt-5 pt-4" v-if="errorMessageDel">
+                <b-alert
+                  show
+                  dismissible
+                  class="alert-transparent alert-danger mt-3"
+                >{{errorMessageDel}}</b-alert>
+              </div>
             </b-col>
           </b-row>
         </span>
@@ -171,6 +178,7 @@ export default {
   computed: {
     userProfile: get("profile/user"),
     revokeLoader: sync("weeklyReportReview/revokeLoader"),
+    errorMessageDel: get("weeklyReportReview/errorMessageDelete"),
     activeEmployee() {
       let reportArray = [];
       this.error = false;

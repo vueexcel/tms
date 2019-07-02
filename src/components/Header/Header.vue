@@ -34,6 +34,7 @@
         class="notificationsMenu d-sm-down-none mr-2"
         extra-menu-classes="notificationsWrapper py-0 animated animated-fast fadeInUp"
         right
+        no-caret
       >
         <template slot="button-content">
           <span class="avatar thumb-sm float-left mr-2">
@@ -48,7 +49,7 @@
           </span>
           <span class="ml-1 circle bg-warning text-white fw-bold">{{recentactivitylenght}}</span>
         </template>
-        <Notifications/>
+        <!-- <Notifications/> -->
       </b-nav-item-dropdown>
       <b-nav-item
         target="_blank"
@@ -162,7 +163,6 @@ export default {
       window.localStorage.setItem("authenticated", false);
       // this.$router.push("/login");
       localStorage.clear();
-      this.$cookies.remove("keepLoggedIn");
       this.$router.push("/");
     }
   },

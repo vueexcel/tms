@@ -7,3 +7,13 @@
     white-space: pre-line;
     word-wrap: break-word;
 }
+.report-wysiwyg {
+    /deep/ ol li {
+      list-style: decimal !important;
+      margin-left: 30px;
+    }
+    /deep/ ul li {
+      list-style: disc !important;
+      margin-left: 30px;
+    }
+  }

@@ -2,13 +2,13 @@
   <div>
     <b-row class="shadow">
       <!-- user/ employee data ( LEFT BOX ) -->
-      <b-col xs="12" sm="6" class="bg-warning rounded-left">
-        <!-- <UserMonthlyReport :user="data_[activeId]" :variant="'text-warning'"/> -->
+      <!-- <b-col xs="12" sm="6" class="bg-warning rounded-left">
+        <UserMonthlyReport :user="data_[activeId]" :variant="'text-warning'"/>
         <UserMonthlyReport :variant="'text-info'"/>
-      </b-col>
+      </b-col>-->
       <!-- user/ employee data ( LEFT BOX ) ends-->
       <!--#### RIGHT SIDE FORM ####-->
-      <b-col xs="12" sm="6" class="rounded-right mb-3">
+      <b-col xs="12" sm="12" class="rounded-right mb-3">
         <div class="text-center mt-5 pt-5" v-if="loading">
           <div>
             <i class="fa fa-circle-o-notch fa-spin fa-3x"></i>
@@ -20,26 +20,21 @@
             dismissible
             class="alert-class mt-3"
           >Info: Overall rating/ comments mandatory for managers based on monthly report</b-alert>
-          <!-- <div class="mb-3 mt-3">
-          <h6 class="rating-header mb-2">Overall Rating</h6>
-          <div class="border-top"></div>
-          <div class="mt-2 font-weight">Based on Monthly Review</div>
-        </div>
-        <starRating :displayStar="5" :ratedStar="ratedStar" @starRatingSelected="submitStarRate"/>
-        <div sm="6">
-          <h6 class="text-inverse">Comments</h6>
-          </div>-->
+
           <b-form @submit.prevent="submit">
-            {{ reviews }}
-            <div v-if="managerComment">
+            {{ reviews }} {{ report }}
+            <div v-if="managerComment.review">
               <div>
                 <h3>KPI</h3>
                 <hr>
-                <div v-for="(kpi, index) in managerComment.comment.kpi" :key="index">
-                  <p class="m-0" v-if="kpi.comment">
-                    <span class="text-secondary fw-bold">{{ kpi.title }}</span>
+                <div v-for="(kpi, index) in managerComment.review.comment.kpi" :key="index">
+                  <div class="m-0" v-if="kpi.comment">
+                    <p class="text-secondary fw-bold">{{ kpi.title }}</p>
+                    <p>{{ kpi.desc }}</p>
+                    <p class="m-0 p-0 fw-bold text-monospace">Report:</p>
+                    <span>{{ managerComment.kpi[index].comment }}</span>
                     <starRating :starSize="'20px'" :displayStar="10" :ratedStar="kpi.rating"/>
-                  </p>
+                  </div>
                   <p v-if="kpi.comment">
                     <span class="text-info fw-bold">Your comment:</span>
                   </p>
@@ -56,11 +51,14 @@
               <div>
                 <h3>ERA</h3>
                 <hr>
-                <div v-for="(era, index) in managerComment.comment.era" :key="index+1">
-                  <p class="m-0" v-if="era.comment">
-                    <span class="text-secondary fw-bold">{{ era.title }}</span>
+                <div v-for="(era, index) in managerComment.review.comment.era" :key="index+1">
+                  <div class="m-0" v-if="era.comment">
+                    <p class="text-secondary fw-bold">{{ era.title }}</p>
+                    <p>{{ era.desc }}</p>
+                    <p class="m-0 p-0 fw-bold text-monospace">Report:</p>
+                    <span>{{ managerComment.era[index].comment }}</span>
                     <starRating :starSize="'20px'" :displayStar="10" :ratedStar="era.rating"/>
-                  </p>
+                  </div>
                   <p v-if="era.comment">
                     <span class="text-info fw-bold">Your comment:</span>
                   </p>
@@ -76,7 +74,7 @@
               </div>
             </div>
             <!-- ###### KPI ERA form prior review ##### -->
-            <div v-if="!managerComment">
+            <div v-if="!managerComment.review">
               <h3>KPI</h3>
               <hr>
               <div
@@ -84,7 +82,17 @@
                 v-for="( kpireport, indexkpi ) in activeEmployeReport.report.kpi"
                 :key="indexkpi"
               >
-                {{ kpireport.title }}
+                <h5 class="text-primary fw-bold">{{ kpireport.title }}</h5>
+                <h6 class="fs-semi-bold mb-3">{{ kpireport.desc }}</h6>
+                <h6 class="text-monospace">Report:</h6>
+                <div class="dialogbox">
+                  <div class="body">
+                    <span class="tip tip-up"></span>
+                    <div class="message">
+                      <span>{{ kpireport.comment }}</span>
+                    </div>
+                  </div>
+                </div>
                 <starRating
                   :displayStar="10"
                   :starSize="'20px'"
@@ -105,7 +113,17 @@
                 :key="indexera+activeEmployeReport.report.kpi.length"
               >
                 <div v-if="erareport.comment">
-                  {{ erareport.title }}
+                  <h5 class="text-primary fw-bold">{{ erareport.title }}</h5>
+                  <h6 class="fs-semi-bold mb-3">{{ erareport.desc }}</h6>
+                  <h6 class="text-monospace">Report:</h6>
+                  <div class="dialogbox">
+                    <div class="body">
+                      <span class="tip tip-up"></span>
+                      <div class="message">
+                        <span>{{ erareport.comment }}</span>
+                      </div>
+                    </div>
+                  </div>
                   <starRating
                     :displayStar="10"
                     :starSize="'20px'"
@@ -128,7 +146,7 @@
             >{{alertMessage}}</b-alert>
             <b-button
               variant="primary"
-              v-if="!managerComment"
+              v-if="!managerComment.review"
               class="width-100 mb-xs mr-xs mt-4"
               type="submit"
             >Submit</b-button>
@@ -166,7 +184,7 @@ export default {
       textera: [],
       ratedStarKpi: [],
       ratedStarEra: [],
-      managerComment: "",
+      managerComment: [],
       loading: false,
       alertMessage: "",
       alertMessageShow: false
@@ -174,7 +192,6 @@ export default {
   },
   components: {
     starRating: starRating,
-    // ExtraWorkFeedback: ExtraWorkFeedback,
     UserMonthlyReport: UserMonthlyReport
   },
   computed: {
@@ -184,9 +201,15 @@ export default {
       if (this.activeEmployeReport.review) {
         this.activeEmployeReport.review.filter(ele => {
           if (ele.manager_id.username === this.user.username) {
-            this.managerComment = ele;
+            this.managerComment.review = ele;
           }
         });
+      }
+    },
+    report() {
+      if (this.activeEmployeReport.report) {
+        this.managerComment["kpi"] = this.activeEmployeReport.report.kpi;
+        this.managerComment["era"] = this.activeEmployeReport.report.era;
       }
     }
   },
@@ -198,7 +221,6 @@ export default {
       let kpiArray = [];
       let eraArray = [];
       let comment = {};
-      // console.log(this.textkpi, this.textera, this.activeEmployeReport._id);
       this.activeEmployeReport.report.kpi.forEach((element, i) => {
         kpiArray.push({
           title: element.title,
@@ -236,7 +258,6 @@ export default {
           comment: comment
         })
           .then(res => {
-            // this.text = [];
             this.textkpi = [];
             this.textera = [];
             this.api_getReports();
@@ -246,7 +267,6 @@ export default {
             console.log(err);
             this.loading = false;
           });
-        // this.ratedStar = 1;
         this.ratedStarKpi = [];
         this.ratedStarEra = [];
       } else {
@@ -256,29 +276,27 @@ export default {
       }
     },
     submitStarRate(value, i) {
-      // this.ratedStar = value;
       this.$set(this.ratedStarKpi, i, value);
     },
     submitStarRateera(value, i) {
-      // this.ratedStar = value;
       this.$set(this.ratedStarEra, i, value);
     },
 
     delReport() {
-      // this.loading = true;
       this.alertMessage = "";
       this.alertMessageShow = false;
       this.api_deleteMonthlyReport({ id: this.activeEmployeReport._id })
         .then(res => {
-          this.managerComment = "";
+          for (var key in this.managerComment) {
+            if (key === "review") {
+              delete this.managerComment[key];
+            }
+          }
           this.api_getReports();
-          // this.loading = false;
         })
         .catch(err => {
-          // console.log(err.response.data.msg);
           this.alertMessageShow = true;
           this.alertMessage = err.response.data.msg;
-          // this.loading = false;
         });
     }
   }

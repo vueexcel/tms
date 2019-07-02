@@ -42,12 +42,12 @@
               >
             </div>
             <div class="clearfix">
-              <div class="abc-checkbox float-left">
+              <!-- <div class="abc-checkbox float-left">
                 <input type="checkbox" id="checkbox" v-model="signinChecked">
                 <label for="checkbox" class="text-muted fs-sm">
                   <span class="align-text-middle">Keep me signed in</span>
                 </label>
-              </div>
+              </div> -->
               <div class="btn-toolbar float-right">
                 <b-button class="pr-4 pl-4" type="submit" size="sm" variant="inverse">
                   <span v-if="!loader">Login</span>
@@ -93,7 +93,6 @@ export default {
         this.loader = true;
         this.loginApi({ username: username, password: password }).then(resp => {
           if (this.signinChecked !== "") {
-            $cookies.set("keepLoggedIn", this.authenticated);
             this.loader = false;
           }
           if (resp === true) {

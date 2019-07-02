@@ -50,7 +50,7 @@ const actions = {
     setCountToReview({ state }) {
         state.unreadMonthlyReport = 0
         for (var i = 0; i < state.employee.length; i++) {
-            state.employee[i].is_reviewed.find(manager => {
+            state.employee[i].is_reviewed.find(manager => {                
                 if (manager.username === profile.state.user.username && manager.reviewed === false) {
                     state.unreadMonthlyReport++
                 }

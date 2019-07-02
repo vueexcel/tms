@@ -60,9 +60,11 @@
             <div class="text-primary" style="font-size: 14px;">{{employee_.jobtitle}}</div>
           </a>
           <span v-if="loggedInUserRole !== 'admin'">
-            <strong>Overall Rating</strong> &nbsp; <span>{{~~employee_.Overall_rating}} / 10</span>
+            <strong>Overall Rating</strong> &nbsp;
+            <span>{{~~employee_.Overall_rating}} / 10</span>
             <br>
-            <strong>Checkin Rating</strong> &nbsp; <span>{{employee_.Checkin_rating.toFixed(2) }} %</span>
+            <strong>Checkin Rating</strong> &nbsp;
+            <span>{{employee_.Checkin_rating.toFixed(2) }} %</span>
           </span>
         </div>
       </div>
@@ -101,7 +103,7 @@ export default {
   props: {
     employee: { type: Object, default: () => ({}) },
     index: { type: Number },
-    loggedInUserRole: {type: String, default: ''}
+    loggedInUserRole: { type: String, default: "" }
   },
   computed: {
     name: sync("manageEmployee/employeeName"),
@@ -124,7 +126,7 @@ export default {
     employee_() {
       let employeeToManipulate = this.employee;
       if (employeeToManipulate.kpi_id) {
-        if(typeof(employeeToManipulate.kpi_id) === 'string'){
+        if (typeof employeeToManipulate.kpi_id === "string") {
           if (this.addNewTeam.length) {
             this.addNewTeam.forEach(kpiOrEra => {
               if (kpiOrEra._id === employeeToManipulate.kpi_id) {
@@ -133,9 +135,9 @@ export default {
             });
           }
         } else {
-          employeeToManipulate["kpi"] = employeeToManipulate.kpi_id.kpi_name
+          employeeToManipulate["kpi"] = employeeToManipulate.kpi_id.kpi_name;
         }
-      } 
+      }
       return this.employee;
     },
     options() {
@@ -152,7 +154,7 @@ export default {
     saveEmployeeInfo: call("manageEmployee/saveEmployeeInfo"),
     addMembers_: call("adminKPI/addMember"),
     getAllMembers_: call("allMember/getAllMember"),
-    goToDashboard_:call('allMember/goToDashboard'),
+    goToDashboard_: call("allMember/goToDashboard"),
     editEmployee(employee) {
       this.edit = true;
       this.technologySelect = employee.kpi;
@@ -197,8 +199,8 @@ export default {
             employee: this.employee_
           });
         }
-      } else{
-         this.loading = false;
+      } else {
+        this.loading = false;
       }
     },
     async callToGettAllMembers() {
@@ -207,20 +209,20 @@ export default {
         this.loading = false;
       }
     },
-    getAllMember(value){
-      if(value === true){
-        this.$emit('getMember', value)
+    getAllMember(value) {
+      if (value === true) {
+        this.$emit("getMember", value);
       }
     },
     countDownChanged(dismissCountDown) {
       this.dismissCountDown = dismissCountDown;
     },
-    async sendToDashboard(clickedEmployee){
-      let response = await this.goToDashboard_(clickedEmployee)
-      if(typeof(response) === 'string'){
-        this.error = response
-      } else{
-        this.$router.push({name: 'Profile'});
+    async sendToDashboard(clickedEmployee) {
+      let response = await this.goToDashboard_(clickedEmployee);
+      if (typeof response === "string") {
+        this.error = response;
+      } else {
+        this.$router.push({ name: "Profile", params: { user: "admin" } });
       }
     }
   },
