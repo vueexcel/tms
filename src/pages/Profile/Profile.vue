@@ -115,7 +115,7 @@
                     v-b-popover.hover="`This is the weighted reviewed given by your seniors. This is score is most important and reflects your performance.`"
                     class="fas fa-question-circle fs-sm text-danger"
                   ></i>
-                  <span class="float-right">{{Overall_rating}} / 10</span>
+                  <span class="float-right">{{Number(Overall_rating).toFixed(2)}} / 10</span>
                 </h6>
                 <span class="text-secondary fs-sm">Overall performance review</span>
                 <b-progress
@@ -136,7 +136,7 @@
                     v-b-popover.hover="`project difficulty`"
                     class="fas fa-question-circle fs-sm text-danger"
                   ></i>
-                  <span class="float-right">{{user.project_difficulty}} /10</span>
+                  <span class="float-right">{{Number(user.project_difficulty).toFixed(2)}} /10</span>
                 </h6>
                 <span class="text-secondary fs-sm">Project dificulty</span>
                 <b-progress
