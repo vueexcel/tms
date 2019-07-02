@@ -38,7 +38,7 @@
                       :rows="3"
                       :max-rows="6"
                     ></b-form-textarea>
-                    <br>
+                    <br />
                     <div v-for="(kpikra,index) in kpikradescriotionlist" :key="index">
                       <span>
                         <div class="mt-2">
@@ -97,7 +97,7 @@
                     <span v-if="submittedReport.length">{{submittedReport[0].extra}}</span>
                   </div>
                 </div>
-                <hr>
+                <hr />
                 <div class="form-group row">
                   <label
                     class="col-md-4 control-label text-md-left"
@@ -122,11 +122,11 @@
                     <!-- ======= ACCORDION RIGHT ENDS=================-->
                   </div>
                 </div>
-                <hr>
+                <hr />
                 <div class="form-group row">
                   <label class="col-md-4 control-label text-md-left" for="max-length">
                     Difficulty level of project
-                    <br>(i.e., if project work did you did was difficult and
+                    <br />(i.e., if project work did you did was difficult and
                     required more effort than usual)
                   </label>
                   <div v-if="!submittedReport.length">
@@ -254,6 +254,10 @@ export default {
       this.kpikradescriotionlist = [];
     },
     async submitWeeklyReview() {
+      if (!this.id) {
+        alert("please select daily check-in which you wish to highlight");
+        return;
+      }
       if (this.kpiKraDescription) {
         let data = {
           KpiEra: this.selected,
