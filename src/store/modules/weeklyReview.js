@@ -1,6 +1,7 @@
 import { make } from "vuex-pathify";
 import axios from "axios";
 import router from './../../Routes'
+import { log } from "util";
 // setup store
 const state = {
   report: {},

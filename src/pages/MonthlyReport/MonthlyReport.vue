@@ -213,6 +213,11 @@ export default {
         this.api_postReview(this.setPayload)
           .then(res => {
             this.getReport();
+            this.KpiDescription = [];
+            this.EraDescription = [];
+            this.setPayloadKPI = [];
+            this.setPayloadERA = [];
+
           })
           .catch(err => {
             this.alertMsg = err.response.data.msg;
@@ -220,10 +225,6 @@ export default {
             this.openalertAfter = true;
           });
       }
-      this.KpiDescription = [];
-      this.EraDescription = [];
-      this.setPayloadKPI = [];
-      this.setPayloadERA = [];
     },
     getReport() {
       this.loading = true;
