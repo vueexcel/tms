@@ -73,7 +73,7 @@ const router = new Router({
           path: "profile",
           name: "Profile",
           component: Profile,
-          props: true,
+          // props: true,
           // meta: { requiresAuth: true }
         },
         {

@@ -29,27 +29,28 @@
       <i class="fa fa-circle text-gray"/>
     </a>
     <b-nav class="ml-auto">
-      <b-nav-item-dropdown
+      <!-- <b-nav-item-dropdown
         id="basic-nav-dropdown"
         class="notificationsMenu d-sm-down-none mr-2"
         extra-menu-classes="notificationsWrapper py-0 animated animated-fast fadeInUp"
         right
-      >
-        <template slot="button-content">
-          <span class="avatar thumb-sm float-left mr-2">
+        no-caret
+      > -->
+        <!-- <template slot="button-content"> -->
+          <span class="avatar thumb-sm float-left mr-2 align_self">
             <img
               class="rounded-circle"
               :src="user.profileImage ? user.profileImage : image"
               alt="..."
             >
           </span>
-          <span class="small">
+          <span class="small align_self" >
             <span class="fw-semi-bold">{{user.username}}</span>
           </span>
-          <span class="ml-1 circle bg-warning text-white fw-bold">{{recentactivitylenght}}</span>
-        </template>
-        <Notifications/>
-      </b-nav-item-dropdown>
+          <span class="ml-1 circle bg-warning text-white fw-bold align_self"></span>
+        <!-- </template> -->
+        <!-- <Notifications/> -->
+      <!-- </b-nav-item-dropdown> -->
       <b-nav-item
         target="_blank"
         href="https://docs.google.com/presentation/d/1QJo9fP90MUVdO0gNiyt9D8jddyQsjvp7fx3iRSB783g/edit?usp=sharing"
