@@ -1,7 +1,6 @@
 import { make } from "vuex-pathify";
 import axios from "axios";
 import router from './../../Routes'
-import { log } from "util";
 // setup store
 const state = {
   report: {},
@@ -17,6 +16,7 @@ const actions = {
     //   return true;
     // }
     if (response.data.length) {
+
       commit('report', response.data)
       return true;
     } else {
