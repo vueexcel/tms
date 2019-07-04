@@ -21,9 +21,16 @@ const mutations = make.mutations(state)
 const actions = {
     ...make.actions(state),
     async dailyCheckin({ commit, dispatch }, payload) {
+        console.log(payload,'222222222222');
+        
         const checkDate = payload.date
-        let res = await axios.post('/checkin', payload)
-        return { res: res, date: checkDate }
+        try {
+            let res = await axios.post('/checkin', payload)
+            commit("changeSelectOption",null)
+            return { res: res, date: checkDate }
+        } catch (error){
+            return error
+        }
     },
     async deleteDailyCheckin({ commit, dispatch }, payload) {
         await axios
