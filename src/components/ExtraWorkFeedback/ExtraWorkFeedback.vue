@@ -49,12 +49,12 @@
       </div>
       <div class="mt-2">
         <div class="feedback pb-2 mt-4 pl-3">Extra work/ Feedback/ Issues</div>
-        <h6 class="ml-3 pt-3">{{ user.extra }}</h6>
+        <h6 class="ml-3 pt-3 white-space-pre">{{ user.extra }}</h6>
       </div>
       <div>
         <div class="feedback mt-4 pb-2 pl-3">Highlight Check-in</div>
         <span v-for="(reporthighlight, index) in user.select_days" :key="index">
-          <h6 class="ml-3 mt-3 white-space-pre">{{reporthighlight.report }}</h6>
+          <h6 class="ml-3 mt-3 white-space-pre" v-html="reporthighlight.report"></h6>
         </span>
       </div>
       <div>

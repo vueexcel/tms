@@ -226,6 +226,40 @@
                     </div>
                   </div>
                 </div>
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-md-2 text-md-right">
+                      <!-- missed checkin on UI recent_activity on DB -->
+                      <label for="normal-field-month">Weekly report review message </label>
+                    </div>
+                    <div class="col-8 col-md-5 text-md-right">
+                      <input
+                        class="form-control"
+                        v-model="reminderMessage.weekly_report_mesg"
+                        type="text"
+                        id="normal-field-month"
+                        required
+                      >
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-md-2 text-md-right">
+                      <!-- missed checkin on UI recent_activity on DB -->
+                      <label for="normal-field-month">Monthly report review message </label>
+                    </div>
+                    <div class="col-8 col-md-5 text-md-right">
+                      <input
+                        class="form-control"
+                        v-model="reminderMessage.monthly_report_mesg"
+                        type="text"
+                        id="normal-field-month"
+                        required
+                      >
+                    </div>
+                  </div>
+                </div>
                 <b-form-group
                   horizontal
                   label
@@ -277,7 +311,9 @@ export default {
         weekly_remainder2: "",
         review_activity: "",
         monthly_manager_reminder: "",
-        missed_checkin: ""
+        missed_checkin: "",
+        weekly_report_mesg:"",
+        monthly_report_mesg:""
       },
       schedularSettings: {
         monthly_manager_reminder: false,
@@ -355,6 +391,8 @@ export default {
           this.reminderMessage.monthly_manager_reminder =
             res.data[0].monthly_manager_reminder;
           this.reminderMessage.missed_checkin = res.data[0].missed_checkin;
+          this.reminderMessage.weekly_report_mesg = res.data[0].weekly_report_mesg
+          this.reminderMessage.monthly_report_mesg = res.data[0].monthly_report_mesg
         })
         .catch(err => {
           console.log(err);
