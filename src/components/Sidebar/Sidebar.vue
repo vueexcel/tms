@@ -297,6 +297,13 @@
         index="feedback"
         isHeader
       />
+      <NavLink
+        header="Peer to Peer Review"
+        link="/app/peerReview"
+        iconName="fas fa-handshake-o"
+        index="feedback"
+        isHeader
+      />
 
       <!-- <NavLink
         header="Performance Review"
@@ -408,6 +415,13 @@
         link="/app/360/review360"
         iconName="fas fa-refresh"
         index="review360"
+        isHeader
+      />
+      <NavLink
+        header="Peer to Peer Review"
+        link="/app/peerReview"
+        iconName="fas fa-handshake-o"
+        index="feedback"
         isHeader
       />
     </ul>
