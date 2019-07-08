@@ -21,7 +21,7 @@
         <div v-for="(kpiUser,n) in userList" :key="n">
           <div class="list-group-item" v-if="kpiUser._id !== user._id">
           <div class="row">
-            <div class="col-5">
+            <div class="col-sm-5 col-12">
               <div class="d-flex">
                 <div class="thumb-lg mr">
                 <img
@@ -51,7 +51,7 @@
                 </b-card>
               </b-collapse>
             </div>
-            <div class="col-5">
+            <div class="col-sm-5 col-12 mt-5 mt-sm-0">
                 <div v-if="kpiUser.loggedInUserReview">
                   <b-card class="color_background">
                   <h6>{{kpiUser.loggedInUserReview.comment}}</h6>
@@ -67,7 +67,7 @@
                 />
               </div>
             </div>
-            <div class="col-2" v-if="!kpiUser.loggedInUserReview">
+            <div class="col-sm-2 col-12 mt-5 mt-sm-0" v-if="!kpiUser.loggedInUserReview">
               <button
                 class="btn btn-primary float-right"
                 v-if="enableReview[n] !== true &&  loading[n] !== true"
