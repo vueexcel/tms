@@ -188,16 +188,5 @@ export default {
 };
 </script>
 
-<style>
-.pointer_cursor {
-  cursor: pointer;
-}
+<style src="./PeerReview.scss" lang="scss" />
 
-.color_background{
-  background-color: #EDF5F5 !important;
-}
-
-.size{
-  font-size: 45px;
-}
-</style>
