@@ -26,14 +26,14 @@
             <div v-if="managerComment.review">
               <div>
                 <h3>KPI</h3>
-                <hr>
+                <hr />
                 <div v-for="(kpi, index) in managerComment.review.comment.kpi" :key="index">
                   <div class="m-0" v-if="kpi.comment">
                     <p class="text-secondary fw-bold">{{ kpi.title }}</p>
                     <p>{{ kpi.desc }}</p>
                     <p class="m-0 p-0 fw-bold text-monospace">Report:</p>
                     <span>{{ managerComment.kpi[index].comment }}</span>
-                    <starRating :starSize="'20px'" :displayStar="10" :ratedStar="kpi.rating"/>
+                    <starRating :starSize="'20px'" :displayStar="10" :ratedStar="kpi.rating" />
                   </div>
                   <p v-if="kpi.comment">
                     <span class="text-info fw-bold">Your comment:</span>
@@ -50,14 +50,14 @@
               </div>
               <div>
                 <h3>ERA</h3>
-                <hr>
+                <hr />
                 <div v-for="(era, index) in managerComment.review.comment.era" :key="index+1">
                   <div class="m-0" v-if="era.comment">
                     <p class="text-secondary fw-bold">{{ era.title }}</p>
                     <p>{{ era.desc }}</p>
                     <p class="m-0 p-0 fw-bold text-monospace">Report:</p>
                     <span>{{ managerComment.era[index].comment }}</span>
-                    <starRating :starSize="'20px'" :displayStar="10" :ratedStar="era.rating"/>
+                    <starRating :starSize="'20px'" :displayStar="10" :ratedStar="era.rating" />
                   </div>
                   <p v-if="era.comment">
                     <span class="text-info fw-bold">Your comment:</span>
@@ -76,7 +76,7 @@
             <!-- ###### KPI ERA form prior review ##### -->
             <div v-if="!managerComment.review">
               <h3>KPI</h3>
-              <hr>
+              <hr />
               <div
                 class="pb-4"
                 v-for="( kpireport, indexkpi ) in activeEmployeReport.report.kpi"
@@ -106,7 +106,7 @@
                 />
               </div>
               <h3>ERA</h3>
-              <hr>
+              <hr />
               <div
                 class="pb-4"
                 v-for="( erareport, indexera ) in activeEmployeReport.report.era"
@@ -120,7 +120,7 @@
                     <div class="body">
                       <span class="tip tip-up"></span>
                       <div class="message">
-                        <span>{{ erareport.comment ? erareport.comment : '-NA-'  }}</span>
+                        <span>{{ erareport.comment ? erareport.comment : '-NA-' }}</span>
                       </div>
                     </div>
                   </div>
@@ -222,58 +222,54 @@ export default {
       let eraArray = [];
       let comment = {};
       this.activeEmployeReport.report.kpi.forEach((element, i) => {
-        kpiArray.push({
-          title: element.title,
-          desc: element.desc,
-          id: element.id,
-          comment: this.textkpi[i],
-          rating: this.ratedStarKpi[i] || 0
-        });
+        if (this.textkpi[i] && this.ratedStarKpi[i]) {
+          kpiArray.push({
+            title: element.title,
+            desc: element.desc,
+            id: element.id,
+            comment: this.textkpi[i],
+            rating: this.ratedStarKpi[i] || 0
+          });
+        }
       });
       this.activeEmployeReport.report.era.forEach((element, i) => {
-        eraArray.push({
-          title: element.title,
-          desc: element.desc,
-          id: element.id,
-          comment: this.textera[i],
-          rating: this.ratedStarEra[i] || 0
-        });
-      });
-      comment = { kpi: kpiArray, era: eraArray };
-
-      let kpiresponse = kpiArray.filter(element => {
-        if (element.comment && element.rating) {
-          return element;
-        }
-      });
-      let eraresponse = eraArray.filter(ele => {
-        if (ele.comment && ele.rating) {
-          return ele;
-        }
-      });
-      if (kpiresponse.length || eraresponse.length) {
-        this.loading = true;
-        this.api_postReview({
-          id: this.activeEmployeReport._id,
-          comment: comment
-        })
-          .then(res => {
-            this.textkpi = [];
-            this.textera = [];
-            this.api_getReports();
-            this.loading = false;
-          })
-          .catch(err => {
-            console.log(err);
-            this.loading = false;
+        if (this.textera[i] && this.ratedStarEra[i]) {
+          eraArray.push({
+            title: element.title,
+            desc: element.desc,
+            id: element.id,
+            comment: this.textera[i],
+            rating: this.ratedStarEra[i] || 0
           });
-        this.ratedStarKpi = [];
-        this.ratedStarEra = [];
-      } else {
+        }
+      });
+      if (
+        kpiArray.length !== this.activeEmployeReport.report.kpi.length &&
+        eraArray.length !== this.activeEmployeReport.report.era.length
+      ) {
         alert(
-          "Your need to comment on atleast one KPI/ERA & select respective stars as well"
+          "Your need to comment on all ERA/KPI and select respective stars as well"
         );
+      } else {
+        comment = { kpi: kpiArray, era: eraArray };
       }
+      this.loading = true;
+      this.api_postReview({
+        id: this.activeEmployeReport._id,
+        comment: comment
+      })
+        .then(res => {
+          this.textkpi = [];
+          this.textera = [];
+          this.api_getReports();
+          this.loading = false;
+        })
+        .catch(err => {
+          console.log(err);
+          this.loading = false;
+        });
+      this.ratedStarKpi = [];
+      this.ratedStarEra = [];
     },
     submitStarRate(value, i) {
       this.$set(this.ratedStarKpi, i, value);
