@@ -47,7 +47,7 @@
           <span class="small align_self" >
             <span class="fw-semi-bold">{{user.username}}</span>
           </span>
-          <span class="ml-1 circle bg-warning text-white fw-bold align_self"></span>
+          <!-- <span class="ml-1 circle bg-warning text-white fw-bold align_self"></span> -->
         <!-- </template> -->
         <!-- <Notifications/> -->
       <!-- </b-nav-item-dropdown> -->

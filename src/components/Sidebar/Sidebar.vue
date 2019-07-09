@@ -5,12 +5,12 @@
     @mouseleave="sidebarMouseLeave"
   >
     <header class="logo">
-      <router-link v-show="sidebarOpened || sidebarStatic===true" to>
+      <router-link v-if="sidebarOpened || sidebarStatic===true" to>
         <img class="pl-1 pr-4" src="@/images/logo.png" width="100%" alt="logo">
       </router-link>
       <!-- to="/app" -->
-      <router-link v-show="!sidebarOpened || sidebarStatic===false" to>
-        <img class="pl-1 pr-4" src="@/images/X_logo.png" width="50px" alt="logo">
+      <router-link v-if="!sidebarOpened && sidebarStatic === false" to>
+        <img class="pl-2 pr-3" src="@/images/X_logo.png" width="50px" alt="logo">
       </router-link>
     </header>
     <!-- ADMIN -->
@@ -297,6 +297,13 @@
         index="feedback"
         isHeader
       />
+      <NavLink
+        header="Peer to Peer Review"
+        link="/app/peerReview"
+        iconName="fas fa-handshake-o"
+        index="feedback"
+        isHeader
+      />
 
       <!-- <NavLink
         header="Performance Review"
@@ -408,6 +415,13 @@
         link="/app/360/review360"
         iconName="fas fa-refresh"
         index="review360"
+        isHeader
+      />
+      <NavLink
+        header="Peer to Peer Review"
+        link="/app/peerReview"
+        iconName="fas fa-handshake-o"
+        index="feedback"
         isHeader
       />
     </ul>

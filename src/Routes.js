@@ -34,6 +34,7 @@ import MonthlyReportReview from "@/pages/MonthlyReportReview/MonthlyReportReview
 import Review360 from "@/pages/Review360/Review360";
 import ViewReview360 from "@/pages/ViewReview360/ViewReview360";
 import ViewManagerReiewMonthly from "@/pages/ViewManagerReviewMonthly/ViewManagerReviewMonthly";
+import PeerReview from "@/pages/PeerReview/PeerReview"
 // --admin pages--
 import ManageEmployee from "@/pages/ManageEmployee/ManageEmployee";
 import ManageKPI from "@/pages/Kpi/Kpi";
@@ -162,6 +163,11 @@ const router = new Router({
           path: "month/viewManagerReiewMonthly",
           name: "ViewManagerReiewMonthly",
           component: ViewManagerReiewMonthly
+        },
+        {
+          path: "PeerReview",
+          name: "PeerReview",
+          component: PeerReview
         },
         {
           path: "typography",
