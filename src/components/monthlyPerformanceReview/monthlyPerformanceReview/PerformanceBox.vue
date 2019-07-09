@@ -218,6 +218,8 @@ export default {
     api_deleteMonthlyReport: call("monthlyReportReview/deleteMonthlyReview"),
     api_getReports: call("monthlyReportReview/getUsersMonthlyReports"),
     async submit() {
+      this.alertMessage = ""
+      this.alertMessageShow = false
       let kpiArray = [];
       let eraArray = [];
       let comment = {};
@@ -244,32 +246,35 @@ export default {
         }
       });
       if (
-        kpiArray.length !== this.activeEmployeReport.report.kpi.length &&
-        eraArray.length !== this.activeEmployeReport.report.era.length
+        kpiArray.length === this.activeEmployeReport.report.kpi.length &&
+        this.activeEmployeReport.report.era.length === eraArray.length
       ) {
-        alert(
-          "Your need to comment on all ERA/KPI and select respective stars as well"
-        );
-      } else {
         comment = { kpi: kpiArray, era: eraArray };
-      }
-      this.loading = true;
-      this.api_postReview({
-        id: this.activeEmployeReport._id,
-        comment: comment
-      })
-        .then(res => {
-          this.textkpi = [];
-          this.textera = [];
-          this.api_getReports();
-          this.loading = false;
+        this.loading = true;
+        this.api_postReview({
+          id: this.activeEmployeReport._id,
+          comment: comment
         })
-        .catch(err => {
-          console.log(err);
-          this.loading = false;
-        });
-      this.ratedStarKpi = [];
-      this.ratedStarEra = [];
+          .then(res => {
+            this.textkpi = [];
+            this.textera = [];
+            this.api_getReports();
+            this.loading = false;
+          })
+          .catch(err => {
+            this.alertMessage = "Sorry Your can't be submit.Plaese try again"
+            this.alertMessageShow = true 
+            this.loading = false;
+          });
+        this.ratedStarKpi = [];
+        this.ratedStarEra = [];
+      } else {
+        // alert(
+          // "You need to comment on all ERA/KPI and select respective stars as well"
+        // );
+        this.alertMessage = "You need to comment on all ERA/KPI and select respective stars as well"
+            this.alertMessageShow = true 
+      }
     },
     submitStarRate(value, i) {
       this.$set(this.ratedStarKpi, i, value);

@@ -5,12 +5,12 @@
     @mouseleave="sidebarMouseLeave"
   >
     <header class="logo">
-      <router-link v-show="sidebarOpened || sidebarStatic===true" to>
+      <router-link v-if="sidebarOpened || sidebarStatic===true" to>
         <img class="pl-1 pr-4" src="@/images/logo.png" width="100%" alt="logo">
       </router-link>
       <!-- to="/app" -->
-      <router-link v-show="!sidebarOpened || sidebarStatic===false" to>
-        <img class="pl-1 pr-4" src="@/images/X_logo.png" width="50px" alt="logo">
+      <router-link v-if="!sidebarOpened && sidebarStatic === false" to>
+        <img class="pl-2 pr-3" src="@/images/X_logo.png" width="50px" alt="logo">
       </router-link>
     </header>
     <!-- ADMIN -->
