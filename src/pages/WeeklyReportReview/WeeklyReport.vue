@@ -1,16 +1,20 @@
 <template>
   <div>
     <span class="page-title ml-3 row" style="font-size: 43px;">Weekly Report Review</span>
+    <div class="col-12 d-flex mb-3">
+      <span>Reports which are being to be review</span>
+      <input class="apple-switch form-control ml-2" v-model="setReportToReview" type="checkbox" />
+    </div>
     <div class="shadow pt-4">
       <div class="w-100">
         <span class="page-title ml-3" style="font-size: 24px;">
           Team View
           <span class="fs-sm">
-            <i class="pl-5 fa fa-circle text-info"/> Selected
+            <i class="pl-5 fa fa-circle text-info" /> Selected
             <!-- <i class="pl-1 fa fa-circle" style="color: #006400"/> Report Available ( Border color ) -->
-            <i class="pl-1 fa fa-circle" style="color: red"/> Report Available ( Border color )
-            <i class="pl-1 fa fa-circle" style="color: orange"/> Report Reviewed ( Border color )
-            <i class="pl-1 fa fa-circle" style="color: black"/> No Report ( Border color )
+            <i class="pl-1 fa fa-circle" style="color: red" /> Report Available ( Border color )
+            <i class="pl-1 fa fa-circle" style="color: orange" /> Report Reviewed ( Border color )
+            <i class="pl-1 fa fa-circle" style="color: black" /> No Report ( Border color )
           </span>
         </span>
         <i class="fas fa-circle-notch text-success fa-spin float-right mr-5 size" v-if="loading"></i>
@@ -23,13 +27,13 @@
             class="alert-transparent alert-danger mt-5"
           >{{errorMessage}}</b-alert>
         </div>
-        <b-row class="employees" v-if="allJuniors_.length">
+        <b-row class="employees" v-if="juniorsToShow.length">
           <b-col
             lg="2"
             md="4"
             xs="12"
             class="column"
-            v-for="employee in allJuniors_"
+            v-for="employee in juniorsToShow"
             :key="employee._id"
           >
             <WeeklyReviewComponent
@@ -38,7 +42,7 @@
               :highlightEployeeArray="highlightEmployees"
               :activeId="activeId"
               :page="'Weekly'"
-              :allemployee="allJuniors_"
+              :allemployee="juniorsToShow"
               :allreport="allweeklyReport_"
               :activeClass="activeClass"
               :allData="allDataToComponent"
@@ -48,7 +52,7 @@
       </b-container>
       <div class="container-fluid">
         <div class="mt-5 mb-3 row"></div>
-        <div v-if="allweeklyReport_.length && allJuniors_.length">
+        <div v-if="allweeklyReport_.length && juniorsToShow.length">
           <PerformanceBox
             :performanceData="allweeklyReport_"
             :employee="activeEmp"
@@ -86,6 +90,7 @@ export default {
         border: "c1ccd3"
       },
       loading: false,
+      setReportToReview: false,
       error: false,
       errorMessage: "",
       highlightEmployees: [],
@@ -100,7 +105,25 @@ export default {
     allJuniors_: get("weeklyReportReview/allJuniors"),
     userProfile: get("profile/user"),
     allweeklyReport_: get("weeklyReportReview/allweeklyReport"),
-    revokeLoader: sync("weeklyReportReview/revokeLoader")
+    revokeLoader: sync("weeklyReportReview/revokeLoader"),
+    juniorsToShow() {
+      if (this.setReportToReview === true) {
+      let arrayOfEmployee = [];
+        this.allJuniors_.forEach(employee => {
+          this.allweeklyReport_.forEach(report => {
+            if (employee._id == report.user) {
+              let response = report.is_reviewed.find(review => {
+                return review._id === this.userProfile._id;
+              });
+              if (response.reviewed === false) arrayOfEmployee.push(employee);
+            }
+          });
+        });
+        return arrayOfEmployee;
+      } else {
+        return this.allJuniors_;
+      }
+    }
   },
   methods: {
     getallWeeklyReport_: call("weeklyReportReview/getallWeeklyReport"),
@@ -159,9 +182,9 @@ export default {
     },
     setActiveEmployeeReports() {
       this.allweeklyReport_.forEach(data => {
-        for (var i = 0; i < this.allJuniors_.length; i++) {
-          if (data.user === this.allJuniors_[i]._id) {
-            this.highlightEmployees.push(this.allJuniors_[i]);
+        for (var i = 0; i < this.juniorsToShow.length; i++) {
+          if (data.user === this.juniorsToShow[i]._id) {
+            this.highlightEmployees.push(this.juniorsToShow[i]);
           }
         }
       });

@@ -2,9 +2,11 @@ import axios from './../axios'
 import { make } from "vuex-pathify";
 import profile from './profile'
 const state = {
-    activeEmployee: "",
+    activeEmployee: null,
     activeEmployeReport: null,
-    employee: '',
+    setReportToReview: false,
+    employeeToShowArray: [],
+    employee: [],
     unreadMonthlyReport: 0,
     reviewCount: 0
 }
@@ -15,7 +17,7 @@ const actions = {
         let res = await axios.get('/manager_monthly_all')
         if (res) {
             state.employee = res.data
-            await dispatch('setactiveEmp')
+            await dispatch('employeeToShow', state.setReportToReview)
             dispatch('setCountToReview')
             return res
         }
@@ -33,9 +35,12 @@ const actions = {
         }
     },
     // api for manager admin to post review
-    async postMonthlyReview({ state, commit }, payload) {
+    async postMonthlyReview({ state, dispatch }, payload) {
         let res = await axios.post(`/manager_monthly/${payload.id}`, { comment: payload.comment })
         if (res) {
+            if (state.setReportToReview === true) {
+                dispatch('employeeToShow', true)
+            }
             return res
         }
     },
@@ -50,11 +55,44 @@ const actions = {
     setCountToReview({ state }) {
         state.unreadMonthlyReport = 0
         for (var i = 0; i < state.employee.length; i++) {
-            state.employee[i].is_reviewed.find(manager => {                
+            state.employee[i].is_reviewed.find(manager => {
                 if (manager.username === profile.state.user.username && manager.reviewed === false) {
                     state.unreadMonthlyReport++
                 }
             })
+        }
+    },
+    employeeToShow({ commit, state, dispatch, rootState }, payload) {
+        if (rootState.weeklyReportReview.allJuniors.length) {
+            if (payload === false) {
+                commit('activeEmployee', rootState.weeklyReportReview.allJuniors[0].id)
+                dispatch('setactiveEmp')
+                commit('employeeToShowArray', rootState.weeklyReportReview.allJuniors)
+            } else {
+                let aarayOfUser = []
+                rootState.weeklyReportReview.allJuniors.forEach(employee => {
+                    if (state.employee.length) {
+                        state.employee.find(report => {
+                            if (employee._id === report.user._id) {
+                                report.is_reviewed.forEach(element => {
+                                    if (element._id === rootState.profile.user._id) {
+                                        if (element.reviewed === false) {
+                                            aarayOfUser.push(employee);
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+                if(aarayOfUser.length){
+                    commit('activeEmployee', aarayOfUser[0].id)
+                    dispatch('setactiveEmp')
+                    commit('employeeToShowArray', aarayOfUser)
+                } else {
+                    commit('employeeToShowArray', aarayOfUser)
+                }
+            }
         }
     }
 }

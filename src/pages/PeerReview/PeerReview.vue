@@ -1,6 +1,13 @@
 <template>
   <div>
     <h1 class="page-title">Peer to Peer Review</h1>
+    <div class="m-auto" v-if="error">
+     <b-alert
+          :show="error"
+          variant="danger"
+          class="alert-transparent mt-3 text-center"
+        >{{errorMessage}}</b-alert>
+    </div>
     <!-- :tooltipPlacement="tooltipPlacement" -->
     <div v-if="pageLoader" class="text-center size">
       <i class="fas fa-circle-notch text-success fa-spin"></i>
@@ -100,6 +107,7 @@ import Vue from "vue";
 import { sync, call, get } from "vuex-pathify";
 import Widget from "@/components/Widget/Widget";
 import defaultImage from "@/components/Group/person-dummy.jpg";
+import { truncate } from 'fs';
 
 export default {
   data() {
@@ -110,7 +118,9 @@ export default {
       reviewArray: [],
       textReview: [],
       reviewComment: [],
-      loading:[]
+      loading:[],
+      error: false,
+      errorMessage: ''
     };
   },
   components: {
@@ -157,6 +167,8 @@ export default {
       Vue.set(this.enableReview, index, true);
     },
     async SubmitReview(index, user) {
+      this.error = false
+      this.errorMessage = ''
       if(this.textReview[index]){
         Vue.set(this.loading,index,true)
         let payload = {
@@ -164,11 +176,17 @@ export default {
           user_id: user._id
         };
         let response = await this.submitReview(payload);
-        if(response){
+        if(response  === true){
           this.getSelfReview()
-      Vue.set(this.loading,index,false)
-      Vue.set(this.enableReview, index, false);
+          Vue.set(this.enableReview, index, false);
+        } else {
+          this.error = true
+          this.errorMessage = response
         }
+      Vue.set(this.loading,index,false)
+      } else {
+        this.error = true 
+        this.errorMessage = 'Comment can not be blank'
       }
     },
     checkReview(kpiUser, index) {

@@ -27,12 +27,14 @@
 import Vue from "vue";
 import image from "@/assets/avatar.png";
 import { get, sync } from "vuex-pathify";
+import { type } from 'os';
 
 export default {
   name: "monthlyPerformanceReview",
   props: {
     employee: { type: Object, default: () => ({}) },
-    activeId: { type: String, default: "" }
+    activeId: { type: String, default: "" },
+    employees:{type: Array,default: []}
   },
   data() {
     return {
@@ -41,6 +43,13 @@ export default {
       // allemployee: this.allemployee_,
       // userprofile: this.userprofile_
     };
+  },
+  watch:{
+    employees(newValue,oldValue){
+      if(newValue.length !== oldValue.length){
+        this.$emit("setActive", newValue[0]);
+      }
+    }
   },
   computed: {
     allemployee: get("monthlyReportReview/employee"),

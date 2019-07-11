@@ -176,6 +176,10 @@ export default {
     activeId: {
       type: Number,
       default: 0
+    },
+    employees:{
+      type: Array,
+      default: []
     }
   },
   data() {
@@ -196,6 +200,7 @@ export default {
   },
   computed: {
     activeEmployeReport: sync("monthlyReportReview/activeEmployeReport"),
+    activeEmployee:sync('monthlyReportReview/activeEmployee'),
     user: get("profile/user"),
     reviews() {
       if (this.activeEmployeReport.review) {
@@ -269,11 +274,8 @@ export default {
         this.ratedStarKpi = [];
         this.ratedStarEra = [];
       } else {
-        // alert(
-          // "You need to comment on all ERA/KPI and select respective stars as well"
-        // );
         this.alertMessage = "You need to comment on all ERA/KPI and select respective stars as well"
-            this.alertMessageShow = true 
+        this.alertMessageShow = true 
       }
     },
     submitStarRate(value, i) {
