@@ -27,7 +27,6 @@
 import Vue from "vue";
 import image from "@/assets/avatar.png";
 import { get, sync } from "vuex-pathify";
-import { type } from 'os';
 
 export default {
   name: "monthlyPerformanceReview",
