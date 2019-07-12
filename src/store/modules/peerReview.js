@@ -35,6 +35,28 @@ const actions = {
             }
         }
     },
+    async deleteReview({commit},payload){
+        let url = `/delete_peer_report/${payload.user.loggedInUserReview._id}`
+        try {
+            let response = await axios.delete(url)
+            console.log(response);
+
+        } catch (error) {
+            let errorResponse = {
+                error : true,
+                msg : ''
+            }
+            if(error.response.status === 403){
+                errorResponse.msg = error.response.data.msg
+                return errorResponse
+            } else {
+                errorResponse.msg = 'Api Server Down' 
+                return errorResponse
+            }
+            
+        }
+        
+    },
     async getReview({ commit }, payload) {
         try {
             let response = await axios.get('/Same_kpi_reviews')

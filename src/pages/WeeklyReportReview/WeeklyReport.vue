@@ -2,7 +2,7 @@
   <div>
     <span class="page-title ml-3 row" style="font-size: 43px;">Weekly Report Review</span>
     <div class="col-12 d-flex mb-3">
-      <span>Reports which are being to be review</span>
+      <span>Reports to be review</span>
       <input class="apple-switch form-control ml-2" v-model="setReportToReview" type="checkbox" />
     </div>
     <div class="shadow pt-4">
