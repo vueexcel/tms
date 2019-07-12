@@ -1,10 +1,16 @@
 <template>
   <div>
-    <span class="page-title ml-3 row" style="font-size: 43px;">Weekly Report Review</span>
-    <div class="col-12 d-flex mb-3">
-      <span>Reports which are being to be review</span>
-      <input class="apple-switch form-control ml-2" v-model="setReportToReview" type="checkbox" />
-    </div>
+    <b-row>
+      <div class="col-md-8 col-12 size">
+        <span class="page-title">Weekly Report Review</span>
+      </div>
+      <div class="col-md-4 col-12">
+        <div class="d-flex week_parent float-right mt-4">
+          <span class="text-success font-weight-bold">Reports to be review</span>
+          <input class="apple-switch form-control ml-2" v-model="setReportToReview" type="checkbox" />
+        </div>
+      </div>
+    </b-row>
     <div class="shadow pt-4">
       <div class="w-100">
         <span class="page-title ml-3" style="font-size: 24px;">
@@ -115,7 +121,10 @@ export default {
               let response = report.is_reviewed.find(review => {
                 return review._id === this.userProfile._id;
               });
-              if (response.reviewed === false) arrayOfEmployee.push(employee);
+              let isEmployeeExist = arrayOfEmployee.includes(employee)
+              if(!isEmployeeExist){
+                if (response.reviewed === false) arrayOfEmployee.push(employee);
+              }
             }
           });
         });

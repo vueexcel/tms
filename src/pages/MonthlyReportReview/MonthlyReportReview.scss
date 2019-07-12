@@ -9,12 +9,31 @@
   .members {
     flex-grow: 1;
     flex-shrink: 0;
-    min-width: 100px;
-    max-width: 118px;
-    margin-right: 77px;
+    // min-width: 100px;
+    max-width: 150px;
+    // margin-right: 20px;
     cursor: pointer;
   }
   .members:not(:first-child) {
     padding-left: 15px;
   }
+}
+
+.month_parent{
+  input.apple-switch:checked {
+      // box-shadow: inset 20px 0 0 0 #4ed164;
+      box-shadow: inset 20px 0 0 0 #3abf94;
+      border-color: #3abf94;
+    }
+}
+
+.size{
+  font-size: 45px;
+}
+
+@media (max-width: 500px) {  
+  .size{
+      font-size: 20px;
+      font-weight: bold;
+  }   
 }
