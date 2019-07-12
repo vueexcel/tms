@@ -27,11 +27,13 @@ const actions = {
         commit('activeEmployeReport', null)
         if (state.activeEmployee) {
             // if employee has report
-            state.employee.forEach(element => {
-                if (element.user.id === state.activeEmployee) {
-                    commit('activeEmployeReport', element)
-                }
-            });
+            if(state.employee.length){
+                state.employee.forEach(element => {
+                    if (element.user.id === state.activeEmployee) {
+                        commit('activeEmployeReport', element)
+                    }
+                });
+            }
         }
     },
     // api for manager admin to post review
