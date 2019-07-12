@@ -4,6 +4,7 @@
     <div class="m-auto" v-if="error">
      <b-alert
           :show="error"
+          dismissible
           variant="danger"
           class="alert-transparent mt-3 text-center"
         >{{errorMessage}}</b-alert>
@@ -107,7 +108,6 @@ import Vue from "vue";
 import { sync, call, get } from "vuex-pathify";
 import Widget from "@/components/Widget/Widget";
 import defaultImage from "@/components/Group/person-dummy.jpg";
-import { truncate } from 'fs';
 
 export default {
   data() {
