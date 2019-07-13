@@ -39,8 +39,13 @@ const actions = {
         let url = `/delete_peer_report/${payload.user.loggedInUserReview._id}`
         try {
             let response = await axios.delete(url)
-            console.log(response);
-
+            if(response.status === 200){
+                let errorResponse = {
+                    error : false,
+                    msg : 'Successfully deleted your review'
+                } 
+                return errorResponse 
+            }
         } catch (error) {
             let errorResponse = {
                 error : true,
@@ -65,7 +70,8 @@ const actions = {
                 return true
             }
         } catch (error) {
-
+            errorResponse.msg = 'Api Server Down' 
+            return errorResponse
         }
     },
     async getSelfReview({commit}){

@@ -232,7 +232,12 @@ export default {
         this.error = true
         this.errorMessage = response.msg
       } else {
-
+        this.selfReview.forEach((review,index) => {
+          if(review._id,kpiUser.loggedInUserReview._id){
+             this.selfReview.splice(index, 1); 
+          }
+        })
+        this.textReview[index] = ''        
       }
       this.loading[index] = false
     },
