@@ -29,7 +29,7 @@
         <div v-for="(kpiUser,n) in userList" :key="n">
           <div class="list-group-item" v-if="kpiUser._id !== user._id">
           <div class="row">
-            <div class="col-sm-5 col-12">
+            <div class="col-sm-4 col-12">
               <div class="d-flex">
                 <div class="thumb-lg mr">
                 <img
@@ -53,7 +53,7 @@
                 </div>
               </div>
               </div>
-              <b-collapse :id="'user'+kpiUser._id" class="mt-2 w-75">
+              <b-collapse :id="'user'+kpiUser._id" class="mt-2 ">
                 <b-card class="color_background">
                   <h6>{{reviewComment[n]}}</h6>
                 </b-card>
@@ -75,31 +75,58 @@
                 />
               </div>
             </div>
-            <div class="col-sm-2 col-12 mt-5 mt-sm-0" v-if="!kpiUser.loggedInUserReview">
-              <button
-                class="btn btn-primary float-right"
-                v-if="enableReview[n] !== true &&  loading[n] !== true"
-                @click="reviewEnable(n)"
-              >
-                <i class="fa fa-pencil-square-o"></i>
-              </button>
-              <button
+            <div class="col-sm-3 col-12 mt-5 mt-sm-0">
+              <div v-if="!kpiUser.loggedInUserReview">
+                <button
+                  class="btn btn-primary float-right"
+                  v-if="enableReview[n] !== true &&  loading[n] !== true"
+                  @click="reviewEnable(n)"
+                >
+                  <i class="fa fa-pencil-square-o"></i>
+                </button>
+                <div class="float-right">
+                  <button
+                    class="btn btn-success mr-3"
+                    v-if="enableReview[n] == true &&  loading[n] !== true"
+                    @click="SubmitReview(n,kpiUser)"
+                  >Ok</button>
+                  <button
+                    class="btn btn-danger float-right"
+                    v-if="enableReview[n] == true &&  loading[n] !== true"
+                    @click="reviewDisable(n)"
+                  >Cancel</button>
+                </div>
+                <button 
                 class="btn btn-success float-right"
-                v-if="enableReview[n] == true &&  loading[n] !== true"
-                @click="SubmitReview(n,kpiUser)"
-              >Ok</button>
-              <button 
-              class="btn btn-success float-right"
-              v-if="enableReview[n] == true && loading[n] == true"
-              >
-                <i class="fas fa-circle-notch text-white fa-spin"></i>
-              </button>
+                v-if="enableReview[n] == true && loading[n] == true"
+                >
+                  <i class="fas fa-circle-notch text-white fa-spin"></i>
+                </button>
+              </div>
+              <div v-if="kpiUser.loggedInUserReview">
+                <button 
+                :disabled="disableDelete[n] == true"
+                class="btn btn-danger float-right"
+                @click="deleteReview(n,kpiUser)"
+                v-if="loading[n] !== true"
+                >
+                  <i class="fas fa-trash text-white"></i>
+                  <span class="pl-2">Delete</span>
+                </button>
+                 <button 
+                class="btn btn-danger float-right"
+                v-if="loading[n] == true"
+                >
+                  <i class="fas fa-circle-notch text-white fa-spin"></i>
+                </button>
+              </div>
             </div>
           </div>
         </div>  
         </div>
       </div>
     </Widget>
+     <Toasts :rtl="true" class="toast" :time-out="5000"></Toasts>
   </div>
 </template>
 
@@ -120,7 +147,8 @@ export default {
       reviewComment: [],
       loading:[],
       error: false,
-      errorMessage: ''
+      errorMessage: '',
+      disableDelete : []
     };
   },
   components: {
@@ -152,6 +180,7 @@ export default {
     submitReview: call("peerreview/submitReview"),
     getReview: call("peerreview/getReview"),
     getSelfReview:call('peerreview/getSelfReview'),
+    deleteReview_:call("peerreview/deleteReview"),
     async callApi() {
       this.pageLoader = true;
       let response = await this.getKpiUser_();
@@ -165,6 +194,10 @@ export default {
     },
     reviewEnable(index) {
       Vue.set(this.enableReview, index, true);
+    },
+    reviewDisable(index){
+      Vue.set(this.enableReview, index, false);
+      Vue.set(this.textReview,index,'')
     },
     async SubmitReview(index, user) {
       this.error = false
@@ -188,6 +221,25 @@ export default {
         this.error = true 
         this.errorMessage = 'Comment can not be blank'
       }
+    },
+    async deleteReview(index,kpiUser){
+      this.loading[index] = true
+      this.error = false
+      this.errorMessage = ''
+      let response = await this.deleteReview_({index:index,user:kpiUser})
+      if(response.error === true){
+        this.disableDelete[index] = true
+        this.error = true
+        this.errorMessage = response.msg
+      } else {
+        this.selfReview.forEach((review,index) => {
+          if(review._id,kpiUser.loggedInUserReview._id){
+             this.selfReview.splice(index, 1); 
+          }
+        })
+        this.textReview[index] = ''        
+      }
+      this.loading[index] = false
     },
     checkReview(kpiUser, index) {
       this.review = null;
