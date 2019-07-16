@@ -15,7 +15,7 @@
           :src="employee.profileImage ? employee.profileImage: avatar"
           width="40"
         >
-        <div class="name">{{employee.name}}</div>
+        <div class="name">{{employee.username}}</div>
         <!-- <div class="post">{{employee.post}}</div> -->
         <div class="post">{{employee.team}}</div>
       </div>
