@@ -1,6 +1,7 @@
 <template>
   <div>
     <span class="page-title ml-3 row" style="font-size: 43px;">Monthly Report Review</span>
+    <Alert360 />
     <div class="w-100">
       <span class="page-title ml-3" style="font-size: 24px;">
         Team View
@@ -46,10 +47,11 @@
 import MonthlyReviewComponent from "@/components/monthlyPerformanceReview/monthlyPerformanceReview";
 import PerformanceBox from "@/components/monthlyPerformanceReview/monthlyPerformanceReview/PerformanceBox";
 import { get, call, sync } from "vuex-pathify";
+import Alert360 from "@/components/Alert360/alert360";
 
 export default {
   name: "PerformanceReview",
-  components: { MonthlyReviewComponent, PerformanceBox },
+  components: { MonthlyReviewComponent, PerformanceBox, Alert360 },
   data() {
     return {
       // activeId: "0",

@@ -1,6 +1,7 @@
 <template>
   <div>
     <span class="page-title ml-3 row" style="font-size: 43px;">Weekly Report Review</span>
+    <Alert360 />
     <div class="shadow pt-4">
       <div class="w-100">
         <span class="page-title ml-3" style="font-size: 24px;">
@@ -72,10 +73,11 @@
 import WeeklyReviewComponent from "@/components/weeklyReviewComponent/WeeklyReview";
 import PerformanceBox from "@/components/weeklyReviewComponent/WeeklyReview/WeeklyReviewBox";
 import { get, call, sync } from "vuex-pathify";
+import Alert360 from "@/components/Alert360/alert360";
 
 export default {
   name: "PerformanceReview",
-  components: { WeeklyReviewComponent, PerformanceBox },
+  components: { WeeklyReviewComponent,PerformanceBox, Alert360 },
   data() {
     return {
       activeId: null,

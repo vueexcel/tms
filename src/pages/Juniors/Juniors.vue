@@ -1,6 +1,7 @@
 <template>
     <div>
     <h1 class="page-title">Your Juniors</h1>
+    <Alert360 />
     <div class="text-center" v-if="!juniorsArray.length && !error">
       <i class="fas fa-circle-notch text-success fa-spin fa-3x"></i>
       <p>Loading...</p>
@@ -33,6 +34,7 @@
 
 <script>
 import employeeWidget from "@/components/Employee/employeeWidget";
+import Alert360 from "@/components/Alert360/alert360";
 import { get, call } from "vuex-pathify";
 export default {
     data() {
@@ -43,7 +45,8 @@ export default {
         }
     },
     components: {
-        employeeWidget
+        employeeWidget,
+        Alert360
     },
     mounted () {
         this.getAllData()

@@ -1,6 +1,8 @@
 <template>
   <div>
     <h1 class="page-title">Dashboard</h1>
+    <Alert360 />
+
     <b-container class="no-gutters p-0">
       <b-row>
         <b-col lg="8" xs="12">
@@ -14,7 +16,7 @@
                     width="75"
                     height="75"
                     alt="..."
-                  >
+                  />
                 </div>
 
                 <div class="pt-2">
@@ -30,7 +32,7 @@
               <div class="w-auto pl-5 ml-5">
                 <!-- blocks -->
                 <span class="mr-4 fw-semi-bold">Reviewers</span>
-                <br>
+                <br />
                 <!-- 1st block -->
                 <!-- v-bind:class="{ codegreen, codeblue , codeorange }" -->
                 <span v-for="(manager,index) in sortedArray" :key="index">
@@ -45,7 +47,7 @@
                         width="35"
                         height="35"
                         alt="..."
-                      >
+                      />
                     </span>
                     <div class="float-left text-white text-left pl-2 pr-1">
                       <span class="fw-bold fs-large">
@@ -54,7 +56,7 @@
                           class="fw-normal"
                         >{{manager.username | lastname }}</span>
                       </span>
-                      <br>
+                      <br />
                       <span class="fs-sm">{{manager.job_title}}</span>
                     </div>
                   </div>
@@ -65,13 +67,13 @@
           <!-- second widget -->
           <h1>Key Performance Area</h1>
           <div v-if="user.kpi">
-            <AreaComponent :eraKpiArray="user.kpi.kpi_json" :monthlyRating="user.Monthly_rating"/>
+            <AreaComponent :eraKpiArray="user.kpi.kpi_json" :monthlyRating="user.Monthly_rating" />
           </div>
           <!-- second widget ends-->
           <!-- third widget -->
           <h1>Extra Resource Area</h1>
           <div v-if="user.kpi">
-            <AreaComponent :eraKpiArray="user.kpi.era_json" :monthlyRating="user.Monthly_rating"/>
+            <AreaComponent :eraKpiArray="user.kpi.era_json" :monthlyRating="user.Monthly_rating" />
           </div>
           <!-- third widget ends-->
         </b-col>
@@ -267,6 +269,7 @@ import starRating from "@/components/Star/Star";
 import { get, call, sync } from "vuex-pathify";
 import dummyimage from "@/components/Group/person-dummy.jpg";
 import RadialProgressBar from "vue-radial-progress";
+import Alert360 from "@/components/Alert360/alert360";
 
 export default {
   name: "Profile",
@@ -283,7 +286,13 @@ export default {
       user: {}
     };
   },
-  components: { Widget, AreaComponent, starRating, RadialProgressBar },
+  components: {
+    Widget,
+    AreaComponent,
+    starRating,
+    RadialProgressBar,
+    Alert360
+  },
   async mounted() {
     if (!Object.keys(this.$route.params).length) {
       await this.get_profile();
@@ -391,7 +400,8 @@ export default {
         ? Math.round(this.user.Checkin_rating)
         : 0;
       this.Overall_rating = this.user.Overall_rating
-        ? this.user.Overall_rating : 0;
+        ? this.user.Overall_rating
+        : 0;
       let managers = this.user.managers;
       if (managers) {
         function compare(a, b) {

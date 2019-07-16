@@ -6,7 +6,7 @@
       <p>Loading...</p>
     </div>
     <div v-if="comments.length">
-      <Timeline :comments="comments" :profile="profile" @postComment="postComment"/>
+      <Timeline :comments="comments" :profile="profile" @postComment="postComment" />
     </div>
   </div>
 </template>
@@ -46,6 +46,9 @@ export default {
         });
     },
     postComment(val) {
+      if (val.comment === undefined) {
+        return;
+      }
       this.api_postFeedbacks(val)
         .then(res => {
           console.log(res);
