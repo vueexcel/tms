@@ -38,12 +38,30 @@ const actions = {
     },
     // api for manager admin to post review
     async postMonthlyReview({ state, dispatch }, payload) {
-        let res = await axios.post(`/manager_monthly/${payload.id}`, { comment: payload.comment })
-        if (res) {
+        try {
+            let res = await axios.post(`/manager_monthly/${payload.id}`, { comment: payload.comment })
             if (state.setReportToReview === true) {
                 dispatch('employeeToShow', true)
+                let response = {
+                    error: false,
+                    res : res
+                }
+                return response
             }
-            return res
+        } catch (error) {
+            let errorResponse = {
+                error : true,
+                res : '' 
+            }
+            if(error.response.status === 401 ){
+                errorResponse.res = 'Please login again'
+            }  else if (error.response.status === 403 || error.response.status === 400) {
+                errorResponse.res = error.response.data.msg
+            }
+            else {
+                errorResponse.res = 'Api Server down'
+            }
+            return errorResponse
         }
     },
     // delete api for managers/ admin

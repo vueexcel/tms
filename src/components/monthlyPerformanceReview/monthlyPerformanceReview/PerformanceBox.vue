@@ -256,21 +256,19 @@ export default {
       ) {
         comment = { kpi: kpiArray, era: eraArray };
         this.loading = true;
-        this.api_postReview({
+        let res = await this.api_postReview({
           id: this.activeEmployeReport._id,
           comment: comment
         })
-          .then(res => {
+        if(res.error === true){
+            this.alertMessage = res.res
+            this.alertMessageShow = true 
+        } else {
             this.textkpi = [];
             this.textera = [];
             this.api_getReports();
-            this.loading = false;
-          })
-          .catch(err => {
-            this.alertMessage = "Sorry Your can't be submit.Plaese try again"
-            this.alertMessageShow = true 
-            this.loading = false;
-          });
+        }
+        this.loading = false;
         this.ratedStarKpi = [];
         this.ratedStarEra = [];
       } else {

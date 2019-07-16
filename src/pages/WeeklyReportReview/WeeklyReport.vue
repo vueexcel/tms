@@ -26,12 +26,12 @@
         <i class="fas fa-circle-notch text-success fa-spin float-right mr-5 size" v-if="loading"></i>
       </div>
       <b-container class="no-gutters">
-        <div v-if="!allweeklyReport_.length ">
           <b-alert
             :show="error"
             dismissible
             class="alert-transparent alert-danger mt-5"
           >{{errorMessage}}</b-alert>
+        <div v-if="!allweeklyReport_.length ">
         </div>
         <b-row class="employees" v-if="juniorsToShow.length">
           <b-col
@@ -72,7 +72,7 @@
           <b-alert show dismissible class="alert-transparent alert-danger mt-5">No Report</b-alert>
         </div>
       </div>
-      <Toasts :rtl="true" class="toast" :time-out="5000"></Toasts>
+      <Toasts :rtl="true" class="toast" :time-out="25000"></Toasts>
     </div>
   </div>
 </template>
@@ -82,6 +82,7 @@
 import WeeklyReviewComponent from "@/components/weeklyReviewComponent/WeeklyReview";
 import PerformanceBox from "@/components/weeklyReviewComponent/WeeklyReview/WeeklyReviewBox";
 import { get, call, sync } from "vuex-pathify";
+import { setTimeout } from 'timers';
 
 export default {
   name: "PerformanceReview",
@@ -96,6 +97,7 @@ export default {
         border: "c1ccd3"
       },
       loading: false,
+      showTaost: false,
       setReportToReview: false,
       error: false,
       errorMessage: "",
@@ -139,21 +141,23 @@ export default {
     getAllJuniors_: call("weeklyReportReview/getAllJuniors"),
     setCountToReview_: call("weeklyReportReview/setCountToReview"),
     deleteWeeklyReview_: call("weeklyReportReview/deleteWeeklyReview"),
-    skipReportReview_: call("weeklyReportReview/skipReportReview"),
+    // skipReportReview_: call("weeklyReportReview/skipReportReview"),
     api_revokeWeekly: call("weeklyReportReview/revokeWeekly"),
     updateHighlight(val) {
       this.fetchallWeeklyReport();
     },
     async skipReportReview(value) {
-      let response = await this.skipReportReview_(value);
-      if (response === true) {
+      if(value === true){
         this.$toast.success(`You have skipped the report successfully.`);
         this.fetchallWeeklyReport();
-      } else {
-        this.$toast.error(`${response}`, {
-          title: "BootstrapVue Toast"
-        });
       }
+    //  await this.skipReportReview_(value).then(response =>{
+    //    if (response === true) {
+    //    } else {
+    //     this.error = true;
+    //     this.errorMessage = response;
+    //    }
+    //   });
     },
     setActive(employee) {
       this.show = !this.show;
