@@ -100,6 +100,16 @@
                     </div>
                   </div>
                 </li>
+                 <div v-if="report.skip_reason && report.skip_reason.length">
+                <li v-for="(reason, index) in report.skip_reason" :key="index" class="mb-3">
+                  <div class="comment-body bg-danger px-2 py-1 text-white">
+                    <p class="mb-0">
+                      <span class="ml-5 font-weight-bold">Skipped :</span>
+                      {{ reason }}
+                    </p>
+                  </div>
+                </li>
+              </div>
               </ul>
             </footer>
           </section>

@@ -2,6 +2,13 @@
   <div>
     <h1 class="page-title">WeeklyCheckin</h1>
     <b-container class="bg-white no-gutters p-4" fluid>
+          <div v-if="error">
+            <b-alert
+          :show="error"
+          dismissible
+          class="alert-danger text-center alert-transparent mt-3"
+        >{{errorMessage}}</b-alert>
+          </div>
       <b-row>
         <b-col xs="12" class="pt-4">
           <div>
@@ -203,7 +210,9 @@ export default {
       submittedReport: [],
       highlightList: [],
       deleteReport: false,
-      disableDelete: false
+      disableDelete: false,
+      error: false,
+      errorMessage: ''
     };
   },
   mounted() {
@@ -266,22 +275,27 @@ export default {
         this.kpikradescriotionlist.push(data);
       }
       // alert('==========================')
-      let response = await this.weeklyReview_({
-        k_highlight: this.kpikradescriotionlist,
-        extra: this.extraWorkDescription,
-        select_days: [this.id],
-        difficulty: this.ratedStar
-      });
-      if (response === true) {
-        this.highlightList = [];
-        this.kpikradescriotionlist = [];
-        this.kpiKraDescription = "";
-        this.ratedStar = 0;
-        this.extraWorkDescription = "";
-        this.getReviewedReport();
+      if(this.kpikradescriotionlist.length && this.ratedStar !== 0){
+        let response = await this.weeklyReview_({
+          k_highlight: this.kpikradescriotionlist,
+          extra: this.extraWorkDescription,
+          select_days: [this.id],
+          difficulty: this.ratedStar
+        });
+        if (response === true) {
+          this.highlightList = [];
+          this.kpikradescriotionlist = [];
+          this.kpiKraDescription = "";
+          this.ratedStar = 0;
+          this.extraWorkDescription = "";
+          this.getReviewedReport();
+        } else {
+          this.error = true;
+          this.errorMessage = response;
+        }
       } else {
-        this.error = true;
-        this.errorMessage = response;
+        this.error = true
+        this.errorMessage = 'You can not submit blank report with no rating.'
       }
     },
     submitStarRate(value) {

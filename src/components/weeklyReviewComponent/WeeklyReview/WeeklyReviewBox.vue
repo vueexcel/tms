@@ -4,7 +4,7 @@
       <b-modal v-model="success" size="sm" centered :headerBgVariant="header">
         {{showSuccess}}
         <div slot="modal-footer" class="w-100">
-          <b-button variant="white" size="sm" class="float-right" @click="success=false">Close</b-button>
+          <b-button variant="white" size="sm" class="float-right" @click="closeInfoModal">Close</b-button>
         </div>
       </b-modal>
     </div>
@@ -30,7 +30,7 @@
         <span v-else>
           <b-row class="pb-5">
             <b-col xs="12" sm="6" class="rounded-left first-box">
-              <ExtraWorkFeedback :user="activeReport" :variant="'#9964e3 !important'"/>
+              <ExtraWorkFeedback :user="activeReport" :variant="'#9964e3 !important'" />
             </b-col>
             <b-col xs="12" sm="6" class="rounded-right">
               <b-alert
@@ -84,8 +84,8 @@
                     class="btn btn-default btn-lg mb-xs bg-primary text-white mt-4"
                     @click="submit"
                   >Submit</b-button>
+                  <!-- v-if="userProfile.role === 'Admin'" -->
                   <b-button
-                    v-if="userProfile.role === 'Admin'"
                     :disabled="activeReport.canReview == false"
                     class="btn btn-default btn-lg mb-xs bg-info text-white mt-4 float-right"
                     @click="skipReport"
@@ -132,6 +132,47 @@
         class="alert-transparent alert-danger mt-5 w-100"
       >{{errorMessage}}</b-alert>
     </div>
+    <b-modal
+      :header-text-variant="'light'"
+      v-model="skipModal"
+      :header-bg-variant="'dark'"
+    >
+     <template slot="modal-header">
+      <h5>Reason for skip report review</h5>
+        <i class="fa fa-times" aria-hidden="true" @click="closeSkipModal"></i>
+    </template>
+
+    <template slot="default">
+      <b-container fluid>
+        <b-form-group>
+          <b-form-radio
+            v-model="reasonSelected"
+            name="some-radios"
+            value="a"
+          >Didn't work with employee in the week</b-form-radio>
+          <b-form-radio v-model="reasonSelected" name="some-radios" value="b">I was on leave</b-form-radio>
+          <b-form-radio v-model="reasonSelected" name="some-radios" value="c">Others</b-form-radio>
+        </b-form-group>
+      </b-container>
+      <b-form-textarea
+        v-if="reasonSelected === 'c'"
+        id="textarea"
+        v-model="reasonOther"
+        placeholder="Enter Reason..."
+        rows="3"
+        max-rows="6"
+      ></b-form-textarea>
+      <div slot="modal-footer" class="w-100">
+      </div> 
+    </template>
+
+    <template slot="modal-footer">
+        <b-button variant="primary" size="sm" v-if="!loadingSkip" class="float-right" @click="submitSkip">Submit Reason</b-button>
+        <b-button variant="primary" size="sm" v-if="loadingSkip" class="float-right"><span class="mr-2">Loading...</span><i class="fas fa-circle-notch fa-spin "></i></b-button>
+    </template>
+      <!-- -->
+    </b-modal>
+    <Toasts :rtl="true" class="toast" :time-out="5000" :class="{toast_opacity : showTaost}"></Toasts>
   </div>
 </template>
 
@@ -156,8 +197,23 @@ export default {
       loading: false,
       success: false,
       showSuccess: "",
+      showTaost: false,
       header: "success",
-      reviewedComments: {}
+      variants: [
+        "primary",
+        "secondary",
+        "success",
+        "warning",
+        "danger",
+        "info",
+        "light",
+        "dark"
+      ],
+      reviewedComments: {},
+      skipModal: false,
+      reasonSelected: "",
+      reasonOther: "",
+      loadingSkip: false
     };
   },
   components: {
@@ -220,46 +276,98 @@ export default {
   methods: {
     setWeeklyReportReview: call("weeklyReportReview/setWeeklyReportReview"),
     api_revokeWeekly: call("weeklyReportReview/revokeWeekly"),
+    skipReportReview_: call("weeklyReportReview/skipReportReview"),
     async submit() {
-      let data = {
-        difficulty: this.ratedStarDifficulty,
-        rating: this.ratedStarWeekly,
-        comment: this.text,
-        id: this.activeReport._id
-      };
-      await this.setWeeklyReportReview(data)
-        .then(res => {
-          this.$emit("update-highlight", true);
-          this.activeReport.canReview = false;
-          this.reviewedComments = data;
-          this.success = true;
-          this.header = "success";
-          this.showSuccess = "Your have reviewed successfully";
-          this.ratedStarWeekly = 0;
-          this.ratedStarDifficulty = 0;
-          this.text = "";
-        })
-        .catch(err => {
-          this.success = true;
-          this.showSuccess = "Sorry there is some error";
-          this.header = "danger";
-        })
-        .then(res => {
-          this.success = true;
-          this.header = "success";
-          this.showSuccess = "Your have reviewed successfully";
-          this.ratedStarWeekly = 0;
-          this.ratedStarDifficulty = 0;
-          this.text = "";
-        })
-        .catch(err => {
-          this.success = true;
-          this.showSuccess = "Sorry there is some error";
-          this.header = "danger";
-        });
+      if(this.ratedStarWeekly){
+
+        let data = {
+          difficulty: this.ratedStarDifficulty,
+          rating: this.ratedStarWeekly,
+          comment: this.text,
+          id: this.activeReport._id
+        };
+        await this.setWeeklyReportReview(data)
+          .then(res => {
+            this.$emit("update-highlight", true);
+            this.activeReport.canReview = false;
+            this.reviewedComments = data;
+            this.success = true;
+            this.header = "success";
+            this.showSuccess = "Your have reviewed successfully";
+            this.ratedStarWeekly = 0;
+            this.ratedStarDifficulty = 0;
+            this.text = "";
+          })
+          .catch(err => {
+            this.success = true;
+            this.showSuccess = "Sorry there is some error";
+            this.header = "danger";
+          })
+          .then(res => {
+            this.success = true;
+            this.header = "success";
+            this.showSuccess = "Your have reviewed successfully";
+            this.ratedStarWeekly = 0;
+            this.ratedStarDifficulty = 0;
+            this.text = "";
+          })
+          .catch(err => {
+            this.success = true;
+            this.showSuccess = "Sorry there is some error";
+            this.header = "danger";
+          });
+      } else {
+        this.success = true
+        this.showSuccess = 'Rating Weekly can not be blank'
+        this.header = 'danger'
+      }
     },
     skipReport() {
-      this.$emit("skipReport", this.activeReport);
+      this.skipModal = true;
+    },
+    closeSkipModal(){
+      this.skipModal = false
+      this.reasonSelected = ''
+      this.reasonOther = ''
+    },
+    async submitSkip(){
+      this.loadingSkip = true 
+      if(this.reasonSelected ){
+        if(this.reasonSelected === 'c' && this.reasonOther === ''){
+          this.success = true
+          this.showSuccess = 'Textarea can not be blank'
+          this.header = 'danger'
+        } else {
+          let payload = {
+            selected: this.reasonSelected,
+            reason: this.reasonOther,
+            weeklyId: this.activeReport
+          }
+       let response =  await this.skipReportReview_(payload)
+          if (response === true) {
+            this.success = true
+            this.showSuccess = 'You have successfully skipped report'
+            this.header = 'success'
+            this.$emit("skipReport",true);
+          } else {
+            this.success = true;
+            this.showSuccess = response;
+            this.header = 'danger'
+           }
+          this.skipModal = false
+          this.reasonSelected = ''
+          this.reasonOther = ''
+          this.loadingSkip = false
+        }
+      } else {
+        this.success = true
+        this.showSuccess = 'Please select reason'
+        this.header = 'danger'
+      }
+    },
+    closeInfoModal(){
+      this.loadingSkip = this.loadingSkip ? this.loadingSkip === false : this.loadingSkip
+      this.success = false
     },
     async deleteReport() {
       this.$emit("deleteReview", this.activeReport);

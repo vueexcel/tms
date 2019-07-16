@@ -28,7 +28,11 @@ const actions = {
                 return true
             }
         } catch (error) {
-
+            if(error.response){
+                return error.response.data.msg
+            } else {
+                return 'Api Server Down'
+            }
         }
     },
     async getReview({ commit }, payload) {
