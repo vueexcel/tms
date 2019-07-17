@@ -112,6 +112,14 @@
                   >Delete</b-button>
                 </span>
               </b-form>
+              <div class="my-4" v-if="activeReport.note.length">
+                <h5>Your Notes :</h5>
+                <div class="bg-warning shadow-lg p-3">
+                  <div v-for="(note,index) in activeReport.note" :key="index" class="font-weight-bold note">
+                    <div class="d-flex">{{index + 1}}. <div class="ml-1 comment"> {{note.comment}}</div></div>
+                  </div>
+                </div>
+              </div>
               <div class="mt-5 pt-4" v-if="errorMessageDel">
                 <b-alert
                   show
@@ -132,44 +140,48 @@
         class="alert-transparent alert-danger mt-5 w-100"
       >{{errorMessage}}</b-alert>
     </div>
-    <b-modal
-      :header-text-variant="'light'"
-      v-model="skipModal"
-      :header-bg-variant="'dark'"
-    >
-     <template slot="modal-header">
-      <h5>Reason for skip report review</h5>
+    <b-modal :header-text-variant="'light'" v-model="skipModal" :header-bg-variant="'dark'">
+      <template slot="modal-header">
+        <h5>Reason for skip report review</h5>
         <i class="fa fa-times" aria-hidden="true" @click="closeSkipModal"></i>
-    </template>
+      </template>
 
-    <template slot="default">
-      <b-container fluid>
-        <b-form-group>
-          <b-form-radio
-            v-model="reasonSelected"
-            name="some-radios"
-            value="a"
-          >Didn't work with employee in the week</b-form-radio>
-          <b-form-radio v-model="reasonSelected" name="some-radios" value="b">I was on leave</b-form-radio>
-          <b-form-radio v-model="reasonSelected" name="some-radios" value="c">Others</b-form-radio>
-        </b-form-group>
-      </b-container>
-      <b-form-textarea
-        v-if="reasonSelected === 'c'"
-        id="textarea"
-        v-model="reasonOther"
-        placeholder="Enter Reason..."
-        rows="3"
-        max-rows="6"
-      ></b-form-textarea>
-      <div slot="modal-footer" class="w-100">
-      </div> 
-    </template>
+      <template slot="default">
+        <b-container fluid>
+          <b-form-group>
+            <b-form-radio
+              v-model="reasonSelected"
+              name="some-radios"
+              value="a"
+            >Didn't work with employee in the week</b-form-radio>
+            <b-form-radio v-model="reasonSelected" name="some-radios" value="b">I was on leave</b-form-radio>
+            <b-form-radio v-model="reasonSelected" name="some-radios" value="c">Others</b-form-radio>
+          </b-form-group>
+        </b-container>
+        <b-form-textarea
+          v-if="reasonSelected === 'c'"
+          id="textarea"
+          v-model="reasonOther"
+          placeholder="Enter Reason..."
+          rows="3"
+          max-rows="6"
+        ></b-form-textarea>
+        <div slot="modal-footer" class="w-100"></div>
+      </template>
 
-    <template slot="modal-footer">
-        <b-button variant="primary" size="sm" v-if="!loadingSkip" class="float-right" @click="submitSkip">Submit Reason</b-button>
-        <b-button variant="primary" size="sm" v-if="loadingSkip" class="float-right"><span class="mr-2">Loading...</span><i class="fas fa-circle-notch fa-spin "></i></b-button>
-    </template>
+      <template slot="modal-footer">
+        <b-button
+          variant="primary"
+          size="sm"
+          v-if="!loadingSkip"
+          class="float-right"
+          @click="submitSkip"
+        >Submit Reason</b-button>
+        <b-button variant="primary" size="sm" v-if="loadingSkip" class="float-right">
+          <span class="mr-2">Loading...</span>
+          <i class="fas fa-circle-notch fa-spin"></i>
+        </b-button>
+      </template>
       <!-- -->
     </b-modal>
     <Toasts :rtl="true" class="toast" :time-out="5000" :class="{toast_opacity : showTaost}"></Toasts>
@@ -278,8 +290,7 @@ export default {
     api_revokeWeekly: call("weeklyReportReview/revokeWeekly"),
     skipReportReview_: call("weeklyReportReview/skipReportReview"),
     async submit() {
-      if(this.ratedStarWeekly){
-
+      if (this.ratedStarWeekly) {
         let data = {
           difficulty: this.ratedStarDifficulty,
           rating: this.ratedStarWeekly,
@@ -317,57 +328,59 @@ export default {
             this.header = "danger";
           });
       } else {
-        this.success = true
-        this.showSuccess = 'Rating Weekly can not be blank'
-        this.header = 'danger'
+        this.success = true;
+        this.showSuccess = "Rating Weekly can not be blank";
+        this.header = "danger";
       }
     },
     skipReport() {
       this.skipModal = true;
     },
-    closeSkipModal(){
-      this.skipModal = false
-      this.reasonSelected = ''
-      this.reasonOther = ''
+    closeSkipModal() {
+      this.skipModal = false;
+      this.reasonSelected = "";
+      this.reasonOther = "";
     },
-    async submitSkip(){
-      this.loadingSkip = true 
-      if(this.reasonSelected ){
-        if(this.reasonSelected === 'c' && this.reasonOther === ''){
-          this.success = true
-          this.showSuccess = 'Textarea can not be blank'
-          this.header = 'danger'
+    async submitSkip() {
+      this.loadingSkip = true;
+      if (this.reasonSelected) {
+        if (this.reasonSelected === "c" && this.reasonOther === "") {
+          this.success = true;
+          this.showSuccess = "Textarea can not be blank";
+          this.header = "danger";
         } else {
           let payload = {
             selected: this.reasonSelected,
             reason: this.reasonOther,
             weeklyId: this.activeReport
-          }
-       let response =  await this.skipReportReview_(payload)
+          };
+          let response = await this.skipReportReview_(payload);
           if (response === true) {
-            this.success = true
-            this.showSuccess = 'You have successfully skipped report'
-            this.header = 'success'
-            this.$emit("skipReport",true);
+            this.success = true;
+            this.showSuccess = "You have successfully skipped report";
+            this.header = "success";
+            this.$emit("skipReport", true);
           } else {
             this.success = true;
             this.showSuccess = response;
-            this.header = 'danger'
-           }
-          this.skipModal = false
-          this.reasonSelected = ''
-          this.reasonOther = ''
-          this.loadingSkip = false
+            this.header = "danger";
+          }
+          this.skipModal = false;
+          this.reasonSelected = "";
+          this.reasonOther = "";
+          this.loadingSkip = false;
         }
       } else {
-        this.success = true
-        this.showSuccess = 'Please select reason'
-        this.header = 'danger'
+        this.success = true;
+        this.showSuccess = "Please select reason";
+        this.header = "danger";
       }
     },
-    closeInfoModal(){
-      this.loadingSkip = this.loadingSkip ? this.loadingSkip === false : this.loadingSkip
-      this.success = false
+    closeInfoModal() {
+      this.loadingSkip = this.loadingSkip
+        ? this.loadingSkip === false
+        : this.loadingSkip;
+      this.success = false;
     },
     async deleteReport() {
       this.$emit("deleteReview", this.activeReport);

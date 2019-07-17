@@ -17,6 +17,7 @@ import monthlyReportReview from './modules/monthlyReportReview'
 import review360 from './modules/review360'
 import settings from './modules/settings'
 import peerreview from './modules/peerReview'
+import notes from './modules/notes'
 
 import layout from "./layout";
 
@@ -39,6 +40,7 @@ export default new Vuex.Store({
     monthlyReportReview,
     review360,
     settings,
-    peerreview
+    peerreview,
+    notes
   }
 });
