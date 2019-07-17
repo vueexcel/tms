@@ -12,8 +12,6 @@ const mutations = make.mutations(state)
 const actions = {
     ...make.actions(state),
     async getProfile({ commit, dispatch }, payload) {
-        console.log(payload);
-
         try {
             let response = await axios.get('/auth/profile')
             if (response) {
@@ -59,7 +57,6 @@ const actions = {
     async getManagerReviewStatus({ commit }, payload) {
         let response = await axios.get('/360_review_mandatory')
         if (response) {
-            console.log(response.data);
             commit('alert360', !response.data.is_reviwed)
         }
     }

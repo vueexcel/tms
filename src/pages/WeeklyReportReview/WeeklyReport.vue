@@ -218,7 +218,6 @@ export default {
       this.revokeLoader = true;
       this.api_revokeWeekly(report)
         .then(res => {
-          console.log(res);
           this.fetchallWeeklyReport();
           this.revokeLoader = false;
         })

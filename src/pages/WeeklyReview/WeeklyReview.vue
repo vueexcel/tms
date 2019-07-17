@@ -288,7 +288,6 @@ export default {
         if(!this.kpikradescriotionlist.length && this.ratedStar === 0){
           this.error = true;
             this.errorMessage = 'You can not fill blank report with no rating.';
-          console.log(this.kpikradescriotionlist,this.ratedStar);
         } else {
           let response = await this.weeklyReview_({
             k_highlight: this.kpikradescriotionlist,
