@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1 class="page-title">View Manager's Review</h1>
+    <Alert360 />
     <div v-if="error">
       <b-alert class="alert-transparent alert-danger" show>
         <span>{{errorMessage}}</span>
@@ -33,23 +34,38 @@
                 class="rounded-circle"
                 :src="report.profileImage ? report.profileImage : image"
                 alt="..."
-              >
+              />
             </span>
             <h4 class="eventHeading">
               <a href="#">{{report.username}}</a>
             </h4>
             <p class="fs-sm text-muted">{{ report.created_at | moment }}</p>
             <div v-if="report.k_highlight && !report.k_highlight.length">
-              <p class="fs-mini white-space-pre"><strong>KPI?/KRA :</strong> &nbsp;{{ report.k_highlight.kra ? report.k_highlight.kra : report.k_highlight.KpiEra }}</p>
-              <p class="fs-mini white-space-pre hightlight"><strong>Highlight :</strong> &nbsp;{{ report.k_highlight.kpi ? report.k_highlight.kpi : report.k_highlight.description}}</p>
+              <p class="fs-mini white-space-pre">
+                <strong>KPI?/KRA :</strong>
+                &nbsp;{{ report.k_highlight.kra ? report.k_highlight.kra : report.k_highlight.KpiEra }}
+              </p>
+              <p class="fs-mini white-space-pre hightlight">
+                <strong>Highlight :</strong>
+                &nbsp;{{ report.k_highlight.kpi ? report.k_highlight.kpi : report.k_highlight.description}}
+              </p>
             </div>
             <div v-if="report.k_highlight && report.k_highlight.length">
               <div v-for="reportKPI in report.k_highlight" :key="reportKPI._id">
-                <p class="fs-mini white-space-pre"><strong>KPI?/KRA :</strong> &nbsp;{{ reportKPI.KpiEra }}</p>
-                <p class="fs-mini white-space-pre hightlight"><strong>Highlight :</strong> &nbsp;{{ reportKPI.description}}</p>
+                <p class="fs-mini white-space-pre">
+                  <strong>KPI?/KRA :</strong>
+                  &nbsp;{{ reportKPI.KpiEra }}
+                </p>
+                <p class="fs-mini white-space-pre hightlight">
+                  <strong>Highlight :</strong>
+                  &nbsp;{{ reportKPI.description}}
+                </p>
               </div>
             </div>
-            <p class="fs-mini text-custom white-space-pre"><strong>Extra Work/Feedback/Issues  :</strong> &nbsp;{{ report.extra }}</p>
+            <p class="fs-mini text-custom white-space-pre">
+              <strong>Extra Work/Feedback/Issues :</strong>
+              &nbsp;{{ report.extra }}
+            </p>
             <p class="reportStar">
               <Stars
                 :displayStar="5"
@@ -69,7 +85,7 @@
                     ? managerReview.manager_id.profileImage : 
                     image"
                       alt="..."
-                    >
+                    />
                   </span>
                   <div class="commentBody">
                     <h6 class="author fs-sm fw-semi-bold">
@@ -124,7 +140,7 @@ import { get, call, sync } from "vuex-pathify";
 import moment from "moment";
 import image from "./person-dummy.jpg";
 import Stars from "@/components/Star/Star.vue";
-
+import Alert360 from "@/components/Alert360/alert360";
 export default {
   data() {
     return {
@@ -140,7 +156,8 @@ export default {
     this.callApi();
   },
   components: {
-    Stars
+    Stars,
+    Alert360
   },
   methods: {
     getManagersReview_: call("weeklyReportReview/getManagersReview"),

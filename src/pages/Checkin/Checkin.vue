@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1 class="page-title">Check-Ins</h1>
+    <Alert360 />
     <span class="fs-sm" v-if="reports.length">
       <i class="fa fa-circle text-info"/> Give Reason (task not completed)
       <i class="ml-1 fa fa-circle text-warning"/> Highlighted task (task not completed)
@@ -168,6 +169,7 @@ import Comments from "./CheckinComponents/Comments";
 import GenReport from "./GenReport";
 import { timeout } from "q";
 import dummyimage from "@/components/Group/person-dummy.jpg";
+import Alert360 from "@/components/Alert360/alert360";
 
 export default {
   name: "Checkin",
@@ -181,7 +183,7 @@ export default {
       slackChannels: []
     };
   },
-  components: { Widget, StandUpWidget, Comments, GenReport },
+  components: { Widget, StandUpWidget, Comments, GenReport, Alert360 },
   computed: {
     userProfile: get("profile/user"),
     reports: get("checkin/reports"), //data from API getAllCheckins

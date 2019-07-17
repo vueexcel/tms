@@ -1,9 +1,9 @@
 <template>
-  <router-view/>
+  <router-view />
 </template>
 
 <script>
-import { call } from "vuex-pathify";
+import { call, get } from "vuex-pathify";
 export default {
   name: "App",
   created() {
@@ -11,8 +11,19 @@ export default {
       // this.getProfile();
     }
   },
+  mounted() {
+    if (!Object.keys(this.userProfile).length && this.$route.fullPath !== "/") {
+      this.getProfileData();
+    }
+  },
+  computed: {
+    userProfile: get("profile/user")
+  },
   methods: {
-    getProfile: call("profile/getProfile")
+    getProfile: call("profile/getProfile"),
+    getProfileData() {
+      this.getProfile({ reload: true });
+    }
   }
 };
 </script>

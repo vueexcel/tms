@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1 class="page-title">Feedback</h1>
+    <Alert360 />
     <div class="text-center" v-if="fetchingData">
       <div>
         <i class="fas fa-circle-notch text-success fa-spin fa-3x"></i>
@@ -23,6 +24,7 @@
             <b-form-group class="mb-2">
               <Label class="sr-only" for="new-event">New event</Label>
               <b-form-textarea
+                ref="feedback"
                 type="textarea"
                 id="new-event"
                 v-model="feedback"
@@ -31,8 +33,8 @@
                 required
               />
             </b-form-group>
-            <div class="btn-toolbar">
-              <b-button variant="danger" size="sm" type="submit" class="btn ml-auto">
+            <div>
+              <b-button variant="danger" size="sm" type="submit" class="btn float-right">
                 <span v-if="!loading">Post</span>
                 <span v-if="loading">
                   <i class="fas fa-circle-notch text-white fa-spin"></i>
@@ -64,7 +66,7 @@
                     class="rounded-circle"
                     :src="user.user.profileImage? user.user.profileImage: avatar"
                     alt="..."
-                  >
+                  />
                 </span>
                 <h5 class="eventTitle">
                   <a class="text-primary">{{ user.user.name }}</a>
@@ -76,7 +78,7 @@
                 <ul class="post-comments" v-if="user.admin_response">
                   <li>
                     <span class="thumb-xs avatar pull-left mr-sm">
-                      <img class="rounded-circle" :src="avatar" alt="...">
+                      <img class="rounded-circle" :src="avatar" alt="..." />
                     </span>
                     <div class="comment-body">
                       <h6 class="author fs-sm fw-semi-bold">{{ user.admin_response.username }}</h6>
@@ -99,10 +101,10 @@ import Widget from "@/components/Widget/Widget";
 import { call } from "vuex-pathify";
 import image from "./../../assets/avatar.png";
 import moment from "moment";
-
+import Alert360 from "@/components/Alert360/alert360";
 export default {
   name: "Profile",
-  components: { Widget },
+  components: { Widget, Alert360 },
   data() {
     return {
       feedback: "",

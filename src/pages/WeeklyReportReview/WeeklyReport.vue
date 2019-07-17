@@ -82,11 +82,11 @@
 import WeeklyReviewComponent from "@/components/weeklyReviewComponent/WeeklyReview";
 import PerformanceBox from "@/components/weeklyReviewComponent/WeeklyReview/WeeklyReviewBox";
 import { get, call, sync } from "vuex-pathify";
-import { setTimeout } from 'timers';
+import Alert360 from "@/components/Alert360/alert360";
 
 export default {
   name: "PerformanceReview",
-  components: { WeeklyReviewComponent, PerformanceBox },
+  components: { WeeklyReviewComponent,PerformanceBox, Alert360 },
   data() {
     return {
       activeId: null,
@@ -218,7 +218,6 @@ export default {
       this.revokeLoader = true;
       this.api_revokeWeekly(report)
         .then(res => {
-          console.log(res);
           this.fetchallWeeklyReport();
           this.revokeLoader = false;
         })

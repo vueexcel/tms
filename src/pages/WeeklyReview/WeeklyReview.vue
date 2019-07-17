@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1 class="page-title">WeeklyCheckin</h1>
+    <Alert360 />
     <b-container class="bg-white no-gutters p-4" fluid>
           <div v-if="error">
             <b-alert
@@ -196,13 +197,15 @@ import "imports-loader?jQuery=jquery,this=>window!flot";
 import "imports-loader?jQuery=jquery,this=>window!flot/jquery.flot.pie";
 import starRating from "@/components/Star/Star";
 import Widget from "@/components/Widget/Widget";
+import Alert360 from "@/components/Alert360/alert360";
 import { get, call } from "vuex-pathify";
 
 export default {
   name: "WeeklyReview",
   components: {
     Widget,
-    starRating
+    starRating,
+    Alert360
   },
   data() {
     return {
@@ -285,7 +288,6 @@ export default {
         if(!this.kpikradescriotionlist.length && this.ratedStar === 0){
           this.error = true;
             this.errorMessage = 'You can not fill blank report with no rating.';
-          console.log(this.kpikradescriotionlist,this.ratedStar);
         } else {
           let response = await this.weeklyReview_({
             k_highlight: this.kpikradescriotionlist,
