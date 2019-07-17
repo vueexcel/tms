@@ -33,9 +33,8 @@
                 required
               />
             </b-form-group>
-            <div class="align-items-start d-flex justify-content-between">
-              <Emoji :emojiPickerLeft="true" @append="append" />
-              <b-button variant="danger" size="sm" type="submit" class="btn">
+            <div>
+              <b-button variant="danger" size="sm" type="submit" class="btn float-right">
                 <span v-if="!loading">Post</span>
                 <span v-if="loading">
                   <i class="fas fa-circle-notch text-white fa-spin"></i>
@@ -103,10 +102,9 @@ import { call } from "vuex-pathify";
 import image from "./../../assets/avatar.png";
 import moment from "moment";
 import Alert360 from "@/components/Alert360/alert360";
-import Emoji from "@/components/Emoji/Emoji.vue";
 export default {
   name: "Profile",
-  components: { Widget, Alert360, Emoji },
+  components: { Widget, Alert360 },
   data() {
     return {
       feedback: "",
@@ -161,14 +159,6 @@ export default {
     },
     getMonth() {
       this.month = moment().format("MMMM");
-    },
-    append(emoji) {
-      const textarea = this.$refs.feedback;
-      const cursorPosition = textarea.selectionEnd;
-      const start = this.feedback.substring(0, textarea.selectionStart);
-      const end = this.feedback.substring(textarea.selectionStart);
-      const text = start + emoji + end;
-      this.feedback = text;
     }
   }
 };

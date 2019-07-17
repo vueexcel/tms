@@ -70,9 +70,6 @@
                       placeholder="Write your comment..."
                     />
                   </b-form>
-                  <div class="pb-3 pl-2 pr-4">
-                    <Emoji @append="append( $event, index , 'card_' + index)" />
-                  </div>
                 </div>
               </li>
             </ul>
@@ -85,13 +82,9 @@
 
 <script>
 import image from "./../../assets/avatar.png";
-import Emoji from "@/components/Emoji/Emoji.vue";
 
 export default {
   name: "Timeline",
-  components: {
-    Emoji
-  },
   props: {
     comments: {
       type: Array,
@@ -115,21 +108,6 @@ export default {
         user: comment
       }); //emitting to ViewFeedback.vue
       this.postComment[index] = "";
-    },
-    append(emoji, index, ref) {
-      if (this.postComment[index] === undefined) {
-        this.$set(this.postComment, index, emoji);
-      } else {
-        const textarea = this.$refs[ref][0];
-        const cursorPosition = textarea.selectionEnd;
-        const start = this.postComment[index].substring(
-          0,
-          textarea.selectionStart
-        );
-        const end = this.postComment[index].substring(textarea.selectionStart);
-        const text = start + emoji + end;
-        this.$set(this.postComment, index, text);
-      }
     }
   }
 };

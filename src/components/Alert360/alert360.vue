@@ -1,7 +1,11 @@
 <template>
   <div class="d-flex flex-row-reverse slide">
     <div>
-      <b-alert variant="danger" :show="alert360" dismissible>You need to review your manager &nbsp;</b-alert>
+      <b-alert
+        variant="danger"
+        :show="alert360"
+        dismissible
+      >You need to review your manager **Review360&#176;&nbsp;</b-alert>
     </div>
   </div>
 </template>
