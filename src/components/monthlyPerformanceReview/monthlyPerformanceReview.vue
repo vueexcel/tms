@@ -15,7 +15,7 @@
           :src="employee.profileImage ? employee.profileImage: avatar"
           width="40"
         >
-        <div class="name">{{employee.name}}</div>
+        <div class="name">{{employee.username}}</div>
         <!-- <div class="post">{{employee.post}}</div> -->
         <div class="post">{{employee.team}}</div>
       </div>
@@ -32,7 +32,8 @@ export default {
   name: "monthlyPerformanceReview",
   props: {
     employee: { type: Object, default: () => ({}) },
-    activeId: { type: String, default: "" }
+    activeId: { type: String, default: "" },
+    employees:{type: Array,default: []}
   },
   data() {
     return {
@@ -41,6 +42,13 @@ export default {
       // allemployee: this.allemployee_,
       // userprofile: this.userprofile_
     };
+  },
+  watch:{
+    employees(newValue,oldValue){
+      if(newValue.length !== oldValue.length){
+        this.$emit("setActive", newValue[0]);
+      }
+    }
   },
   computed: {
     allemployee: get("monthlyReportReview/employee"),

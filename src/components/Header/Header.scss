@@ -92,6 +92,14 @@
   }
 }
 
+@media (max-width: 575px){
+  .align_self{
+    span{
+      display: none;
+    }
+  }
+}
+
 .align_self{
   align-self: center;
 }

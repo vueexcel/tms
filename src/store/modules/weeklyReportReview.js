@@ -99,8 +99,12 @@ const actions = {
     }
   },
   async skipReportReview({ commit }, payload) {
+    let payloadToSend = {
+      selected : payload.selected,
+      reason: payload.reason
+    }
     try {
-      let response = await axios.post(`/skip_review/${payload._id}`)
+      let response = await axios.post(`/skip_review/${payload.weeklyId._id}`,payloadToSend)
       if (response) {
         return true
       }

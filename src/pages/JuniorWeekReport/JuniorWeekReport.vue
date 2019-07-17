@@ -36,7 +36,7 @@
               class="rounded-circle"
               :src="junior.user.profileImage ? junior.user.profileImage: image"
               alt="..."
-            >
+            />
           </span>
           <h5 class="eventHeading">
             <a class="text-primary">{{ junior.user.name }}</a>
@@ -85,7 +85,7 @@
                     class="rounded-circle"
                     :src="comment.manager_id.profileImage ? comment.manager_id.profileImage: image"
                     alt="..."
-                  >
+                  />
                 </span>
                 <div class="comment-body">
                   <h6 class="author fs-sm fw-semi-bold">{{ comment.manager_id.name }}</h6>
@@ -110,6 +110,16 @@
                   </div>
                 </div>
               </li>
+              <div v-if="junior.skip_reason && junior.skip_reason.length">
+                <li v-for="(reason, index) in junior.skip_reason" :key="index" class="mb-3">
+                  <div class="comment-body bg-warning px-2 py-1">
+                    <p class="mb-0">
+                      <span class="ml-5 font-weight-bold">Skipped :</span>
+                      {{ reason }}
+                    </p>
+                  </div>
+                </li>
+              </div>
             </ul>
             <div
               class="text-danger"

@@ -47,6 +47,13 @@ export default {
   mounted() {
     this.checkEmployee(this.allemployee[0]);
   },
+  watch:{
+    allemployee( newValue, oldValue){
+      if(newValue.length !== oldValue.length){
+        this.checkEmployee(newValue[0])
+      }
+    }
+  },  
   methods: {
     checkEmployee(employee) {
       this.$emit("setActive", employee);
