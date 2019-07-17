@@ -1,5 +1,6 @@
 <template>
-  <div class="d-flex flex-row-reverse slide">
+  <!-- <div class="d-flex flex-row-reverse slide"> -->
+  <div class="d-flex slide">
     <div>
       <b-alert
         variant="danger"
@@ -21,31 +22,23 @@ export default {
 
 <style>
 .slide {
-  -webkit-animation-duration: 1s;
-  -webkit-animation-name: slidein;
-  animation-duration: 1s;
-  animation-name: slidein;
+  position: relative;
+  left: -2000px;
+  -webkit-animation: slide 1s forwards;
+  -webkit-animation-delay: 0.5s;
+  animation: slide 1s forwards;
+  animation-delay: 0.5s;
 }
-@-webkit-keyframes slidein {
-  from {
-    margin-left: 0%;
-    width: 300%;
-  }
 
-  to {
-    margin-left: 100%;
-    width: 100%;
+@-webkit-keyframes slide {
+  100% {
+    left: 0;
   }
 }
-@keyframes slidein {
-  from {
-    margin-left: 100%;
-    width: 300%;
-  }
 
-  to {
-    margin-left: 0%;
-    width: 100%;
+@keyframes slide {
+  100% {
+    left: 0;
   }
 }
 </style>
