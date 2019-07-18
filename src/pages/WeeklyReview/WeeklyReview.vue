@@ -281,6 +281,7 @@ export default {
           description: this.kpiKraDescription
         };
         this.kpikradescriotionlist.push(data);
+        this.kpiKraDescription = ''
       }
       if (!this.kpikradescriotionlist.length || this.ratedStar === 0) {
         this.error = true;
