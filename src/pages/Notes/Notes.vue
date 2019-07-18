@@ -32,8 +32,11 @@
       customHeader
       bodyClass="p-0"
     >
+      <div class="pl-1 pr-1 pb-3">
+        <b-form-input v-model="searchField" type="search" name="search" placeholder="Search"></b-form-input>
+      </div>
       <div class="list-group list-group-lg">
-        <div v-for="(junior,n) in emp_arr" :key="n">
+        <div v-for="(junior,n) in employeeList" :key="n">
           <div class="list-group-item">
             <div class="row">
               <div class="col-sm-4 col-12">
@@ -57,7 +60,7 @@
               <div class="col-sm-5 col-12 mt-5 mt-sm-0">
                 <div v-if="junior.notes && updateNote[n] !== true">
                   <b-card class="color_background">
-                    <h6>{{junior.notes.comment}}</h6>
+                    <h6 class="comment">{{junior.notes.comment}}</h6>
                   </b-card>
                 </div>
                 <div v-if="enableReview[n] === true && !junior.notes">
@@ -170,14 +173,24 @@ export default {
       success: false,
       notesArray: [],
       disableDelete: [],
-      updateNote: []
+      updateNote: [],
+      searchField: ""
     };
   },
   components: {
     Widget
   },
   computed: {
-    emp_arr: get("weeklyReportReview/allJuniors")
+    emp_arr: get("weeklyReportReview/allJuniors"),
+    employeeList() {
+      return this.emp_arr.filter(item => {
+        if (item.username) {
+          return item.username
+            .toLowerCase()
+            .includes(this.searchField.toLowerCase());
+        }
+      });
+    }
   },
   mounted() {
     this.callApi();
@@ -275,35 +288,35 @@ export default {
       Vue.set(this.textReview, index, user.notes.comment);
     },
     async updateNoteFun(index, junior) {
-        console.log(this.textReview[index]);
-        if(this.textReview[index]){
-              Vue.set(this.loading, index, true);
-              let response = await this.updateNote_({
-                comment: this.textReview[index],
-                junior: junior
-              });
-              if (response === true) {
-                this.notesArray = [];
-                this.notesArray = await this.getNotes();
-                if (this.notesArray.error === false) {
-                    this.setNotes();
-                  this.success = true;
-                  Vue.set(this.updateNote, index, false);
-                  Vue.set(this.textReview, index, "");
-                  this.showSuccess = "Note Successfully updated";
-                  this.header = "success";
-                } else {
-                  this.header = "danger";
-                }
-              } else {
-                this.showSuccess = response;
-                this.header = "danger";
-              }
-              Vue.set(this.loading, index, false);
+      console.log(this.textReview[index]);
+      if (this.textReview[index]) {
+        Vue.set(this.loading, index, true);
+        let response = await this.updateNote_({
+          comment: this.textReview[index],
+          junior: junior
+        });
+        if (response === true) {
+          this.notesArray = [];
+          this.notesArray = await this.getNotes();
+          if (this.notesArray.error === false) {
+            this.setNotes();
+            this.success = true;
+            Vue.set(this.updateNote, index, false);
+            Vue.set(this.textReview, index, "");
+            this.showSuccess = "Note Successfully updated";
+            this.header = "success";
+          } else {
+            this.header = "danger";
+          }
         } else {
-            this.error = true;
-            this.errorMessage = "Note can not be blank";
+          this.showSuccess = response;
+          this.header = "danger";
         }
+        Vue.set(this.loading, index, false);
+      } else {
+        this.error = true;
+        this.errorMessage = "Note can not be blank";
+      }
     },
     setNotes() {
       this.emp_arr.forEach(junior => {
