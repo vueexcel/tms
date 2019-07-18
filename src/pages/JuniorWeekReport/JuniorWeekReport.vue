@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1 class="page-title">View Junior's Weekly Report</h1>
+    <Alert360 />
     <div v-if="error">
       <b-alert class="alert-transparent alert-danger" show>
         <span>{{errorMessage}}</span>
@@ -136,6 +137,7 @@ import moment from "moment";
 import { get, call } from "vuex-pathify";
 import image from "./../../assets/avatar.png";
 import Stars from "@/components/Star/Star.vue";
+import Alert360 from "@/components/Alert360/alert360";
 
 export default {
   name: "Timeline",
@@ -149,7 +151,8 @@ export default {
     };
   },
   components: {
-    Stars
+    Stars,
+    Alert360
   },
   computed: {
     user: get("profile/user")

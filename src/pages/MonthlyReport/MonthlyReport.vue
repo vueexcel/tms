@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1 class="page-title">Monthly Report</h1>
+    <Alert360 />
     <i v-if="loading" class="fas fa-circle-notch text-success fa-spin float-right mr-5 mt-3 size"></i>
     <b-container class="shadow bg-white no-gutters p-4 mh-500" fluid>
       <b-row>
@@ -18,11 +19,11 @@
             >
               <fieldset v-if="!usersMonthlyReport">
                 <h3>KPI</h3>
-                <hr>
+                <hr />
                 <div class="form-group row" v-for="(kpi, index) in user.kpi.kpi_json" :key="index">
                   <label class="col-md-6 control-label text-md-left" v-if="kpi.title">
                     <span class="fw-bold">{{ kpi.title }}</span>
-                    <br>
+                    <br />
                     <span>{{ kpi.desc }}</span>
                   </label>
                   <div class="col-md-6">
@@ -45,7 +46,7 @@
               ------------------->
               <fieldset v-if="usersMonthlyReport">
                 <h3>KPI</h3>
-                <hr>
+                <hr />
                 <div
                   class="form-group row"
                   v-for="(kpi, index) in usersMonthlyReport.kpi"
@@ -53,7 +54,7 @@
                 >
                   <label class="col-md-6 control-label text-md-left">
                     <span class="fw-bold">{{ kpi.title }}</span>
-                    <br>
+                    <br />
                     <span>{{ kpi.desc }}</span>
                   </label>
                   <div class="col-md-6">
@@ -66,11 +67,11 @@
               ------------------->
               <fieldset v-if="!usersMonthlyReport">
                 <h3>ERA</h3>
-                <hr>
+                <hr />
                 <div class="form-group row" v-for="(era, index) in user.kpi.era_json" :key="index">
                   <label class="col-md-6 control-label text-md-left" v-if="era.title">
                     <span class="fw-bold">{{ era.title }}</span>
-                    <br>
+                    <br />
                     <span>{{ era.desc }}</span>
                   </label>
                   <div class="col-md-6">
@@ -86,14 +87,14 @@
                     <p v-if="era.title" class="text-muted fw-bold text-success">*optional</p>
                   </div>
                 </div>
-                <hr>
+                <hr />
               </fieldset>
               <!----------------- 
                 *if report data found ERA
               ------------------->
               <fieldset v-if="usersMonthlyReport">
                 <h3>ERA</h3>
-                <hr>
+                <hr />
                 <div
                   class="form-group row"
                   v-for="(kpi, index) in usersMonthlyReport.era"
@@ -101,7 +102,7 @@
                 >
                   <label class="col-md-6 control-label text-md-left">
                     <span class="fw-bold">{{ kpi.title }}</span>
-                    <br>
+                    <br />
                     <span>{{ kpi.desc }}</span>
                   </label>
                   <div class="col-md-6">
@@ -158,8 +159,12 @@
 import { get, call } from "vuex-pathify";
 import moment from "moment-timezone";
 import Vue from "vue";
+import Alert360 from "@/components/Alert360/alert360";
 export default {
   name: "monthlyReport",
+  components: {
+    Alert360
+  },
   data() {
     return {
       todaysDate: moment().format("D"),
@@ -217,7 +222,6 @@ export default {
             this.EraDescription = [];
             this.setPayloadKPI = [];
             this.setPayloadERA = [];
-
           })
           .catch(err => {
             this.alertMsg = err.response.data.msg;
@@ -266,7 +270,7 @@ export default {
               title: element.title,
               desc: element.desc,
               id: element.ID,
-              comment: this.EraDescription[i] ? this.EraDescription[i] : '-NA-'
+              comment: this.EraDescription[i] ? this.EraDescription[i] : "-NA-"
             });
           }
         });

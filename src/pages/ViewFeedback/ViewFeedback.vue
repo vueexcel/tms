@@ -1,12 +1,15 @@
 <template>
   <div>
     <h1 class="page-title">View Feedbacks</h1>
-    <div class="text-center" v-if="!comments.length">
+    <div class="text-center" v-if="loading">
       <i class="fas fa-circle-notch text-success fa-spin fa-3x"></i>
       <p>Loading...</p>
     </div>
+    <div v-if="!comments.length && !loading">
+      <b-alert dismissible show class="alert-transparent" variant="danger">No feedbacks!</b-alert>
+    </div>
     <div v-if="comments.length">
-      <Timeline :comments="comments" :profile="profile" @postComment="postComment"/>
+      <Timeline :comments="comments" :profile="profile" @postComment="postComment" />
     </div>
   </div>
 </template>
@@ -24,7 +27,8 @@ export default {
   },
   data() {
     return {
-      comments: []
+      comments: [],
+      loading: false
     };
   },
   computed: {
@@ -34,21 +38,26 @@ export default {
     api_fetchFeedbacks: call("feedback/fetchFeedback"),
     api_postFeedbacks: call("feedback/postFeedbackAdmin"),
     getFeedback() {
+      this.loading = true;
       this.comments = [];
       this.api_fetchFeedbacks()
         .then(res => {
+          this.loading = false;
           res.data.forEach(element => {
             this.comments.push(element);
           });
         })
         .catch(err => {
+          this.loading = false;
           console.log(err.response);
         });
     },
     postComment(val) {
+      if (val.comment === undefined) {
+        return;
+      }
       this.api_postFeedbacks(val)
         .then(res => {
-          console.log(res);
           this.getFeedback();
         })
         .catch(err => {

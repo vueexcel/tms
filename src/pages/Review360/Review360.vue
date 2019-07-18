@@ -15,7 +15,9 @@
           <div v-if="errormsg" class="text-danger fw-bold">{{errormsg}}</div>
           <div v-if="!errormsg">
             <div class="pb-5">
-              <span class="fw-semi-bold text-danger">Only one review per manager per month is allowed</span>
+              <span
+                class="fw-semi-bold text-danger"
+              >Only one review per manager per month is allowed</span>
             </div>Select Manager:
             <b-form-select v-model="selected" class="mb-3">
               <option
@@ -34,7 +36,7 @@
             <!-- :disableStar="activeReport.canReview === false ? true : false" -->
 
             <b-form-group class="abc-checkbox abc-checkbox-success abc-checkbox-circle mt-3">
-              <input type="checkbox" :checked="anon" v-model="anon" id="checkbox-circle">
+              <input type="checkbox" :checked="anon" v-model="anon" id="checkbox-circle" />
               <label for="checkbox-circle">Anonymous</label>
               <!-- <p
               class="pl-3 fs-sm text-muted"
@@ -86,10 +88,10 @@
                     class="rounded-circle"
                     :src="user.profileImage? user.profileImage: avatar"
                     alt="..."
-                  >
+                  />
                 </span>
                 <span class="eventAvatar" v-else>
-                  <img class="rounded-circle" :src="anonymousImage" alt="...">
+                  <img class="rounded-circle" :src="anonymousImage" alt="..." />
                 </span>
                 <!-- {{ user }} -->
                 <h5 class="eventTitle">
@@ -108,7 +110,7 @@
                 <span>{{ user.comment }}</span>
               </div>
               <div class="pb-0">Rating:</div>
-              <starRating class :ratedStar="user.rating" :displayStar="10" :starSize="'20px'"/>
+              <starRating class :ratedStar="user.rating" :displayStar="10" :starSize="'20px'" />
             </section>
           </div>
         </section>
@@ -157,6 +159,7 @@ export default {
     api_postFeedback: call("review360/submitPost"),
     api_getmanagers: call("review360/getmanagers"),
     api_getPost: call("review360/getPost"),
+    api_360reviewStatus: call("profile/getManagerReviewStatus"),
     async postFeedback() {
       if (this.selected && this.ratedStar !== 0) {
         this.loading = true;
@@ -182,6 +185,7 @@ export default {
             this.ratedStar = 0;
             this.anon = false;
             if (res.status !== 204) {
+              this.api_360reviewStatus();
               this.getPost();
               this.getFeedback();
             } else {
