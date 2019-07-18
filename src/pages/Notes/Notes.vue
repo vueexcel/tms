@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="page-title">Notes</h1>
+    <h1 class="page-title">Your Notes</h1>
     <div>
       <b-modal v-model="success" size="sm" centered :headerBgVariant="header">
         {{showSuccess}}
@@ -25,16 +25,19 @@
       class="shares-widget"
       ref="sharesWidget"
       showTooltip
-      title="<h6>
-            <span class='badge badge-primary'><i class'fa fa-facebook' /></span> &nbsp;
-            Write your Notes <span class='fw-semi-bold'></span>
-          </h6>"
       customHeader
       bodyClass="p-0"
     >
-      <div class="pl-1 pr-1 pb-3">
+      <!-- title="<h6>
+            <span class='badge badge-primary'><i class'fa fa-facebook' /></span> &nbsp;
+            Write your Notes <span class='fw-semi-bold'></span>
+          </h6>" -->
+    <div class="d-flex">
+      <strong class="pt-2 pl-4 search_title">Search :</strong>
+      <div class="pb-3 px-1 w-25 search">
         <b-form-input v-model="searchField" type="search" name="search" placeholder="Search"></b-form-input>
       </div>
+    </div>
       <div class="list-group list-group-lg">
         <div v-for="(junior,n) in employeeList" :key="n">
           <div class="list-group-item">
@@ -103,12 +106,6 @@
                       @click="reviewDisable(n)"
                     >Cancel</button>
                   </div>
-                  <!-- <button
-                    class="btn btn-success float-right"
-                    v-if="enableReview[n] == true && loading[n] == true"
-                  >
-                    <i class="fas fa-circle-notch text-white fa-spin"></i>
-                  </button>-->
                 </div>
 
                 <!-- when junior have notes already -->
@@ -138,6 +135,8 @@
                       class="fa fa-floppy-o text-success icon_size"
                       @click="updateNoteFun(n,junior)"
                     ></i>
+                    <i v-if="loading[n] !== true" 
+                    class="fa fa-times text-danger ml-3 icon_size" aria-hidden="true" @click="disableUpdate(n,junior)"></i>
                   </div>
                 </div>
                 <div class="float-right">
@@ -287,8 +286,11 @@ export default {
       Vue.set(this.updateNote, index, true);
       Vue.set(this.textReview, index, user.notes.comment);
     },
+    disableUpdate(index,user){
+      Vue.set(this.updateNote, index, false)
+      Vue.set(this.textReview, index, '')
+    },
     async updateNoteFun(index, junior) {
-      console.log(this.textReview[index]);
       if (this.textReview[index]) {
         Vue.set(this.loading, index, true);
         let response = await this.updateNote_({

@@ -6,3 +6,12 @@
 .comment{
     white-space: pre-line;
 }
+
+@media (max-width: 575.98px) {
+    .search{
+        width: 100% !important;
+    }
+    .search_title{
+        display: none;
+    }
+  }
