@@ -1,24 +1,25 @@
 <template>
   <div>
     <h1 class="page-title">WeeklyCheckin</h1>
+    <Alert360 />
     <b-container class="bg-white no-gutters p-4" fluid>
-          <div v-if="error">
-            <b-alert
+      <div v-if="error">
+        <b-alert
           :show="error"
           dismissible
           class="alert-danger text-center alert-transparent mt-3"
         >{{errorMessage}}</b-alert>
-          </div>
+      </div>
       <b-row>
         <b-col xs="12" class="pt-4">
-          <div class="m-auto" v-if="error">
-     <b-alert
-          :show="error"
-          dismissible
-          variant="danger"
-          class="alert-transparent mt-3 text-center"
-        >{{errorMessage}}</b-alert>
-    </div>
+          <!-- <div class="m-auto" v-if="error">
+            <b-alert
+              :show="error"
+              dismissible
+              variant="danger"
+              class="alert-transparent mt-3 text-center"
+            >{{errorMessage}}</b-alert>
+          </div>-->
           <div>
             <div v-if="!report.length">
               <b-alert class="alert-transparent alert-danger" show>
@@ -143,6 +144,7 @@
                     Difficulty level of project
                     <br />(i.e., if project work did you did was difficult and
                     required more effort than usual)
+                    <strong>(Optional)</strong>
                   </label>
                   <div v-if="!submittedReport.length">
                     <starRating
@@ -196,13 +198,15 @@ import "imports-loader?jQuery=jquery,this=>window!flot";
 import "imports-loader?jQuery=jquery,this=>window!flot/jquery.flot.pie";
 import starRating from "@/components/Star/Star";
 import Widget from "@/components/Widget/Widget";
+import Alert360 from "@/components/Alert360/alert360";
 import { get, call } from "vuex-pathify";
 
 export default {
   name: "WeeklyReview",
   components: {
     Widget,
-    starRating
+    starRating,
+    Alert360
   },
   data() {
     return {
@@ -220,7 +224,7 @@ export default {
       deleteReport: false,
       disableDelete: false,
       error: false,
-      errorMessage: ''
+      errorMessage: ""
     };
   },
   mounted() {
@@ -271,42 +275,24 @@ export default {
       this.kpikradescriotionlist = [];
     },
     async submitWeeklyReview() {
-      if (!this.id) {
-        alert("please select daily check-in which you wish to highlight");
-        return;
-      }
+      this.error = false;
+      this.errorMessage = "";
       if (this.kpiKraDescription) {
         let data = {
           KpiEra: this.selected,
           description: this.kpiKraDescription
         };
         this.kpikradescriotionlist.push(data);
+        this.kpiKraDescription = "";
       }
-        if(!this.kpikradescriotionlist.length && this.ratedStar === 0){
-          this.error = true;
-            this.errorMessage = 'You can not fill blank report with no rating.';
-          console.log(this.kpikradescriotionlist,this.ratedStar);
-        } else {
-          let response = await this.weeklyReview_({
-            k_highlight: this.kpikradescriotionlist,
-            extra: this.extraWorkDescription,
-            select_days: [this.id],
-            difficulty: this.ratedStar
-          });
-          if (response === true) {
-            this.highlightList = [];
-            this.kpikradescriotionlist = [];
-            this.kpiKraDescription = "";
-            this.ratedStar = 0;
-            this.extraWorkDescription = "";
-            this.getReviewedReport();
-          } else {
-            this.error = true;
-            this.errorMessage = response;
-          }
-        }
-      // alert('==========================')
-      if(this.kpikradescriotionlist.length && this.ratedStar !== 0){
+      if (!this.kpikradescriotionlist.length) {
+        this.error = true;
+        this.errorMessage = "Please submit work done.";
+      } else if (!this.id) {
+        this.error = true;
+        this.errorMessage =
+          "Please select daily check-in which you wish to highlight";
+      } else {
         let response = await this.weeklyReview_({
           k_highlight: this.kpikradescriotionlist,
           extra: this.extraWorkDescription,
@@ -324,9 +310,6 @@ export default {
           this.error = true;
           this.errorMessage = response;
         }
-      } else {
-        this.error = true
-        this.errorMessage = 'You can not submit blank report with no rating.'
       }
     },
     submitStarRate(value) {
@@ -385,6 +368,7 @@ export default {
         this.submittedReport = [];
         this.highlightList = [];
         this.deleteReport = false;
+        this.id = null;
       } else {
         this.error = true;
         this.errorMessage = response;

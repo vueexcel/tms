@@ -17,7 +17,7 @@
           class="eventIcon"
           :class="{ eventIconSuccess: comment.admin_response, eventIconWarning: !comment.admin_response }"
         >
-          <i class="glyphicon glyphicon-envelope"/>
+          <i class="glyphicon glyphicon-envelope" />
         </span>
         <section class="event">
           <span class="thumb-sm avatar pull-left mr-sm">
@@ -25,7 +25,7 @@
               class="rounded-circle"
               :src="comment.user.profileImage ? comment.user.profileImage : image"
               alt="..."
-            >
+            />
           </span>
           <h4 class="eventHeading">
             <a href="#">{{ comment.user.name }}</a>
@@ -41,7 +41,7 @@
                     class="rounded-circle"
                     :src="comment.admin_response.profileImage ? comment.admin_response.profileImage: image"
                     alt="..."
-                  >
+                  />
                 </span>
                 <div class="commentBody">
                   <h6 class="author fs-sm fw-semi-bold">
@@ -57,11 +57,12 @@
                     class="rounded-circle"
                     :src="profile.profileImage !== '' ?profile.profileImage:image"
                     alt="..."
-                  >
+                  />
                 </span>
-                <div class="commentBody">
-                  <b-form @submit.prevent="submit(comment, index)">
+                <div class="commentBody d-flex bd-highlight">
+                  <b-form class="flex-fill" @submit.prevent="submit(comment, index)">
                     <b-form-input
+                      :ref="'card_' + index"
                       v-model="postComment[index]"
                       required
                       @keyup.enter="submit"

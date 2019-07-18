@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1 class="page-title">View Junior's Checkin</h1>
+    <Alert360 />
     <div v-if="!juniorCheckin.length && !loading">
       <b-alert class="alert-transparent alert-danger" show>
         <span>None of your Junior have submitted checkin for this week</span>
@@ -61,9 +62,13 @@
 import moment from "moment";
 import { call } from "vuex-pathify";
 import image from "./../../assets/avatar.png";
+import Alert360 from "@/components/Alert360/alert360";
 
 export default {
   name: "Timeline",
+  components: {
+    Alert360
+  },
   data() {
     return {
       image,

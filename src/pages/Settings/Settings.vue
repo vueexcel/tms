@@ -94,7 +94,7 @@
                         type="text"
                         id="normal-field"
                         required
-                      >
+                      />
                     </div>
                     <div class="col-2">
                       <input
@@ -102,7 +102,7 @@
                         class="apple-switch form-control"
                         v-model="schedularSettings.monthly_remainder"
                         type="checkbox"
-                      >
+                      />
                     </div>
                   </div>
                 </div>
@@ -119,7 +119,7 @@
                         type="text"
                         id="normal-field-week"
                         required
-                      >
+                      />
                     </div>
                     <div class="col-2">
                       <input
@@ -127,7 +127,7 @@
                         class="apple-switch form-control"
                         v-model="schedularSettings.weekly_remainder"
                         type="checkbox"
-                      >
+                      />
                     </div>
                   </div>
                 </div>
@@ -144,7 +144,7 @@
                         type="text"
                         id="normal-field-week2"
                         required
-                      >
+                      />
                     </div>
                     <div class="col-2">
                       <!-- no checkbox here -->
@@ -164,7 +164,7 @@
                         type="text"
                         id="normal-field-review"
                         required
-                      >
+                      />
                     </div>
                     <div class="col-2">
                       <input
@@ -172,7 +172,7 @@
                         class="apple-switch form-control"
                         v-model="schedularSettings.review_activity"
                         type="checkbox"
-                      >
+                      />
                     </div>
                   </div>
                 </div>
@@ -189,7 +189,7 @@
                         type="text"
                         id="normal-field-month"
                         required
-                      >
+                      />
                     </div>
                     <div class="col-2">
                       <input
@@ -197,7 +197,7 @@
                         class="apple-switch form-control"
                         v-model="schedularSettings.monthly_manager_reminder"
                         type="checkbox"
-                      >
+                      />
                     </div>
                   </div>
                 </div>
@@ -214,7 +214,7 @@
                         type="text"
                         id="normal-field-month"
                         required
-                      >
+                      />
                     </div>
                     <div class="col-2">
                       <input
@@ -222,7 +222,7 @@
                         class="apple-switch form-control"
                         v-model="schedularSettings.recent_activity"
                         type="checkbox"
-                      >
+                      />
                     </div>
                   </div>
                 </div>
@@ -230,7 +230,7 @@
                   <div class="row">
                     <div class="col-md-2 text-md-right">
                       <!-- missed checkin on UI recent_activity on DB -->
-                      <label for="normal-field-month">Weekly report review message </label>
+                      <label for="normal-field-month">Weekly report review message</label>
                     </div>
                     <div class="col-8 col-md-5 text-md-right">
                       <input
@@ -239,7 +239,7 @@
                         type="text"
                         id="normal-field-month"
                         required
-                      >
+                      />
                     </div>
                   </div>
                 </div>
@@ -247,7 +247,7 @@
                   <div class="row">
                     <div class="col-md-2 text-md-right">
                       <!-- missed checkin on UI recent_activity on DB -->
-                      <label for="normal-field-month">Monthly report review message </label>
+                      <label for="normal-field-month">Monthly report review message</label>
                     </div>
                     <div class="col-8 col-md-5 text-md-right">
                       <input
@@ -256,7 +256,37 @@
                         type="text"
                         id="normal-field-month"
                         required
-                      >
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-md-2 text-md-right">
+                      <label for="normal-field-week">Make 360&deg; mandatory</label>
+                    </div>
+                    <div class="col-8 col-md-5">
+                      <!-- <input
+                        class="form-control"
+                        v-model="reminderMessage.weekly_remainder1"
+                        type="text"
+                        id="normal-field-week"
+                        required
+                      />-->
+                      <input
+                        @change="setSchedularSettings()"
+                        v-model="schedularSettings.revew_360_setting"
+                        class="apple-switch form-control"
+                        type="checkbox"
+                      />
+                    </div>
+                    <div class="col-2">
+                      <!-- v-model="schedularSettings.weekly_remainder" -->
+                      <!-- <input
+                        @change="setSchedularSettings()"
+                        class="apple-switch form-control"
+                        type="checkbox"
+                      />-->
                     </div>
                   </div>
                 </div>
@@ -312,15 +342,16 @@ export default {
         review_activity: "",
         monthly_manager_reminder: "",
         missed_checkin: "",
-        weekly_report_mesg:"",
-        monthly_report_mesg:""
+        weekly_report_mesg: "",
+        monthly_report_mesg: ""
       },
       schedularSettings: {
         monthly_manager_reminder: false,
         monthly_remainder: false,
         recent_activity: false,
         review_activity: false,
-        weekly_remainder: false
+        weekly_remainder: false,
+        revew_360_setting: false
       }
     };
   },
@@ -362,6 +393,8 @@ export default {
           this.schedularSettings.review_activity = res.data[0].review_activity;
           this.schedularSettings.weekly_remainder =
             res.data[0].weekly_remainder;
+          this.schedularSettings.revew_360_setting =
+            res.data[0].revew_360_setting;
         })
         .catch(err => {
           console.log(err);
@@ -391,8 +424,10 @@ export default {
           this.reminderMessage.monthly_manager_reminder =
             res.data[0].monthly_manager_reminder;
           this.reminderMessage.missed_checkin = res.data[0].missed_checkin;
-          this.reminderMessage.weekly_report_mesg = res.data[0].weekly_report_mesg
-          this.reminderMessage.monthly_report_mesg = res.data[0].monthly_report_mesg
+          this.reminderMessage.weekly_report_mesg =
+            res.data[0].weekly_report_mesg;
+          this.reminderMessage.monthly_report_mesg =
+            res.data[0].monthly_report_mesg;
         })
         .catch(err => {
           console.log(err);

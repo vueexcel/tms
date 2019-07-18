@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1 class="page-title">View Manager's Review Monthly</h1>
+    <Alert360 />
     <div v-if="error">
       <b-alert class="alert-transparent alert-danger" show>
         <span>{{errorMessage}}</span>
@@ -174,6 +175,7 @@ import { get, call, sync } from "vuex-pathify";
 import moment from "moment";
 import image from "./person-dummy.jpg";
 import Stars from "@/components/Star/Star.vue";
+import Alert360 from "@/components/Alert360/alert360";
 
 export default {
   data() {
@@ -190,7 +192,8 @@ export default {
     this.callApi();
   },
   components: {
-    Stars
+    Stars,
+    Alert360
   },
   methods: {
     api_getViewMonthlyManagerReview: call(
