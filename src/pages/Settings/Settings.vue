@@ -263,6 +263,31 @@
                 <div class="form-group">
                   <div class="row">
                     <div class="col-md-2 text-md-right">
+                      <!-- missed checkin on UI recent_activity on DB -->
+                      <label for="normal-field-month">Weekly missed review message</label>
+                    </div>
+                    <div class="col-8 col-md-5 text-md-right">
+                      <input
+                        class="form-control"
+                        v-model="reminderMessage.missed_reviewed_mesg"
+                        type="text"
+                        id="normal-field-month"
+                        required
+                      />
+                    </div>
+                    <div class="col-2">
+                      <input
+                        @change="setSchedularSettings()"
+                        class="apple-switch form-control"
+                        v-model="schedularSettings.missed_reviewed"
+                        type="checkbox"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-md-2 text-md-right">
                       <label for="normal-field-week">Make 360&deg; mandatory</label>
                     </div>
                     <div class="col-8 col-md-5">
@@ -287,6 +312,21 @@
                         class="apple-switch form-control"
                         type="checkbox"
                       />-->
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-md-2 text-md-right">
+                      <label for="normal-field-week">Skip Weekly Review&deg; for manager</label>
+                    </div>
+                    <div class="col-8 col-md-5">
+                      <input
+                        @change="setSchedularSettings()"
+                        v-model="schedularSettings.managerSkip"
+                        class="apple-switch form-control"
+                        type="checkbox"
+                      />
                     </div>
                   </div>
                 </div>
@@ -343,7 +383,8 @@ export default {
         monthly_manager_reminder: "",
         missed_checkin: "",
         weekly_report_mesg: "",
-        monthly_report_mesg: ""
+        monthly_report_mesg: "",
+        missed_reviewed_mesg: ""
       },
       schedularSettings: {
         monthly_manager_reminder: false,
@@ -351,7 +392,9 @@ export default {
         recent_activity: false,
         review_activity: false,
         weekly_remainder: false,
-        revew_360_setting: false
+        revew_360_setting: false,
+        managerSkip: false,
+        missed_reviewed: false
       }
     };
   },
@@ -385,6 +428,7 @@ export default {
     getSchedularSettings() {
       this.api_getSchedularSettings()
         .then(res => {
+          this.schedularSettings.missed_reviewed = res.data[0].missed_reviewed
           this.schedularSettings.monthly_manager_reminder =
             res.data[0].monthly_manager_reminder;
           this.schedularSettings.monthly_remainder =
@@ -414,6 +458,7 @@ export default {
     getSchedularMsg() {
       this.api_getSchedularMsg()
         .then(res => {
+          this.reminderMessage.missed_reviewed_mesg = res.data[0].missed_reviewed_mesg
           this.reminderMessage.monthly_remainder =
             res.data[0].monthly_remainder;
           this.reminderMessage.weekly_remainder1 =
@@ -437,6 +482,7 @@ export default {
       this.loadingReminderMessage = true;
       this.api_setSchedularMsg(this.reminderMessage)
         .then(res => {
+          this.getSchedularMsg()
           this.loadingReminderMessage = false;
         })
         .catch(err => {
