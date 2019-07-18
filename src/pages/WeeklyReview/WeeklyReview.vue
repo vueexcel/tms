@@ -18,7 +18,7 @@
               variant="danger"
               class="alert-transparent mt-3 text-center"
             >{{errorMessage}}</b-alert>
-          </div> -->
+          </div>-->
           <div>
             <div v-if="!report.length">
               <b-alert class="alert-transparent alert-danger" show>
@@ -142,7 +142,8 @@
                   <label class="col-md-4 control-label text-md-left" for="max-length">
                     Difficulty level of project
                     <br />(i.e., if project work did you did was difficult and
-                    required more effort than usual) <strong>(Optional)</strong>
+                    required more effort than usual)
+                    <strong>(Optional)</strong>
                   </label>
                   <div v-if="!submittedReport.length">
                     <starRating
@@ -271,22 +272,23 @@ export default {
       this.kpikradescriotionlist = [];
     },
     async submitWeeklyReview() {
-      this.error = false
-      this.errorMessage = ''
+      this.error = false;
+      this.errorMessage = "";
       if (this.kpiKraDescription) {
         let data = {
           KpiEra: this.selected,
           description: this.kpiKraDescription
         };
         this.kpikradescriotionlist.push(data);
-        this.kpiKraDescription = ''
+        this.kpiKraDescription = "";
       }
-      if(!this.kpikradescriotionlist.length){
+      if (!this.kpikradescriotionlist.length) {
         this.error = true;
         this.errorMessage = "Please submit work done.";
-      } else if(!this.id){
+      } else if (!this.id) {
         this.error = true;
-        this.errorMessage = "Please select daily check-in which you wish to highlight";
+        this.errorMessage =
+          "Please select daily check-in which you wish to highlight";
       } else {
         let response = await this.weeklyReview_({
           k_highlight: this.kpikradescriotionlist,
@@ -363,7 +365,7 @@ export default {
         this.submittedReport = [];
         this.highlightList = [];
         this.deleteReport = false;
-        this.id = null
+        this.id = null;
       } else {
         this.error = true;
         this.errorMessage = response;
