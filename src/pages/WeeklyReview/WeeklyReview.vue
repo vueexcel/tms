@@ -142,7 +142,7 @@
                   <label class="col-md-4 control-label text-md-left" for="max-length">
                     Difficulty level of project
                     <br />(i.e., if project work did you did was difficult and
-                    required more effort than usual)
+                    required more effort than usual) <strong>(Optional)</strong>
                   </label>
                   <div v-if="!submittedReport.length">
                     <starRating
@@ -271,10 +271,8 @@ export default {
       this.kpikradescriotionlist = [];
     },
     async submitWeeklyReview() {
-      if (!this.id) {
-        alert("please select daily check-in which you wish to highlight");
-        return;
-      }
+      this.error = false
+      this.errorMessage = ''
       if (this.kpiKraDescription) {
         let data = {
           KpiEra: this.selected,
@@ -283,9 +281,12 @@ export default {
         this.kpikradescriotionlist.push(data);
         this.kpiKraDescription = ''
       }
-      if (!this.kpikradescriotionlist.length || this.ratedStar === 0) {
+      if(!this.kpikradescriotionlist.length){
         this.error = true;
-        this.errorMessage = "You can not fill blank report or no rating.";
+        this.errorMessage = "Please submit work done.";
+      } else if(!this.id){
+        this.error = true;
+        this.errorMessage = "Please select daily check-in which you wish to highlight";
       } else {
         let response = await this.weeklyReview_({
           k_highlight: this.kpikradescriotionlist,
@@ -362,6 +363,7 @@ export default {
         this.submittedReport = [];
         this.highlightList = [];
         this.deleteReport = false;
+        this.id = null
       } else {
         this.error = true;
         this.errorMessage = response;
