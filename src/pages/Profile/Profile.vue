@@ -123,14 +123,14 @@
                 <b-progress
                   class="w-75"
                   style="height: 5px"
-                  variant="danger"
+                  variant="success"
                   :value="user.Overall_rating * 10"
                   :max="100"
                 />
               </div>
             </div>
             <!-- third bar -->
-            <div>
+            <!-- <div>
               <div>
                 <h6 class="text-dark fs-larger">
                   Project Difficulty
@@ -149,7 +149,7 @@
                   :max="100"
                 />
               </div>
-            </div>
+            </div> -->
             <!-- Recent Activities -->
           </div>
           <!-- <div class="h-auto mt-5">

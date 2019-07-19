@@ -50,7 +50,7 @@
                 @starRatingSelected="submitStarRateWeekly"
                 :disableStar="activeReport.canReview === false ? true : false"
               />
-              <div class="mt-2 font-weight">
+              <!-- <div class="mt-2 font-weight">
                 As a manager how do you rate the difficulty level of projects which employee has worked on in last week
                 <strong>(Optional)</strong>
               </div>
@@ -61,8 +61,8 @@
                 :starSize="starSize"
                 @starRatingSelected="submitStarRateDifficulty"
                 :disableStar="activeReport.canReview === false ? true : false"
-              />
-              <div sm="6">
+              /> -->
+              <div sm="6" class="mt-2">
                 <h6 class="text-inverse">Comments</h6>
               </div>
               <b-form>
