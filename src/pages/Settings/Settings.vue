@@ -318,7 +318,7 @@
                 <div class="form-group">
                   <div class="row">
                     <div class="col-md-2 text-md-right">
-                      <label for="normal-field-week">Skip Weekly Review&deg; for manager</label>
+                      <label for="normal-field-week">Skip Weekly Review for manager</label>
                     </div>
                     <div class="col-8 col-md-5">
                       <input
