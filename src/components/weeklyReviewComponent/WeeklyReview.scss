@@ -128,3 +128,11 @@
     color: white;
   }
 }
+
+.note{
+  white-space: pre;
+  .comment{
+    white-space: pre-line;
+    word-break: break-all;
+  }
+}

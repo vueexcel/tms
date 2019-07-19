@@ -77,6 +77,13 @@
       />
       <NavLink header="Your Juniors" link="/app/juniors" iconName="fas fa-users" isHeader/>
 
+      <NavLink
+        header="Notes"
+        link="/app/notes"
+        iconName="fa fa-sticky-note"
+        index="Notes"
+        isHeader
+      />
       <!-- <NavLink
         header="Juniors Weekly Report"
         link="/app/juniorWeekReport"
@@ -245,6 +252,13 @@
         link="/app/viewCheckin"
         iconName="fas fa-folder-open"
         index="performanceReview"
+        isHeader
+      />
+      <NavLink
+        header="Notes"
+        link="/app/notes"
+        iconName="fa fa-sticky-note"
+        index="Notes"
         isHeader
       />
 
@@ -462,10 +476,10 @@ export default {
       this.fetchfeedbackCount();
       // this.getUsersMonthlyReports();
     },
-    countToReviewReport_(newValue, oldValue) {
-      // console.log(newValue);
-      // this.fetchfeedbackCount();
-    }
+    // countToReviewReport_(newValue, oldValue) {
+    //   // console.log(newValue);
+    //   // this.fetchfeedbackCount();
+    // }
   },
   methods: {
     ...mapActions("layout", ["changeSidebarActive", "switchSidebar"]),

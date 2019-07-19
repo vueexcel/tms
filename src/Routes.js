@@ -35,6 +35,7 @@ import Review360 from "@/pages/Review360/Review360";
 import ViewReview360 from "@/pages/ViewReview360/ViewReview360";
 import ViewManagerReiewMonthly from "@/pages/ViewManagerReviewMonthly/ViewManagerReviewMonthly";
 import PeerReview from "@/pages/PeerReview/PeerReview"
+import Notes from "@/pages/Notes/Notes"
 // --admin pages--
 import ManageEmployee from "@/pages/ManageEmployee/ManageEmployee";
 import ManageKPI from "@/pages/Kpi/Kpi";
@@ -168,6 +169,11 @@ const router = new Router({
           path: "PeerReview",
           name: "PeerReview",
           component: PeerReview
+        },
+        {
+          path: "notes",
+          name: "Notes",
+          component: Notes
         },
         {
           path: "typography",
