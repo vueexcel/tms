@@ -428,6 +428,7 @@ export default {
     getSchedularSettings() {
       this.api_getSchedularSettings()
         .then(res => {
+          this.schedularSettings.managerSkip = res.data[0].skip_review
           this.schedularSettings.missed_reviewed = res.data[0].missed_reviewed
           this.schedularSettings.monthly_manager_reminder =
             res.data[0].monthly_manager_reminder;
