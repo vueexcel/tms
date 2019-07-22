@@ -67,13 +67,15 @@
                   </b-card>
                 </div>
                 <div v-if="enableReview[n] === true && !junior.notes">
-                  <p class="submit_msg">
-                    <i class="fa fa-circle text-info" /> &nbsp;
-                    Ctrl+enter =
-                    <strong>Submit / Update</strong>
-                    <span class="fw-semi-bold"></span>
-                  </p>
-                  <h6 class="pb-2">Notes</h6>
+                  <span class="pb-2">
+                    Notes
+                    <span class="submit_msg ml-3">
+                      <i class="fa fa-circle text-info" /> &nbsp;
+                      Ctrl+enter =
+                      <strong>Submit / Update</strong>
+                      <span class="fw-semi-bold"></span>
+                    </span>
+                  </span>
                   <b-form-textarea
                     v-model="textReview[n]"
                     @keyup.ctrl.13="SubmitReview(n,junior)"
@@ -82,13 +84,16 @@
                   />
                 </div>
                 <div v-if="updateNote[n] === true">
-                  <p class="submit_msg">
-                    <i class="fa fa-circle text-info" /> &nbsp;
-                    Ctrl+enter =
-                    <strong>Submit / Update</strong>
-                    <span class="fw-semi-bold"></span>
-                  </p>
-                  <h6 class="pb-2">Update Note</h6>
+                  <span class="pb-2">
+                    Update Note
+                    <span class="submit_msg ml-3">
+                      <i class="fa fa-circle text-info" /> &nbsp;
+                      Ctrl+enter =
+                      <strong>Submit / Update</strong>
+                      <span class="fw-semi-bold"></span>
+                    </span>
+                  </span>
+                  <!-- </span> -->
                   <b-form-textarea
                     v-model="textReview[n]"
                     :rows="3"
