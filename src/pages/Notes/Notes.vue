@@ -27,17 +27,17 @@
       showTooltip
       customHeader
       bodyClass="p-0"
-      title="<h6>
+    >
+      <!-- title="<h6>
             <span class='badge badge-primary'><i class'fa fa-facebook' /></span> &nbsp;
             Ctrl+enter = <strong>Submit / Update</strong> <span class='fw-semi-bold'></span>
-          </h6>"
-    >
-    <div class="d-flex">
-      <strong class="pt-2 pl-4 search_title">Search :</strong>
-      <div class="pb-3 px-1 w-25 search">
-        <b-form-input v-model="searchField" type="search" name="search" placeholder="Search"></b-form-input>
+      </h6>"-->
+      <div class="d-flex">
+        <strong class="pt-2 pl-4 search_title">Search :</strong>
+        <div class="pb-3 px-1 w-25 search">
+          <b-form-input v-model="searchField" type="search" name="search" placeholder="Search"></b-form-input>
+        </div>
       </div>
-    </div>
       <div class="list-group list-group-lg">
         <div v-for="(junior,n) in employeeList" :key="n">
           <div class="list-group-item">
@@ -67,6 +67,12 @@
                   </b-card>
                 </div>
                 <div v-if="enableReview[n] === true && !junior.notes">
+                  <p class="submit_msg">
+                    <i class="fa fa-circle text-info" /> &nbsp;
+                    Ctrl+enter =
+                    <strong>Submit / Update</strong>
+                    <span class="fw-semi-bold"></span>
+                  </p>
                   <h6 class="pb-2">Notes</h6>
                   <b-form-textarea
                     v-model="textReview[n]"
@@ -76,6 +82,12 @@
                   />
                 </div>
                 <div v-if="updateNote[n] === true">
+                  <p class="submit_msg">
+                    <i class="fa fa-circle text-info" /> &nbsp;
+                    Ctrl+enter =
+                    <strong>Submit / Update</strong>
+                    <span class="fw-semi-bold"></span>
+                  </p>
                   <h6 class="pb-2">Update Note</h6>
                   <b-form-textarea
                     v-model="textReview[n]"
@@ -137,8 +149,12 @@
                       class="fa fa-floppy-o text-success icon_size"
                       @click="updateNoteFun(n,junior)"
                     ></i>
-                    <i v-if="loading[n] !== true" 
-                    class="fa fa-times text-danger ml-3 icon_size" aria-hidden="true" @click="disableUpdate(n,junior)"></i>
+                    <i
+                      v-if="loading[n] !== true"
+                      class="fa fa-times text-danger ml-3 icon_size"
+                      aria-hidden="true"
+                      @click="disableUpdate(n,junior)"
+                    ></i>
                   </div>
                 </div>
                 <div class="float-right">
@@ -288,9 +304,9 @@ export default {
       Vue.set(this.updateNote, index, true);
       Vue.set(this.textReview, index, user.notes.comment);
     },
-    disableUpdate(index,user){
-      Vue.set(this.updateNote, index, false)
-      Vue.set(this.textReview, index, '')
+    disableUpdate(index, user) {
+      Vue.set(this.updateNote, index, false);
+      Vue.set(this.textReview, index, "");
     },
     async updateNoteFun(index, junior) {
       if (this.textReview[index]) {
