@@ -27,11 +27,11 @@
       showTooltip
       customHeader
       bodyClass="p-0"
-    >
-      <!-- title="<h6>
+      title="<h6>
             <span class='badge badge-primary'><i class'fa fa-facebook' /></span> &nbsp;
-            Write your Notes <span class='fw-semi-bold'></span>
-          </h6>" -->
+            Ctrl+enter = <strong>Submit / Update</strong> <span class='fw-semi-bold'></span>
+          </h6>"
+    >
     <div class="d-flex">
       <strong class="pt-2 pl-4 search_title">Search :</strong>
       <div class="pb-3 px-1 w-25 search">
