@@ -70,6 +70,7 @@
                   <h6 class="pb-2">Notes</h6>
                   <b-form-textarea
                     v-model="textReview[n]"
+                    @keyup.ctrl.13="SubmitReview(n,junior)"
                     :rows="3"
                     placeholder="Write your note here..."
                   />
@@ -79,6 +80,7 @@
                   <b-form-textarea
                     v-model="textReview[n]"
                     :rows="3"
+                    @keyup.ctrl.13="updateNoteFun(n,junior)"
                     placeholder="Update your note here..."
                   />
                 </div>
