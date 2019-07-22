@@ -40,7 +40,7 @@ import Notes from "@/pages/Notes/Notes"
 import ManageEmployee from "@/pages/ManageEmployee/ManageEmployee";
 import ManageKPI from "@/pages/Kpi/Kpi";
 import Settings from "@/pages/Settings/Settings";
-
+import OverAllReview from "@/pages/overallReview/overallReview"
 // Charts
 import ChartsPage from "@/pages/Charts/Charts";
 
@@ -237,6 +237,11 @@ const router = new Router({
           component: ViewFeedback,
           meta: { requiresAuth: true }
         },
+        {
+          path: 'overallReview',
+          name: 'OverAllReview',
+          component: OverAllReview
+        }
       ]
     }
   ]

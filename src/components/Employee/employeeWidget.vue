@@ -218,14 +218,16 @@ export default {
       this.dismissCountDown = dismissCountDown;
     },
     async sendToDashboard(clickedEmployee) {
-      this.loading = true;
-      let response = await this.goToDashboard_(clickedEmployee);
-      if (typeof response === "string") {
-        this.error = response;
-      } else {
-        this.$router.push({ name: "Profile", params: { user: "admin" } });
-      }
-      this.loading =  false
+      console.log('123');
+        this.$router.push({name: "OverAllReview", params: { user: "admin" } })      
+      // this.loading = true;
+      // let response = await this.goToDashboard_(clickedEmployee);
+      // if (typeof response === "string") {
+      //   this.error = response;
+      // } else {
+      //   this.$router.push({ name: "Profile", params: { user: "admin" } });
+      // }
+      // this.loading =  false
     }
   },
   mounted() {}
