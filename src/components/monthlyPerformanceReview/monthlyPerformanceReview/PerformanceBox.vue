@@ -260,6 +260,8 @@ export default {
           id: this.activeEmployeReport._id,
           comment: comment
         })
+        console.log(res);
+        
         if(res.error === true){
             this.alertMessage = res.res
             this.alertMessageShow = true 
