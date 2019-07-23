@@ -76,7 +76,7 @@
                 </div>
                 <div
                   v-else
-                  class="text-info font-weight-bold text-left"
+                  class="text-info font-weight-bold text-left comment_manager "
                 >{{reviewedComments.comment}}</div>
                 <span v-if="activeReport.canReview == true">
                   <b-button
