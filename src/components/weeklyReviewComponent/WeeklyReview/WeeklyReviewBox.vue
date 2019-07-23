@@ -112,7 +112,7 @@
                   >Delete</b-button>
                 </span>
               </b-form>
-              <div class="mt-4 pt-lg" v-if="activeReport.note.length">
+              <div class="mt-4 pt-lg" v-if="activeReport.note && activeReport.note.length">
                 <h5>Your Notes :</h5>
                 <div class="bg-warning shadow-lg p-3">
                   <div v-for="(note,index) in activeReport.note" :key="index" class="font-weight-bold note">
