@@ -117,10 +117,11 @@ export default {
     juniorsToShow() {
       if (this.setReportToReview === true) {
       let arrayOfEmployee = [];
+      let response = null
         this.allJuniors_.forEach(employee => {
           this.allweeklyReport_.forEach(report => {
             if (employee._id == report.user) {
-              let response = report.is_reviewed.find(review => {
+              response = report.is_reviewed.find(review => {
                 return review._id === this.userProfile._id;
               });
               let isEmployeeExist = arrayOfEmployee.includes(employee)
