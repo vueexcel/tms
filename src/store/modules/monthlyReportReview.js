@@ -95,8 +95,11 @@ const actions = {
                     if (state.employee.length) {
                         state.employee.find(report => {
                             if (employee._id === report.user._id) {
+                                console.log(report.is_reviewed,'report',report);
                                 report.is_reviewed.forEach(element => {
                                     if (element._id === rootState.profile.user._id) {
+                                        console.log(element,'element@@@');
+                                        
                                         if (element.reviewed === false) {
                                             aarayOfUser.push(employee);
                                         }
