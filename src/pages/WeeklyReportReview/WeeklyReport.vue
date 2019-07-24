@@ -126,11 +126,8 @@ export default {
                 return review._id === this.userProfile._id;
               });
               let isEmployeeExist = arrayOfEmployee.includes(employee);
-              console.log(isEmployeeExist,'isEmployeeExist');
               if (!isEmployeeExist) {
-                console.log(response,'response')
-                console.log(response.reviewed,'reviewd');
-                if (response.reviewed === false) arrayOfEmployee.push(employee);
+                if (response && response.reviewed === false) arrayOfEmployee.push(employee);
               }
             }
           });
