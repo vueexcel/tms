@@ -26,14 +26,13 @@
         <i class="fas fa-circle-notch text-success fa-spin float-right mr-5 size" v-if="loading"></i>
       </div>
       <b-container class="no-gutters">
-          <b-alert
-            :show="error"
-            dismissible
-            class="alert-transparent alert-danger mt-5"
-          >{{errorMessage}}</b-alert>
-        <div v-if="!allweeklyReport_.length ">
-        </div>
-        <b-row class="employees" v-if="juniorsToShow.length">
+        <b-alert
+          :show="error"
+          dismissible
+          class="alert-transparent alert-danger mt-5"
+        >{{errorMessage}}</b-alert>
+        <div v-if="allweeklyReport_  && !allweeklyReport_.length "></div>
+        <b-row class="employees" v-if="juniorsToShow && juniorsToShow.length">
           <b-col
             lg="2"
             md="4"
@@ -58,7 +57,9 @@
       </b-container>
       <div class="container-fluid">
         <div class="mt-5 mb-3 row"></div>
-        <div v-if="allweeklyReport_.length && juniorsToShow.length">
+        <div
+          v-if="allweeklyReport_ && allweeklyReport_.length && juniorsToShow && juniorsToShow.length"
+        >
           <PerformanceBox
             :performanceData="allweeklyReport_"
             :employee="activeEmp"
@@ -68,7 +69,7 @@
             @revoke="revoke"
           />
         </div>
-        <div v-if="!allweeklyReport_.length && !error" class="pb-5">
+        <div v-if="allweeklyReport_ && !allweeklyReport_.length && !error" class="pb-5">
           <b-alert show dismissible class="alert-transparent alert-danger mt-5">No Report</b-alert>
         </div>
       </div>
@@ -86,7 +87,7 @@ import Alert360 from "@/components/Alert360/alert360";
 
 export default {
   name: "PerformanceReview",
-  components: { WeeklyReviewComponent,PerformanceBox, Alert360 },
+  components: { WeeklyReviewComponent, PerformanceBox, Alert360 },
   data() {
     return {
       activeId: null,
@@ -116,16 +117,19 @@ export default {
     revokeLoader: sync("weeklyReportReview/revokeLoader"),
     juniorsToShow() {
       if (this.setReportToReview === true) {
-      let arrayOfEmployee = [];
-      let response = null
+        let arrayOfEmployee = [];
+        let response = null;
         this.allJuniors_.forEach(employee => {
           this.allweeklyReport_.forEach(report => {
             if (employee._id == report.user) {
               response = report.is_reviewed.find(review => {
                 return review._id === this.userProfile._id;
               });
-              let isEmployeeExist = arrayOfEmployee.includes(employee)
-              if(!isEmployeeExist){
+              let isEmployeeExist = arrayOfEmployee.includes(employee);
+              console.log(isEmployeeExist,'isEmployeeExist');
+              if (!isEmployeeExist) {
+                console.log(response,'response')
+                console.log(response.reviewed,'reviewd');
                 if (response.reviewed === false) arrayOfEmployee.push(employee);
               }
             }
@@ -148,17 +152,17 @@ export default {
       this.fetchallWeeklyReport();
     },
     async skipReportReview(value) {
-      if(value === true){
+      if (value === true) {
         this.$toast.success(`You have skipped the report successfully.`);
         this.fetchallWeeklyReport();
       }
-    //  await this.skipReportReview_(value).then(response =>{
-    //    if (response === true) {
-    //    } else {
-    //     this.error = true;
-    //     this.errorMessage = response;
-    //    }
-    //   });
+      //  await this.skipReportReview_(value).then(response =>{
+      //    if (response === true) {
+      //    } else {
+      //     this.error = true;
+      //     this.errorMessage = response;
+      //    }
+      //   });
     },
     setActive(employee) {
       this.show = !this.show;
@@ -196,9 +200,11 @@ export default {
     },
     setActiveEmployeeReports() {
       this.allweeklyReport_.forEach(data => {
-        for (var i = 0; i < this.juniorsToShow.length; i++) {
-          if (data.user === this.juniorsToShow[i]._id) {
-            this.highlightEmployees.push(this.juniorsToShow[i]);
+        if (this.juniorsToShow) {
+          for (var i = 0; i < this.juniorsToShow.length; i++) {
+            if (data.user === this.juniorsToShow[i]._id) {
+              this.highlightEmployees.push(this.juniorsToShow[i]);
+            }
           }
         }
       });
