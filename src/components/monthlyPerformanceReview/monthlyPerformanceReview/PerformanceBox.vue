@@ -51,7 +51,7 @@
               <div>
                 <h3>ERA</h3>
                 <hr />
-                <div v-for="(era, index) in managerComment.review.comment.era" :key="index+1">
+                <div v-for="(era, index) in managerComment.review.comment.era" :key="index">
                   <div class="m-0" v-if="era.comment">
                     <p class="text-secondary fw-bold">{{ era.title }}</p>
                     <p>{{ era.desc }}</p>
@@ -110,7 +110,7 @@
               <div
                 class="pb-4"
                 v-for="( erareport, indexera ) in activeEmployeReport.report.era"
-                :key="indexera+activeEmployeReport.report.kpi.length"
+                :key="indexera+erareport.id"
               >
                 <div>
                   <h5 class="text-primary fw-bold">{{ erareport.title }}</h5>
