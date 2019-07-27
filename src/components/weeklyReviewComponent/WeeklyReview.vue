@@ -14,7 +14,7 @@
           :src="employee.profileImage ? employee.profileImage : dummyImage_"
           width="40"
           height="40"
-        >
+        />
         <div class="name">{{employee.username}}</div>
         <div class="post">{{employee.jobtitle}}</div>
       </div>
@@ -47,13 +47,13 @@ export default {
   mounted() {
     this.checkEmployee(this.allemployee[0]);
   },
-  watch:{
-    allemployee( newValue, oldValue){
-      if(newValue.length !== oldValue.length){
-        this.checkEmployee(newValue[0])
+  watch: {
+    allemployee(newValue, oldValue) {
+      if (newValue.length !== oldValue.length) {
+        this.checkEmployee(newValue[0]);
       }
     }
-  },  
+  },
   methods: {
     checkEmployee(employee) {
       this.$emit("setActive", employee);

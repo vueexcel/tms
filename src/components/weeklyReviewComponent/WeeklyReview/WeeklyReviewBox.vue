@@ -76,7 +76,7 @@
                 </div>
                 <div
                   v-else
-                  class="text-info font-weight-bold text-left"
+                  class="text-info font-weight-bold text-left comment_manager "
                 >{{reviewedComments.comment}}</div>
                 <span v-if="activeReport.canReview == true">
                   <b-button
@@ -91,8 +91,8 @@
                     @click="skipReport"
                   >Skip Report</b-button>
                 </span>
-                <span v-if="activeReport.weekly_cron === false">
                   <!-- :disabled="activeReport.canReview == false" -->
+                <span v-if="activeReport.weekly_cron === false">
                   <b-button
                     class="btn btn-default btn-lg mb-xs bg-warning text-dark mt-4 w-25"
                     @click="revoke(activeReport)"
@@ -112,7 +112,7 @@
                   >Delete</b-button>
                 </span>
               </b-form>
-              <div class="mt-4" v-if="activeReport.note.length">
+              <div class="mt-4 pt-lg" v-if="activeReport.note && activeReport.note.length">
                 <h5>Your Notes :</h5>
                 <div class="bg-warning shadow-lg p-3">
                   <div v-for="(note,index) in activeReport.note" :key="index" class="font-weight-bold note">

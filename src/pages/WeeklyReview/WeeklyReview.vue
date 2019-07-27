@@ -168,16 +168,22 @@
                     <button
                       type="button"
                       class="btn btn-success"
-                      v-if="deleteReport === false"
+                      v-if="deleteReport === false && !loading"
                       @click="submitWeeklyReview"
                     >Submit</button>
+                    <button
+                      type="button"
+                      class="btn btn-success"
+                      v-if="loading">
+                      <i class="fa fa-circle-o-notch fa-spin"></i>
+                    </button>
                   </div>
                   <div class="col-md-4 col-12">
                     <button
                       type="button"
                       class="btn btn-danger"
                       :disabled="disableDelete"
-                      v-if="deleteReport === true"
+                      v-if="deleteReport === true && !loading"
                       @click="deletereportFunct"
                     >Delete</button>
                   </div>
@@ -224,6 +230,7 @@ export default {
       deleteReport: false,
       disableDelete: false,
       error: false,
+      loading: false,
       errorMessage: ""
     };
   },
@@ -275,6 +282,7 @@ export default {
       this.kpikradescriotionlist = [];
     },
     async submitWeeklyReview() {
+      this.loading = true
       this.error = false;
       this.errorMessage = "";
       if (this.kpiKraDescription) {
@@ -310,6 +318,7 @@ export default {
           this.error = true;
           this.errorMessage = response;
         }
+        this.loading = false
       }
     },
     submitStarRate(value) {
@@ -361,6 +370,7 @@ export default {
       }
     },
     async deletereportFunct() {
+      this.loading = true
       let response = await this.deleteWeeklyReport_({
         _id: this.submittedReport[0]._id
       });
@@ -373,6 +383,7 @@ export default {
         this.error = true;
         this.errorMessage = response;
       }
+      this.loading = false
     }
   }
 };

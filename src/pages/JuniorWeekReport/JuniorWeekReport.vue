@@ -90,7 +90,7 @@
                 <div class="comment-body">
                   <h6 class="author fs-sm fw-semi-bold">{{ comment.manager_id.name }}</h6>
                   <p class="mb-0">{{ comment.comment }}</p>
-                  <div class="starClass">
+                  <!-- <div class="starClass">
                     <strong>Difficulty : &nbsp;</strong>
                     <Stars
                       :displayStar="10"
@@ -98,7 +98,7 @@
                       :starSize="'15px'"
                       :disableStar="false"
                     />
-                  </div>
+                  </div> -->
                   <div class="starClass">
                     <strong>Overall Rating : &nbsp;</strong>
                     <Stars

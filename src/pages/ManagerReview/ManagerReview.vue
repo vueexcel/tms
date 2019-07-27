@@ -96,7 +96,7 @@
                       <span v-if="managerReview.comment">{{managerReview.comment}}</span>
                       <span v-else>No comment from your Manager</span>
                     </p>
-                    <div class="starClass">
+                    <!-- <div class="starClass">
                       Difficulty :
                       <Stars
                         :displayStar="10"
@@ -104,7 +104,7 @@
                         :starSize="'10px'"
                         :disableStar="false"
                       />
-                    </div>
+                    </div> -->
                     <div class="starClass">
                       Overall Rating :
                       <Stars
