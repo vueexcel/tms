@@ -33,8 +33,8 @@
           md="4"
           xs="12"
           class="column"
-          v-for="employee in empToShow"
-          :key="employee.id"
+          v-for="(employee,index) in empToShow"
+          :key="index"
         >
           <MonthlyReviewComponent
             :employee="employee"
