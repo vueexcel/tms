@@ -19,7 +19,7 @@
     <!-- <ul class="timeline" v-if="allUserReviews.length"> -->
     <ul class="timeline" v-if="allUserReviews.length">
       <li
-        v-for="( junior, index ) in allUserReviews.slice().reverse()"
+        v-for="( junior, index ) in allUserReviews"
         :key="index"
         :class="{ onLeft: index %2 ==0 }"
       >
