@@ -46,7 +46,7 @@
                 :label-cols="2"
                 breakpoint="md"
               >
-                <div slot="label">Secret key</div>
+                <div slot="label">HR Secret key</div>
                 <b-form-input
                   type="text"
                   v-model="slackTokens.secret_key"

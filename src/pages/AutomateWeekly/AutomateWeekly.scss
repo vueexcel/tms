@@ -1,0 +1,34 @@
+@import "../../styles/app";
+
+table {
+  td,
+  th {
+    font-weight: $font-weight-normal;
+  }
+
+  tbody tr {
+    &:nth-child(odd) {
+      background: $gray-100;
+    }
+
+    td {
+      min-width: 100px;
+    }
+  }
+}
+
+.warning {
+  background: #ffc247;
+}
+.success {
+  background: #3abf94;
+}
+.primary {
+  background: #547fff;
+}
+
+.activity {
+  height: 400px;
+  overflow-y: scroll;
+  @include scroll-bar($sidebar-scrollbar-bg);
+}
