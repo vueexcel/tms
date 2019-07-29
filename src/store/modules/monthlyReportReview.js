@@ -95,13 +95,15 @@ const actions = {
                     if (state.employee.length) {
                         state.employee.find(report => {
                             if (employee._id === report.user._id) {
-                                report.is_reviewed.forEach(element => {
-                                    if (element._id === rootState.profile.user._id) {
-                                        if (element.reviewed === false) {
-                                            aarayOfUser.push(employee);
-                                        }
+                                let response = report.is_reviewed.find(review =>{
+                                    return review._id === rootState.profile.user._id 
+                                })
+                                if(employee){
+                                    let isEmployeeExist = aarayOfUser.includes(employee)
+                                    if(!isEmployeeExist){
+                                        if (response && response.reviewed === false) aarayOfUser.push(employee);
                                     }
-                                });
+                                }
                             }
                         });
                     }
