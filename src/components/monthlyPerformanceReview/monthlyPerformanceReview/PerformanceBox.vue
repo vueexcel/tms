@@ -22,7 +22,7 @@
           >Info: Overall rating/ comments mandatory for managers based on monthly report</b-alert>
 
           <b-form @submit.prevent="submit">
-            {{ reviews }} {{ report }}
+            <!-- {{ reviews }} {{ report }} -->
             <div v-if="managerComment.review">
               <div>
                 <h3>KPI</h3>
@@ -167,7 +167,6 @@
 
 <script>
 import starRating from "@/components/Star/Star";
-import ExtraWorkFeedback from "./../../../components/ExtraWorkFeedback/ExtraWorkFeedback";
 import UserMonthlyReport from "@/components/UserMonthlyReport/UserMonthlyReport";
 import { sync, call, get } from "vuex-pathify";
 export default {
@@ -179,7 +178,7 @@ export default {
     },
     employees:{
       type: Array,
-      default: []
+      default: function () { return [] }
     }
   },
   data() {
@@ -188,7 +187,6 @@ export default {
       textera: [],
       ratedStarKpi: [],
       ratedStarEra: [],
-      managerComment: [],
       loading: false,
       alertMessage: "",
       alertMessageShow: false
@@ -202,20 +200,20 @@ export default {
     activeEmployeReport: sync("monthlyReportReview/activeEmployeReport"),
     activeEmployee:sync('monthlyReportReview/activeEmployee'),
     user: get("profile/user"),
-    reviews() {
+    managerComment() {
+      let obj = []
       if (this.activeEmployeReport.review) {
         this.activeEmployeReport.review.filter(ele => {
           if (ele.manager_id.username === this.user.username) {
-            this.managerComment.review = ele;
+            obj["review"] = ele
           }
         });
       }
-    },
-    report() {
       if (this.activeEmployeReport.report) {
-        this.managerComment["kpi"] = this.activeEmployeReport.report.kpi;
-        this.managerComment["era"] = this.activeEmployeReport.report.era;
+        obj["kpi"] = this.activeEmployeReport.report.kpi
+        obj["era"] = this.activeEmployeReport.report.era
       }
+      return obj
     }
   },
   methods: {
@@ -264,6 +262,8 @@ export default {
             this.alertMessage = res.res
             this.alertMessageShow = true 
         } else {
+            this.alertMessageShow = true;
+          this.alertMessage = res.res
             this.textkpi = [];
             this.textera = [];
             this.api_getReports();
@@ -287,7 +287,7 @@ export default {
       this.alertMessage = "";
       this.alertMessageShow = false;
       this.api_deleteMonthlyReport({ id: this.activeEmployeReport._id })
-        .then(res => {
+        .then(() => {
           for (var key in this.managerComment) {
             if (key === "review") {
               delete this.managerComment[key];

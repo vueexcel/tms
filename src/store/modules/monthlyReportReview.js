@@ -12,7 +12,7 @@ const state = {
 }
 const mutations = make.mutations(state)
 const actions = {
-    async getUsersMonthlyReports({ state, dispatch, commit }) {
+    async getUsersMonthlyReports({ state, dispatch }) {
         state.employee = ''
         let res = await axios.get('/manager_monthly_all')
         if (res) {
@@ -23,7 +23,7 @@ const actions = {
         }
     },
     // set active employee report  
-    setactiveEmp({ state, dispatch, commit }) {
+    setactiveEmp({ state, commit }) {
         commit('activeEmployeReport', null)
         if (state.activeEmployee) {
             // if employee has report
@@ -37,7 +37,7 @@ const actions = {
         }
     },
     // api for manager admin to post review
-    async postMonthlyReview({ state, dispatch }, payload) {
+    async postMonthlyReview({ dispatch }, payload) {
         let errorResponse = {
             error:  false,
             res : null
@@ -54,19 +54,19 @@ const actions = {
             // }
         } catch (error) {
             errorResponse.error = true
-            if(error.response.status === 401 ){
+            if(error.response && error.response.status === 401 ){
                 errorResponse.res = 'Please login again'
-            }  else if (error.response.status === 403 || error.response.status === 400) {
+            }  else if (error.response && (error.response.status === 403 || error.response.status === 400)) {
                 errorResponse.res = error.response.data.msg
             }
-            else {
+            else if(!error.response){
                 errorResponse.res = 'Api Server down'
             }
             return errorResponse
         }
     },
     // delete api for managers/ admin
-    async deleteMonthlyReview({ state, commit }, payload) {
+    async deleteMonthlyReview(payload) {
         let id = payload.id
         let res = await axios.delete(`/delete_manager_monthly_response/${id}`)
         if (res) {
@@ -95,16 +95,15 @@ const actions = {
                     if (state.employee.length) {
                         state.employee.find(report => {
                             if (employee._id === report.user._id) {
-                                console.log(report.is_reviewed,'report',report);
-                                report.is_reviewed.forEach(element => {
-                                    if (element._id === rootState.profile.user._id) {
-                                        console.log(element,'element@@@');
-                                        
-                                        if (element.reviewed === false) {
-                                            aarayOfUser.push(employee);
-                                        }
+                                let response = report.is_reviewed.find(review =>{
+                                    return review._id === rootState.profile.user._id 
+                                })
+                                if(employee){
+                                    let isEmployeeExist = aarayOfUser.includes(employee)
+                                    if(!isEmployeeExist){
+                                        if (response && response.reviewed === false) aarayOfUser.push(employee);
                                     }
-                                });
+                                }
                             }
                         });
                     }

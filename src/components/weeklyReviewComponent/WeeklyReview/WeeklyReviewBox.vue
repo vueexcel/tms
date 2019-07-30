@@ -155,6 +155,7 @@
               value="a"
             >Didn't work with employee in the week</b-form-radio>
             <b-form-radio v-model="reasonSelected" name="some-radios" value="b">I was on leave</b-form-radio>
+            <b-form-radio v-model="reasonSelected" name="some-radios" value="d">I am no longer associated in any project with this employee</b-form-radio>
             <b-form-radio v-model="reasonSelected" name="some-radios" value="c">Others</b-form-radio>
           </b-form-group>
         </b-container>

@@ -48,7 +48,6 @@ const actions = {
                 commit('reports', res.data)
             })
             .catch((err) => {
-                console.log(err.response.status);
                 if (err.response.status === 401) {
                     router.push("/")
                 }
