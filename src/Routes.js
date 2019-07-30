@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
-import userProfile from './store/modules/profile'
+import userProfile from "./store/modules/profile";
 
 import Layout from "@/components/Layout/Layout";
 import LayoutAdmin from "@/components/Layout/Layout";
@@ -34,8 +34,9 @@ import MonthlyReportReview from "@/pages/MonthlyReportReview/MonthlyReportReview
 import Review360 from "@/pages/Review360/Review360";
 import ViewReview360 from "@/pages/ViewReview360/ViewReview360";
 import ViewManagerReiewMonthly from "@/pages/ViewManagerReviewMonthly/ViewManagerReviewMonthly";
-import PeerReview from "@/pages/PeerReview/PeerReview"
-import Notes from "@/pages/Notes/Notes"
+import PeerReview from "@/pages/PeerReview/PeerReview";
+import Notes from "@/pages/Notes/Notes";
+import AutomateWeekly from "@/pages/AutomateWeekly/AutomateWeekly";
 // --admin pages--
 import ManageEmployee from "@/pages/ManageEmployee/ManageEmployee";
 import ManageKPI from "@/pages/Kpi/Kpi";
@@ -74,9 +75,14 @@ const router = new Router({
         {
           path: "profile",
           name: "Profile",
-          component: Profile,
+          component: Profile
           // props: true,
           // meta: { requiresAuth: true }
+        },
+        {
+          path: "automateWeekly",
+          name: "AutomateWeekly",
+          component: AutomateWeekly
         },
         {
           path: "checkin",
@@ -87,7 +93,7 @@ const router = new Router({
           path: "viewCheckin",
           name: "ViewCheckin",
           component: ViewCheckin,
-          meta: { user: 'manager' }
+          meta: { user: "manager" }
         },
         {
           path: "week/weeklyCheckin", //previously weeklyReview
@@ -108,7 +114,7 @@ const router = new Router({
           path: "week/weeklyReport",
           name: "WeeklyReport",
           component: WeeklyReport,
-          meta: { user: 'manager' }
+          meta: { user: "manager" }
         },
         {
           path: "month/monthlyReport",
@@ -119,13 +125,13 @@ const router = new Router({
           path: "month/monthlyReportReview",
           name: "monthlyReportReview",
           component: MonthlyReportReview,
-          meta: { user: 'manager' }
+          meta: { user: "manager" }
         },
         {
           path: "juniors",
           name: "Juniors",
           component: Juniors,
-          meta: { user: 'manager' }
+          meta: { user: "manager" }
         },
         {
           path: "feedback",
@@ -141,13 +147,13 @@ const router = new Router({
           path: "week/juniorWeekReport",
           name: "JuniorWeekReport",
           component: JuniorWeekReport,
-          meta: { user: 'manager' }
+          meta: { user: "manager" }
         },
         {
           path: "month/juniorMonthlyReport",
           name: "JuniorMonthlyReport",
           component: JuniorMonthlyReport,
-          meta: { user: 'manager' }
+          meta: { user: "manager" }
         },
         {
           path: "360/review360",
@@ -158,7 +164,7 @@ const router = new Router({
           path: "360/viewreview360",
           name: "viewreview360",
           component: ViewReview360,
-          meta: { user: 'manager' }
+          meta: { user: "manager" }
         },
         {
           path: "month/viewManagerReiewMonthly",
@@ -236,35 +242,37 @@ const router = new Router({
           name: "ViewFeedback",
           component: ViewFeedback,
           meta: { requiresAuth: true }
-        },
+        }
       ]
     }
   ]
 });
 
 router.beforeEach((to, from, next) => {
+  if (to.fullPath === "/app/automateWeekly") {
+    localStorage.setItem("weeklyAutomate", true);
+  }
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (
-      !localStorage.getItem("authenticated")
-    ) {
+    if (!localStorage.getItem("authenticated")) {
       next({
         path: "/"
       });
     } else {
-      if (to.fullPath.includes('admin') && userProfile.state.user.role !== 'Admin' ||
-        to.matched.some(record => record.meta.user === 'manager') && userProfile.state.user.role === 'employee'
+      if (
+        (to.fullPath.includes("admin") &&
+          userProfile.state.user.role !== "Admin") ||
+        (to.matched.some(record => record.meta.user === "manager") &&
+          userProfile.state.user.role === "employee")
       ) {
         next({
           path: "/"
-        })
+        });
       } else {
         next();
       }
       next();
     }
-  } else if (
-    (localStorage.getItem("authenticated") && to.path == "/")
-  ) {
+  } else if (localStorage.getItem("authenticated") && to.path == "/") {
     if (store.state.profile.user.role === "Admin") {
       next({
         path: "/admin/manageKpi"

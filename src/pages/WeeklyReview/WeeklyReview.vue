@@ -27,6 +27,15 @@
               </b-alert>
             </div>
             <form class="form-horizontal" v-if="report.length">
+              <div
+                v-if="deleteReport === false && !loading"
+                class="form-group row flex-row-reverse"
+              >
+                <router-link
+                  class="btn btn-outline-secondary mr-3"
+                  to="/app/automateWeekly"
+                >Lazy submit</router-link>
+              </div>
               <fieldset>
                 <div class="form-group row">
                   <label
@@ -171,10 +180,7 @@
                       v-if="deleteReport === false && !loading"
                       @click="submitWeeklyReview"
                     >Submit</button>
-                    <button
-                      type="button"
-                      class="btn btn-success"
-                      v-if="loading">
+                    <button type="button" class="btn btn-success" v-if="loading">
                       <i class="fa fa-circle-o-notch fa-spin"></i>
                     </button>
                   </div>
@@ -282,7 +288,7 @@ export default {
       this.kpikradescriotionlist = [];
     },
     async submitWeeklyReview() {
-      this.loading = true
+      this.loading = true;
       this.error = false;
       this.errorMessage = "";
       if (this.kpiKraDescription) {
@@ -318,7 +324,7 @@ export default {
           this.error = true;
           this.errorMessage = response;
         }
-        this.loading = false
+        this.loading = false;
       }
     },
     submitStarRate(value) {
@@ -370,7 +376,7 @@ export default {
       }
     },
     async deletereportFunct() {
-      this.loading = true
+      this.loading = true;
       let response = await this.deleteWeeklyReport_({
         _id: this.submittedReport[0]._id
       });
@@ -383,7 +389,7 @@ export default {
         this.error = true;
         this.errorMessage = response;
       }
-      this.loading = false
+      this.loading = false;
     }
   }
 };

@@ -1,6 +1,6 @@
 import { make } from "vuex-pathify";
 import axios from "axios";
-import router from './../../Routes'
+import router from "./../../Routes";
 // setup store
 const state = {
   report: {},
@@ -16,65 +16,74 @@ const actions = {
     //   return true;
     // }
     if (response.data.length) {
-
-      commit('report', response.data)
+      commit("report", response.data);
       return true;
     } else {
-      dispatch('revoke_checkin').then(res => {
-        if (res)
-          return true
-      })
+      dispatch("revoke_checkin").then(res => {
+        if (res) return true;
+      });
     }
   },
   // fetch revoked reports
   async revoke_checkin({ commit }) {
-    let response = await axios.get('/revoke_checkin');
+    let response = await axios.get("/revoke_checkin");
     if (response) {
-      commit('report', response.data)
+      commit("report", response.data);
       return true;
     }
   },
   async weeklyReview({ state, commit }, payload) {
     try {
-      let response = await axios.post("/weekly", payload)
+      let response = await axios.post("/weekly", payload);
       if (response) {
         alert("weekly review submitted success");
-        return true
+        return true;
       }
     } catch (err) {
       if (err.response) {
-        return err.response
+        return err.response;
       } else {
-        return 'Api Server Down'
+        return "Api Server Down";
       }
     }
   },
-  async getReports({ state, commit }, ) {
+  async getReports({ state, commit }) {
     try {
-      let response = await axios.get('/weekly')
-      return response.data
+      let response = await axios.get("/weekly");
+      return response.data;
     } catch (err) {
       if (err.response.status === 401) {
-        router.push("/")
+        router.push("/");
       } else if (err.response) {
-        return err.response
+        return err.response;
       } else {
-        return 'Api server down'
+        return "Api server down";
       }
     }
   },
   async deleteWeeklyReport({ state }, payload) {
     try {
-      let response = await axios.delete(`/delete_weekly/${payload._id}`)
+      let response = await axios.delete(`/delete_weekly/${payload._id}`);
       if (response) {
-        return true
+        return true;
       }
     } catch (err) {
       if (err.response) {
-        return err.response
+        return err.response;
       } else {
-        return 'Api server Down'
+        return "Api server Down";
       }
+    }
+  },
+  // @bp.route('/weekly_automated', methods=["POST"])
+  async weeklyAutomated({ state }, payload) {
+    try {
+      let response = await axios.post("/weekly_automated");
+      if (response) {
+        return response;
+      }
+    } catch (err) {
+      return err.response;
     }
   }
 };
