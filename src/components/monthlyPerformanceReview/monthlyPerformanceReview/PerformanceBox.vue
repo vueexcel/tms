@@ -177,7 +177,7 @@ export default {
       type: Number,
       default: 0
     },
-    employees:{
+    employees: {
       type: Array,
       default: []
     }
@@ -200,7 +200,7 @@ export default {
   },
   computed: {
     activeEmployeReport: sync("monthlyReportReview/activeEmployeReport"),
-    activeEmployee:sync('monthlyReportReview/activeEmployee'),
+    activeEmployee: sync("monthlyReportReview/activeEmployee"),
     user: get("profile/user"),
     reviews() {
       if (this.activeEmployeReport.review) {
@@ -223,8 +223,8 @@ export default {
     api_deleteMonthlyReport: call("monthlyReportReview/deleteMonthlyReview"),
     api_getReports: call("monthlyReportReview/getUsersMonthlyReports"),
     async submit() {
-      this.alertMessage = ""
-      this.alertMessageShow = false
+      this.alertMessage = "";
+      this.alertMessageShow = false;
       let kpiArray = [];
       let eraArray = [];
       let comment = {};
@@ -259,21 +259,23 @@ export default {
         let res = await this.api_postReview({
           id: this.activeEmployeReport._id,
           comment: comment
-        })
-        if(res.error === true){
-            this.alertMessage = res.res
-            this.alertMessageShow = true 
+        });
+        if (res.error === true) {
+          this.alertMessage = res.res;
+          this.alertMessageShow = true;
         } else {
-            this.textkpi = [];
-            this.textera = [];
-            this.api_getReports();
+          this.textkpi = [];
+          this.textera = [];
+          this.api_getReports();
         }
         this.loading = false;
         this.ratedStarKpi = [];
         this.ratedStarEra = [];
       } else {
-        this.alertMessage = "You need to comment on all ERA/KPI and select respective stars as well"
-        this.alertMessageShow = true 
+        this.$emit("moveToBottom");
+        this.alertMessage =
+          "You need to comment on all ERA/KPI and select respective stars as well";
+        this.alertMessageShow = true;
       }
     },
     submitStarRate(value, i) {

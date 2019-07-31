@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div ref="messageDisplay">
     <b-row>
       <div class="col-md-8 col-12 size">
         <span class="page-title ml-3 row">Monthly Report Review</span>
@@ -14,20 +14,27 @@
     <div class="w-100">
       <span class="page-title ml-3" style="font-size: 24px;">
         Team View
-        <span class="fs-sm">
-          <i class="pl-5 fa fa-circle text-info" /> Selected
-          <i class="pl-1 fa fa-circle" style="color: red" /> Report Available ( Border color )
-          <i class="pl-1 fa fa-circle" style="color: orange" /> Report Reviewed ( Border color )
-          <i class="pl-1 fa fa-circle" style="color: black" /> No Report ( Border color )
+        <span class="fs-sm d-flex flex-column flex-wrap d-md-inline pl-3">
+          <span>
+            <i class="fa fa-circle text-info" /> Selected
+          </span>
+          <span>
+            <i class="fa fa-circle" style="color: red" /> Report Available ( Border color )
+          </span>
+          <span>
+            <i class="fa fa-circle" style="color: orange" /> Report Reviewed ( Border color )
+          </span>
+          <span>
+            <i class="fa fa-circle" style="color: black" /> No Report ( Border color )
+          </span>
         </span>
       </span>
       <i class="fas fa-circle-notch text-success fa-spin float-right mr-5 size" v-if="loading"></i>
     </div>
     <b-container class="no-gutters">
       <b-row class="row-altered">
-
         <!-- list of all employees -->
-        
+
         <b-col
           lg="2"
           md="4"
@@ -43,23 +50,22 @@
             :employees="empToShow"
           />
         </b-col>
-        
+
         <!-- list of all employees ends -->
-     
       </b-row>
     </b-container>
-    
+
     <!-- left right boxes for user data & form -->
-    
+
     <div class="container-fluid" v-if="getActiveEmp && empToShow.length">
       <div class="mt-5 mb-3 row"></div>
       <transition name="fade">
-        <PerformanceBox v-if="show" :employees="empToShow" />
+        <PerformanceBox @moveToBottom="scrollToBottom()" v-if="show" :employees="empToShow" />
       </transition>
     </div>
-    
+
     <!-- left right boxes for user data & form ends -->
-    
+
     <div v-else>
       <p class="pl-3">
         <b-alert show class="alert-transparent alert-danger">No Report</b-alert>
@@ -110,6 +116,17 @@ export default {
     api_getallJuniors: call("weeklyReportReview/getAllJuniors"),
     employeeToShow: call("monthlyReportReview/employeeToShow"),
     api_activeEmp: call("monthlyReportReview/setactiveEmp"),
+    scrollToBottom() {
+      var messageDisplay = this.$refs.messageDisplay;
+      messageDisplay.scrollTop = messageDisplay.scrollHeight;
+      setTimeout(() => {
+        window.scrollTo({
+          top: messageDisplay.scrollHeight,
+          left: 0,
+          behavior: "smooth"
+        });
+      }, 500);
+    },
     api_getUsersMonthlyReports: call(
       "monthlyReportReview/getUsersMonthlyReports"
     ),

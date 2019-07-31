@@ -32,7 +32,7 @@
             <b-col xs="12" sm="6" class="rounded-left first-box">
               <ExtraWorkFeedback :user="activeReport" :variant="'#9964e3 !important'" />
             </b-col>
-            <b-col xs="12" sm="6" class="rounded-right">
+            <b-col xs="12" sm="6" class="rounded-right mt-xs m-sm-0">
               <b-alert
                 show
                 class="Alert-class"
@@ -61,7 +61,7 @@
                 :starSize="starSize"
                 @starRatingSelected="submitStarRateDifficulty"
                 :disableStar="activeReport.canReview === false ? true : false"
-              /> -->
+              />-->
               <div sm="6" class="mt-2">
                 <h6 class="text-inverse">Comments</h6>
               </div>
@@ -76,7 +76,7 @@
                 </div>
                 <div
                   v-else
-                  class="text-info font-weight-bold text-left comment_manager "
+                  class="text-info font-weight-bold text-left comment_manager"
                 >{{reviewedComments.comment}}</div>
                 <span v-if="activeReport.canReview == true">
                   <b-button
@@ -91,7 +91,7 @@
                     @click="skipReport"
                   >Skip Report</b-button>
                 </span>
-                  <!-- :disabled="activeReport.canReview == false" -->
+                <!-- :disabled="activeReport.canReview == false" -->
                 <span v-if="activeReport.weekly_cron === false">
                   <b-button
                     class="btn btn-default btn-lg mb-xs bg-warning text-dark mt-4 w-25"
@@ -103,29 +103,37 @@
                     </span>
                   </b-button>
                 </span>
-                <span v-if="activeReport.canReview == false">
+                <span v-if="activeReport.canReview == false" class="d-flex flex-row-reverse">
+                  <!-- class="btn btn-default btn-lg mb-xs bg-primary text-white mt-4" -->
                   <b-button
                     variant="danger"
-                    class="btn-lg width-100 mb-xs mr-xs mt-4 float-right"
+                    class="btn btn-lg width-100 mb-xs mr-xs mt-4 float-right"
                     :disabled="userProfile.role == 'admin'?true:false"
                     @click="deleteReport()"
                   >Delete</b-button>
                 </span>
               </b-form>
-              <div class="mt-4 pt-lg" v-if="activeReport.note && activeReport.note.length">
-                <h5>Your Notes :</h5>
-                <div class="bg-warning shadow-lg p-3">
-                  <div v-for="(note,index) in activeReport.note" :key="index" class="font-weight-bold note">
-                    <div class="d-flex">{{index + 1}}. <div class="ml-1 comment"> {{note.comment}}</div></div>
-                  </div>
-                </div>
-              </div>
-              <div class="mt-5 pt-4" v-if="errorMessageDel">
+              <div class v-if="errorMessageDel">
                 <b-alert
                   show
                   dismissible
                   class="alert-transparent alert-danger mt-3"
                 >{{errorMessageDel}}</b-alert>
+              </div>
+              <div class="mt-4 pt-lg" v-if="activeReport.note && activeReport.note.length">
+                <h5>Your Notes :</h5>
+                <div class="bg-warning shadow-lg p-3">
+                  <div
+                    v-for="(note,index) in activeReport.note"
+                    :key="index"
+                    class="font-weight-bold note"
+                  >
+                    <div class="d-flex">
+                      <span>{{index + 1}}.</span>
+                      <div class="ml-1 comment">{{note.comment}}</div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </b-col>
           </b-row>
@@ -155,7 +163,11 @@
               value="a"
             >Didn't work with employee in the week</b-form-radio>
             <b-form-radio v-model="reasonSelected" name="some-radios" value="b">I was on leave</b-form-radio>
-            <b-form-radio v-model="reasonSelected" name="some-radios" value="d">I am no longer associated in any project with this employee</b-form-radio>
+            <b-form-radio
+              v-model="reasonSelected"
+              name="some-radios"
+              value="d"
+            >I am no longer associated in any project with this employee</b-form-radio>
             <b-form-radio v-model="reasonSelected" name="some-radios" value="c">Others</b-form-radio>
           </b-form-group>
         </b-container>

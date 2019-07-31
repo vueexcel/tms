@@ -9,6 +9,9 @@
     margin-left: 30px;
   }
 }
+.wordBreak {
+  word-break: break-all;
+}
 
 /*           Post Comments         */
 .postComments {
@@ -213,11 +216,13 @@
     float: left;
     width: 18%;
     margin-top: 5px;
+    padding-right: 5px;
     text-align: right;
 
     > .date {
       display: block;
-      font-size: $font-size-larger;
+      font-size: $font-size-sm;
+      font-weight: $font-weight-normal;
     }
 
     > .time {

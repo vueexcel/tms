@@ -82,7 +82,7 @@
             <span class="white-space-pre text-info fs-lg fw-semi-bold">{{ junior.comment }}</span>
           </p>
           <p>
-            <starRating class :ratedStar="junior.rating" :displayStar="10" :starSize="'18px'"/>
+            <starRating class :ratedStar="junior.rating" :displayStar="10" :starSize="'15px'"/>
           </p>
         </section>
       </li>

@@ -81,7 +81,8 @@
         <!--==================================================================== 
           * Right overAll Score
         *=======================================================================-->
-        <b-col class="p-0 ml-3">
+        <!-- <b-col class="p-0 ml-3"> -->
+        <b-col>
           <div class="h-auto pb-3" lg="4" xs="12">
             <h2 class="mb-3">
               Overall
@@ -149,7 +150,7 @@
                   :max="100"
                 />
               </div>
-            </div> -->
+            </div>-->
             <!-- Recent Activities -->
           </div>
           <!-- <div class="h-auto mt-5">

@@ -6,7 +6,7 @@
       <i class="fa fa-circle text-info"/> Give Reason (task not completed)
       <i class="ml-1 fa fa-circle text-warning"/> Highlighted task (task not completed)
     </span>
-    <b-container class="no-gutters p-0">
+    <b-container class="no-gutters p-0 mt-2">
       <b-row>
         <b-col lg="6" xs="12">
           <div class="pb-xlg">
