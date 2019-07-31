@@ -176,9 +176,11 @@ export default {
       type: Number,
       default: 0
     },
-    employees:{
+    employees: {
       type: Array,
-      default: function () { return [] }
+      default: function() {
+        return [];
+      }
     }
   },
   data() {
@@ -198,22 +200,22 @@ export default {
   },
   computed: {
     activeEmployeReport: sync("monthlyReportReview/activeEmployeReport"),
-    activeEmployee:sync('monthlyReportReview/activeEmployee'),
+    activeEmployee: sync("monthlyReportReview/activeEmployee"),
     user: get("profile/user"),
     managerComment() {
-      let obj = []
+      let obj = [];
       if (this.activeEmployeReport.review) {
         this.activeEmployeReport.review.filter(ele => {
           if (ele.manager_id.username === this.user.username) {
-            obj["review"] = ele
+            obj["review"] = ele;
           }
         });
       }
       if (this.activeEmployeReport.report) {
-        obj["kpi"] = this.activeEmployeReport.report.kpi
-        obj["era"] = this.activeEmployeReport.report.era
+        obj["kpi"] = this.activeEmployeReport.report.kpi;
+        obj["era"] = this.activeEmployeReport.report.era;
       }
-      return obj
+      return obj;
     }
   },
   methods: {
@@ -221,8 +223,8 @@ export default {
     api_deleteMonthlyReport: call("monthlyReportReview/deleteMonthlyReview"),
     api_getReports: call("monthlyReportReview/getUsersMonthlyReports"),
     async submit() {
-      this.alertMessage = ""
-      this.alertMessageShow = false
+      this.alertMessage = "";
+      this.alertMessageShow = false;
       let kpiArray = [];
       let eraArray = [];
       let comment = {};
@@ -257,23 +259,25 @@ export default {
         let res = await this.api_postReview({
           id: this.activeEmployeReport._id,
           comment: comment
-        })
-        if(res.error === true){
-            this.alertMessage = res.res
-            this.alertMessageShow = true 
+        });
+        if (res.error === true) {
+          this.alertMessage = res.res;
+          this.alertMessageShow = true;
         } else {
-            this.alertMessageShow = true;
-          this.alertMessage = res.res
-            this.textkpi = [];
-            this.textera = [];
-            this.api_getReports();
+          this.alertMessageShow = true;
+          this.alertMessage = res.res;
+          this.textkpi = [];
+          this.textera = [];
+          this.api_getReports();
         }
         this.loading = false;
         this.ratedStarKpi = [];
         this.ratedStarEra = [];
       } else {
-        this.alertMessage = "You need to comment on all ERA/KPI and select respective stars as well"
-        this.alertMessageShow = true 
+        this.$emit("moveToBottom");
+        this.alertMessage =
+          "You need to comment on all ERA/KPI and select respective stars as well";
+        this.alertMessageShow = true;
       }
     },
     submitStarRate(value, i) {

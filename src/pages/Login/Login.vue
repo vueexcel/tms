@@ -1,10 +1,11 @@
 <template>
   <div class="login-page">
-    <b-container class="pt-1 pb-1 bg-white shadow-sm w-50">
+    <!-- <b-container class="pt-1 pb-1 bg-white shadow-sm w-50"> -->
+    <b-container class="pt-1 pb-1 bg-white shadow-sm col-md-6 col-11">
       <div class="mx-auto" customHeader>
         <div class="login_container pt-4 pb-5">
           <h5 class="logo mb-5">
-            <img src="./../../images/logo.png" width="100%" alt="logo">
+            <img src="./../../images/logo.png" width="100%" alt="logo" />
           </h5>
           <div class="alert alert-danger alert-transparent alert-sm" v-if="loginfailed">
             <button
@@ -29,7 +30,7 @@
                 name="username"
                 placeholder="Username"
                 autofocus
-              >
+              />
             </div>
             <div class="form-group">
               <input
@@ -39,7 +40,7 @@
                 type="password"
                 name="password"
                 placeholder="Password"
-              >
+              />
             </div>
             <div class="clearfix">
               <!-- <div class="abc-checkbox float-left">
@@ -47,7 +48,7 @@
                 <label for="checkbox" class="text-muted fs-sm">
                   <span class="align-text-middle">Keep me signed in</span>
                 </label>
-              </div> -->
+              </div>-->
               <div class="btn-toolbar float-right">
                 <b-button class="pr-4 pl-4" type="submit" size="sm" variant="inverse">
                   <span v-if="!loader">Login</span>

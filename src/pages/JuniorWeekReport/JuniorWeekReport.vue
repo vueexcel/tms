@@ -104,7 +104,7 @@
                     <Stars
                       :displayStar="10"
                       :ratedStar="comment.rating"
-                      :starSize="'15px'"
+                      :starSize="'12px'"
                       :disableStar="false"
                     />
                   </div>

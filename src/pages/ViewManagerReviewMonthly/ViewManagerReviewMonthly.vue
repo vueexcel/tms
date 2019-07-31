@@ -125,7 +125,7 @@
                             <Stars
                               :displayStar="10"
                               :ratedStar="Number(kpiera.rating)"
-                              :starSize="'20px'"
+                              :starSize="'14px'"
                               :disableStar="false"
                             />
                           </div>
@@ -151,7 +151,7 @@
                             <Stars
                               :displayStar="10"
                               :ratedStar="Number(kpiera.rating)"
-                              :starSize="'20px'"
+                              :starSize="'14px'"
                               :disableStar="false"
                             />
                           </div>

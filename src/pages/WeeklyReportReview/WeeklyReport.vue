@@ -15,12 +15,19 @@
       <div class="w-100">
         <span class="page-title ml-3" style="font-size: 24px;">
           Team View
-          <span class="fs-sm">
-            <i class="pl-5 fa fa-circle text-info" /> Selected
-            <!-- <i class="pl-1 fa fa-circle" style="color: #006400"/> Report Available ( Border color ) -->
-            <i class="pl-1 fa fa-circle" style="color: red" /> Report Available ( Border color )
-            <i class="pl-1 fa fa-circle" style="color: orange" /> Report Reviewed ( Border color )
-            <i class="pl-1 fa fa-circle" style="color: black" /> No Report ( Border color )
+          <span class="fs-sm d-flex flex-column flex-wrap d-md-inline pl-3">
+            <span>
+              <i class="fa fa-circle text-info" /> Selected
+            </span>
+            <span>
+              <i class="fa fa-circle" style="color: red" /> Report Available ( Border color )
+            </span>
+            <span>
+              <i class="fa fa-circle" style="color: orange" /> Report Reviewed ( Border color )
+            </span>
+            <span>
+              <i class="fa fa-circle" style="color: black" /> No Report ( Border color )
+            </span>
           </span>
         </span>
         <i class="fas fa-circle-notch text-success fa-spin float-right mr-5 size" v-if="loading"></i>
@@ -127,7 +134,8 @@ export default {
               });
               let isEmployeeExist = arrayOfEmployee.includes(employee);
               if (!isEmployeeExist) {
-                if (response && response.reviewed === false) arrayOfEmployee.push(employee);
+                if (response && response.reviewed === false)
+                  arrayOfEmployee.push(employee);
               }
             }
           });

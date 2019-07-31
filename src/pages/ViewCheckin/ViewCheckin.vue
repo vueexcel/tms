@@ -7,9 +7,13 @@
         <span>None of your Junior have submitted checkin for this week</span>
       </b-alert>
     </div>
-    <span class="fs-sm" v-if="juniorCheckin.length">
-      <i class="fa fa-circle text-info"/> Give Reason (task not completed)
-      <i class="ml-1 fa fa-circle text-warning"/> Highlighted task (task not completed)
+    <span class="fs-sm d-flex flex-column flex-wrap d-md-inline pl-3 mb-3 mb-sm-0" v-if="juniorCheckin.length">
+      <span>
+        <i class="fa fa-circle text-info" /> Give Reason (task not completed)
+      </span>
+      <span>
+        <i class="fa fa-circle text-warning" /> Highlighted task (task not completed)
+      </span>
     </span>
     <div class="text-center" v-if="loading">
       <i class="fas fa-circle-notch text-success fa-spin fa-3x"></i>
@@ -42,14 +46,14 @@
               class="rounded-circle"
               :src="junior.user.profileImage ? junior.user.profileImage: image"
               alt="..."
-            >
+            />
           </span>
           <h5 class="eventHeading">
             <a class="text-primary">{{ junior.user.name }}</a>
           </h5>
           <p class="fs-sm text-muted">{{ junior.created_at | moment }}</p>
           <!-- <p class="fs-mini white-space-pre">{{ junior.report }}</p> -->
-          <div v-html="junior.report" class="report-wysiwyg"></div>
+          <div v-html="junior.report" class="report-wysiwyg wordBreak"></div>
           <p class="fs-mini text-custom white-space-pre">{{ junior.highlight }}</p>
           <p class="fs-mini text-warning white-space-pre">{{ junior.task_not_completed_reason }}</p>
         </section>
