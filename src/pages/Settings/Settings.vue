@@ -330,6 +330,21 @@
                     </div>
                   </div>
                 </div>
+                 <div class="form-group">
+                  <div class="row">
+                    <div class="col-md-2 text-md-right">
+                      <label for="normal-field-week">Automate Weekly</label>
+                    </div>
+                    <div class="col-8 col-md-5">
+                      <input
+                        @change="setSchedularSettings()"
+                        v-model="schedularSettings.weekly_automated"
+                        class="apple-switch form-control"
+                        type="checkbox"
+                      />
+                    </div>
+                  </div>
+                </div>
                 <b-form-group
                   horizontal
                   label
@@ -394,7 +409,8 @@ export default {
         weekly_remainder: false,
         revew_360_setting: false,
         managerSkip: false,
-        missed_reviewed: false
+        missed_reviewed: false,
+        weekly_automated: false
       }
     };
   },
@@ -440,6 +456,7 @@ export default {
             res.data[0].weekly_remainder;
           this.schedularSettings.revew_360_setting =
             res.data[0].revew_360_setting;
+          this.schedularSettings.weekly_automated = res.data[0].weekly_automated
         })
         .catch(err => {
           console.log(err);

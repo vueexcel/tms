@@ -153,7 +153,7 @@ export default {
     deleteWeeklyReview_: call("weeklyReportReview/deleteWeeklyReview"),
     // skipReportReview_: call("weeklyReportReview/skipReportReview"),
     api_revokeWeekly: call("weeklyReportReview/revokeWeekly"),
-    updateHighlight(val) {
+    updateHighlight() {
       this.fetchallWeeklyReport();
     },
     async skipReportReview(value) {
@@ -176,12 +176,6 @@ export default {
       }, 500);
       this.activeId = employee._id;
       this.activeEmp = employee;
-    },
-    onSlideStart(slide) {
-      this.sliding = true;
-    },
-    onSlideEnd(slide) {
-      this.sliding = false;
     },
     async fetchallWeeklyReport() {
       this.loading = true;
@@ -229,12 +223,11 @@ export default {
     revoke(report) {
       this.revokeLoader = true;
       this.api_revokeWeekly(report)
-        .then(res => {
+        .then(() => {
           this.fetchallWeeklyReport();
           this.revokeLoader = false;
         })
-        .catch(err => {
-          console.log(err.response);
+        .catch(() => {
           this.revokeLoader = false;
         });
     }

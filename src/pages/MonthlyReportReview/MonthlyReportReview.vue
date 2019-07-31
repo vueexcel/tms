@@ -104,7 +104,7 @@ export default {
     empToShow: sync("monthlyReportReview/employeeToShowArray")
   },
   watch: {
-    setReportToReview(newValue, oldValue) {
+    setReportToReview(newValue) {
       if (newValue === true) {
         this.employeeToShow(true);
       } else {
