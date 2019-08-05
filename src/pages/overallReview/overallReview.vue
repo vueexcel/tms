@@ -52,41 +52,77 @@
         </div>
       </Widget>
     </div>
-    <div>
-      <h1>Key Performance Area</h1>
-          <div v-if="user.profile && user.profile.kpi">
+    <div class="mt-3">
+      <h3>Key Performance Area</h3>
+      <div v-if="user.profile && user.profile.kpi && newArray.length">
+        <section>
+          <div v-for="(kpiera,index) in newArray" :key="index" class="areaBorder">
+            <div
+              class="mb-0 bg-white pl-3 pt-1 pr-4"
+              v-if="kpiera.title !== '' && kpiera.desc !== ''"
+              v-b-toggle="'manager' + kpiera.ID"
+            >
+              <p class="text-primary capitalize">
+                <span class="cursor_pointer">{{kpiera.title}}</span>
+              </p>
+            </div>
+            <b-collapse :id="'manager' + kpiera.ID">
+              <div class="w-75 pl-5 line">
+                <div class="bg-secondary rounded px-4 py-1 description">
+                  {{kpiera.desc}}
+                </div>
+                </div>
+            </b-collapse>
+                <RadialProgressBar
+                  v-if="kpiera.rating"
+                  class="pull-right"
+                  :diameter="30"
+                  :completed-steps="kpiera.rating"
+                  :total-steps="total"
+                  :strokeWidth="3"
+                >
+                  <p></p>
+                  <p class="fs-mini">{{ kpiera.rating.toFixed(1) }}</p>
+                </RadialProgressBar>
+          </div>
+        </section>
+      </div>
+      <h3>Extra Resource Area</h3>
+          <div v-if="user.profile && user.profile.kpi && eraArray">
+
             <section>
-        <div v-for="(kpiera,index) in newArray" :key="index" class="areaBorder">
-          <div
-            class="mb-0 bg-white pl-5 pt-1 pr-4"
-            v-if="kpiera.title !== '' && kpiera.desc !== ''"
-          >
-            <p class="text-primary capitalize">
-              {{kpiera.title}}
-              <RadialProgressBar
-                v-if="kpiera.rating"
-                class="pull-right"
-                :diameter="45"
-                :completed-steps="kpiera.rating"
-                :total-steps="total"
-                :strokeWidth="5"
-              >
-                <p></p>
-                <p class="fs-mini">{{ kpiera.rating.toFixed(1) }}</p>
-              </RadialProgressBar>
-            </p>
-            <!-- {{kpiera.desc}} -->
+          <div v-for="(kpiera,index) in eraArray" :key="index" class="areaBorder">
+            <div
+              class="mb-0 bg-white pl-3 pt-1 pr-4"
+              v-if="kpiera.title !== '' && kpiera.desc !== ''"
+              v-b-toggle="'manager' + kpiera.ID"
+            >
+              <p class="text-primary capitalize">
+                <span class="cursor_pointer">{{kpiera.title}}</span>
+              </p>
+            <b-collapse :id="'manager' + kpiera.ID">
+              <div class="w-75 pl-5 line">
+                <div class="bg-secondary rounded px-4 py-1 description">
+                  {{kpiera.desc}}
+                </div>
+                </div>
+            </b-collapse>
+                <RadialProgressBar
+                  v-if="kpiera.rating"
+                  class="pull-right"
+                  :diameter="30"
+                  :completed-steps="kpiera.rating"
+                  :total-steps="total"
+                  :strokeWidth="3"
+                >
+                  <p></p>
+                  <p class="fs-mini">{{ kpiera.rating.toFixed(1) }}</p>
+                </RadialProgressBar>
+            </div>
           </div>
-        </div>
-      </section>
-            <!-- <AreaComponent :eraKpiArray="user.profile.kpi.kpi_json" :monthlyRating="user.profile.Monthly_rating" /> -->
-          </div>
-          <!-- second widget ends-->
-          <!-- third widget -->
-          <h1>Extra Resource Area</h1>
-          <div v-if="user.profile.kpi">
-            <AreaComponent :eraKpiArray="user.profile.kpi.era_json" :monthlyRating="user.profile.Monthly_rating" />
-          </div>
+        </section>
+            <!-- <AreaComponent :eraKpiArray="user.profile.kpi.era_json" :monthlyRating="user.profile.Monthly_rating" /> -->
+      </div>
     </div>
   </div>
 </template>
@@ -96,15 +132,19 @@ import Widget from "@/components/Widget/Widget";
 import AreaComponent from "@/components/Area/Area";
 import dummyimage from "@/components/Group/person-dummy.jpg";
 import { get, call, sync } from "vuex-pathify";
+import RadialProgressBar from "vue-radial-progress";
+
 export default {
   data() {
     return {
       user: {},
-      image: dummyimage
+      image: dummyimage,
+      total: 10
     };
   },
   components: {
     Widget,
+    RadialProgressBar,
     AreaComponent
   },
   async mounted() {
@@ -119,7 +159,7 @@ export default {
   computed: {
     userToCheckByAdmin_: sync("allMember/userToCheckByAdmin"),
     sortedArray() {
-      if(this.user.profile){
+      if (this.user.profile) {
         this.checkin_rating = this.user.profile.Checkin_rating
           ? Math.round(this.user.profile.Checkin_rating)
           : 0;
@@ -140,8 +180,8 @@ export default {
         }
       }
     },
-    newArray(){
-      let newArray = []
+    newArray() {
+      let newArray = [];
       this.user.profile.kpi.kpi_json.forEach(element => {
         if (Object.keys(this.user.profile.Monthly_rating).length) {
           Object.keys(this.user.profile.Monthly_rating).forEach(ele => {
@@ -151,7 +191,7 @@ export default {
                 desc: element.desc,
                 edit: element.edit,
                 title: element.title,
-                rating: this.$props.monthlyRating[ele]
+                rating: this.user.profile.Monthly_rating[ele]
               });
             }
           });
@@ -165,6 +205,33 @@ export default {
           });
         }
       });
+      return newArray;
+    },
+    eraArray(){
+      let newArray = []
+      this.user.profile.kpi.era_json.forEach(era => {
+        if(Object.keys(this.user.profile.Monthly_rating).length){
+          Object.keys(this.user.profile.Monthly_rating).forEach(ele => {
+            if(era.ID === ele){
+              newArray.push({
+                ID: era.ID,
+                desc: era.desc,
+                edit: era.edit,
+                title: era.title,
+                rating: this.user.profile.Monthly_rating[ele]
+              });
+            }
+          })
+        } else {
+          newArray.push({
+            ID: era.ID,
+            desc: era.desc,
+            edit: era.edit,
+            title: era.title,
+            rating: 0
+          });
+        }
+      })
       return newArray
     }
   },

@@ -10,4 +10,12 @@
   .primary{
     background: #547fff;
   }
-  
+  .description{
+    width: auto !important;
+    height: auto !important;
+    line-height: inherit;
+    text-align: left;
+  }
+  .cursor_pointer{
+    cursor: pointer;
+  }
