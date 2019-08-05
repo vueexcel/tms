@@ -66,11 +66,19 @@ const actions = {
         }
     },
     // delete api for managers/ admin
-    async deleteMonthlyReview(payload) {
-        let id = payload.id
-        let res = await axios.delete(`/delete_manager_monthly_response/${id}`)
-        if (res) {
-            return res
+    async deleteMonthlyReview({commit},payload) {
+        let id = payload._id
+        try {
+            let res = await axios.delete(`/delete_manager_monthly_response/${id}`)
+            if(res){
+                return true
+            }
+        } catch (error) {
+            if(error.response.data.msg){
+                return error.response.data.msg
+            } else{
+                return false            
+            }
         }
     },
     setCountToReview({ state }) {

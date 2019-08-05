@@ -220,7 +220,7 @@ export default {
   },
   methods: {
     api_postReview: call("monthlyReportReview/postMonthlyReview"),
-    api_deleteMonthlyReport: call("monthlyReportReview/deleteMonthlyReview"),
+    deleteMonthlyReport_api: call("monthlyReportReview/deleteMonthlyReview"),
     api_getReports: call("monthlyReportReview/getUsersMonthlyReports"),
     async submit() {
       this.alertMessage = "";
@@ -264,8 +264,8 @@ export default {
           this.alertMessage = res.res;
           this.alertMessageShow = true;
         } else {
-          this.alertMessageShow = true;
-          this.alertMessage = res.res;
+          // this.alertMessageShow = true;
+          // this.alertMessage = res.res;
           this.textkpi = [];
           this.textera = [];
           this.api_getReports();
@@ -286,23 +286,25 @@ export default {
     submitStarRateera(value, i) {
       this.$set(this.ratedStarEra, i, value);
     },
-
-    delReport() {
+    async delReport() {
       this.alertMessage = "";
       this.alertMessageShow = false;
-      this.api_deleteMonthlyReport({ id: this.activeEmployeReport._id })
-        .then(() => {
+      let res = await this.deleteMonthlyReport_api(this.activeEmployeReport)
+      if(res === true){
           for (var key in this.managerComment) {
             if (key === "review") {
               delete this.managerComment[key];
             }
           }
           this.api_getReports();
-        })
-        .catch(err => {
-          this.alertMessageShow = true;
-          this.alertMessage = err.response.data.msg;
-        });
+      } else {
+        this.alertMessageShow = true;
+        if(error === false){
+          this.alertMessage = 'Api server down'
+        } else {
+          this.alertMessage = res;
+        }
+      }
     }
   }
 };
