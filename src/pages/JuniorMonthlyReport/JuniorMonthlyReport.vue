@@ -117,7 +117,7 @@
                         <Stars
                           :displayStar="10"
                           :ratedStar="kpi.rating"
-                          :starSize="'15px'"
+                          :starSize="'13px'"
                           :disableStar="false"
                         />
                       </p>
@@ -146,7 +146,7 @@
                         <Stars
                           :displayStar="10"
                           :ratedStar="kpi.rating"
-                          :starSize="'15px'"
+                          :starSize="'13px'"
                           :disableStar="false"
                         />
                       </p>

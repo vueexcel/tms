@@ -7,6 +7,7 @@
         <b-alert
           :show="error"
           dismissible
+          @dismissed="error = false"
           class="alert-danger text-center alert-transparent mt-3"
         >{{errorMessage}}</b-alert>
       </div>
@@ -278,6 +279,13 @@ export default {
     weeklyReview_: call("weeklyReview/weeklyReview"),
     getReports_: call("weeklyReview/getReports"),
     deleteWeeklyReport_: call("weeklyReview/deleteWeeklyReport"),
+    scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: "smooth"
+      });
+    },
     get_report: function() {
       this.getReport();
     },
@@ -288,7 +296,7 @@ export default {
       this.kpikradescriotionlist = [];
     },
     async submitWeeklyReview() {
-      this.loading = true;
+      // this.loading = true;
       this.error = false;
       this.errorMessage = "";
       if (this.kpiKraDescription) {
@@ -302,11 +310,14 @@ export default {
       if (!this.kpikradescriotionlist.length) {
         this.error = true;
         this.errorMessage = "Please submit work done.";
+        this.scrollToTop();
       } else if (!this.id) {
         this.error = true;
         this.errorMessage =
           "Please select daily check-in which you wish to highlight";
+        this.scrollToTop();
       } else {
+        this.loading = true;
         let response = await this.weeklyReview_({
           k_highlight: this.kpikradescriotionlist,
           extra: this.extraWorkDescription,

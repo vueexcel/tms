@@ -2,7 +2,7 @@
   <div class="h-auto pb-3" lg="4" xs="12">
     <div class="pb-1 bg-white">
       <h4 class="pl-4 pt-3">Group Involved</h4>
-      <hr>
+      <hr />
       <!--###### CONTAINER IS FALSE ########### -->
       <b-container class="pb-3 pt-1" v-if="false">
         <b-row class="text-center">
@@ -18,7 +18,8 @@
       <b-container class="pb-4 pt-1">
         <b-row v-for="(member, key) in array_" :key="key">
           <div v-if="member.kpi_id && member.kpi_id === allMembers[index]._id" class="d-flex">
-            <b-col class="col-md-1" v-if="member.kpi_id && member.kpi_id === allMembers[index]._id">
+            <!-- <b-col class="col-md-1" v-if="member.kpi_id && member.kpi_id === allMembers[index]._id"> -->
+            <b-col class="col-1" v-if="member.kpi_id && member.kpi_id === allMembers[index]._id">
               <span class="position-relative">
                 <img
                   class="rounded-circle"
@@ -26,7 +27,7 @@
                   width="33"
                   height="33"
                   alt="..."
-                >
+                />
                 <b-badge
                   @click="addRemoveMember(index, member, 'deleteMember')"
                   variant="danger"
@@ -69,7 +70,7 @@
             width="25"
             height="25"
             alt="..."
-          >
+          />
           <b-badge
             @click="addRemoveMember(index, img, 'addMember')"
             variant="primary"

@@ -11,7 +11,10 @@
       <b-col lg="6" xs="12">
         <Widget>
           <div class="mb-2">
-            <h5>Feedback/Share Your Concerns/Suggestions</h5>This is a section in which employee can share any concerns/feedback/problems/grievances with management. This message will be sent to management directly for notice.
+            <h5>Feedback/Share Your Concerns/Suggestions</h5>
+            <span
+              class="wordBreak"
+            >This is a section in which employee can share any concerns/feedback/problems/grievances with management. This message will be sent to management directly for notice.</span>
           </div>
           <div v-if="users.length && month == users[0].month">
             <span class="fw-semi-bold text-danger">Only one feedback per month is allowed</span>

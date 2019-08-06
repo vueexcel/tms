@@ -28,6 +28,7 @@
             </b-form-select>
             <starRating
               class="border-bottom"
+              :starSize="windowWidth < 435 ? '17px' : '28px'"
               :ratedStar="ratedStar"
               :displayStar="10"
               @starRatingSelected="submitStars"
@@ -110,7 +111,12 @@
                 <span>{{ user.comment }}</span>
               </div>
               <div class="pb-0">Rating:</div>
-              <starRating class :ratedStar="user.rating" :displayStar="10" :starSize="'20px'" />
+              <starRating
+                class
+                :ratedStar="user.rating"
+                :displayStar="10"
+                :starSize="windowWidth < 435 ? '17px' : '20px'"
+              />
             </section>
           </div>
         </section>
@@ -146,7 +152,8 @@ export default {
       anon: false,
       ratedStar: 0,
       previousPost: [],
-      errormsg: ""
+      errormsg: "",
+      windowWidth: 0
     };
   },
   created() {
@@ -154,12 +161,20 @@ export default {
     // this.api_getmanagers();
     this.getPost();
     this.errormsg = "";
+    this.$nextTick(function() {
+      window.addEventListener("resize", this.getWindowWidth);
+      //Init
+      this.getWindowWidth();
+    });
   },
   methods: {
     api_postFeedback: call("review360/submitPost"),
     api_getmanagers: call("review360/getmanagers"),
     api_getPost: call("review360/getPost"),
     api_360reviewStatus: call("profile/getManagerReviewStatus"),
+    getWindowWidth(event) {
+      this.windowWidth = document.documentElement.clientWidth;
+    },
     async postFeedback() {
       if (this.selected && this.ratedStar !== 0) {
         this.loading = true;
