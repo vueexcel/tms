@@ -63,7 +63,7 @@
             <span class="fw-semi-bold">Score</span>
           </h2>
           <!-- first bar -->
-          <div>
+          <div v-if="user.profile && user.profile.Checkin_rating">
             <h6 class="text-dark fs-larger">
               Check-ins Score
               <i
@@ -83,7 +83,7 @@
           </div>
           <!-- second bar -->
           <div>
-            <div>
+            <div v-if="user.profile && user.profile.Overall_rating">
               <h6 class="text-dark fs-larger">
                 Overall Review
                 <i
@@ -137,16 +137,61 @@
                 <b-collapse :id="'manager' + kpiera.ID">
                   <div class="w-75 pl-5 line">
                     <div class="bg-secondary px-4 py-1 description">{{kpiera.desc}}</div>
-                    <div
-                      class="bg-secondary px-4 mt-2"
-                      v-if="kpiera.managerReview && kpiera.managerReview.length"
-                    >
-                      <div class="bold text-white pt-2">Monthly Report Review</div>
-                      <h6>Month - {{kpiera.managerReview[0].month.toUpperCase()}}</h6>
+                    <div class="bg-secondary mt-3">
                       <div
-                        v-for="review in kpiera.managerReview"
-                        :key="review._id"
-                      >{{review.comment}}</div>
+                        v-for="(manager,index) in user.profile.managers"
+                        :key="index"
+                        class="pt-3"
+                      >
+                        <b-row>
+                          <b-col cols="4">
+                            <div class="h-100 ml-3">
+                              <b-row>
+                                <b-col cols="3" class="p-0 pl-3">
+                                  <div class="float-left pt-2">
+                                    <img
+                                      :src="manager.profileImage ? manager.profileImage : image"
+                                      class="rounded-circle"
+                                      width="25"
+                                      height="25"
+                                      alt="..."
+                                    />
+                                  </div>
+                                </b-col>
+                                <b-col class="pl-2">
+                                  <div class>
+                                    <span class="fs-larger text-capitalize">
+                                      <span class="fw-semi-bold">{{manager.username}}</span>
+                                      <p class="fw-small">{{manager.job_title}}</p>
+                                    </span>
+                                  </div>
+                                </b-col>
+                              </b-row>
+                            </div>
+                          </b-col>
+                          <b-col>
+                            <div v-if="manager.reportReiview && manager.reportReiview.comment.kpi">
+                              <div
+                                v-for="(comment,index) in manager.reportReiview.comment.kpi"
+                                :key="index"
+                              >
+                                <div v-if="kpiera.title === comment.title">
+                                  {{comment.comment}}
+                                  <Stars
+                                    :displayStar="10"
+                                    :ratedStar="Number(comment.rating)"
+                                    :starSize="'20px'"
+                                    :disableStar="false"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                            <div v-else>
+                              Not reviewed yet
+                            </div>
+                          </b-col>
+                        </b-row>
+                      </div>
                     </div>
                   </div>
                 </b-collapse>
@@ -182,41 +227,61 @@
                 <b-collapse :id="'manager' + kpiera.ID">
                   <div class="w-75 pl-5 line">
                     <div class="bg-secondary px-4 py-1 description">{{kpiera.desc}}</div>
-                    <!-- <div class="bg-secondary px-4 mt-2 " v-if="kpiera.managerReview && kpiera.managerReview.length">
-                      <div class="bold text-white pt-2">Monthly Report Review</div>
-                      <h6>Month - {{kpiera.managerReview[0].month.toUpperCase()}}</h6>
-                      <div v-for="review in kpiera.managerReview" :key="review._id">
-                        {{review.comment}}
+                    <div class="bg-secondary mt-3">
+                      <div
+                        v-for="(manager,index) in user.profile.managers"
+                        :key="index"
+                        class="pt-3"
+                      >
+                        <b-row>
+                          <b-col cols="4">
+                            <div class="h-100 ml-3">
+                              <b-row>
+                                <b-col cols="3" class="p-0 pl-3">
+                                  <div class="float-left pt-2">
+                                    <img
+                                      :src="manager.profileImage ? manager.profileImage : image"
+                                      class="rounded-circle"
+                                      width="25"
+                                      height="25"
+                                      alt="..."
+                                    />
+                                  </div>
+                                </b-col>
+                                <b-col class="pl-2">
+                                  <div class>
+                                    <span class="fs-larger text-capitalize">
+                                      <span class="fw-semi-bold">{{manager.username}}</span>
+                                      <p class="fw-small">{{manager.job_title}}</p>
+                                    </span>
+                                  </div>
+                                </b-col>
+                              </b-row>
+                            </div>
+                          </b-col>
+                          <b-col>
+                            <div v-if="manager.reportReiview && manager.reportReiview.comment.era">
+                              <div
+                                v-for="(comment,index) in manager.reportReiview.comment.era"
+                                :key="index"
+                              >
+                                <div v-if="kpiera.title === comment.title">
+                                  {{comment.comment}}
+                                  <Stars
+                                    :displayStar="10"
+                                    :ratedStar="Number(comment.rating)"
+                                    :starSize="'20px'"
+                                    :disableStar="false"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                            <div v-else>
+                              Not reviewed yet
+                            </div>
+                          </b-col>
+                        </b-row>
                       </div>
-                    </div>-->
-                    <div
-                      v-for="(manager,index) in user.profile.managers"
-                      :key="index"
-                      class="bg-secondary"
-                    >
-                      <b-row>
-                        <b-col cols="4">
-                         <div class="h-100">
-              <div class="float-left pr-3">
-                <img
-                  :src="manager.profileImage ? manager.profileImage : image"
-                  class="rounded-circle"
-                  width="25"
-                  height="25"
-                  alt="..."
-                />
-              </div>
-
-              <div class="pt-2">
-                <span class="fs-larger text-capitalize">
-                  <span class="fw-semi-bold">{{manager.username}}</span>
-                </span>
-                <p class="fw-small">{{manager.job_title}}</p>
-              </div>
-            </div>
-                        </b-col>
-                        <b-col>123</b-col>
-                      </b-row>
                     </div>
                   </div>
                 </b-collapse>
@@ -467,26 +532,21 @@ export default {
           }
         });
         if (this.user.monthly.length) {
-          for (var i = 0; i < newArray.length; i++) {
-            newArray[i]["managerReview"] = [];
-            this.user.monthly.forEach(monthReport => {
-              if (monthReport.review) {
-                monthReport.review.forEach(review => {
-                  review.comment.kpi.find(kpi => {
-                    if (
-                      newArray[i].title.toLowerCase() ===
-                      kpi.title.toLowerCase()
-                    ) {
-                      kpi["month"] = monthReport.month;
-                      newArray[i].managerReview.push(kpi);
-                    }
-                  });
-                });
+          this.user.profile.managers.forEach(manager => {
+            for (var i = 0; i < this.user.monthly.length; i++) {
+              if ((manager, this.user.monthly[i].review)) {
+                let findReview = this.user.monthly[i].review.find(
+                  reportReview => {
+                    return reportReview.manager_id === manager._id;
+                  }
+                );
+                if (findReview) {
+                  manager["reportReiview"] = findReview;
+                }
               }
-            });
-          }
+            }
+          });
         }
-
         return newArray;
       }
     },
@@ -521,24 +581,20 @@ export default {
           }
         });
         if (this.user.monthly.length) {
-          for (var i = 0; i < newArray.length; i++) {
-            newArray[i]["managerReview"] = [];
-            this.user.monthly.forEach(monthReport => {
-              if (monthReport.review) {
-                monthReport.review.forEach(review => {
-                  review.comment.era.find(era => {
-                    if (
-                      newArray[i].title.toLowerCase() ===
-                      era.title.toLowerCase()
-                    ) {
-                      era["month"] = monthReport.month;
-                      newArray[i].managerReview.push(era);
-                    }
-                  });
-                });
+          this.user.profile.managers.forEach(manager => {
+            for (var i = 0; i < this.user.monthly.length; i++) {
+              if ((manager, this.user.monthly[i].review)) {
+                let findReview = this.user.monthly[i].review.find(
+                  reportReview => {
+                    return reportReview.manager_id === manager._id;
+                  }
+                );
+                if (findReview) {
+                  manager["reportReiview"] = findReview;
+                }
               }
-            });
-          }
+            }
+          });
         }
         return newArray;
       }
