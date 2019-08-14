@@ -83,7 +83,7 @@ const actions = {
         }
     },
     async goToDashboard({state},payload){
-        let url = `/auth/dashboard_profile/${payload._id}`
+        let url = `/dashboard_profile/${payload._id}`
         let resToSend = {
             error : false,
             res : null
