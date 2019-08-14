@@ -15,6 +15,12 @@
           </div>Loading...
         </div>
         <div v-else>
+          <div class="p-3">
+            <b-form-select v-model="dateSelected" class="w-25 date">
+              <option :value="null">Please select an option</option>
+              <option :value="date" v-for="date in dateArray" :key="date">{{date}}</option>
+            </b-form-select>
+          </div>
           <b-alert
             show
             dismissible
@@ -191,7 +197,8 @@ export default {
       ratedStarEra: [],
       loading: false,
       alertMessage: "",
-      alertMessageShow: false
+      alertMessageShow: false,
+      dateSelected: null
     };
   },
   components: {
@@ -201,6 +208,7 @@ export default {
   computed: {
     activeEmployeReport: sync("monthlyReportReview/activeEmployeReport"),
     activeEmployee: sync("monthlyReportReview/activeEmployee"),
+    allReport: sync("monthlyReportReview/employee"),
     user: get("profile/user"),
     managerComment() {
       let obj = [];
@@ -216,6 +224,22 @@ export default {
         obj["era"] = this.activeEmployeReport.report.era;
       }
       return obj;
+    },
+    dateArray(){
+      let arrayOfDate = []
+      if(this.allReport.length){
+        this.allReport.forEach(report => {
+          arrayOfDate.push(this.$moment(report.created_at).format('DD-MMMM-YYYY'))
+        })
+      }
+      return arrayOfDate
+    }
+  },
+  watch: {
+    dateSelected(newValue, oldValue) {
+      console.log(newValue, oldValue);
+      console.log(this.activeEmployee);
+      
     }
   },
   methods: {
@@ -289,18 +313,18 @@ export default {
     async delReport() {
       this.alertMessage = "";
       this.alertMessageShow = false;
-      let res = await this.deleteMonthlyReport_api(this.activeEmployeReport)
-      if(res === true){
-          for (var key in this.managerComment) {
-            if (key === "review") {
-              delete this.managerComment[key];
-            }
+      let res = await this.deleteMonthlyReport_api(this.activeEmployeReport);
+      if (res === true) {
+        for (var key in this.managerComment) {
+          if (key === "review") {
+            delete this.managerComment[key];
           }
-          this.api_getReports();
+        }
+        this.api_getReports();
       } else {
         this.alertMessageShow = true;
-        if(error === false){
-          this.alertMessage = 'Api server down'
+        if (error === false) {
+          this.alertMessage = "Api server down";
         } else {
           this.alertMessage = res;
         }
