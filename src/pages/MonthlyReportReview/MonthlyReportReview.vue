@@ -56,7 +56,6 @@
     </b-container>
 
     <!-- left right boxes for user data & form -->
-
     <div class="container-fluid" v-if="getActiveEmp && empToShow.length">
       <div class="mt-5 mb-3 row"></div>
       <transition name="fade">

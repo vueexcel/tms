@@ -107,20 +107,22 @@
     </b-row>
     <b-row>
       <b-col xs="12" lg="6">
+        <h2 class="mt-2">Monthly Reviews as per Kpi/Era</h2>
         <div class="mt-3">
-          <h3>Key Performance Area</h3>
+          <h6 class="font-weight-bold">Key Performance Area</h6>
           <div v-if="user.profile && user.profile.kpi && newArray && newArray.length">
             <section>
-              <div v-for="(kpiera,index) in newArray" :key="index" class="areaBorder">
+              <div v-for="(kpiera,index) in newArray" :key="index" class="areaBorder mb-2">
                 <div class="d-flex">
                   <div
                     class="mb-0 bg-white pl-3 pt-1 w-100"
                     v-if="kpiera.title !== '' && kpiera.desc !== ''"
                     v-b-toggle="'manager' + kpiera.ID"
                   >
-                    <p class="text-primary capitalize">
+                    <p class="text-primary capitalize mb-0">
                       <span class="cursor_pointer">{{kpiera.title}}</span>
                     </p>
+                    <div>{{kpiera.desc}}</div>
                   </div>
                   <RadialProgressBar
                     v-if="kpiera.rating"
@@ -135,62 +137,53 @@
                   </RadialProgressBar>
                 </div>
                 <b-collapse :id="'manager' + kpiera.ID">
-                  <div class="w-75 pl-5 line">
-                    <div class="bg-secondary px-4 py-1 description">{{kpiera.desc}}</div>
-                    <div class="bg-secondary mt-3">
-                      <div
-                        v-for="(manager,index) in user.profile.managers"
-                        :key="index"
-                        class="pt-3"
-                      >
-                        <b-row>
-                          <b-col cols="4">
-                            <div class="h-100 ml-3">
-                              <b-row>
-                                <b-col cols="3" class="p-0 pl-3">
-                                  <div class="float-left pt-2">
-                                    <img
-                                      :src="manager.profileImage ? manager.profileImage : image"
-                                      class="rounded-circle"
-                                      width="25"
-                                      height="25"
-                                      alt="..."
-                                    />
-                                  </div>
-                                </b-col>
-                                <b-col class="pl-2">
-                                  <div class>
-                                    <span class="fs-larger text-capitalize">
-                                      <span class="fw-semi-bold">{{manager.username}}</span>
-                                      <p class="fw-small">{{manager.job_title}}</p>
-                                    </span>
-                                  </div>
-                                </b-col>
-                              </b-row>
+                  <div class="mx-1 line">
+                    <div
+                      v-for="(monthlyReport,index) in user.monthly"
+                      :key="index"
+                      class="px-3 background_color text-secondary mt-2 description"
+                    >
+                      <h6 class="font-weight-bold py-2">
+                        <u>{{monthlyReport.month}}</u>
+                      </h6>
+                      <div v-if="monthlyReport.review" class="text-secondary">
+                        <b-row v-for="(reportReview,index) in monthlyReport.review" :key="index">
+                          <b-col cols="4" class="p-0">
+                            <div class="h-100 ml-3 d-flex">
+                              <div class="float-left pt-2">
+                                <img
+                                  :src="reportReview.manager_id.profileImage ? reportReview.manager_id.profileImage : image"
+                                  class="rounded-circle"
+                                  width="25"
+                                  height="25"
+                                  alt="..."
+                                />
+                              </div>
+                              <div class="ml-2">
+                                <span class="fs-larger text-capitalize">
+                                  <span class="fw-semi-bold">{{reportReview.manager_id.name}}</span>
+                                  <p class="fw-small">{{reportReview.manager_id.jobtitle}}</p>
+                                </span>
+                              </div>
                             </div>
                           </b-col>
                           <b-col>
-                            <div v-if="manager.reportReiview && manager.reportReiview.comment.kpi">
-                              <div
-                                v-for="(comment,index) in manager.reportReiview.comment.kpi"
-                                :key="index"
-                              >
-                                <div v-if="kpiera.title === comment.title">
-                                  {{comment.comment}}
-                                  <Stars
-                                    :displayStar="10"
-                                    :ratedStar="Number(comment.rating)"
-                                    :starSize="'20px'"
-                                    :disableStar="false"
-                                  />
-                                </div>
+                            <div v-for="(era,index) in reportReview.comment.kpi" :key="index">
+                              <div v-if="kpiera.ID === era.id" class="font-weight-bold">
+                                <em>{{era.comment}}</em>
+                                <Stars
+                                  :displayStar="10"
+                                  :ratedStar="Number(era.rating)"
+                                  :starSize="'20px'"
+                                  :disableStar="false"
+                                />
                               </div>
-                            </div>
-                            <div v-else>
-                              Not reviewed yet
                             </div>
                           </b-col>
                         </b-row>
+                      </div>
+                      <div v-else>
+                        <span class="text-danger font-weight-bold">No reviews</span>
                       </div>
                     </div>
                   </div>
@@ -198,19 +191,20 @@
               </div>
             </section>
           </div>
-          <h3>Extra Resource Area</h3>
+          <h6 class="font-weight-bold">Extra Resource Area</h6>
           <div v-if="user.profile && user.profile.kpi && eraArray">
             <section>
-              <div v-for="(kpiera,index) in eraArray" :key="index" class="areaBorder">
+              <div v-for="(kpiera,index) in eraArray" :key="index" class="areaBorder mb-2">
                 <div class="d-flex">
                   <div
                     class="mb-0 bg-white pl-3 pt-1 pr-4 w-100"
                     v-if="kpiera.title !== '' && kpiera.desc !== ''"
                     v-b-toggle="'manager' + kpiera.ID"
                   >
-                    <p class="text-primary capitalize">
+                    <p class="text-primary capitalize mb-0">
                       <span class="cursor_pointer">{{kpiera.title}}</span>
                     </p>
+                    <div>{{kpiera.desc}}</div>
                   </div>
                   <RadialProgressBar
                     v-if="kpiera.rating"
@@ -224,63 +218,55 @@
                     <p class="fs-mini">{{ kpiera.rating.toFixed(1) }}</p>
                   </RadialProgressBar>
                 </div>
+
                 <b-collapse :id="'manager' + kpiera.ID">
-                  <div class="w-75 pl-5 line">
-                    <div class="bg-secondary px-4 py-1 description">{{kpiera.desc}}</div>
-                    <div class="bg-secondary mt-3">
-                      <div
-                        v-for="(manager,index) in user.profile.managers"
-                        :key="index"
-                        class="pt-3"
-                      >
-                        <b-row>
-                          <b-col cols="4">
-                            <div class="h-100 ml-3">
-                              <b-row>
-                                <b-col cols="3" class="p-0 pl-3">
-                                  <div class="float-left pt-2">
-                                    <img
-                                      :src="manager.profileImage ? manager.profileImage : image"
-                                      class="rounded-circle"
-                                      width="25"
-                                      height="25"
-                                      alt="..."
-                                    />
-                                  </div>
-                                </b-col>
-                                <b-col class="pl-2">
-                                  <div class>
-                                    <span class="fs-larger text-capitalize">
-                                      <span class="fw-semi-bold">{{manager.username}}</span>
-                                      <p class="fw-small">{{manager.job_title}}</p>
-                                    </span>
-                                  </div>
-                                </b-col>
-                              </b-row>
+                  <div class="mx-1 line">
+                    <div
+                      v-for="(monthlyReport,index) in user.monthly"
+                      :key="index"
+                      class="px-3 background_color text-secondary mt-2 description"
+                    >
+                      <h6 class="font-weight-bold py-2">
+                        <u>{{monthlyReport.month}}</u>
+                      </h6>
+                      <div v-if="monthlyReport.review" class>
+                        <b-row v-for="(reportReview,index) in monthlyReport.review" :key="index">
+                          <b-col cols="4" class="p-0">
+                            <div class="h-100 ml-3 d-flex">
+                              <div class="float-left pt-2">
+                                <img
+                                  :src="reportReview.manager_id.profileImage ? reportReview.manager_id.profileImage : image"
+                                  class="rounded-circle"
+                                  width="25"
+                                  height="25"
+                                  alt="..."
+                                />
+                              </div>
+                              <div class>
+                                <span class="fs-larger text-capitalize">
+                                  <span class="fw-semi-bold">{{reportReview.manager_id.name}}</span>
+                                  <p class="fw-small">{{reportReview.manager_id.jobtitle}}</p>
+                                </span>
+                              </div>
                             </div>
                           </b-col>
                           <b-col>
-                            <div v-if="manager.reportReiview && manager.reportReiview.comment.era">
-                              <div
-                                v-for="(comment,index) in manager.reportReiview.comment.era"
-                                :key="index"
-                              >
-                                <div v-if="kpiera.title === comment.title">
-                                  {{comment.comment}}
-                                  <Stars
-                                    :displayStar="10"
-                                    :ratedStar="Number(comment.rating)"
-                                    :starSize="'20px'"
-                                    :disableStar="false"
-                                  />
-                                </div>
+                            <div v-for="(era,index) in reportReview.comment.era" :key="index">
+                              <div v-if="kpiera.ID === era.id" class="font-weight-bold">
+                                <em>{{era.comment}}</em>
+                                <Stars
+                                  :displayStar="10"
+                                  :ratedStar="Number(era.rating)"
+                                  :starSize="'20px'"
+                                  :disableStar="false"
+                                />
                               </div>
-                            </div>
-                            <div v-else>
-                              Not reviewed yet
                             </div>
                           </b-col>
                         </b-row>
+                      </div>
+                      <div v-else>
+                        <span class="text-danger font-weight-bold">No reviews</span>
                       </div>
                     </div>
                   </div>
@@ -290,152 +276,97 @@
           </div>
         </div>
       </b-col>
-      <b-col></b-col>
-    </b-row>
-    <b-row>
-      <b-col>
-        <div>
-          <!-- <h1 class="page-title">View Manager's Review Monthly</h1>
-          <div v-if="monthlyReport && monthlyReport.length">
-            <ul
-              v-for="( report, index ) in monthlyReport.slice().reverse()"
-              :key="index"
-              class="timeline"
-            >
-              <li :class="{onLeft : (index%2 == 0)}">
-                <time class="eventTime" datetime="2014-05-19 03:04">
-                  <span class="date">{{ report.created_at | day }}</span>
-                  <span class="time">{{ report.created_at | time }}</span>
-          </time>-->
-          <!-- <section class="event">
-            <div v-if="Object.keys(report.report).length">
-              <strong>KPI :</strong>
-              <hr>
-              <div
-                class="fs-mini white-space-pre"
-                v-for="(kpiera, indexkpi) in report.report.kpi"
-                :key="indexkpi"
-              >
-                <h4 class="text-primary">{{ kpiera.title }}</h4>
-                <h5>{{ kpiera.desc }}</h5>
-                <h6 class="text-monospace">Comment:</h6>
-                <div class="dialogbox">
-                  <div class="body">
-                    <span class="tip tip-up"></span>
-                    <div class="message">
-                      <span>{{ kpiera.comment }}</span>
-                    </div>
-                  </div>
+      <b-col xs="12" lg="6">
+        <b-row>
+          <b-col cols="9" class="px-0 pl-3">
+            <h2 class="mt-2">Weekly Report Review</h2>
+          </b-col>
+          <b-col cols="3" class="px-0">
+            <b-form-select v-model="selectedWeeklyDate" class="mb-3">
+              <option
+                :value="weekDate"
+                v-for="(weekDate,index) in WeeklyDateArray"
+                :key="index"
+              >{{weekDate.text}}</option>
+            </b-form-select>
+          </b-col>
+        </b-row>
+        <b-row class="p-0 pl-3" v-if="user.weekly && user.weekly.length">
+          <div v-for="(weeklyReport,index) in weeklyReportArray" :key="index" class="background_color my-2 p-3 w-100">
+            <h6 class="font-weight-bold float-right">{{weeklyReport.created_at | date}}</h6>
+              <p class="font-weight-bold my-1">Extra work/ Feedback/ Issues</p>
+              <div class="mb-3">{{weeklyReport.extra}}</div>
+              <p class="font-weight-bold my-1">Highlight</p>
+              <div v-for="(highlight,index) in weeklyReport.k_highlight" :key="index">
+                <div>
+                  <u>Kpi/Era :</u>
+                  <span>{{highlight.KpiEra}}</span>
+                </div>
+                <div>
+                  <u>Description :</u>
+                  <span class="ml-2">{{highlight.description}}</span>
                 </div>
               </div>
-              <strong>ERA :</strong>
-              <hr>
-              <div
-                class="fs-mini white-space-pre"
-                v-for="(kpiera, indexera) in report.report.era"
-                :key="indexera + report.report.kpi.length"
-              >
-                <h4 class="text-primary">{{ kpiera.title }}</h4>
-                <h5>{{ kpiera.desc }}</h5>
-                <h6 v-if="kpiera.comment" class="text-monospace">Comment:</h6>
-                <div v-if="kpiera.comment" class="dialogbox">
-                  <div class="body">
-                    <span class="tip tip-up"></span>
-                    <div class="message">
-                      <span>{{ kpiera.comment }}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-          </div>-->
-          <!-- <footer> -->
-          <!-- <h3 v-if="!report.review" class="text-danger">No review from manager yet!</h3>
-                <ul v-else class="postComments">
-                  <a class="fw-bold text-monospace pl-3">Manager's Review</a>
-                  <li v-for="(managerReview, reviewIndex) in report.is_reviewed" :key="reviewIndex">
-                    {{managerReview.profileImage}}
-                    <span class="thumb-xs avatar pull-left mr-sm">
-                      <img
-                        class="rounded-circle"
-                        :src="managerReview.profileImage 
-                    ? managerReview.profileImage : 
-                  image"
-                        alt="..."
-                      />
-                    </span>
-                    <div class="commentBody">
-                      <h6 class="author fs-sm fw-semi-bold">
-          {{report.is_reviewed.username}}-->
-          <!-- <small>{{report.re | time}}</small> -->
-          <!-- </h6>
-                      <div class="manager_comment">
-                        <div v-if="managerReview.comment">
-                          <div>
-                            <strong>KPI :</strong>
-                            <hr />
-                            <div
-                              class="fs-mini white-space-pre mb-4"
-                              v-for="(kpiera, managerindexkpi) in managerReview.comment.kpi"
-                              :key="managerindexkpi"
-                            >
-                              <h4 class="text-primary">{{ kpiera.title }}</h4>
-                              <h5>{{ kpiera.desc }}</h5>
-                              <h6 class="text-monospace">Comment:</h6>
-                              <div class="dialogbox">
-                                <div class="body">
-                                  <span class="tip tip-up"></span>
-                                  <div class="message">
-                                    <span>{{ kpiera.comment }}</span>
-                                  </div>
-                                </div>
-                              </div>
-                              <h6 v-if="kpiera.rating" class="text-monospace">Rating:</h6>
-                              <Stars
-                                :displayStar="10"
-                                :ratedStar="Number(kpiera.rating)"
-                                :starSize="'20px'"
-                                :disableStar="false"
-                              />
-                            </div>
-                            <strong>ERA :</strong>
-                            <hr />
-                            <div
-                              class="fs-mini white-space-pre mb-4"
-                              v-for="(kpiera, managerindexera) in managerReview.comment.era"
-                              :key="managerindexera + kpiera.id"
-                            >
-                              <h4 class="text-primary">{{ kpiera.title }}</h4>
-                              <h5>{{ kpiera.desc }}</h5>
-                              <h6 v-if="kpiera.comment" class="text-monospace">Comment:</h6>
-                              <div v-if="kpiera.comment" class="dialogbox">
-                                <div class="body">
-                                  <span class="tip tip-up"></span>
-                                  <div class="message">
-                                    <span>{{ kpiera.comment }}</span>
-                                  </div>
-                                </div>
-                              </div>
-                              <h6 v-if="kpiera.rating" class="text-monospace">Rating:</h6>
-                              <Stars
-                                :displayStar="10"
-                                :ratedStar="Number(kpiera.rating)"
-                                :starSize="'20px'"
-                                :disableStar="false"
-                              />
-                            </div>
-                          </div>
+              <p class="font-weight-bold my-1">Project Difficulty Level</p>
+              <Stars
+                :displayStar="5"
+                :ratedStar="Number(weeklyReport.difficulty)"
+                :starSize="'20px'"
+                :disableStar="false"
+              />
+              <div v-if="weeklyReport.review" class="bg-light text-danger mb-3 mr-3 pb-2">
+                <div v-for="(comment,index) in weeklyReport.review" :key="index">
+                  <b-row>
+                    <b-col cols="4">
+                      <div class="h-100 ml-3 d-flex">
+                        <div class="float-left pt-2">
+                          <img
+                            :src="comment.manager_id.profileImage ? comment.manager_id.profileImage : image"
+                            class="rounded-circle"
+                            width="25"
+                            height="25"
+                            alt="..."
+                          />
                         </div>
-                        <span v-else>No comment from your Manager</span>
+                        <div class="ml-1">
+                          <span class="fs-larger text-capitalize">
+                            <span class="fw-semi-bold">{{comment.manager_id.name}}</span>
+                            <p class="fw-small">{{comment.manager_id.jobtitle}}</p>
+                            <p class="fw-small">{{comment.manager_id.team}}</p>
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                  </li>
-          </ul>-->
-          <!-- </footer> -->
-          <!-- </section> -->
-          <!-- </li>
-            </ul>
-          </div>-->
-        </div>
+                    </b-col>
+                    <b-col cols="8">
+                      <p>
+                        <strong class="pr-2">Comment :</strong>
+                        <span>{{comment.comment}}</span>
+                      </p>
+                      <p class="d-flex">
+                        <Strong class="pt-2 mt-1 pr-2">Rating :</Strong>
+                        <span>
+                          <Stars
+                            :displayStar="10"
+                            :ratedStar="Number(comment.rating)"
+                            :starSize="'20px'"
+                            :disableStar="false"
+                          />
+                        </span>
+                      </p>
+                    </b-col>
+                  </b-row>
+                </div>
+                <div v-if="weeklyReport.skip_reason && weeklyReport.skip_reason.length">
+                  <div v-for="(skipReason,index) in weeklyReport.skip_reason" :key="index">
+                    <div
+                      class="bg-warning text-center text-secondary font-weight-bold m-1"
+                    >{{skipReason}}</div>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </b-row>
+        <b-row v-else>No Reports</b-row>
       </b-col>
     </b-row>
   </div>
@@ -458,7 +389,8 @@ export default {
       image: dummyimage,
       total: 10,
       Overall_rating: "0",
-      checkin_rating: "0"
+      checkin_rating: "0",
+      selectedWeeklyDate: null
     };
   },
   components: {
@@ -475,6 +407,14 @@ export default {
       await this.get_profile();
       await this.get_activity();
       this.user = this.userProfile;
+      this.selectedWeeklyDate = {
+        text: this.$moment(new Date(this.user.weekly[0].created_at)).format(
+          "MMMM"
+        ),
+        value: this.$moment(new Date(this.user.weekly[0].created_at)).format(
+          "MMMM"
+        )
+      };
     }
   },
   computed: {
@@ -531,22 +471,6 @@ export default {
             });
           }
         });
-        if (this.user.monthly.length) {
-          this.user.profile.managers.forEach(manager => {
-            for (var i = 0; i < this.user.monthly.length; i++) {
-              if ((manager, this.user.monthly[i].review)) {
-                let findReview = this.user.monthly[i].review.find(
-                  reportReview => {
-                    return reportReview.manager_id === manager._id;
-                  }
-                );
-                if (findReview) {
-                  manager["reportReiview"] = findReview;
-                }
-              }
-            }
-          });
-        }
         return newArray;
       }
     },
@@ -580,24 +504,47 @@ export default {
             });
           }
         });
-        if (this.user.monthly.length) {
-          this.user.profile.managers.forEach(manager => {
-            for (var i = 0; i < this.user.monthly.length; i++) {
-              if ((manager, this.user.monthly[i].review)) {
-                let findReview = this.user.monthly[i].review.find(
-                  reportReview => {
-                    return reportReview.manager_id === manager._id;
-                  }
-                );
-                if (findReview) {
-                  manager["reportReiview"] = findReview;
-                }
-              }
-            }
-          });
-        }
         return newArray;
       }
+    },
+    WeeklyDateArray() {
+      let dateArray = [];
+      if (this.user && this.user.weekly) {
+        this.user.weekly.forEach((weekReport, index) => {
+          if (!dateArray.length) {
+            dateArray.push({
+              text: this.$moment(weekReport.created_at).format("MMMM"),
+              value: this.$moment(weekReport.created_at).format("MMMM")
+            });
+          } else {
+            let found = this.search(
+              dateArray,
+              this.$moment(weekReport.created_at).format("MMMM")
+            );
+            if (found === false) {
+              dateArray.push({
+                text: this.$moment(weekReport.created_at).format("MMMM"),
+                value: this.$moment(weekReport.created_at).format("MMMM")
+              });
+            }
+          }
+        });
+      }
+      return dateArray;
+    },
+    weeklyReportArray() {
+      let weekReport = [];
+      if (this.user && this.user.weekly.length) {
+        this.user.weekly.forEach(week => {
+          if (
+            this.selectedWeeklyDate.value ===
+            this.$moment(week.created_at).format("MMMM")
+          ) {
+            weekReport.push(week);
+          }
+        });
+      }
+      return weekReport;
     }
   },
   methods: {
@@ -611,6 +558,22 @@ export default {
     },
     fetchData() {
       this.user = this.userToCheckByAdmin_;
+      this.selectedWeeklyDate = {
+        text: this.$moment(new Date(this.user.weekly[0].created_at)).format(
+          "MMMM"
+        ),
+        value: this.$moment(new Date(this.user.weekly[0].created_at)).format(
+          "MMMM"
+        )
+      };
+    },
+    search(dateArray, month) {
+      for (let i = 0; i < dateArray.length; i++) {
+        if (dateArray[i].value === month) {
+          return true;
+        }
+      }
+      return false;
     }
   },
   filters: {
@@ -624,6 +587,9 @@ export default {
         lastWeek: "MMMM DD,YYYY",
         sameElse: "MMMM DD,YYYY"
       });
+    },
+    date(date){
+      return moment(date).format('DD-MMMM-YYYY')
     }
   }
 };
