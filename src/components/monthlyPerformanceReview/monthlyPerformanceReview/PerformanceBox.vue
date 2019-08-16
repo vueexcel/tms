@@ -15,7 +15,7 @@
           </div>Loading...
         </div>
         <div v-else>
-          <div class="p-3">
+          <div class="p-3" v-if="dateArray.length">
             <b-form-select v-model="dateSelected" class="w-25 date">
               <option :value="null">Please select an option</option>
               <option :value="date" v-for="date in dateArray" :key="date">{{date}}</option>
@@ -26,7 +26,6 @@
             dismissible
             class="alert-class mt-3"
           >Info: Overall rating/ comments mandatory for managers based on monthly report</b-alert>
-
           <b-form @submit.prevent="submit">
             <!-- {{ reviews }} {{ report }} -->
             <div v-if="managerComment.review">
@@ -85,7 +84,7 @@
               <hr />
               <div
                 class="pb-4"
-                v-for="( kpireport, indexkpi ) in activeEmployeReport.report.kpi"
+                v-for="( kpireport, indexkpi ) in managerComment.kpi"
                 :key="indexkpi"
               >
                 <h5 class="text-primary fw-bold">{{ kpireport.title }}</h5>
@@ -115,7 +114,7 @@
               <hr />
               <div
                 class="pb-4"
-                v-for="( erareport, indexera ) in activeEmployeReport.report.era"
+                v-for="( erareport, indexera ) in managerComment.era"
                 :key="indexera+erareport.id"
               >
                 <div>
@@ -212,34 +211,65 @@ export default {
     user: get("profile/user"),
     managerComment() {
       let obj = [];
-      if (this.activeEmployeReport.review) {
-        this.activeEmployeReport.review.filter(ele => {
-          if (ele.manager_id.username === this.user.username) {
-            obj["review"] = ele;
+      if (this.dateArray.length) {
+        this.allReport.forEach(report => {
+          if (
+            report.user.id === this.activeEmployee &&
+            this.dateSelected !== null
+          ) {
+            if (
+              this.$moment(report.created_at).format("DD-MMMM-YYYY") ===
+              this.dateSelected
+            ) {
+              
+              if(report.review){
+                report.review.filter(ele => {
+                  if (ele.manager_id.username === this.user.username) {
+                    obj["review"] = ele;
+                  }    
+                })
+              } 
+              if(report.report){
+                obj["kpi"] = report.report.kpi;
+                obj["era"] = report.report.era;
+              }
+            }
+          }
+        });
+      } else {
+        if (this.activeEmployeReport.review) {
+          this.activeEmployeReport.review.filter(ele => {
+            if (ele.manager_id.username === this.user.username) {
+              obj["review"] = ele;
+            }
+          });
+        }
+        if (this.activeEmployeReport.report) {
+          obj["kpi"] = this.activeEmployeReport.report.kpi;
+          obj["era"] = this.activeEmployeReport.report.era;
+        }
+      }
+      console.log(obj);
+      
+      return obj;
+    },
+    dateArray() {
+      let arrayOfDate = [];
+      if (this.allReport.length) {
+        this.allReport.forEach(report => {
+          if(report.user.id === this.activeEmployee){
+            arrayOfDate.push(
+              this.$moment(report.created_at).format("DD-MMMM-YYYY")
+            );
           }
         });
       }
-      if (this.activeEmployeReport.report) {
-        obj["kpi"] = this.activeEmployeReport.report.kpi;
-        obj["era"] = this.activeEmployeReport.report.era;
+      if(arrayOfDate.length > 1) {
+        this.dateSelected = arrayOfDate[0]
+        return arrayOfDate;
+      } else {
+        return []
       }
-      return obj;
-    },
-    dateArray(){
-      let arrayOfDate = []
-      if(this.allReport.length){
-        this.allReport.forEach(report => {
-          arrayOfDate.push(this.$moment(report.created_at).format('DD-MMMM-YYYY'))
-        })
-      }
-      return arrayOfDate
-    }
-  },
-  watch: {
-    dateSelected(newValue, oldValue) {
-      console.log(newValue, oldValue);
-      console.log(this.activeEmployee);
-      
     }
   },
   methods: {
