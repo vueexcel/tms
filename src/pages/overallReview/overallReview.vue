@@ -137,7 +137,7 @@
                   </RadialProgressBar>
                 </div>
                 <b-collapse :id="'manager' + kpiera.ID">
-                  <div class="mx-1 line">
+                  <div class="mx-1 line" v-if="user.monthly.length">
                     <div
                       v-for="(monthlyReport,index) in user.monthly"
                       :key="index"
@@ -187,6 +187,9 @@
                       </div>
                     </div>
                   </div>
+                  <div class="mx-1 line  background_color text-danger px-3 mt-2" v-else>
+                    <h6 class="font-weight-bold p-1">No Monthly report review</h6>
+                  </div>
                 </b-collapse>
               </div>
             </section>
@@ -218,9 +221,8 @@
                     <p class="fs-mini">{{ kpiera.rating.toFixed(1) }}</p>
                   </RadialProgressBar>
                 </div>
-
                 <b-collapse :id="'manager' + kpiera.ID">
-                  <div class="mx-1 line">
+                  <div class="mx-1 line" v-if="user.monthly.length">
                     <div
                       v-for="(monthlyReport,index) in user.monthly"
                       :key="index"
@@ -270,6 +272,9 @@
                       </div>
                     </div>
                   </div>
+                  <div class="mx-1 line  background_color text-danger px-3 mt-2" v-else>
+                    <h6 class="font-weight-bold p-1">No Monthly report review</h6>
+                  </div>
                 </b-collapse>
               </div>
             </section>
@@ -281,7 +286,7 @@
           <b-col cols="9" class="px-0 pl-3">
             <h2 class="mt-2">Weekly Report Review</h2>
           </b-col>
-          <b-col cols="3" class="px-0">
+          <b-col cols="3" class="px-0" v-if="WeeklyDateArray.length">
             <b-form-select v-model="selectedWeeklyDate" class="mb-3">
               <option
                 :value="weekDate"
@@ -366,7 +371,9 @@
               </div>
           </div>
         </b-row>
-        <b-row v-else>No Reports</b-row>
+        <b-row v-else class="background_color mx-1">
+          <h5 class="text-danger font-weight-bold">No Report</h5>
+        </b-row>
       </b-col>
     </b-row>
   </div>
@@ -558,14 +565,16 @@ export default {
     },
     fetchData() {
       this.user = this.userToCheckByAdmin_;
-      this.selectedWeeklyDate = {
-        text: this.$moment(new Date(this.user.weekly[0].created_at)).format(
-          "MMMM"
-        ),
-        value: this.$moment(new Date(this.user.weekly[0].created_at)).format(
-          "MMMM"
-        )
-      };
+      if(this.user.weekly.length){
+        this.selectedWeeklyDate = {
+          text: this.$moment(new Date(this.user.weekly[0].created_at)).format(
+            "MMMM"
+          ),
+          value: this.$moment(new Date(this.user.weekly[0].created_at)).format(
+            "MMMM"
+          )
+        };
+      }
     },
     search(dateArray, month) {
       for (let i = 0; i < dateArray.length; i++) {
