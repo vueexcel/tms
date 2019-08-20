@@ -221,8 +221,9 @@ export default {
               this.$moment(report.created_at).format("DD-MMMM-YYYY") ===
               this.dateSelected
             ) {
-              
+              obj['id'] = report._id
               if(report.review){
+                
                 report.review.filter(ele => {
                   if (ele.manager_id.username === this.user.username) {
                     obj["review"] = ele;
@@ -238,6 +239,7 @@ export default {
         });
       } else {
         if (this.activeEmployeReport.review) {
+          obj['id'] = this.activeEmployeReport._id
           this.activeEmployeReport.review.filter(ele => {
             if (ele.manager_id.username === this.user.username) {
               obj["review"] = ele;
@@ -249,8 +251,6 @@ export default {
           obj["era"] = this.activeEmployeReport.report.era;
         }
       }
-      console.log(obj);
-      
       return obj;
     },
     dateArray() {
@@ -311,15 +311,13 @@ export default {
         comment = { kpi: kpiArray, era: eraArray };
         this.loading = true;
         let res = await this.api_postReview({
-          id: this.activeEmployeReport._id,
+            id: this.managerComment.id,
           comment: comment
         });
         if (res.error === true) {
           this.alertMessage = res.res;
           this.alertMessageShow = true;
         } else {
-          // this.alertMessageShow = true;
-          // this.alertMessage = res.res;
           this.textkpi = [];
           this.textera = [];
           this.api_getReports();
@@ -343,7 +341,7 @@ export default {
     async delReport() {
       this.alertMessage = "";
       this.alertMessageShow = false;
-      let res = await this.deleteMonthlyReport_api(this.activeEmployeReport);
+      let res = await this.deleteMonthlyReport_api(this.managerComment);
       if (res === true) {
         for (var key in this.managerComment) {
           if (key === "review") {

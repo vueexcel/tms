@@ -4,9 +4,8 @@
       class="text-center employee"
       @click="checkEmployee(employee)"
       v-bind:class="{activeClass : employee.id === activeId}"
-      :style="{border: '1px solid '+ borderColor}"
+      :style="{border: '1px solid '+ setBorderColor}"
     >
-      {{setBorderColor}}
       <div>
         <img
           class="rounded-circle mt-2 mb-2 h-auto"
@@ -14,7 +13,7 @@
           :title="employee.name"
           :src="employee.profileImage ? employee.profileImage: avatar"
           width="40"
-        >
+        />
         <div class="name">{{employee.username}}</div>
         <!-- <div class="post">{{employee.post}}</div> -->
         <div class="post">{{employee.team}}</div>
@@ -33,19 +32,18 @@ export default {
   props: {
     employee: { type: Object, default: () => ({}) },
     activeId: { type: String, default: "" },
-    employees:{type: Array,default: []}
+    employees: { type: Array, default: [] }
   },
   data() {
     return {
-      borderColor: "",
       avatar: image
       // allemployee: this.allemployee_,
       // userprofile: this.userprofile_
     };
   },
-  watch:{
-    employees(newValue,oldValue){
-      if(newValue.length !== oldValue.length){
+  watch: {
+    employees(newValue, oldValue) {
+      if (newValue.length !== oldValue.length) {
         this.$emit("setActive", newValue[0]);
       }
     }
@@ -53,21 +51,29 @@ export default {
   computed: {
     allemployee: get("monthlyReportReview/employee"),
     userprofile: get("profile/user"),
+    allReport: sync("monthlyReportReview/employee"),
     setBorderColor() {
       if (this.allemployee) {
-        this.allemployee.forEach(element => {
-          if (element.user.id === this.$props.employee.id) {
-            if (element.review) {
-              let response = element.review.some(ele => {
-                return ele.manager_id.username === this.userprofile.username;
-              });
-              if (response) {
-                return (this.borderColor = "orange");
-              }
-            }
-            return (this.borderColor = "red");
+        let color = "";
+        let reportArray = [];
+        this.allReport.forEach(report => {
+          if (report.user.id === this.employee.id) {
+            reportArray.push(report);
           }
         });
+        if (reportArray.length) {
+          let count = 0;
+          reportArray.forEach(report => {
+            let reviewed = report.is_reviewed.find(element => {
+              return element._id === this.userprofile._id;
+            });
+            if (reviewed.reviewed === false) {
+              count++;
+            }
+            color = count > 0 ? "red" : "orange";
+          });
+        }
+        return color;
       }
     }
   },
