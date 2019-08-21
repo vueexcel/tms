@@ -58,9 +58,10 @@
     <!-- left right boxes for user data & form -->
     <div class="container-fluid" v-if="getActiveEmp && empToShow.length">
       <div class="mt-5 mb-3 row"></div>
-      <transition name="fade">
-        <PerformanceBox @moveToBottom="scrollToBottom()" v-if="show" :employees="empToShow" />
-      </transition>
+      <!-- <transition name="fade"> -->
+        <PerformanceBox  v-if="show" :employees="empToShow" />
+        <!-- @moveToBottom="scrollToBottom()" -->
+      <!-- </transition> -->
     </div>
 
     <!-- left right boxes for user data & form ends -->
@@ -115,17 +116,17 @@ export default {
     api_getallJuniors: call("weeklyReportReview/getAllJuniors"),
     employeeToShow: call("monthlyReportReview/employeeToShow"),
     api_activeEmp: call("monthlyReportReview/setactiveEmp"),
-    scrollToBottom() {
-      var messageDisplay = this.$refs.messageDisplay;
-      messageDisplay.scrollTop = messageDisplay.scrollHeight;
-      setTimeout(() => {
-        window.scrollTo({
-          top: messageDisplay.scrollHeight,
-          left: 0,
-          behavior: "smooth"
-        });
-      }, 500);
-    },
+    // scrollToBottom() {
+    //   var messageDisplay = this.$refs.messageDisplay;
+    //   messageDisplay.scrollTop = messageDisplay.scrollHeight;
+    //   setTimeout(() => {
+    //     window.scrollTo({
+    //       top: messageDisplay.scrollHeight,
+    //       left: 0,
+    //       behavior: "smooth"
+    //     });
+    //   }, 500);
+    // },
     api_getUsersMonthlyReports: call(
       "monthlyReportReview/getUsersMonthlyReports"
     ),
@@ -146,10 +147,10 @@ export default {
     setActive(emp) {
       this.activeId = emp.id;
       this.api_activeEmp(); // calling action monthlyReportReview
-      this.show = !this.show;
-      setTimeout(() => {
+      // this.show = !this.show;
+      // setTimeout(() => {
         this.show = true;
-      }, 500);
+      // }, 100);
       // this.activeId = emp.id;
       // console.log(this.getActiveEmp);
     }
