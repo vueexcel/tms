@@ -220,10 +220,10 @@ export default {
     async sendToDashboard(clickedEmployee) {
       this.loading = true;
       let response = await this.goToDashboard_(clickedEmployee);
-      if (typeof response === "string") {
-        this.error = response;
+      if (response.error === false) {
+        this.$router.push({name: "OverAllReview", params: { user: "admin" } })      
       } else {
-        this.$router.push({ name: "Profile", params: { user: "admin" } });
+        this.error = response.res;
       }
       this.loading =  false
     }

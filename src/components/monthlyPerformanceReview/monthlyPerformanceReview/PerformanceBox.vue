@@ -15,12 +15,16 @@
           </div>Loading...
         </div>
         <div v-else>
+          <div class="p-3" v-if="dateArray.length">
+            <b-form-select v-model="dateSelected" class="w-25 date">
+              <option :value="date" v-for="date in dateArray" :key="date">{{date}}</option>
+            </b-form-select>
+          </div>
           <b-alert
             show
             dismissible
             class="alert-class mt-3"
           >Info: Overall rating/ comments mandatory for managers based on monthly report</b-alert>
-
           <b-form @submit.prevent="submit">
             <!-- {{ reviews }} {{ report }} -->
             <div v-if="managerComment.review">
@@ -79,7 +83,7 @@
               <hr />
               <div
                 class="pb-4"
-                v-for="( kpireport, indexkpi ) in activeEmployeReport.report.kpi"
+                v-for="( kpireport, indexkpi ) in managerComment.kpi"
                 :key="indexkpi"
               >
                 <h5 class="text-primary fw-bold">{{ kpireport.title }}</h5>
@@ -109,7 +113,7 @@
               <hr />
               <div
                 class="pb-4"
-                v-for="( erareport, indexera ) in activeEmployeReport.report.era"
+                v-for="( erareport, indexera ) in managerComment.era"
                 :key="indexera+erareport.id"
               >
                 <div>
@@ -191,7 +195,8 @@ export default {
       ratedStarEra: [],
       loading: false,
       alertMessage: "",
-      alertMessageShow: false
+      alertMessageShow: false,
+      dateSelected: null
     };
   },
   components: {
@@ -201,21 +206,69 @@ export default {
   computed: {
     activeEmployeReport: sync("monthlyReportReview/activeEmployeReport"),
     activeEmployee: sync("monthlyReportReview/activeEmployee"),
+    allReport: sync("monthlyReportReview/employee"),
     user: get("profile/user"),
     managerComment() {
       let obj = [];
-      if (this.activeEmployeReport.review) {
-        this.activeEmployeReport.review.filter(ele => {
-          if (ele.manager_id.username === this.user.username) {
-            obj["review"] = ele;
+      if (this.dateArray.length) {
+        this.allReport.forEach(report => {
+          if (
+            report.user.id === this.activeEmployee &&
+            this.dateSelected !== null
+          ) {
+            if (
+              this.$moment(report.created_at).format("DD-MMMM-YYYY") ===
+              this.dateSelected
+            ) {
+              obj['id'] = report._id
+              if(report.review){
+                
+                report.review.filter(ele => {
+                  if (ele.manager_id.username === this.user.username) {
+                    obj["review"] = ele;
+                  }    
+                })
+              } 
+              if(report.report){
+                obj["kpi"] = report.report.kpi;
+                obj["era"] = report.report.era;
+              }
+            }
+          }
+        });
+      } else {
+        if (this.activeEmployeReport.review) {
+          obj['id'] = this.activeEmployeReport._id
+          this.activeEmployeReport.review.filter(ele => {
+            if (ele.manager_id.username === this.user.username) {
+              obj["review"] = ele;
+            }
+          });
+        }
+        if (this.activeEmployeReport.report) {
+          obj["kpi"] = this.activeEmployeReport.report.kpi;
+          obj["era"] = this.activeEmployeReport.report.era;
+        }
+      }
+      return obj;
+    },
+    dateArray() {
+      let arrayOfDate = [];
+      if (this.allReport.length) {
+        this.allReport.forEach(report => {
+          if(report.user.id === this.activeEmployee){
+            arrayOfDate.push(
+              this.$moment(report.created_at).format("DD-MMMM-YYYY")
+            );
           }
         });
       }
-      if (this.activeEmployeReport.report) {
-        obj["kpi"] = this.activeEmployeReport.report.kpi;
-        obj["era"] = this.activeEmployeReport.report.era;
+      if(arrayOfDate.length > 1) {
+        this.dateSelected = arrayOfDate[0]
+        return arrayOfDate;
+      } else {
+        return []
       }
-      return obj;
     }
   },
   methods: {
@@ -257,15 +310,13 @@ export default {
         comment = { kpi: kpiArray, era: eraArray };
         this.loading = true;
         let res = await this.api_postReview({
-          id: this.activeEmployeReport._id,
+            id: this.managerComment.id,
           comment: comment
         });
         if (res.error === true) {
           this.alertMessage = res.res;
           this.alertMessageShow = true;
         } else {
-          // this.alertMessageShow = true;
-          // this.alertMessage = res.res;
           this.textkpi = [];
           this.textera = [];
           this.api_getReports();
@@ -289,18 +340,18 @@ export default {
     async delReport() {
       this.alertMessage = "";
       this.alertMessageShow = false;
-      let res = await this.deleteMonthlyReport_api(this.activeEmployeReport)
-      if(res === true){
-          for (var key in this.managerComment) {
-            if (key === "review") {
-              delete this.managerComment[key];
-            }
+      let res = await this.deleteMonthlyReport_api(this.managerComment);
+      if (res === true) {
+        for (var key in this.managerComment) {
+          if (key === "review") {
+            delete this.managerComment[key];
           }
-          this.api_getReports();
+        }
+        this.api_getReports();
       } else {
         this.alertMessageShow = true;
-        if(error === false){
-          this.alertMessage = 'Api server down'
+        if (error === false) {
+          this.alertMessage = "Api server down";
         } else {
           this.alertMessage = res;
         }

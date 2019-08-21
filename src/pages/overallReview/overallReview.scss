@@ -1,0 +1,25 @@
+@import "../../styles/app";
+
+
+.warning {
+    background: #ffc247;
+  }
+  .success{
+    background: #3abf94;
+  }
+  .primary{
+    background: #547fff;
+  }
+  .description{
+    width: auto !important;
+    height: auto !important;
+    line-height: inherit;
+    text-align: left;
+  }
+  .cursor_pointer{
+    cursor: pointer;
+  }
+
+  .background_color{
+    background-color: #FAF4EF;
+  }

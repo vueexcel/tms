@@ -67,7 +67,7 @@ const actions = {
     },
     // delete api for managers/ admin
     async deleteMonthlyReview({commit},payload) {
-        let id = payload._id
+        let id = payload.id
         try {
             let res = await axios.delete(`/delete_manager_monthly_response/${id}`)
             if(res){

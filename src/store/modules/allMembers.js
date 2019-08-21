@@ -83,18 +83,24 @@ const actions = {
         }
     },
     async goToDashboard({state},payload){
-        let url = `/auth/dashboard_profile/${payload._id}`
+        let url = `/dashboard_profile/${payload._id}`
+        let resToSend = {
+            error : false,
+            res : null
+        }
         try{
             let response = await axios.get(url)
             state.userToCheckByAdmin = response.data
-            return true
+            resToSend.res = response.data
         } catch(error){
+            resToSend.error = true
             if(error.response){
-                return error.response.data.msg
+                resToSend.res = error.response.data.msg
             } else {
-                return 'API Server Down'
+                resToSend.res = 'API Server Down'
             }
         }
+        return resToSend
     }
 }
 
