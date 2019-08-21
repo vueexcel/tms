@@ -17,7 +17,6 @@
         <div v-else>
           <div class="p-3" v-if="dateArray.length">
             <b-form-select v-model="dateSelected" class="w-25 date">
-              <option :value="null">Please select an option</option>
               <option :value="date" v-for="date in dateArray" :key="date">{{date}}</option>
             </b-form-select>
           </div>
