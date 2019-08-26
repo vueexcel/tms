@@ -64,13 +64,15 @@ export default {
         if (reportArray.length) {
           let count = 0;
           reportArray.forEach(report => {
-            let reviewed = report.is_reviewed.find(element => {
-              return element._id === this.userprofile._id;
-            });
-            if (reviewed.reviewed === false) {
-              count++;
+            if(report.is_reviewed){
+              let reviewed = report.is_reviewed.find(element => {
+                return element._id === this.userprofile._id;
+              });
+              if (reviewed && reviewed.reviewed === false) {
+                count++;
+              }
+              color = count > 0 ? "red" : "orange";
             }
-            color = count > 0 ? "red" : "orange";
           });
         }
         return color;

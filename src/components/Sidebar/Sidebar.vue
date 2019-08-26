@@ -311,13 +311,13 @@
         index="feedback"
         isHeader
       />
-      <!-- <NavLink
+      <NavLink
         header="Peer to Peer Review"
         link="/app/peerReview"
         iconName="fas fa-handshake-o"
         index="feedback"
         isHeader
-      /> -->
+      />
 
       <!-- <NavLink
         header="Performance Review"
@@ -431,13 +431,13 @@
         index="review360"
         isHeader
       />
-      <!-- <NavLink
+      <NavLink
         header="Peer to Peer Review"
         link="/app/peerReview"
         iconName="fas fa-handshake-o"
         index="feedback"
         isHeader
-      /> -->
+      />
     </ul>
   </nav>
 </template>

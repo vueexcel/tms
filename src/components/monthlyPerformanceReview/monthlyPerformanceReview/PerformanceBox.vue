@@ -210,6 +210,8 @@ export default {
     user: get("profile/user"),
     managerComment() {
       let obj = [];
+      this.ratedStarKpi = []
+      this.ratedStarEra = []
       if (this.dateArray.length) {
         this.allReport.forEach(report => {
           if (
@@ -319,11 +321,11 @@ export default {
         } else {
           this.textkpi = [];
           this.textera = [];
+          this.ratedStarKpi = [];
+          this.ratedStarEra = [];
           this.api_getReports();
         }
         this.loading = false;
-        this.ratedStarKpi = [];
-        this.ratedStarEra = [];
       } else {
         this.$emit("moveToBottom");
         this.alertMessage =
