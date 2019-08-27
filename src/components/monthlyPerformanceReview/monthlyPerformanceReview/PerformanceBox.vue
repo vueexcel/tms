@@ -150,13 +150,19 @@
             >{{alertMessage}}</b-alert>
             <b-button
               variant="primary"
-              v-if="!managerComment.review"
+              v-if="!managerComment.review && !loadingSubmitButton"
               class="width-100 mb-xs mr-xs mt-4"
               type="submit"
             >Submit</b-button>
             <b-button
+              variant="primary"
+              v-if="!managerComment.review && loadingSubmitButton"
+              class="width-100 mb-xs mr-xs mt-4"
+              type="submit"
+            ><i class="fa fa-circle-o-notch fa-spin"></i></b-button>
+            <b-button
               variant="danger"
-              v-else
+              v-if="managerComment.review && !loadingSubmitButton"
               @click="delReport"
               class="width-100 mb-xs mr-xs mt-4"
               type="button"
@@ -196,7 +202,8 @@ export default {
       loading: false,
       alertMessage: "",
       alertMessageShow: false,
-      dateSelected: null
+      dateSelected: null,
+      loadingSubmitButton: false
     };
   },
   components: {
@@ -210,6 +217,8 @@ export default {
     user: get("profile/user"),
     managerComment() {
       let obj = [];
+      this.ratedStarKpi = []
+      this.ratedStarEra = []
       if (this.dateArray.length) {
         this.allReport.forEach(report => {
           if (
@@ -303,6 +312,7 @@ export default {
           });
         }
       });
+      this.loadingSubmitButton = true
       if (
         kpiArray.length === this.activeEmployeReport.report.kpi.length &&
         this.activeEmployeReport.report.era.length === eraArray.length
@@ -319,11 +329,12 @@ export default {
         } else {
           this.textkpi = [];
           this.textera = [];
+          this.ratedStarKpi = [];
+          this.ratedStarEra = [];
           this.api_getReports();
         }
+        this.loadingSubmitButton = true
         this.loading = false;
-        this.ratedStarKpi = [];
-        this.ratedStarEra = [];
       } else {
         this.$emit("moveToBottom");
         this.alertMessage =

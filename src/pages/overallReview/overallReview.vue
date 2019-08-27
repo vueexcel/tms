@@ -115,13 +115,21 @@
               <div v-for="(kpiera,index) in newArray" :key="index" class="areaBorder mb-2">
                 <div class="d-flex">
                   <div
-                    class="mb-0 bg-white pl-3 pt-1 w-100"
+                    class="mb-0 bg-white pl-3 pt-1 pr-3 w-100"
                     v-if="kpiera.title !== '' && kpiera.desc !== ''"
                     v-b-toggle="'manager' + kpiera.ID"
                   >
+                  <div>
                     <p class="text-primary capitalize mb-0">
                       <span class="cursor_pointer">{{kpiera.title}}</span>
                     </p>
+                    <span class="when-opened float-right">
+                      <i class="fa fa-chevron-down text-primary font-weight-bold cursor_pointer" aria-hidden="true"></i>
+                    </span>
+                    <span class="when-closed float-right">
+                      <i class="fa fa-chevron-up text-primary font-weight-bold cursor_pointer" aria-hidden="true"></i>
+                    </span>
+                  </div>
                     <div>{{kpiera.desc}}</div>
                   </div>
                   <RadialProgressBar
@@ -139,7 +147,7 @@
                 <b-collapse :id="'manager' + kpiera.ID">
                   <div class="mx-1 line" v-if="user.monthly.length">
                     <div
-                      v-for="(monthlyReport,index) in user.monthly"
+                      v-for="(monthlyReport,index) in user.monthly.slice().reverse()"
                       :key="index"
                       class="px-3 background_color text-secondary mt-2 description"
                     >
@@ -187,7 +195,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="mx-1 line  background_color text-danger px-3 mt-2" v-else>
+                  <div class="mx-1 line background_color text-danger px-3 mt-2" v-else>
                     <h6 class="font-weight-bold p-1">No Monthly report review</h6>
                   </div>
                 </b-collapse>
@@ -200,13 +208,22 @@
               <div v-for="(kpiera,index) in eraArray" :key="index" class="areaBorder mb-2">
                 <div class="d-flex">
                   <div
-                    class="mb-0 bg-white pl-3 pt-1 pr-4 w-100"
+                    class="mb-0 bg-white pl-3 pt-1 pr-3 w-100"
                     v-if="kpiera.title !== '' && kpiera.desc !== ''"
                     v-b-toggle="'manager' + kpiera.ID"
                   >
-                    <p class="text-primary capitalize mb-0">
+                  <div>
+                     <p class="text-primary capitalize mb-0">
                       <span class="cursor_pointer">{{kpiera.title}}</span>
                     </p>
+                    <span class="when-opened float-right">
+                      <i class="fa fa-chevron-down text-primary font-weight-bold cursor_pointer" aria-hidden="true"></i>
+                    </span>
+                    <span class="when-closed float-right">
+                      <i class="fa fa-chevron-up text-primary font-weight-bold cursor_pointer" aria-hidden="true"></i>
+                    </span>
+                  </div>
+                   
                     <div>{{kpiera.desc}}</div>
                   </div>
                   <RadialProgressBar
@@ -224,7 +241,7 @@
                 <b-collapse :id="'manager' + kpiera.ID">
                   <div class="mx-1 line" v-if="user.monthly.length">
                     <div
-                      v-for="(monthlyReport,index) in user.monthly"
+                      v-for="(monthlyReport,index) in user.monthly.slice().reverse()"
                       :key="index"
                       class="px-3 background_color text-secondary mt-2 description"
                     >
@@ -272,7 +289,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="mx-1 line  background_color text-danger px-3 mt-2" v-else>
+                  <div class="mx-1 line background_color text-danger px-3 mt-2" v-else>
                     <h6 class="font-weight-bold p-1">No Monthly report review</h6>
                   </div>
                 </b-collapse>
@@ -297,78 +314,96 @@
           </b-col>
         </b-row>
         <b-row class="p-0 pl-3" v-if="user.weekly && user.weekly.length">
-          <div v-for="(weeklyReport,index) in weeklyReportArray" :key="index" class="background_color my-2 p-3 w-100">
+          <div
+            v-for="(weeklyReport,index) in weeklyReportArray"
+            :key="index"
+            class="background_color my-2 p-3 w-100"
+          >
             <h6 class="font-weight-bold float-right">{{weeklyReport.created_at | date}}</h6>
-              <p class="font-weight-bold my-1">Extra work/ Feedback/ Issues</p>
-              <div class="mb-3">{{weeklyReport.extra}}</div>
-              <p class="font-weight-bold my-1">Highlight</p>
-              <div v-for="(highlight,index) in weeklyReport.k_highlight" :key="index">
-                <div>
-                  <u>Kpi/Era :</u>
-                  <span>{{highlight.KpiEra}}</span>
+            <p class="font-weight-bold my-1">Extra work/ Feedback/ Issues</p>
+            <div class="mb-3">{{weeklyReport.extra}}</div>
+            <p class="font-weight-bold my-1">Highlight</p>
+            <div v-for="(highlight,index) in weeklyReport.k_highlight" :key="index">
+              <div>
+                <u>Kpi/Era :</u>
+                <span>{{highlight.KpiEra}}</span>
+              </div>
+              <div class="d-flex my-1">
+                <u>Description :</u>
+                <div v-if="highlight.slicedDescription">
+                  <span class="ml-2" v-if="showMoreValue === false">
+                    {{highlight.slicedDescription}}
+                    <span
+                      class="ml-2 text-primary font-weight-bold"
+                      style="cursor: pointer;"
+                      v-if="highlight.slicedDescription"
+                      @click="showMore"
+                    >Show more...</span>
+                  </span>
+                  <span class="ml-2" v-else>
+                    {{highlight.description}}
+                    <span
+                      class="ml-2 text-primary font-weight-bold"
+                      style="cursor: pointer;"
+                      @click="showMore"
+                    >Show Less...</span>
+                  </span>
                 </div>
-                <div>
-                  <u>Description :</u>
+                <div v-else>
                   <span class="ml-2">{{highlight.description}}</span>
                 </div>
               </div>
-              <p class="font-weight-bold my-1">Project Difficulty Level</p>
-              <Stars
-                :displayStar="5"
-                :ratedStar="Number(weeklyReport.difficulty)"
-                :starSize="'20px'"
-                :disableStar="false"
-              />
-              <div v-if="weeklyReport.review" class="bg-light text-danger mb-3 mr-3 pb-2">
-                <div v-for="(comment,index) in weeklyReport.review" :key="index">
-                  <b-row>
-                    <b-col cols="4">
-                      <div class="h-100 ml-3 d-flex">
-                        <div class="float-left pt-2">
-                          <img
-                            :src="comment.manager_id.profileImage ? comment.manager_id.profileImage : image"
-                            class="rounded-circle"
-                            width="25"
-                            height="25"
-                            alt="..."
-                          />
-                        </div>
-                        <div class="ml-1">
-                          <span class="fs-larger text-capitalize">
-                            <span class="fw-semi-bold">{{comment.manager_id.name}}</span>
-                            <p class="fw-small">{{comment.manager_id.jobtitle}}</p>
-                            <p class="fw-small">{{comment.manager_id.team}}</p>
-                          </span>
-                        </div>
+            </div>
+            <div v-if="weeklyReport.review" class="bg-light text-danger my-3 mr-3 pb-2">
+              <div v-for="(comment,index) in weeklyReport.review" :key="index">
+                <b-row>
+                  <b-col cols="4">
+                    <div class="h-100 ml-3 d-flex">
+                      <div class="float-left pt-2">
+                        <img
+                          :src="comment.manager_id.profileImage ? comment.manager_id.profileImage : image"
+                          class="rounded-circle"
+                          width="25"
+                          height="25"
+                          alt="..."
+                        />
                       </div>
-                    </b-col>
-                    <b-col cols="8">
-                      <p>
-                        <strong class="pr-2">Comment :</strong>
-                        <span>{{comment.comment}}</span>
-                      </p>
-                      <p class="d-flex">
-                        <Strong class="pt-2 mt-1 pr-2">Rating :</Strong>
-                        <span>
-                          <Stars
-                            :displayStar="10"
-                            :ratedStar="Number(comment.rating)"
-                            :starSize="'20px'"
-                            :disableStar="false"
-                          />
+                      <div class="ml-1">
+                        <span class="fs-larger text-capitalize">
+                          <span class="fw-semi-bold">{{comment.manager_id.name}}</span>
+                          <p class="fw-small">{{comment.manager_id.jobtitle}}</p>
+                          <p class="fw-small">{{comment.manager_id.team}}</p>
                         </span>
-                      </p>
-                    </b-col>
-                  </b-row>
-                </div>
-                <div v-if="weeklyReport.skip_reason && weeklyReport.skip_reason.length">
-                  <div v-for="(skipReason,index) in weeklyReport.skip_reason" :key="index">
-                    <div
-                      class="bg-warning text-center text-secondary font-weight-bold m-1"
-                    >{{skipReason}}</div>
-                  </div>
+                      </div>
+                    </div>
+                  </b-col>
+                  <b-col cols="8">
+                    <p>
+                      <strong class="pr-2">Comment :</strong>
+                      <span>{{comment.comment}}</span>
+                    </p>
+                    <p class="d-flex">
+                      <Strong class="pt-2 mt-1 pr-2">Rating :</Strong>
+                      <span>
+                        <Stars
+                          :displayStar="10"
+                          :ratedStar="Number(comment.rating)"
+                          :starSize="'20px'"
+                          :disableStar="false"
+                        />
+                      </span>
+                    </p>
+                  </b-col>
+                </b-row>
+              </div>
+              <div v-if="weeklyReport.skip_reason && weeklyReport.skip_reason.length">
+                <div v-for="(skipReason,index) in weeklyReport.skip_reason" :key="index">
+                  <div
+                    class="bg-warning text-center text-secondary font-weight-bold m-1"
+                  >{{skipReason}}</div>
                 </div>
               </div>
+            </div>
           </div>
         </b-row>
         <b-row v-else class="background_color mx-1">
@@ -397,7 +432,8 @@ export default {
       total: 10,
       Overall_rating: "0",
       checkin_rating: "0",
-      selectedWeeklyDate: null
+      selectedWeeklyDate: null,
+      showMoreValue: false
     };
   },
   components: {
@@ -537,7 +573,7 @@ export default {
           }
         });
       }
-      return dateArray;
+      return dateArray.reverse();
     },
     weeklyReportArray() {
       let weekReport = [];
@@ -547,6 +583,14 @@ export default {
             this.selectedWeeklyDate.value ===
             this.$moment(week.created_at).format("MMMM")
           ) {
+            week.k_highlight.forEach(highlight => {
+              if (highlight.description.length > 100) {
+                highlight["slicedDescription"] = highlight.description.slice(
+                  0,
+                  100
+                );
+              }
+            });
             weekReport.push(week);
           }
         });
@@ -565,14 +609,10 @@ export default {
     },
     fetchData() {
       this.user = this.userToCheckByAdmin_;
-      if(this.user.weekly.length){
+      if (this.user.weekly.length) {
         this.selectedWeeklyDate = {
-          text: this.$moment(new Date(this.user.weekly[0].created_at)).format(
-            "MMMM"
-          ),
-          value: this.$moment(new Date(this.user.weekly[0].created_at)).format(
-            "MMMM"
-          )
+          text: this.$moment(this.WeeklyDateArray[0]).format("MMMM"),
+          value: this.$moment(this.WeeklyDateArray[0]).format("MMMM")
         };
       }
     },
@@ -583,22 +623,17 @@ export default {
         }
       }
       return false;
+    },
+    showMore() {
+      console.log(this.showMoreValue, "123");
+
+      this.showMoreValue = !this.showMoreValue;
+      console.log(this.showMoreValue, "***********");
     }
   },
   filters: {
-    time: function(time) {
-      return moment(time).format("hh:mm a");
-    },
-    day: function(day) {
-      return moment(day).calendar(null, {
-        sameDay: "[Today]",
-        lastDay: "[Yesterday]",
-        lastWeek: "MMMM DD,YYYY",
-        sameElse: "MMMM DD,YYYY"
-      });
-    },
-    date(date){
-      return moment(date).format('DD-MMMM-YYYY')
+    date(date) {
+      return moment(date).format("DD-MMMM-YYYY");
     }
   }
 };

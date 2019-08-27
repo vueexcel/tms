@@ -23,3 +23,8 @@
   .background_color{
     background-color: #FAF4EF;
   }
+
+  .collapsed > div > .when-opened,
+:not(.collapsed) > div > .when-closed {
+  display: none;
+}
