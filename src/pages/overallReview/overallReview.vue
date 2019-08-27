@@ -115,7 +115,7 @@
               <div v-for="(kpiera,index) in newArray" :key="index" class="areaBorder mb-2">
                 <div class="d-flex">
                   <div
-                    class="mb-0 bg-white pl-3 pt-1 w-100"
+                    class="mb-0 bg-white pl-3 pt-1 pr-3 w-100"
                     v-if="kpiera.title !== '' && kpiera.desc !== ''"
                     v-b-toggle="'manager' + kpiera.ID"
                   >
@@ -123,10 +123,10 @@
                     <p class="text-primary capitalize mb-0">
                       <span class="cursor_pointer">{{kpiera.title}}</span>
                     </p>
-                    <span class="when-opened float-right pr-3">
+                    <span class="when-opened float-right">
                       <i class="fa fa-chevron-down text-primary font-weight-bold cursor_pointer" aria-hidden="true"></i>
                     </span>
-                    <span class="when-closed float-right pr-3">
+                    <span class="when-closed float-right">
                       <i class="fa fa-chevron-up text-primary font-weight-bold cursor_pointer" aria-hidden="true"></i>
                     </span>
                   </div>
@@ -147,7 +147,7 @@
                 <b-collapse :id="'manager' + kpiera.ID">
                   <div class="mx-1 line" v-if="user.monthly.length">
                     <div
-                      v-for="(monthlyReport,index) in user.monthly"
+                      v-for="(monthlyReport,index) in user.monthly.slice().reverse()"
                       :key="index"
                       class="px-3 background_color text-secondary mt-2 description"
                     >
@@ -208,11 +208,11 @@
               <div v-for="(kpiera,index) in eraArray" :key="index" class="areaBorder mb-2">
                 <div class="d-flex">
                   <div
-                    class="mb-0 bg-white pl-3 pt-1 pr-4 w-100"
+                    class="mb-0 bg-white pl-3 pt-1 pr-3 w-100"
                     v-if="kpiera.title !== '' && kpiera.desc !== ''"
                     v-b-toggle="'manager' + kpiera.ID"
                   >
-                  <div class="">
+                  <div>
                      <p class="text-primary capitalize mb-0">
                       <span class="cursor_pointer">{{kpiera.title}}</span>
                     </p>
@@ -241,7 +241,7 @@
                 <b-collapse :id="'manager' + kpiera.ID">
                   <div class="mx-1 line" v-if="user.monthly.length">
                     <div
-                      v-for="(monthlyReport,index) in user.monthly"
+                      v-for="(monthlyReport,index) in user.monthly.slice().reverse()"
                       :key="index"
                       class="px-3 background_color text-secondary mt-2 description"
                     >
@@ -328,7 +328,7 @@
                 <u>Kpi/Era :</u>
                 <span>{{highlight.KpiEra}}</span>
               </div>
-              <div class="d-flex">
+              <div class="d-flex my-1">
                 <u>Description :</u>
                 <div v-if="highlight.slicedDescription">
                   <span class="ml-2" v-if="showMoreValue === false">
@@ -354,14 +354,7 @@
                 </div>
               </div>
             </div>
-            <p class="font-weight-bold my-1">Project Difficulty Level</p>
-            <Stars
-              :displayStar="5"
-              :ratedStar="Number(weeklyReport.difficulty)"
-              :starSize="'20px'"
-              :disableStar="false"
-            />
-            <div v-if="weeklyReport.review" class="bg-light text-danger mb-3 mr-3 pb-2">
+            <div v-if="weeklyReport.review" class="bg-light text-danger my-3 mr-3 pb-2">
               <div v-for="(comment,index) in weeklyReport.review" :key="index">
                 <b-row>
                   <b-col cols="4">
@@ -639,17 +632,6 @@ export default {
     }
   },
   filters: {
-    time: function(time) {
-      return moment(time).format("hh:mm a");
-    },
-    day: function(day) {
-      return moment(day).calendar(null, {
-        sameDay: "[Today]",
-        lastDay: "[Yesterday]",
-        lastWeek: "MMMM DD,YYYY",
-        sameElse: "MMMM DD,YYYY"
-      });
-    },
     date(date) {
       return moment(date).format("DD-MMMM-YYYY");
     }
