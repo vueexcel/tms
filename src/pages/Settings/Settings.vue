@@ -9,7 +9,7 @@
               <legend>
                 <strong>Slack</strong> tokens
               </legend>
-              <b-form-group
+              <!-- <b-form-group
                 horizontal
                 label="Web hook"
                 label-for="normal-field-4"
@@ -38,7 +38,7 @@
                   id="label-hint"
                   required
                 />
-              </b-form-group>
+              </b-form-group> -->
               <b-form-group
                 horizontal
                 label-for="normal-field"
@@ -82,7 +82,7 @@
                 <legend>
                   <strong>Reminder</strong> messages
                 </legend>
-                <div class="form-group">
+                <!-- <div class="form-group">
                   <div class="row">
                     <div class="col-md-2 text-md-right">
                       <label for="normal-field">Monthly reminder</label>
@@ -147,7 +147,6 @@
                       />
                     </div>
                     <div class="col-2">
-                      <!-- no checkbox here -->
                     </div>
                   </div>
                 </div>
@@ -204,7 +203,6 @@
                 <div class="form-group">
                   <div class="row">
                     <div class="col-md-2 text-md-right">
-                      <!-- missed checkin on UI recent_activity on DB -->
                       <label for="normal-field-month">Missed checkin</label>
                     </div>
                     <div class="col-8 col-md-5 text-md-right">
@@ -229,7 +227,6 @@
                 <div class="form-group">
                   <div class="row">
                     <div class="col-md-2 text-md-right">
-                      <!-- missed checkin on UI recent_activity on DB -->
                       <label for="normal-field-month">Weekly report review message</label>
                     </div>
                     <div class="col-8 col-md-5 text-md-right">
@@ -246,7 +243,6 @@
                 <div class="form-group">
                   <div class="row">
                     <div class="col-md-2 text-md-right">
-                      <!-- missed checkin on UI recent_activity on DB -->
                       <label for="normal-field-month">Monthly report review message</label>
                     </div>
                     <div class="col-8 col-md-5 text-md-right">
@@ -263,7 +259,6 @@
                 <div class="form-group">
                   <div class="row">
                     <div class="col-md-2 text-md-right">
-                      <!-- missed checkin on UI recent_activity on DB -->
                       <label for="normal-field-month">Weekly missed review message</label>
                     </div>
                     <div class="col-8 col-md-5 text-md-right">
@@ -284,7 +279,7 @@
                       />
                     </div>
                   </div>
-                </div>
+                </div> -->
                 <div class="form-group">
                   <div class="row">
                     <div class="col-md-2 text-md-right">

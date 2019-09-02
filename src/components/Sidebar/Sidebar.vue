@@ -121,13 +121,13 @@
         :badge="unreadView360.toString()"
         isHeader
       />
-      <NavLink
+      <!-- <NavLink
         header="Settings"
         link="/admin/settings"
         iconName="fas fa-gears"
         index="setting"
         isHeader
-      />
+      /> -->
       <!-- link="/app/weeklyReview" -->
       <!-- <NavLink
         header="View Check-ins"
