@@ -1,6 +1,10 @@
 <template>
   <div>
     <h1 class="page-title">Monthly Report</h1>
+    <b-alert
+      :show="true"
+      class="alert-info alert-transparent mt-3"
+    >You are submitting Report for the month of <b>{{msgForMonth}}</b></b-alert>
     <Alert360 />
     <i v-if="loading" class="fas fa-circle-notch text-success fa-spin float-right mr-5 mt-3 size"></i>
     <b-container class="shadow bg-white no-gutters p-4 mh-500" fluid>
@@ -192,6 +196,9 @@ export default {
         return moment(this.user.dateofjoining).format("D");
       }
       // return this.$moment(val).format("D");
+    },
+    msgForMonth () {
+      return moment(new Date()).subtract(1, 'months').endOf('month').format('MMMM')
     }
   },
   mounted() {
