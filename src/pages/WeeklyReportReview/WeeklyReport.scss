@@ -10,8 +10,9 @@
 .employees{
     height: 140px;
     overflow: auto;
+    width: inherit;
     white-space: nowrap;
-    display: -webkit-box;
+    flex-wrap: nowrap;
 }
 
 .week_parent{
