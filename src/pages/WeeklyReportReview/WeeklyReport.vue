@@ -32,7 +32,7 @@
         </span>
         <i class="fas fa-circle-notch text-success fa-spin float-right mr-5 size" v-if="loading"></i>
       </div>
-      <b-container class="no-gutters">
+      <b-container fluid>
         <b-alert
           :show="error"
           dismissible
@@ -135,7 +135,7 @@ export default {
               let isEmployeeExist = arrayOfEmployee.includes(employee);
               if (!isEmployeeExist) {
                 if (response && response.reviewed === false)
-                  arrayOfEmployee.push(employee);
+                  arrayOfEmployee.push(employee);                    
               }
             }
           });
