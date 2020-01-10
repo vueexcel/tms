@@ -63,6 +63,9 @@
     "@vue/cli-service": "^3.0.5",
     "vue-template-compiler": "^2.5.17"
   },
+  "engines": {
+    "node": "10.16.3"
+  },
   "napa": {
     "jquery.flot.animator": "https://github.com/Codicode/flotanimator.git#3c256c0183d713fd3bf41d04417873928eb1a751",
     "flot.dashes": "https://github.com/cquartier/flot.dashes.git",

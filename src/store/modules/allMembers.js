@@ -10,10 +10,10 @@ const state = {
 }
 const mutations = make.mutations(state)
 const actions = {
-    async getAllMember({ state, dispatch }) {
+    async getAllMember({ state }) {
         state.allMember = []
         try{
-            let response = await axios.get('/user/list')
+            let response = await axios.get(`/user/list`)
             if (response) {
                 state.allMember = response.data
                 return true
@@ -44,10 +44,10 @@ const actions = {
         }
         
     },
-    async assignManager({ dispatch }, payload) {
+    async assignManager({ }, payload) {
         try{
             let response = await axios.get(`/kpi/assign_manager/${payload.user._id}/${payload.manager._id}/${payload.weight ? payload.weight : 1}`)
-            return true
+            if (response) return true
         } catch(err){
             if(err.response){
                 return err.response.data.msg
@@ -56,10 +56,10 @@ const actions = {
             }
         }
     },
-    async deleteManager({ dispatch }, payload) {
+    async deleteManager({ }, payload) {
         try{
             let response = await axios.get(`/kpi/assign_manager/${payload.user._id}/${payload.manager._id}/${0}`)
-            return true
+             if (response) return true
         } catch(error){
             if(error.response){
                 return error.response.data.msg
@@ -101,6 +101,23 @@ const actions = {
             }
         }
         return resToSend
+    },
+    async resetRating ({},payload) {
+        let url = `/system/rating_reset/${payload}`
+        try {
+            let response = await axios.put(url)
+            if (response.data.status === 'success') {
+                return true
+            } else {
+                return 'Oops, Please reset again'
+            }
+        } catch (error) {
+            if(error.response){
+                return error.response.data.msg
+            } else {
+                return 'API Server Down'
+            }
+        }
     }
 }
 

@@ -42,14 +42,20 @@
                 <div class="border-top"></div>
                 <div class="mt-2 font-weight">Based on Weekly Review</div>
               </div>
-              <starRating
+              <emoticonRating
+                :ratedStar="activeReport.canReview === false ? reviewedComments.rating :ratedStarWeekly"
+                :disableStar="activeReport.canReview === false ? true : false"
+                @starRatingSelected="submitStarRateWeekly">
+              </emoticonRating>
+              <!-- <starRating
                 class="border-bottom"
                 :displayStar="10"
                 :ratedStar="activeReport.canReview === false ? reviewedComments.rating :ratedStarWeekly"
                 :starSize="starSize"
                 @starRatingSelected="submitStarRateWeekly"
                 :disableStar="activeReport.canReview === false ? true : false"
-              />
+              /> -->
+
               <!-- <div class="mt-2 font-weight">
                 As a manager how do you rate the difficulty level of projects which employee has worked on in last week
                 <strong>(Optional)</strong>
@@ -203,6 +209,7 @@
 
 <script>
 import starRating from "@/components/Star/Star";
+import emoticonRating from "@/components/Star/emojiRating.vue"
 import ExtraWorkFeedback from "./../../../components/ExtraWorkFeedback/ExtraWorkFeedback";
 import { get, call, sync } from "vuex-pathify";
 
@@ -243,6 +250,7 @@ export default {
   },
   components: {
     starRating,
+    emoticonRating,
     ExtraWorkFeedback
   },
   props: {
@@ -305,13 +313,12 @@ export default {
     async submit() {
       if (this.ratedStarWeekly) {
         let data = {
-          difficulty: this.ratedStarDifficulty,
           rating: this.ratedStarWeekly,
           comment: this.text,
           id: this.activeReport._id
         };
-        await this.setWeeklyReportReview(data)
-          .then(res => {
+        await this.setWeeklyReportReview(data).then(res => {
+          if (res ===  true) {
             this.$emit("update-highlight", true);
             this.activeReport.canReview = false;
             this.reviewedComments = data;
@@ -321,25 +328,30 @@ export default {
             this.ratedStarWeekly = 0;
             this.ratedStarDifficulty = 0;
             this.text = "";
+          } else {
+            this.success = true;
+            this.header = "danger";
+            this.showSuccess = "Your review is not submitted. Please review again";
+          }
           })
           .catch(err => {
             this.success = true;
             this.showSuccess = "Sorry there is some error";
             this.header = "danger";
           })
-          .then(res => {
-            this.success = true;
-            this.header = "success";
-            this.showSuccess = "Your have reviewed successfully";
-            this.ratedStarWeekly = 0;
-            this.ratedStarDifficulty = 0;
-            this.text = "";
-          })
-          .catch(err => {
-            this.success = true;
-            this.showSuccess = "Sorry there is some error";
-            this.header = "danger";
-          });
+          // .then(res => {
+          //   this.success = true;
+          //   this.header = "success";
+          //   this.showSuccess = "Your have reviewed successfully";
+          //   this.ratedStarWeekly = 0;
+          //   this.ratedStarDifficulty = 0;
+          //   this.text = "";
+          // })
+          // .catch(err => {
+          //   this.success = true;
+          //   this.showSuccess = "Sorry there is some error";
+          //   this.header = "danger";
+          // });
       } else {
         this.success = true;
         this.showSuccess = "Rating Weekly can not be blank";

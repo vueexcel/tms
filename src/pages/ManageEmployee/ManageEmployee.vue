@@ -68,7 +68,7 @@ export default {
           this.groupByTeam(this.allMembers);
         } else {
           this.error = true
-          this.errorMessage = res          
+          this.errorMessage = res
         }
     },
     groupByTeam(payload) {
