@@ -317,7 +317,7 @@
                 </div>
                 <div class="form-group">
                   <div class="row">
-                    <div class="col-md-2 text-md-right">
+                    <div class="col-md-2 col-sm-12 text-md-right">
                       <label for="normal-field-week">Skip Weekly Review&deg; for manager</label>
                     </div>
                     <div class="col-8 col-md-5">
@@ -330,7 +330,22 @@
                     </div>
                   </div>
                 </div>
-                 <div class="form-group">
+                <div class="form-group" v-if="schedularSettings.managerSkip === true">
+                  <div class="row">
+                      <div class="col-md-2 col-sm-12 text-md-right"> 
+                      <label for="normal-field-week">Only Manager Can Skip</label>
+                    </div>
+                    <div class="col-8 col-md-5">
+                      <input
+                        @change="setSchedularSettings()"
+                        v-model="schedularSettings.only_manager_skip"
+                        class="apple-switch form-control"
+                        type="checkbox"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
                   <div class="row">
                     <div class="col-md-2 text-md-right">
                       <label for="normal-field-week">Automate Weekly</label>
@@ -339,6 +354,21 @@
                       <input
                         @change="setSchedularSettings()"
                         v-model="schedularSettings.weekly_automated"
+                        class="apple-switch form-control"
+                        type="checkbox"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-md-2 text-md-right">
+                      <label for="normal-field-week">Enable easy rating </label>
+                    </div>
+                    <div class="col-8 col-md-5">
+                      <input
+                        @change="setSchedularSettings()"
+                        v-model="schedularSettings.easyRating"
                         class="apple-switch form-control"
                         type="checkbox"
                       />
@@ -410,7 +440,9 @@ export default {
         revew_360_setting: false,
         managerSkip: false,
         missed_reviewed: false,
-        weekly_automated: false
+        weekly_automated: false,
+        easyRating: false,
+        only_manager_skip: false
       }
     };
   },
@@ -457,6 +489,8 @@ export default {
           this.schedularSettings.revew_360_setting =
             res.data[0].revew_360_setting;
           this.schedularSettings.weekly_automated = res.data[0].weekly_automated
+          this.schedularSettings.easyRating = res.data[0].easyRating
+          this.schedularSettings.only_manager_skip = res.data[0].only_manager_skip
         })
         .catch(err => {
           console.log(err);

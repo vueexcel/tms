@@ -42,19 +42,23 @@
                 <div class="border-top"></div>
                 <div class="mt-2 font-weight">Based on Weekly Review</div>
               </div>
-              <emoticonRating
-                :ratedStar="activeReport.canReview === false ? reviewedComments.rating :ratedStarWeekly"
-                :disableStar="activeReport.canReview === false ? true : false"
-                @starRatingSelected="submitStarRateWeekly">
-              </emoticonRating>
-              <!-- <starRating
-                class="border-bottom"
-                :displayStar="10"
-                :ratedStar="activeReport.canReview === false ? reviewedComments.rating :ratedStarWeekly"
-                :starSize="starSize"
-                @starRatingSelected="submitStarRateWeekly"
-                :disableStar="activeReport.canReview === false ? true : false"
-              /> -->
+              <div v-if="userProfile.easyRating === true">
+                <emoticonRating
+                  :ratedStar="activeReport.canReview === false ? reviewedComments.rating :ratedStarWeekly"
+                  :disableStar="activeReport.canReview === false ? true : false"
+                  @starRatingSelected="submitStarRateWeekly">
+                </emoticonRating>
+              </div>
+              <div v-else>
+                <starRating
+                  class="border-bottom"
+                  :displayStar="10"
+                  :ratedStar="activeReport.canReview === false ? reviewedComments.rating :ratedStarWeekly"
+                  :starSize="starSize"
+                  @starRatingSelected="submitStarRateWeekly"
+                  :disableStar="activeReport.canReview === false ? true : false"
+                />
+              </div>
 
               <!-- <div class="mt-2 font-weight">
                 As a manager how do you rate the difficulty level of projects which employee has worked on in last week
