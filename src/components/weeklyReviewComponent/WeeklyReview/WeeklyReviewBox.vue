@@ -313,7 +313,6 @@ export default {
     async submit() {
       if (this.ratedStarWeekly) {
         let data = {
-          difficulty: this.ratedStarDifficulty,
           rating: this.ratedStarWeekly,
           comment: this.text,
           id: this.activeReport._id

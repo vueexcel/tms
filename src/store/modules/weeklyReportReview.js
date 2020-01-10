@@ -27,7 +27,11 @@ const actions = {
   },
   async setWeeklyReportReview({ state, dispatch }, payload) {
     try {
-      let res = await axios.post(`/manager_weekly/${payload.id}`, payload);
+      let payloadToSend = {
+        rating: payload.rating,
+        comment: payload.comment
+      }
+      let res = await axios.post(`/manager_weekly/${payload.id}`, payloadToSend);
       if (res) {
         dispatch('getallWeeklyReport')
         state.countToReviewReport--

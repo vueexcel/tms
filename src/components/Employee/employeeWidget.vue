@@ -9,31 +9,53 @@
         @dismiss-count-down="countDownChanged"
         class="mx-auto text-center mt-3 alert-rounded alert-transparent"
       >{{error}},{{dismissCountDown}}</b-alert>
-      <div class="card-body text-center">
+
+      <b-alert show
+        variant="success"
+        dismissible
+        v-if="successResetRating"
+        class="mx-auto text-center mt-3 alert-rounded alert-transparent">
+          Rating reset successfully
+        </b-alert>
+      <div class="card-body">
         <i class="fas fa-circle-notch text-success fa-spin float-left" v-if="loading"></i>
-        <div class="float-right" v-if="loggedInUserRole === 'admin'">
-          <i
-            class="fas fa-edit edit-button"
-            v-if="!edit"
-            @click="editEmployee(employee)"
-            aria-hidden="true"
-          ></i>
-          <div class="text-center" v-else>
-            <a class="btn btn-rounded-f button-for-employee" @click="saveEdit()">
-              <div class="text-gray" style="font-size: 12px;">SAVE</div>
-            </a>
+        <b-row>
+          <b-col>
+            <div class="float-right" v-if="loggedInUserRole === 'admin'">
+              <div v-if="loggedInUserRole === 'admin'" class="float-left px-3">
+                <i class="fas fa-undo pointer" :id="employee._id" @click="resetRatingConfirmation()"></i>
+                <b-tooltip :target="employee._id" triggers="hover" variant="warning">
+                  Reset Rating
+                </b-tooltip>
+              </div>
+              <i
+                class="fas fa-edit edit-button"
+                v-if="!edit"
+                @click="editEmployee(employee)"
+                aria-hidden="true"
+              ></i>
+              <div class="text-center" v-else>
+                <a class="btn btn-rounded-f button-for-employee" @click="saveEdit()">
+                  <div class="text-gray" style="font-size: 12px;">SAVE</div>
+                </a>
+              </div>
+            </div>
+          </b-col>
+        </b-row>
+
+        <b-row class="justify-content-center mt-1">
+          <div>
+            <img
+              class="rounded-circle h-auto pointer"
+              :src="employee_.profileImage ? employee_.profileImage : defaultImage"
+              width="75"
+              alt="..."
+              @click="sendToDashboard(employee_)"
+            >
           </div>
-        </div>
-        <div>
-          <img
-            class="rounded-circle h-auto pointer"
-            :src="employee_.profileImage ? employee_.profileImage : defaultImage"
-            width="75"
-            alt="..."
-            @click="sendToDashboard(employee_)"
-          >
-        </div>
-        <div>
+        </b-row>
+        
+        <div class="text-center">
           <span class="fs-larger text-capitalize">
             <span class="employee-name">{{employee_.name}}</span>
           </span>
@@ -55,7 +77,7 @@
             </b-form-select>
           </span>
         </div>
-        <div>
+        <div class="text-center">
           <a class="employee-technology">
             <div class="text-primary" style="font-size: 14px;">{{employee_.jobtitle}}</div>
           </a>
@@ -70,6 +92,16 @@
       </div>
       <ManagerComponent :employee="employee" :loggedInUserRole="loggedInUserRole"/>
     </div>
+
+    <!-- Modal for confirmation of reset rating -->
+    <b-modal
+      id="modal-prevent-closing"
+      v-model="showConfirmationAlert"
+      title="Confirmation"
+      @ok="resetRating"
+    >
+      <h5>This will reset all previous ratings of the user  and start a fresh. Are you sure you want to proceed?</h5>
+    </b-modal>
   </div>
 </template>
 
@@ -97,7 +129,9 @@ export default {
       loading: false,
       error: "",
       dismissSecs: 5,
-      dismissCountDown: 0
+      dismissCountDown: 0,
+      showConfirmationAlert: false,
+      successResetRating: false
     };
   },
   props: {
@@ -155,6 +189,7 @@ export default {
     addMembers_: call("adminKPI/addMember"),
     getAllMembers_: call("allMember/getAllMember"),
     goToDashboard_: call("allMember/goToDashboard"),
+    resetRating_: call("allMember/resetRating"),
     editEmployee(employee) {
       this.edit = true;
       this.technologySelect = employee.kpi;
@@ -226,6 +261,19 @@ export default {
         this.error = response.res;
       }
       this.loading =  false
+    },
+    resetRatingConfirmation () {
+      this.showConfirmationAlert = true
+    },
+    async resetRating () {
+      this.loading = true
+      let response = await this.resetRating_(this.employee._id)
+      if (response) {
+        this.successResetRating = true
+      } else {
+        this.error = response
+      }
+      this.loading = false
     }
   },
   mounted() {}
