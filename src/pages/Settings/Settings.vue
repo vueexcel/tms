@@ -400,7 +400,7 @@
         <Widget customHeader>
           <b-row>
             <b-col lg="12">
-              <b-form @submit.prevent="setSchedularMsg()">
+              <b-form @submit.prevent="setReportsSetting()">
                 <legend>
                   <strong>Weekly / Monthly </strong> setting
                 </legend>
