@@ -63,7 +63,7 @@
             <span class="fw-semi-bold">Score</span>
           </h2>
           <!-- first bar -->
-          <div v-if="user.profile && user.profile.Checkin_rating">
+          <div v-if="user.profile">
             <h6 class="text-dark fs-larger">
               Check-ins Score
               <i
@@ -83,7 +83,7 @@
           </div>
           <!-- second bar -->
           <div>
-            <div v-if="user.profile && user.profile.Overall_rating">
+            <div v-if="user.profile">
               <h6 class="text-dark fs-larger">
                 Overall Review
                 <i

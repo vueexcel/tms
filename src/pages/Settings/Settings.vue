@@ -395,12 +395,71 @@
         </Widget>
       </b-col>
     </b-row>
+     <b-row class="justify-content-md-center">
+      <b-col md="12">
+        <Widget customHeader>
+          <b-row>
+            <b-col lg="12">
+              <b-form @submit.prevent="setSchedularMsg()">
+                <legend>
+                  <strong>Weekly / Monthly </strong> setting
+                </legend>
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-md-2 col-sm-12 text-md-right">
+                      <label for="normal-field-week">Disable Monthly Reports</label>
+                    </div>
+                    <div class="col-8 col-md-5">
+                      <input
+                        @change="setMonthlyReportsSetting()"
+                        v-model="reportsSetting.monthly_status"
+                        class="apple-switch form-control"
+                        type="checkbox"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="row">
+                      <div class="col-md-2 col-sm-12 text-md-right"> 
+                      <label for="normal-field-week">Disable Weekly Reports</label>
+                    </div>
+                    <div class="col-8 col-md-5">
+                      <input
+                        @change="setWeeklyReportsSetting()"
+                        v-model="reportsSetting.weekly_status"
+                        class="apple-switch form-control"
+                        type="checkbox"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <b-form-group
+                  horizontal
+                  label
+                  label-for="transparent-field"
+                  :label-cols="2"
+                  breakpoint="md"
+                >
+                  <b-button variant="primary" type="submit" class="mr-xs ml-xs w-28">
+                    <span v-if="loadingReminderMessage">
+                      <i class="fa fa-circle-o-notch fa-spin"></i>
+                    </span>
+                    <span v-else>Save Changes</span>
+                  </b-button>
+                </b-form-group>
+              </b-form>
+            </b-col>
+          </b-row>
+        </Widget>
+      </b-col>
+    </b-row>
   </div>
 </template>
 
 <script>
 import Widget from "@/components/Widget/Widget";
-import { call } from "vuex-pathify";
+import { call, sync } from "vuex-pathify";
 export default {
   components: {
     Widget
@@ -409,6 +468,13 @@ export default {
     this.getSlackSettings();
     this.getSchedularSettings();
     this.getSchedularMsg();
+  },
+  mounted () {
+    this.reportsSetting.monthly_status = this.userProfile.monthly_status,
+    this.reportsSetting.weekly_status = this.userProfile.weekly_status
+  },
+  computed: {
+    userProfile: sync("profile/user")
   },
   data() {
     return {
@@ -443,6 +509,10 @@ export default {
         weekly_automated: false,
         easyRating: false,
         only_manager_skip: false
+      },
+      reportsSetting: {
+        monthly_status: false,
+        weekly_status: false
       }
     };
   },
@@ -453,6 +523,7 @@ export default {
     api_setSchedularSettings: call("settings/setSchedularSettings"),
     api_getSchedularMsg: call("settings/schedularMsg"),
     api_setSchedularMsg: call("settings/setSchedularMsg"),
+    api_setReportsSetting: call("settings/setReportsSetting"),
     getSlackSettings() {
       this.api_getSlackSettings()
         .then(res => {
@@ -500,6 +571,7 @@ export default {
       this.loaderSchedularSettings = true;
       this.api_setSchedularSettings(this.schedularSettings)
         .then(res => {
+          this.userProfile.easyRating = this.schedularSettings.easyRating
           this.loaderSchedularSettings = false;
         })
         .catch(err => {
@@ -541,6 +613,21 @@ export default {
           console.log(err);
           this.loadingReminderMessage = false;
         });
+    },
+    async setReportsSetting () {
+      let response = await this.api_setReportsSetting(this.reportsSetting)
+      if (response.status === 200 && response.data.status === 'success') {
+        this.userProfile.monthly_status = this.reportsSetting.monthly_status
+        this.userProfile.weekly_status = this.reportsSetting.weekly_status
+      }
+    },
+    setMonthlyReportsSetting () {
+      if (this.reportsSetting.weekly_status === true) this.reportsSetting.weekly_status = false
+      this.setReportsSetting()
+    },
+    setWeeklyReportsSetting () {
+      if (this.reportsSetting.monthly_status === true) this.reportsSetting.monthly_status = false
+      this.setReportsSetting()
     }
   }
 };

@@ -44,7 +44,7 @@ const actions = {
         }
         
     },
-    async assignManager({ }, payload) {
+    async assignManager({}, payload) {
         try{
             let response = await axios.get(`/kpi/assign_manager/${payload.user._id}/${payload.manager._id}/${payload.weight ? payload.weight : 1}`)
             if (response) return true
@@ -56,7 +56,7 @@ const actions = {
             }
         }
     },
-    async deleteManager({ }, payload) {
+    async deleteManager({}, payload) {
         try{
             let response = await axios.get(`/kpi/assign_manager/${payload.user._id}/${payload.manager._id}/${0}`)
              if (response) return true

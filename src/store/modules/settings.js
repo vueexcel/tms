@@ -28,9 +28,19 @@ const actions = {
         let res = await axios.get('/system/schduler_mesg')
         return res
     },
+
     async setSchedularMsg({ state, commit }, payload) {
         let res = await axios.put('/system/schduler_mesg', payload)
         return res
+    },
+
+    async setReportsSetting ({}, payload) {
+        try {
+            let res = await axios.put('/system/put/reports_settings', payload)
+            return res
+        } catch (error) {
+            return error
+        }
     }
 }
 // create store
