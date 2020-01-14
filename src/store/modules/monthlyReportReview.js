@@ -47,11 +47,6 @@ const actions = {
             dispatch('employeeToShow', true)
             errorResponse.res = res
             return errorResponse
-            
-            // if (state.setReportToReview === true) {
-            //     console.log('999999999999999999999999999');
-                
-            // }
         } catch (error) {
             errorResponse.error = true
             if(error.response && error.response.status === 401 ){

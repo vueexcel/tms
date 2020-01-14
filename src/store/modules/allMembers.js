@@ -103,9 +103,9 @@ const actions = {
         return resToSend
     },
     async resetRating ({},payload) {
-        let url = `/system/rating_reset/${payload}`
+        let url = `/system/rating_reset/${payload.employee_id}`
         try {
-            let response = await axios.put(url)
+            let response = await axios.put(url,{msg: payload.msg ? payload.msg : null})
             if (response.data.status === 'success') {
                 return true
             } else {

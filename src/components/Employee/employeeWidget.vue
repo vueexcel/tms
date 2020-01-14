@@ -11,11 +11,11 @@
       >{{error}},{{dismissCountDown}}</b-alert>
 
       <b-alert show
-        variant="success"
+        :variant="successResetRating.variant"
         dismissible
-        v-if="successResetRating"
+        v-if="successResetRating.show"
         class="mx-auto text-center mt-3 alert-rounded alert-transparent">
-          Rating reset successfully
+          {{successResetRating.msg}}
         </b-alert>
       <div class="card-body">
         <i class="fas fa-circle-notch text-success fa-spin float-left" v-if="loading"></i>
@@ -24,7 +24,7 @@
             <div class="float-right" v-if="loggedInUserRole === 'admin'">
               <div v-if="loggedInUserRole === 'admin'" class="float-left px-3">
                 <i class="fas fa-undo pointer" :id="employee._id" @click="resetRatingConfirmation()"></i>
-                <b-tooltip :target="employee._id" triggers="hover" variant="warning">
+                <b-tooltip :target="employee._id" :show.sync="showTooltip" triggers="hover" variant="warning">
                   Reset Rating
                 </b-tooltip>
               </div>
@@ -101,6 +101,15 @@
       @ok="resetRating"
     >
       <h5>This will reset all previous ratings of the user  and start a fresh. Are you sure you want to proceed?</h5>
+      <b-row class="my-1">
+        <b-col sm="12" md="2" lg="2">
+          <label for="message">Message</label>
+        </b-col>
+        <b-col sm="12" md="10" lg="10">
+          <b-form-input v-model="confirmationMessage" id="message" type="text"
+            placeholder="your overall rating has been reset to 0 by Admin. All your rating will be calculated fresh now"></b-form-input>
+        </b-col>
+      </b-row>
     </b-modal>
   </div>
 </template>
@@ -131,7 +140,13 @@ export default {
       dismissSecs: 5,
       dismissCountDown: 0,
       showConfirmationAlert: false,
-      successResetRating: false
+      successResetRating: {
+        show: false,
+        msg:'',
+        variant: 'success'
+      },
+      confirmationMessage: '',
+      showTooltip: false
     };
   },
   props: {
@@ -264,15 +279,21 @@ export default {
     },
     resetRatingConfirmation () {
       this.showConfirmationAlert = true
+      this.showTooltip = false
     },
     async resetRating () {
       this.loading = true
-      let response = await this.resetRating_(this.employee._id)
-      if (response) {
-        this.successResetRating = true
+      let response = await this.resetRating_({employee_id: this.employee._id, msg: this.confirmationMessage})
+      if (response === true) {
+        this.confirmationMessage = ''
+        this.error = ''
+        this.successResetRating.variant = 'success'
+        this.successResetRating.msg =  'Rating reset successfully'
       } else {
-        this.error = response
+        this.successResetRating.variant = 'danger'
+        this.successResetRating = response
       }
+      this.successResetRating.show = true 
       this.loading = false
     }
   },

@@ -38,28 +38,67 @@
                 class="Alert-class"
               >Info: Overall rating/ comments mandatory for managers based on weekly report</b-alert>
               <div class="mb-3">
-                <h6 class="rating-header mb-2">Overall Rating</h6>
+                <b-row>
+                  <b-col sm="12" md="4" lg="4">
+                    <h6 class="rating-header mb-2"> Overall Rating </h6>
+                  </b-col>
+                  <b-col sm="12" md="8" lg="8">
+                    <span v-if="userProfile.easyRating === true && activeReport.canReview === true" class="font-weight-bolder float-right">
+                      <span class="text-warning mx-1">
+                        Bad - 3
+                      </span>
+                      <span class="text-info mx-1">
+                        Neutral - 6
+                      </span>
+                      <span class="text-success mx-1">
+                        Good - 8
+                      </span>
+                      <span class="mx-1 pointer">
+                        <b-link @click="showMoreRatingInEasyRating">More?</b-link>
+                      </span>
+                    </span>
+                  </b-col>
+                </b-row>
                 <div class="border-top"></div>
-                <div class="mt-2 font-weight">Based on Weekly Review</div>
+                <div class="mt-2 font-weight">Based on Weekly Review </div>
               </div>
-              <div v-if="userProfile.easyRating === true">
-                <emoticonRating
-                  :ratedStar="activeReport.canReview === false ? reviewedComments.rating :ratedStarWeekly"
-                  :disableStar="activeReport.canReview === false ? true : false"
-                  @starRatingSelected="submitStarRateWeekly">
-                </emoticonRating>
+              <div v-if="activeReport.canReview === true">
+                <div v-if="userProfile.easyRating === true">
+                  <emoticonRating
+                    :ratedStar="ratedStarWeekly"
+                    :disableStar="activeReport.canReview === false ? true : false"
+                    @starRatingSelected="submitStarRateWeekly">
+                  </emoticonRating>
+                </div>
+                <div v-else>
+                  <starRating
+                    class="border-bottom"
+                    :displayStar="10"
+                    :ratedStar="ratedStarWeekly"
+                    :starSize="starSize"
+                    @starRatingSelected="submitStarRateWeekly"
+                    :disableStar="activeReport.canReview === false ? true : false"
+                  />
+                </div>
               </div>
               <div v-else>
-                <starRating
-                  class="border-bottom"
-                  :displayStar="10"
-                  :ratedStar="activeReport.canReview === false ? reviewedComments.rating :ratedStarWeekly"
-                  :starSize="starSize"
-                  @starRatingSelected="submitStarRateWeekly"
-                  :disableStar="activeReport.canReview === false ? true : false"
-                />
+                <div v-if="reviewedComments.rating <= 8">
+                  <emoticonRating
+                    :ratedStar="reviewedComments.rating"
+                    :disableStar="true"
+                  >
+                  </emoticonRating>
+                </div>
+                <div v-else>
+                  <starRating
+                    class="border-bottom"
+                    :displayStar="10"
+                    :ratedStar="reviewedComments.rating"
+                    :starSize="starSize"
+                    :disableStar="true"
+                  />
+                </div>
               </div>
-
               <!-- <div class="mt-2 font-weight">
                 As a manager how do you rate the difficulty level of projects which employee has worked on in last week
                 <strong>(Optional)</strong>
@@ -207,6 +246,43 @@
       </template>
       <!-- -->
     </b-modal>
+
+    <b-modal :header-text-variant="'light'" v-model="extraEasyRating" :header-bg-variant="'dark'">
+      <template slot="modal-header">
+        <h5>Want to rate more?</h5>
+        <i class="fa fa-times" aria-hidden="true" @click="closeExtraRating"></i>
+      </template>
+
+      <template slot="default">
+        <b-container fluid>
+          <starRating 
+            :variantWarning="true"
+            :disableStar="false"
+            class="border-bottom"
+            :displayStar="10"
+            :ratedStar="ratedStarWeekly"
+            :starSize="'20px'"
+            @starRatingSelected="submitStarRateWeekly"></starRating>
+        </b-container>
+        <b-form-textarea
+          id="textarea"
+          v-model="reasonForEasyRating"
+          placeholder="Enter Reason..."
+          rows="3"
+          max-rows="6"
+        ></b-form-textarea>
+      </template>
+
+      <template slot="modal-footer">
+        <b-button
+          variant="primary"
+          size="sm"
+          class="float-right"
+          @click="submit"
+        >Submit</b-button>
+      </template>
+      <!-- -->
+    </b-modal>
     <Toasts :rtl="true" class="toast" :time-out="5000" :class="{toast_opacity : showTaost}"></Toasts>
   </div>
 </template>
@@ -249,7 +325,10 @@ export default {
       skipModal: false,
       reasonSelected: "",
       reasonOther: "",
-      loadingSkip: false
+      loadingSkip: false,
+
+      extraEasyRating:false,
+      reasonForEasyRating: ''
     };
   },
   components: {
@@ -318,7 +397,7 @@ export default {
       if (this.ratedStarWeekly) {
         let data = {
           rating: this.ratedStarWeekly,
-          comment: this.text,
+          comment: this.text ? this.text : this.reasonForEasyRating,
           id: this.activeReport._id
         };
         await this.setWeeklyReportReview(data).then(res => {
@@ -332,6 +411,8 @@ export default {
             this.ratedStarWeekly = 0;
             this.ratedStarDifficulty = 0;
             this.text = "";
+            this.extraEasyRating = false
+            this.reasonForEasyRating = ''
           } else {
             this.success = true;
             this.header = "danger";
@@ -488,6 +569,14 @@ export default {
         }
       }
       return reportObj;
+    },
+    showMoreRatingInEasyRating () {
+      this.extraEasyRating = true
+    },
+    closeExtraRating () {
+      this.extraEasyRating = false
+      this.ratedStarWeekly = 0
+      this.reasonForEasyRating = ''
     }
   }
 };
