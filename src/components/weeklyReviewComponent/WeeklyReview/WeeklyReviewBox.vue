@@ -395,7 +395,7 @@ export default {
       if (this.ratedStarWeekly) {
         let data = {
           rating: this.ratedStarWeekly,
-          comment: this.text ? this.text : this.reasonForEasyRating,
+          comment: this.text,
           id: this.activeReport._id
         };
         await this.setWeeklyReportReview(data).then(res => {
@@ -409,7 +409,6 @@ export default {
             this.ratedStarWeekly = 0;
             this.ratedStarDifficulty = 0;
             this.text = "";
-            this.reasonForEasyRating = ''
           } else {
             this.success = true;
             this.header = "danger";
@@ -566,14 +565,6 @@ export default {
         }
       }
       return reportObj;
-    },
-    showMoreRatingInEasyRating () {
-      this.extraEasyRating = true
-    },
-    closeExtraRating () {
-      this.extraEasyRating = false
-      this.ratedStarWeekly = 0
-      this.reasonForEasyRating = ''
     }
   }
 };
