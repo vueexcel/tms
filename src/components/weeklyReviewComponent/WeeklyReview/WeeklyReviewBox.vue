@@ -42,28 +42,19 @@
                   <b-col sm="12" md="4" lg="4">
                     <h6 class="rating-header mb-2"> Overall Rating </h6>
                   </b-col>
-                  <b-col sm="12" md="8" lg="8">
-                    <span v-if="userProfile.easyRating === true && activeReport.canReview === true" class="font-weight-bolder float-right">
-                      <span class="text-warning mx-1">
-                        Bad - 3
-                      </span>
-                      <span class="text-info mx-1">
-                        Neutral - 6
-                      </span>
-                      <span class="text-success mx-1">
-                        Good - 8
-                      </span>
-                      <span class="mx-1 pointer">
-                        <b-link @click="showMoreRatingInEasyRating">More?</b-link>
-                      </span>
-                    </span>
-                  </b-col>
                 </b-row>
                 <div class="border-top"></div>
-                <div class="mt-2 font-weight">Based on Weekly Review </div>
+                <div class="mt-2 font-weight">Based on Weekly Review 
+                  <span v-if="userProfile.easyRating === true && !extraEasyRating && activeReport.canReview === true" class="float-right text-info font-weight-bolder pointer">
+                    <u @click="extraEasyRating = true"> Have a comment?</u>
+                  </span>
+                  <span v-if="userProfile.easyRating === true && extraEasyRating && activeReport.canReview === true" class="float-right text-info font-weight-bolder pointer">
+                    <u @click="extraEasyRating = false">Easy Rating?</u>
+                  </span>
+                </div>
               </div>
               <div v-if="activeReport.canReview === true">
-                <div v-if="userProfile.easyRating === true">
+                <div v-if="userProfile.easyRating === true && !extraEasyRating">
                   <emoticonRating
                     :ratedStar="ratedStarWeekly"
                     :disableStar="activeReport.canReview === false ? true : false"
@@ -111,10 +102,10 @@
                 @starRatingSelected="submitStarRateDifficulty"
                 :disableStar="activeReport.canReview === false ? true : false"
               />-->
-              <div sm="6" class="mt-2">
+              <div sm="6" class="mt-2" v-if="extraEasyRating">
                 <h6 class="text-inverse">Comments</h6>
               </div>
-              <b-form>
+              <b-form v-if="extraEasyRating">
                 <div v-if="activeReport.canReview === true">
                   <b-form-textarea
                     :rows="3"
@@ -126,19 +117,27 @@
                 <div
                   v-else
                   class="text-info font-weight-bold text-left comment_manager"
-                >{{reviewedComments.comment}}</div>
+                >
+                {{reviewedComments.comment}}</div>
+              </b-form>
+              <div>
                 <span v-if="activeReport.canReview == true">
-                  <b-button
-                    :disabled="activeReport.canReview == false"
-                    class="btn btn-default btn-lg mb-xs bg-primary text-white mt-4"
-                    @click="submit"
-                  >Submit</b-button>
+                  <b-row>
+                    <b-col>
+                      <b-button
+                        :disabled="activeReport.canReview == false"
+                        class="btn btn-default btn-lg mb-xs bg-primary text-white mt-4"
+                        @click="submit"
+                      >Submit</b-button>
+                    </b-col>
+                    <b-col>
+                      <h5>
+                        <b-link :disabled="activeReport.canReview == false" @click="skipReport"
+                          class="my-5 float-right text-info font-weight-bolder pointer">Skip Report</b-link>
+                      </h5>
+                    </b-col>
+                  </b-row>
                   <!-- v-if="userProfile.role === 'Admin'" -->
-                  <b-button
-                    :disabled="activeReport.canReview == false"
-                    class="btn btn-default btn-lg mb-xs bg-info text-white mt-4 float-right"
-                    @click="skipReport"
-                  >Skip Report</b-button>
                 </span>
                 <!-- :disabled="activeReport.canReview == false" -->
                 <span v-if="activeReport.weekly_cron === false">
@@ -161,7 +160,7 @@
                     @click="deleteReport()"
                   >Delete</b-button>
                 </span>
-              </b-form>
+              </div>
               <div class v-if="errorMessageDel">
                 <b-alert
                   show
@@ -247,7 +246,7 @@
       <!-- -->
     </b-modal>
 
-    <b-modal :header-text-variant="'light'" v-model="extraEasyRating" :header-bg-variant="'dark'">
+    <!-- <b-modal :header-text-variant="'light'" v-model="extraEasyRating" :header-bg-variant="'dark'">
       <template slot="modal-header">
         <h5>Want to rate more?</h5>
         <i class="fa fa-times" aria-hidden="true" @click="closeExtraRating"></i>
@@ -281,8 +280,7 @@
           @click="submit"
         >Submit</b-button>
       </template>
-      <!-- -->
-    </b-modal>
+    </b-modal> -->
     <Toasts :rtl="true" class="toast" :time-out="5000" :class="{toast_opacity : showTaost}"></Toasts>
   </div>
 </template>
@@ -411,7 +409,6 @@ export default {
             this.ratedStarWeekly = 0;
             this.ratedStarDifficulty = 0;
             this.text = "";
-            this.extraEasyRating = false
             this.reasonForEasyRating = ''
           } else {
             this.success = true;
