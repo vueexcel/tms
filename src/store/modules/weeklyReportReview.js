@@ -128,6 +128,28 @@ const actions = {
       }
     }
   },
+  async updateReportReview({}, payload) {
+    let url = `manager_weekly/update/${payload.id}`
+    let payloadToSend = {
+      rating: payload.rating,
+      comment: payload.comment
+    }
+    try {
+      let response = await axios.put(url, payloadToSend)
+      if (response.data.status === 'success') {
+        return true
+      } else {
+        return 'Please review again'
+      }
+    } catch (error) {
+      if (error.response) {
+        return error.response.data.msg
+      } else {
+        return 'Api Server down'
+      }
+    }
+  },
+
   // @bp.route('/weekly_revoked/<string:weekly_id>', methods=["PUT"])
   async revokeWeekly({ commit }, payload) {
     const id = payload._id

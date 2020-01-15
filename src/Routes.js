@@ -257,6 +257,9 @@ router.beforeEach((to, from, next) => {
   if (to.fullPath === "/app/automateWeekly") {
     localStorage.setItem("weeklyAutomate", true);
   }
+  if (to.name === 'WeeklyReport' && to.query.update === 'true') {
+    localStorage.setItem('updateReview', JSON.stringify(true) )
+  }
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (!localStorage.getItem("authenticated")) {
       next({
