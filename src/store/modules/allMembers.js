@@ -118,6 +118,22 @@ const actions = {
                 return 'API Server Down'
             }
         }
+    },
+    async getOldReports ({},payload) {
+        let url = `/old_ratings/${payload}`
+        try {
+            let response = await axios.get(url)
+            if (response) {
+                state.userToCheckByAdmin = response.data
+                return true
+            }
+        } catch (error) {
+            if(error.response){
+                return error.response.data.msg
+            } else {
+                return 'API Server Down'
+            }
+        }
     }
 }
 

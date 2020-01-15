@@ -105,6 +105,11 @@
         </div>
       </b-col>
     </b-row>
+    <b-row class="my-2" v-if="user.profile.is_reset && user.profile.is_reset === true">
+      <b-col>
+        <b-button variant="dark" @click="getOldReports">See Old Reports?</b-button>
+      </b-col>
+    </b-row>
     <b-row>
       <b-col xs="12" lg="6">
         <h2 class="mt-2">Monthly Reviews as per Kpi/Era</h2>
@@ -149,12 +154,12 @@
                     <div
                       v-for="(monthlyReport,index) in user.monthly.slice().reverse()"
                       :key="index"
-                      class="px-3 background_color text-secondary mt-2 description"
+                      class="px-3 background_color text-warning mt-2 description"
                     >
                       <h6 class="font-weight-bold py-2">
                         <u>{{monthlyReport.month}}</u>
                       </h6>
-                      <div v-if="monthlyReport.review" class="text-secondary">
+                      <div v-if="monthlyReport.review" class="text-warning">
                         <b-row v-for="(reportReview,index) in monthlyReport.review" :key="index">
                           <b-col cols="4" class="p-0">
                             <div class="h-100 ml-3 d-flex">
@@ -195,7 +200,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="mx-1 line background_color text-danger px-3 mt-2" v-else>
+                  <div class="mx-1 line bg-secondary text-white px-3 mt-2" v-else>
                     <h6 class="font-weight-bold p-1">No Monthly report review</h6>
                   </div>
                 </b-collapse>
@@ -243,7 +248,7 @@
                     <div
                       v-for="(monthlyReport,index) in user.monthly.slice().reverse()"
                       :key="index"
-                      class="px-3 background_color text-secondary mt-2 description"
+                      class="px-3 background_color text-warning mt-2 description"
                     >
                       <h6 class="font-weight-bold py-2">
                         <u>{{monthlyReport.month}}</u>
@@ -285,11 +290,11 @@
                         </b-row>
                       </div>
                       <div v-else>
-                        <span class="text-danger font-weight-bold">No reviews</span>
+                        <span class="text-secondary font-weight-bold">No reviews</span>
                       </div>
                     </div>
                   </div>
-                  <div class="mx-1 line background_color text-danger px-3 mt-2" v-else>
+                  <div class="mx-1 line bg-secondary text-white px-3 mt-2" v-else>
                     <h6 class="font-weight-bold p-1">No Monthly report review</h6>
                   </div>
                 </b-collapse>
@@ -317,7 +322,7 @@
           <div
             v-for="(weeklyReport,index) in weeklyReportArray"
             :key="index"
-            class="background_color my-2 p-3 w-100"
+            class="background_color text-warning my-2 p-3 w-100"
           >
             <h6 class="font-weight-bold float-right">{{weeklyReport.created_at | date}}</h6>
             <p class="font-weight-bold my-1">Extra work/ Feedback/ Issues</p>
@@ -350,7 +355,7 @@
                   </span>
                 </div>
                 <div v-else>
-                  <span class="ml-2">{{highlight.description}}</span>
+                  <span class="ml-2 text-break">{{highlight.description}}</span>
                 </div>
               </div>
             </div>
@@ -406,8 +411,10 @@
             </div>
           </div>
         </b-row>
-        <b-row v-else class="background_color mx-1">
-          <h5 class="text-danger font-weight-bold">No Report</h5>
+        <b-row v-else class="bg-secondary mx-1 py-2">
+          <b-col cols="6" lg="6" md="6" sm="12">
+            <h6 class="text-white font-weight-bold my-2">No Report</h6>
+          </b-col>
         </b-row>
       </b-col>
     </b-row>
@@ -433,7 +440,8 @@ export default {
       Overall_rating: "0",
       checkin_rating: "0",
       selectedWeeklyDate: null,
-      showMoreValue: false
+      showMoreValue: false,
+      error: ''
     };
   },
   components: {
@@ -486,7 +494,7 @@ export default {
     },
     newArray() {
       let newArray = [];
-      if (this.user.profile) {
+      if (this.user.profile && this.user.profile.kpi.kpi_json) {
         this.user.profile.kpi.kpi_json.forEach(element => {
           if (
             this.user &&
@@ -519,7 +527,7 @@ export default {
     },
     eraArray() {
       let newArray = [];
-      if (this.user.profile) {
+      if (this.user.profile && this.user.profile.kpi.era_json) {
         this.user.profile.kpi.era_json.forEach(era => {
           if (
             this.user &&
@@ -601,6 +609,7 @@ export default {
   methods: {
     getProfile: call("profile/getProfile"),
     getActivity: call("profile/getActivity"),
+    getOldReports_: call("allMember/getOldReports"),
     get_profile: function() {
       this.getProfile();
     },
@@ -625,10 +634,15 @@ export default {
       return false;
     },
     showMore() {
-      console.log(this.showMoreValue, "123");
-
       this.showMoreValue = !this.showMoreValue;
-      console.log(this.showMoreValue, "***********");
+    },
+    async getOldReports () {
+      let response = await this.getOldReports_(this.user.profile._id)
+      if (response === true) {
+        this.fetchData()
+      } else {
+        this.error = response
+      }
     }
   },
   filters: {
