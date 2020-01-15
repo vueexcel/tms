@@ -30,6 +30,7 @@
         isHeader
       />
       <NavLink
+        v-if="!userProfile.weekly_status"
         :activeItem="activeItem"
         header="Weekly"
         link="/app/week"
@@ -42,6 +43,7 @@
         isHeader
       />
       <NavLink
+        v-if="!userProfile.monthly_status"
         :activeItem="activeItem"
         header="Monthly"
         link="/app/month"
@@ -176,6 +178,7 @@
         isHeader
       />
       <NavLink
+        v-if="!userProfile.weekly_status"
         :activeItem="activeItem"
         header="Weekly"
         iconName="fas fa-chart-bar"
@@ -207,6 +210,7 @@
       />-->
       <!-- header="Monthly Report" -->
       <NavLink
+        v-if="!userProfile.monthly_status"
         :activeItem="activeItem"
         header="Monthly"
         iconName="fas fa-calendar"
@@ -391,6 +395,7 @@
         isHeader
       />
       <NavLink
+        v-if="!userProfile.weekly_status"
         header="Weekly Checkin"
         link="/app/week/weeklyCheckin"
         iconName="fas fa-file-signature"
@@ -404,6 +409,7 @@
         isHeader
       />
       <NavLink
+        v-if="!userProfile.monthly_status"
         header="Monthly Report"
         link="/app/month/monthlyReport"
         iconName="fas fa-calendar"

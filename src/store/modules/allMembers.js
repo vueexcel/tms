@@ -44,7 +44,7 @@ const actions = {
         }
         
     },
-    async assignManager({ }, payload) {
+    async assignManager({}, payload) {
         try{
             let response = await axios.get(`/kpi/assign_manager/${payload.user._id}/${payload.manager._id}/${payload.weight ? payload.weight : 1}`)
             if (response) return true
@@ -56,7 +56,7 @@ const actions = {
             }
         }
     },
-    async deleteManager({ }, payload) {
+    async deleteManager({}, payload) {
         try{
             let response = await axios.get(`/kpi/assign_manager/${payload.user._id}/${payload.manager._id}/${0}`)
              if (response) return true
@@ -103,13 +103,29 @@ const actions = {
         return resToSend
     },
     async resetRating ({},payload) {
-        let url = `/system/rating_reset/${payload}`
+        let url = `/system/rating_reset/${payload.employee_id}`
         try {
-            let response = await axios.put(url)
+            let response = await axios.put(url,{msg: payload.msg ? payload.msg : null})
             if (response.data.status === 'success') {
                 return true
             } else {
                 return 'Oops, Please reset again'
+            }
+        } catch (error) {
+            if(error.response){
+                return error.response.data.msg
+            } else {
+                return 'API Server Down'
+            }
+        }
+    },
+    async getOldReports ({},payload) {
+        let url = `/old_ratings/${payload}`
+        try {
+            let response = await axios.get(url)
+            if (response) {
+                state.userToCheckByAdmin = response.data
+                return true
             }
         } catch (error) {
             if(error.response){

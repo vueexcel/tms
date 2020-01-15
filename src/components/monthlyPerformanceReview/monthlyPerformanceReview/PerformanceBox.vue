@@ -320,7 +320,7 @@ export default {
         comment = { kpi: kpiArray, era: eraArray };
         this.loading = true;
         let res = await this.api_postReview({
-            id: this.managerComment.id,
+          id: this.activeEmployeReport._id,
           comment: comment
         });
         if (res.error === true) {
