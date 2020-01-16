@@ -279,9 +279,9 @@
 
 <script>
 import $ from "jquery";
-import "imports-loader?window.jQuery=jquery,this=>window!widgster"; // eslint-disable-line
-import "imports-loader?jQuery=jquery,this=>window!flot";
-import "imports-loader?jQuery=jquery,this=>window!flot/jquery.flot.pie";
+// import "imports-loader?window.jQuery=jquery,this=>window!widgster"; // eslint-disable-line
+// import "imports-loader?jQuery=jquery,this=>window!flot";
+// import "imports-loader?jQuery=jquery,this=>window!flot/jquery.flot.pie";
 /* eslint-enable */
 import Widget from "@/components/Widget/Widget";
 import Group from "@/components/Group/Group";
