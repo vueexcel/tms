@@ -26,6 +26,8 @@ const actions = {
             if (payload === undefined) {
               if (localStorage.getItem("weeklyAutomate")) {
                 router.push("/app/automateWeekly");
+              } else if (localStorage.getItem('updateReview') && localStorage.getItem('updateReview') === 'true') {
+                router.push('/app/week/WeeklyReport')
               } else {
                 router.push("/app/profile");
               }

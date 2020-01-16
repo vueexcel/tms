@@ -42,6 +42,11 @@
                   <b-col sm="12" md="4" lg="4">
                     <h6 class="rating-header mb-2"> Overall Rating </h6>
                   </b-col>
+                  <b-col v-if="getLocalStorageItem('updateReview') === true">
+                    <span class="float-right text-info font-weight-bolder pointer">
+                      <u @click="updateReview"> Update your review? </u>
+                    </span>  
+                  </b-col>
                 </b-row>
                 <div class="border-top"></div>
                 <div class="mt-2 font-weight">Based on Weekly Review 
@@ -105,9 +110,10 @@
               <div sm="6" class="mt-2" v-if="extraEasyRating">
                 <h6 class="text-inverse">Comments</h6>
               </div>
-              <b-form v-if="extraEasyRating">
+              <b-form>
                 <div v-if="activeReport.canReview === true">
                   <b-form-textarea
+                    v-if="extraEasyRating"
                     :rows="3"
                     v-model="text"
                     id="default-textarea"
@@ -344,7 +350,8 @@ export default {
       default: []
     }
   },
-  mounted() {},
+  mounted() {
+  },
   computed: {
     userProfile: get("profile/user"),
     revokeLoader: sync("weeklyReportReview/revokeLoader"),
@@ -391,6 +398,7 @@ export default {
     setWeeklyReportReview: call("weeklyReportReview/setWeeklyReportReview"),
     api_revokeWeekly: call("weeklyReportReview/revokeWeekly"),
     skipReportReview_: call("weeklyReportReview/skipReportReview"),
+    updateReportReview_: call("weeklyReportReview/updateReportReview"),
     async submit() {
       if (this.ratedStarWeekly) {
         let data = {
@@ -398,41 +406,47 @@ export default {
           comment: this.text,
           id: this.activeReport._id
         };
-        await this.setWeeklyReportReview(data).then(res => {
-          if (res ===  true) {
-            this.$emit("update-highlight", true);
-            this.activeReport.canReview = false;
-            this.reviewedComments = data;
-            this.success = true;
-            this.header = "success";
-            this.showSuccess = "Your have reviewed successfully";
-            this.ratedStarWeekly = 0;
-            this.ratedStarDifficulty = 0;
-            this.text = "";
-          } else {
-            this.success = true;
-            this.header = "danger";
-            this.showSuccess = "Your review is not submitted. Please review again";
-          }
+        if (localStorage.getItem('updateReview') && localStorage.getItem('updateReview') === 'true') {
+          let res = await this.updateReportReview_(data)
+            if (res ===  true) {
+              this.$emit("update-highlight", true);
+              this.activeReport.canReview = false;
+              this.reviewedComments = data;
+              this.success = true;
+              this.header = "success";
+              this.showSuccess = "Your have reviewed successfully";
+              this.ratedStarWeekly = 0;
+              this.ratedStarDifficulty = 0;
+              this.text = "";
+            } else {
+              this.success = true;
+              this.header = "danger";
+              this.showSuccess = "Your review is not submitted. Please review again";
+            }
+        } else {
+          await this.setWeeklyReportReview(data).then(res => {
+            if (res ===  true) {
+              this.$emit("update-highlight", true);
+              this.activeReport.canReview = false;
+              this.reviewedComments = data;
+              this.success = true;
+              this.header = "success";
+              this.showSuccess = "Your have reviewed successfully";
+              this.ratedStarWeekly = 0;
+              this.ratedStarDifficulty = 0;
+              this.text = "";
+            } else {
+              this.success = true;
+              this.header = "danger";
+              this.showSuccess = "Your review is not submitted. Please review again";
+            }
           })
           .catch(err => {
             this.success = true;
             this.showSuccess = "Sorry there is some error";
             this.header = "danger";
           })
-          // .then(res => {
-          //   this.success = true;
-          //   this.header = "success";
-          //   this.showSuccess = "Your have reviewed successfully";
-          //   this.ratedStarWeekly = 0;
-          //   this.ratedStarDifficulty = 0;
-          //   this.text = "";
-          // })
-          // .catch(err => {
-          //   this.success = true;
-          //   this.showSuccess = "Sorry there is some error";
-          //   this.header = "danger";
-          // });
+        }
       } else {
         this.success = true;
         this.showSuccess = "Rating Weekly can not be blank";
@@ -565,6 +579,17 @@ export default {
         }
       }
       return reportObj;
+    },
+    getLocalStorageItem (stringValue) {
+      if (localStorage.getItem(stringValue) && localStorage.getItem(stringValue) === 'true') {
+        return true
+      } else {
+        return false
+      }
+    },
+    updateReview () {
+      this.activeReport.canReview = true
+      this.extraEasyRating = true
     }
   }
 };
