@@ -263,15 +263,15 @@
 <script>
 import $ from 'jquery';
 /* eslint-disable */
-import 'imports-loader?jQuery=jquery,this=>window!easy-pie-chart/dist/jquery.easypiechart.js';
-import 'imports-loader?jQuery=jquery,this=>window!jquery-sparkline';
-import 'imports-loader?jQuery=jquery,this=>window!webpack-raphael/raphael';
-import 'imports-loader?jQuery=jquery,this=>window!govpredict-morris/morris';
-import 'imports-loader?jQuery=jquery,this=>window!flot';
-import 'imports-loader?jQuery=jquery,this=>window!flot/jquery.flot.resize';
-import 'imports-loader?jQuery=jquery,this=>window!flot/jquery.flot.time';
-import 'imports-loader?jQuery=jquery,this=>window!jquery.flot.animator/jquery.flot.animator';
-import 'imports-loader?jQuery=jquery,this=>window!jquery.flot-orderBars/js/jquery.flot.orderBars';
+// import 'imports-loader?jQuery=jquery,this=>window!easy-pie-chart/dist/jquery.easypiechart.js';
+// import 'imports-loader?jQuery=jquery,this=>window!jquery-sparkline';
+// import 'imports-loader?jQuery=jquery,this=>window!webpack-raphael/raphael';
+// import 'imports-loader?jQuery=jquery,this=>window!govpredict-morris/morris';
+// import 'imports-loader?jQuery=jquery,this=>window!flot';
+// import 'imports-loader?jQuery=jquery,this=>window!flot/jquery.flot.resize';
+// import 'imports-loader?jQuery=jquery,this=>window!flot/jquery.flot.time';
+// import 'imports-loader?jQuery=jquery,this=>window!jquery.flot.animator/jquery.flot.animator';
+// import 'imports-loader?jQuery=jquery,this=>window!jquery.flot-orderBars/js/jquery.flot.orderBars';
 /* eslint-enable */
 import Widget from '@/components/Widget/Widget';
 import d3 from 'd3';

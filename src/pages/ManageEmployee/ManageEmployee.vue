@@ -32,8 +32,8 @@
 
 <script>
 /* eslint-disable */
-import "imports-loader?jQuery=jquery,this=>window!flot";
-import "imports-loader?jQuery=jquery,this=>window!flot/jquery.flot.pie";
+// import "imports-loader?jQuery=jquery,this=>window!flot";
+// import "imports-loader?jQuery=jquery,this=>window!flot/jquery.flot.pie";
 /* eslint-enable */
 import employeeWidget from "@/components/Employee/employeeWidget";
 import { get, call } from "vuex-pathify";

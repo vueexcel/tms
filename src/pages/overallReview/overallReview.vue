@@ -423,11 +423,11 @@
 
 <script>
 import Widget from "@/components/Widget/Widget";
-import AreaComponent from "@/components/Area/Area";
+// import AreaComponent from "@/components/Area/Area";
 import dummyimage from "@/components/Group/person-dummy.jpg";
-import { get, call, sync } from "vuex-pathify";
+import { call, sync } from "vuex-pathify";
 import RadialProgressBar from "vue-radial-progress";
-import moment, { months } from "moment";
+import moment from "moment";
 import Stars from "@/components/Star/Star.vue";
 import Alert360 from "@/components/Alert360/alert360";
 
@@ -447,7 +447,7 @@ export default {
   components: {
     Widget,
     RadialProgressBar,
-    AreaComponent,
+    // AreaComponent,
     Alert360,
     Stars
   },

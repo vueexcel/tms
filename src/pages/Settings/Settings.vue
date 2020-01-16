@@ -283,20 +283,6 @@
                   <b-col>
                   </b-col>
                 </b-row>
-                <b-form-group
-                  horizontal
-                  label
-                  label-for="transparent-field"
-                  :label-cols="2"
-                  breakpoint="md"
-                >
-                  <b-button variant="primary" type="submit" class="mr-xs ml-xs w-28">
-                    <span v-if="loadingReminderMessage">
-                      <i class="fa fa-circle-o-notch fa-spin"></i>
-                    </span>
-                    <span v-else>Save Changes</span>
-                  </b-button>
-                </b-form-group>
               </b-form>
             </b-col>
           </b-row>
@@ -308,7 +294,7 @@
         <Widget customHeader>
           <b-row>
             <b-col lg="12">
-              <b-form @submit.prevent="setReportsSetting()">
+              <!-- <b-form @submit.prevent="setReportsSetting()"> -->
                 <legend>
                   <strong>Weekly / Monthly </strong> setting
                 </legend>
@@ -342,21 +328,7 @@
                     </div>
                   </div>
                 </div>
-                <b-form-group
-                  horizontal
-                  label
-                  label-for="transparent-field"
-                  :label-cols="2"
-                  breakpoint="md"
-                >
-                  <b-button variant="primary" type="submit" class="mr-xs ml-xs w-28">
-                    <span v-if="loadingReminderMessage">
-                      <i class="fa fa-circle-o-notch fa-spin"></i>
-                    </span>
-                    <span v-else>Save Changes</span>
-                  </b-button>
-                </b-form-group>
-              </b-form>
+              <!-- </b-form> -->
             </b-col>
           </b-row>
         </Widget>
@@ -444,7 +416,7 @@ export default {
     setSlackSettings() {
       this.loadingSlackToken = true;
       this.api_setSlackSettings(this.slackTokens)
-        .then(res => {
+        .then(() => {
           this.loadingSlackToken = false;
         })
         .catch(err => {
@@ -478,7 +450,7 @@ export default {
     setSchedularSettings() {
       this.loaderSchedularSettings = true;
       this.api_setSchedularSettings(this.schedularSettings)
-        .then(res => {
+        .then(() => {
           this.userProfile.easyRating = this.schedularSettings.easyRating
           this.loaderSchedularSettings = false;
         })
@@ -513,7 +485,7 @@ export default {
     setSchedularMsg() {
       this.loadingReminderMessage = true;
       this.api_setSchedularMsg(this.reminderMessage)
-        .then(res => {
+        .then(() => {
           this.getSchedularMsg()
           this.loadingReminderMessage = false;
         })

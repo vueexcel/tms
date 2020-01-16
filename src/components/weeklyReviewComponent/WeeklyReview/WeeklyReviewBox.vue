@@ -63,7 +63,7 @@
                   <emoticonRating
                     :ratedStar="ratedStarWeekly"
                     :disableStar="activeReport.canReview === false ? true : false"
-                    @starRatingSelected="submitStarRateWeekly">
+                    @starRatingSelected="submitEmojiRateWeekly">
                   </emoticonRating>
                 </div>
                 <div v-else>
@@ -129,7 +129,7 @@
               <div>
                 <span v-if="activeReport.canReview == true">
                   <b-row>
-                    <b-col>
+                    <b-col v-if="userProfile.easyRating !== true">
                       <b-button
                         :disabled="activeReport.canReview == false"
                         class="btn btn-default btn-lg mb-xs bg-primary text-white mt-4"
@@ -343,14 +343,32 @@ export default {
   props: {
     employee: {
       type: Object,
-      default: {}
+      default: function () { return {} }
     },
     performanceData: {
       type: Array,
-      default: []
+      default: function () { return [] }
     }
   },
   mounted() {
+  },
+  watch: {
+    activeEmployee:{
+      deep: true,
+      handler (newValue) {
+        this.error = false;
+        this.errorMessage = "";
+        if (this.employee) {
+          this.ratedStarDifficulty = 0;
+          this.ratedStarWeekly = 0;
+          this.text = "";
+        }
+        if (!newValue.length) {
+          this.error = true;
+          this.errorMessage = "No Report Available";
+        }
+      }
+    }
   },
   computed: {
     userProfile: get("profile/user"),
@@ -358,19 +376,10 @@ export default {
     errorMessageDel: get("weeklyReportReview/errorMessageDelete"),
     activeEmployee() {
       let reportArray = [];
-      this.error = false;
-      this.errorMessage = "";
       if (this.employee) {
-        this.ratedStarDifficulty = 0;
-        this.ratedStarWeekly = 0;
-        this.text = "";
         reportArray = this.performanceData.filter(
           data => data.user === this.employee._id
         );
-      }
-      if (!reportArray.length) {
-        this.error = true;
-        this.errorMessage = "No Report Available";
       }
       return reportArray;
     },
@@ -441,7 +450,7 @@ export default {
               this.showSuccess = "Your review is not submitted. Please review again";
             }
           })
-          .catch(err => {
+          .catch(() => {
             this.success = true;
             this.showSuccess = "Sorry there is some error";
             this.header = "danger";
@@ -510,6 +519,10 @@ export default {
     },
     submitStarRateWeekly(value) {
       this.ratedStarWeekly = value;
+    },
+    submitEmojiRateWeekly (value) {
+      this.ratedStarWeekly = value
+      this.submit()
     },
     submitStarRateDifficulty(value) {
       this.ratedStarDifficulty = value;

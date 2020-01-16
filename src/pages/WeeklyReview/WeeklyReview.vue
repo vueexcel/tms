@@ -207,8 +207,8 @@
 
 
 <script>
-import "imports-loader?jQuery=jquery,this=>window!flot";
-import "imports-loader?jQuery=jquery,this=>window!flot/jquery.flot.pie";
+// import "imports-loader?jQuery=jquery,this=>window!flot";
+// import "imports-loader?jQuery=jquery,this=>window!flot/jquery.flot.pie";
 import starRating from "@/components/Star/Star";
 import Widget from "@/components/Widget/Widget";
 import Alert360 from "@/components/Alert360/alert360";
