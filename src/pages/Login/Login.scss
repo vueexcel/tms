@@ -1,5 +1,54 @@
 @import '../../styles/app';
 
+.top_padding{
+  padding-top: 10%;
+}
+
+.left_padding {
+  padding-left: 10%;
+}
+
+.botton_padding {
+  padding-bottom: 10%;
+}
+
+.weight {
+  font-weight: 600;
+  font-size: 135%;
+}
+
+.about{
+  font-weight: 600;
+  font-size: 140%;
+}
+
+.about_tms {
+  font-weight: 500;
+  // font-size: 90%;
+}
+.left {
+  width: 50%;
+}
+
+.right {
+  width: 50%;
+  padding-right: 10%;
+  padding-left: 5%;
+}
+
+.featureList li::before {
+  color: #50b798;
+  content: "\2022";
+  font-size: 170%;
+  padding-right: 10px;
+  font-weight: 900;
+  vertical-align: sub;
+}
+
+li:not(:last-child) {
+  margin-bottom: -10px;
+}
+
 .login-page {
   padding-top: 20vh;
   height: 100%;
