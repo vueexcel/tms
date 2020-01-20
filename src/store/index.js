@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import pathify from "./pathify";
 // import createPersistedState from "vuex-persistedstate";
 import login from "./modules/login";
 import checkin from "./modules/checkin";
