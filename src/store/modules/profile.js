@@ -20,7 +20,7 @@ const actions = {
           return true;
         } else {
           if (response.data.role === "Admin") {
-            router.push("/admin/manageKpi");
+            if (router.currentRoute.path !== '/admin/manageKpi') return router.push("/admin/manageKpi");
           } else {
             dispatch("getManagerReviewStatus");
             if (payload === undefined) {
@@ -29,7 +29,7 @@ const actions = {
               } else if (localStorage.getItem('updateReview') && localStorage.getItem('updateReview') === 'true') {
                 router.push('/app/week/WeeklyReport')
               } else {
-                router.push("/app/profile");
+                if (router.currentRoute.path !== '/app/profile') return router.push("/app/profile");
               }
             }
           }

@@ -39,10 +39,10 @@
                                 name="password"
                                 placeholder="Password"
                             />
-                            <button type="submit" class="w-100 btn btn-inverse btn-sm mt-4">
+                            <button type="submit" :disabled="loader" class="w-100 btn btn-inverse btn-sm mt-4">
                                 <span v-if="!loader">Login</span>
                                 <span v-if="loader">
-                                    <i class="fa fa-circle-o-notch fa-spin-fast"></i>
+                                    <i class="fa fa-circle-o-notch fa-spin"></i>
                                 </span>    
                             </button>
                         </div>
