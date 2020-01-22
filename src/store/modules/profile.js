@@ -47,7 +47,7 @@ const actions = {
     }
   },
 
-  async getActivity({ commit }, payload) {
+  async getActivity({ commit }) {
     let response = await axios.get("/recent_activities");
     if (response) {
       commit("activity", response.data);
@@ -55,7 +55,7 @@ const actions = {
       return true;
     }
   },
-  async getManagerReviewStatus({ commit }, payload) {
+  async getManagerReviewStatus({ commit }) {
     let response = await axios.get("/360_review_mandatory");
     if (response) {
       commit("alert360", !response.data.is_reviwed);
