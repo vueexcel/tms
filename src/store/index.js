@@ -22,6 +22,7 @@ import notes from './modules/notes'
 import layout from "./layout";
 
 Vue.use(Vuex);
+Vue.use(pathify)
 export default new Vuex.Store({
   // plugins: [createPersistedState(), pathify.plugin],
   modules: {

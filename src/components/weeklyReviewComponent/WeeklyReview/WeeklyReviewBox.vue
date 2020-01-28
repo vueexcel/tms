@@ -129,7 +129,7 @@
               <div>
                 <span v-if="activeReport.canReview == true">
                   <b-row>
-                    <b-col v-if="userProfile.easyRating !== true">
+                    <b-col v-if="extraEasyRating">
                       <b-button
                         :disabled="activeReport.canReview == false"
                         class="btn btn-default btn-lg mb-xs bg-primary text-white mt-4"
