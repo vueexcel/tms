@@ -6,14 +6,14 @@
           <h5 class="pl-4 pt-3 fw-bold">
             ERA
             <span
-              @click="showEraForm = index"
-              @dblclick="showEraForm = -1"
+              @click="showEraForm(index)"
+              @dblclick="showEraForm(-1)"
               class="float-right mr-4 ml-1 circle bg-success cursor text-white fw-bold"
             >
               <i class="fas fa-plus fs-lg"></i>
             </span>
           </h5>
-          <form v-show="index == showEraform" class="inline pl-4 pr-4 pt-2 pb-3" @submit.prevent>
+          <form v-show="index == showEraform " class="inline pl-4 pr-4 pt-2 pb-3" @submit.prevent>
             <b-form-input name="text" placeholder="ERA Heading" v-model="eraHeading"></b-form-input>
             <br />
             <b-form-textarea
@@ -25,7 +25,7 @@
             ></b-form-textarea>
             <a
               class="btn btn-default btn-sm mt-2 pl-4 pr-4"
-              @click="addEra(index,team); showEraForm = -1; uuid = $uuid.v4()"
+              @click="addEra(index,team); showEraForm(-1); uuid = $uuid.v4()"
             >
               <i class="fas fa-plus" style="color:green;"></i>&nbsp;&nbsp;
               Add
@@ -110,11 +110,6 @@ export default {
     index: { type: Number },
     showEraform: { type: Number }
   },
-  date() {
-    return{
-      showEraForm : this.showEraform
-    }
-  },
   computed: {
     addNewTeam: sync("adminKPI/addNewTeam"), //array
     eraHeading: sync("adminKPI/eraHeading"), //v-model
@@ -124,6 +119,9 @@ export default {
     api_delKpi: call("adminKPI/delKpi"),
     api_updateKpi: call("adminKPI/updateKpi"),
     api_updateSorting: call("adminKPI/updateKpiEra"),
+    showEraForm(value) {
+      this.$emit("setEraFormIndex", value);
+    },
     closeAlert() {
       this.alertIndex = -1;
     },

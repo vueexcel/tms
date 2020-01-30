@@ -7,7 +7,7 @@
             <h4 class="pl-4 pt-3">
               {{ team.kpi_name }}
               <i
-                v-if="team.kpi_json.length <2 && team.era_json.length <2 "
+                v-if="team.kpi_json.length <2 && team.era_json.length < 2 "
                 class="fas fa-times-circle text-secondary cursor pull-right pt-1 pr-4"
                 @click="deleteFullKpi(team)"
               ></i>
@@ -135,7 +135,7 @@
                 </b-col>
               </b-row>
               <!-- ==== ROW FOR ERA (ADDED) ERA's ==== -->
-              <AddEra :index="index" :team="team" :showEraform="showEraform" />
+              <AddEra :index="index" :team="team" :showEraform="showEraform" @setEraFormIndex="setEraFormIndex" />
               <div class="mb-4"></div>
               <!-- ==== ROW FOR ERA (ADDED) ERA's ENDS ==== -->
               <!-- ####################### AddKPI/ERA BIG BUTTONS ################################ -->
@@ -358,6 +358,9 @@ export default {
       sortedData.era_json = team.era_json;
       sortedData.kpi_name = team.kpi_name;
       this.api_updateSorting(sortedData);
+    },
+    setEraFormIndex (value) {
+      this.showEraform = value;
     }
   },
   created() {
