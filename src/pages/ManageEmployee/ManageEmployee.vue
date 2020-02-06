@@ -6,28 +6,42 @@
       <p>Loading...</p>
     </div>
     <div v-if="error">
-       <b-alert
+      <b-alert
         :show="error"
         dismissible
         class="mx-auto text-center mt-3 alert-danger alert-transparent"
       >{{errorMessage}}</b-alert>
     </div>
-    <div v-if="groupByTeam.length">
-      <div v-for="(team, index) in teams" :key="index">
-        <h4 class="page-title" v-if="team.teamname">{{team.teamname}}</h4>
-        <h4 class="page-title" v-else>No Team</h4>
-        <div>
-          <b-container class="no-gutters p-0">
-            <b-row>
-              <b-col lg="3" xs="12" v-for="(employee, index) in team.teamArray" :key="index">
-                <employeeWidget :employee="employee" :index="index" @getMember="getMemberRefresh" :loggedInUserRole="'admin'"/>
-              </b-col>
-            </b-row>
-          </b-container>
-        </div>
+    <!-- <div v-if="groupByTeam.length"> -->
+    <div v-for="(team, index) in teams" :key="index">
+      <h4 class="page-title" v-if="team.teamname">{{team.teamname}}</h4>
+      <h4 class="page-title" v-else>No Team</h4>
+      <div>
+        <b-container class="no-gutters p-0">
+          <b-row>
+            <b-col lg="3" xs="12" v-for="(employee, index) in team.teamArray" :key="index">
+              <employeeWidget
+                :employee="employee"
+                :index="index"
+                @getMember="getMemberRefresh"
+                :loggedInUserRole="'admin'"
+              />
+            </b-col>
+          </b-row>
+        </b-container>
       </div>
     </div>
+    <div class="p-3 d-flex justify-content-end">
+      <div
+        class="number"
+        v-for="(i,index) in num_pages()"
+        :key="index"
+        :class="[i == currentPage ? 'active' : '']"
+        @click="change_page(i)"
+      >{{i}}</div>
+    </div>
   </div>
+  <!-- </div> -->
 </template>
 
 <script>
@@ -37,6 +51,7 @@
 /* eslint-enable */
 import employeeWidget from "@/components/Employee/employeeWidget";
 import { get, call } from "vuex-pathify";
+// import _ from "lodash";
 
 export default {
   name: "ManageEmployee",
@@ -47,10 +62,12 @@ export default {
     return {
       teams: [],
       error: false,
-      errorMessage: "" 
+      errorMessage: "",
+      employeePerPage: 20,
+      currentPage: 1
     };
   },
-  created() {
+  async created() {
     this.getallMembers();
   },
   computed: {
@@ -63,13 +80,29 @@ export default {
       this.getProfile();
     },
     async getallMembers() {
-      let res = await this.getAllMember_()
-        if(res === true){
-          this.groupByTeam(this.allMembers);
-        } else {
-          this.error = true
-          this.errorMessage = res
+      let res = await this.getAllMember_();
+      if (res === true) {
+        if (this.allMembers && this.allMembers.length) {
+          this.groupByTeam(this.getEmployeePerPage());
         }
+      } else {
+        this.error = true;
+        this.errorMessage = res;
+      }
+    },
+    num_pages: function() {
+      return Math.ceil(this.allMembers.length / this.employeePerPage);
+    },
+    change_page: function(i) {
+      this.currentPage = i;
+      this.teams = [],
+      this.getallMembers();
+      window.scrollTo(0, 0);
+    },
+    getEmployeePerPage: function() {
+      var start = (this.currentPage - 1) * this.employeePerPage;
+      var end = start + this.employeePerPage;
+      return this.allMembers.slice(start, end);
     },
     groupByTeam(payload) {
       var groups = {};
@@ -92,9 +125,9 @@ export default {
         this.teams.push(data);
       }
     },
-    getMemberRefresh(value){
-      if(value === true){
-        this.getallMembers()
+    getMemberRefresh(value) {
+      if (value === true) {
+        this.getallMembers();
       }
     }
   }
@@ -102,3 +135,18 @@ export default {
 </script>
 
 <style src="./ManageEmployee.scss" lang="scss" scoped />
+<style scoped>
+.number {
+  display: inline-block;
+  padding: 4px 10px;
+  color: #fff;
+  border-radius: 4px;
+  background: #717699;
+  margin: 0px 5px;
+  cursor: pointer;
+}
+.number:hover,
+.number.active {
+  background: #00b698;
+}
+</style>

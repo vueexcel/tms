@@ -131,9 +131,9 @@
                   </div>
                   <!-- v-if="!team.kpi_json[0].addKpi" -->
                   <hr />
-                  <!--=== --- KPI HEADING & DESCRIPTION ENDS---=== -->
                 </b-col>
               </b-row>
+             
               <!-- ==== ROW FOR ERA (ADDED) ERA's ==== -->
               <AddEra :index="index" :team="team" :showEraform="showEraform" @setEraFormIndex="setEraFormIndex" />
               <div class="mb-4"></div>

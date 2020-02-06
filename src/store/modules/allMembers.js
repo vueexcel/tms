@@ -44,6 +44,7 @@ const actions = {
         }
         
     },
+    //eslint-disable-next-line
     async assignManager({}, payload) {
         try{
             let response = await axios.get(`/kpi/assign_manager/${payload.user._id}/${payload.manager._id}/${payload.weight ? payload.weight : 1}`)
@@ -56,6 +57,7 @@ const actions = {
             }
         }
     },
+    //eslint-disable-next-line
     async deleteManager({}, payload) {
         try{
             let response = await axios.get(`/kpi/assign_manager/${payload.user._id}/${payload.manager._id}/${0}`)
@@ -68,6 +70,7 @@ const actions = {
             }
         }
     },
+    //eslint-disable-next-line
     async getAllJuniors({state}, payload){
         let url = '/managers_juniors'
         try{
@@ -102,6 +105,7 @@ const actions = {
         }
         return resToSend
     },
+    //eslint-disable-next-line
     async resetRating ({},payload) {
         let url = `/system/rating_reset/${payload.employee_id}`
         try {
@@ -119,6 +123,7 @@ const actions = {
             }
         }
     },
+    //eslint-disable-next-line
     async getOldReports ({},payload) {
         let url = `/old_ratings/${payload}`
         try {

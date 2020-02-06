@@ -121,6 +121,7 @@
 </template>
 
 <script>
+//eslint-disable-next-line
 import members from "./../../Group/allMembers.json";
 import { get, call, sync } from "vuex-pathify";
 import defaultImage from "@/assets/people/dummy.jpeg";
@@ -288,6 +289,7 @@ export default {
               }
             }
           } else {
+            //eslint-disable-next-line
             for(var i =0; i < this.userArray.length; i++){
               if(this.userArray[i]._id === managerToBeAdded._id){
                 this.userArray.splice(i,1)

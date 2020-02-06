@@ -27,7 +27,7 @@
                   width="33"
                   height="33"
                   alt="..."
-                />
+                />       
                 <b-badge
                   @click="addRemoveMember(index, member, 'deleteMember')"
                   variant="danger"
@@ -94,6 +94,7 @@
 </template>
 
 <script>
+//eslint-disable-next-line
 import { get, call, sync } from "vuex-pathify";
 import dummyImage from "./person-dummy.jpg";
 export default {
@@ -133,6 +134,7 @@ export default {
     allMembers() {
       return this.addNewTeam.slice().reverse();
     },
+    //eslint-disable-next-line
     searchFilter: function() {
       if (this.$props.array_) {
         return this.$props.array_.filter(item => {
