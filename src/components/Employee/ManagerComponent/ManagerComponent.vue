@@ -19,7 +19,7 @@
                     class="rounded-circle h-auto"
                     v-b-tooltip.hover
                     :title="img.username.toUpperCase() + ' , ' + img.weight"
-                    :src="img.profileImage ? img.profileImage : defaultImage"
+                    :src="img.profileImage ? img.profileImage : dummyImg"
                     v-bind:class="{success : img.weight <= 3 ,primary:  img.weight > 3 && img.weight <= 6, warning:  img.weight > 6 && img.weight <= 10}"
                     width="40"
                   >
@@ -53,7 +53,7 @@
                 <img
                   class="rounded-circle h-auto"
                   :title="img.name"
-                  :src="managerObj.profileImage ? managerObj.profileImage : defaultImage"
+                  :src="managerObj.profileImage ? managerObj.profileImage : dummyImg"
                   width="40"
                 >
                 <i
@@ -86,10 +86,11 @@
             </b-collapse>
           </div>
           <div class="all-manager-div" v-if="loggedInUserRole === 'admin'">
-            <div class="w-100">
-              <p class="block-example mt-2">All</p>
+            <allEmployeeBadge :dummyImg="dummyImg"  :searchField="searchField"   />
+            <!-- <div class="w-100">
+              <p class="block-example mt-2">All</p> -->
               <!--### search bar #### -->
-              <div class="pl-1 pr-1 pb-3">
+              <!-- <div class="pl-1 pr-1 pb-3">
                 <b-form-input
                   v-model="searchField"
                   type="search"
@@ -104,7 +105,7 @@
                   class="rounded-circle h-auto"
                   v-b-tooltip.hover
                   :title="img.name"
-                  :src="img.profileImage ? img.profileImage : defaultImage"
+                  :src="img.profileImage ? img.profileImage : dummyImg"
                   width="30"
                 >
                 <i
@@ -112,7 +113,7 @@
                   @click="addManager(img)"
                 ></i>
               </div>
-            </div>
+            </div> -->
           </div>
         </b-container>
       </b-row>
@@ -123,14 +124,19 @@
 <script>
 //eslint-disable-next-line
 import members from "./../../Group/allMembers.json";
+import allEmployeeBadge from "@/components/Employee/allEmployeeBadge";
 import { get, call, sync } from "vuex-pathify";
-import defaultImage from "@/assets/people/dummy.jpeg";
+// import defaultImage from "@/assets/people/dummy.jpeg";
+import dummyImage from "@/components/Group/person-dummy.jpg";
 export default {
   name: "ManagerComponent",
+  components:{
+    allEmployeeBadge
+  },
   data() {
     return {
       managerObj: {},
-      defaultImage: defaultImage,
+      dummyImg: dummyImage,
       ratedWeight: null,
       loading: false,
       managerNameWeight: "",
