@@ -1,4 +1,5 @@
 // import axios from 'axios'
+/* eslint-disable */
 import { make, call } from 'vuex-pathify'
 import axios from './../axios'
 import { uuid } from 'vue-uuid'
@@ -215,6 +216,8 @@ const actions = {
         if (payload.type === 'addMember') {
             let response = await axios.get(`/kpi/assign_kpi/${payload.user._id}/${allkpi[payload.kpiIndex]._id}`)
             if (response) {
+                //eslint-disable-next-line
+                console.log(response);
                 return true
             } else {
                 return false

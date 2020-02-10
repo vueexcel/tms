@@ -1,18 +1,22 @@
 <template>
   <div>
-    <div class="pl-4 pr-4 pb-1">
-      <b-form-input type="search" v-model="searchFields" name="search" placeholder="Search"></b-form-input>
+    <div :class="[searchByAllEmployee ? 'w-100' : '']">
+      <div :class="[searchByAllEmployee ? 'pl-1 pr-1 pb-3' : 'pl-4 pr-4 pb-1']">
+        <b-form-input type="search" v-model="searchFields" name="search" placeholder="Search"></b-form-input>
+      </div>
+      <p v-if="searchByAllEmployee" class="block-example mt-2">All</p>
+      <p v-else class="text-center m-0">
+        <small>ALL MEMBERS</small>
+      </p>
     </div>
-    <p class="text-center m-0">
-      <small>ALL MEMBERS</small>
-    </p>
-    <div class="p-2">
+    <div :class="[searchByAllEmployee ? '' : 'p-2']">
       <span
-        class="position-relative ml-1 d-inline-block mb-2"
+        class="position-relative d-inline-block"
+        :class="[searchByAllEmployee ? 'all-manager mr-1 mb-3' : ' ml-1 mb-2']"
         v-for="(img, i) in searchFilter"
         :key="i"
       >
-        <div v-if="!img.kpi_id && img.role !== 'Admin'">
+        <div v-if="!img.kpi_id && img.role !== 'Admin' && !searchByAllEmployee">
           <img
             v-b-tooltip.hover
             :title="img.name"
@@ -30,6 +34,20 @@
             <i class="fa fa-plus" style="color:white; font-size:10px"></i>
           </b-badge>
         </div>
+        <div v-if="searchByAllEmployee">
+          <img
+            v-b-tooltip.hover
+            :title="img.name"
+            class="rounded-circle h-auto"
+            :src="img.profileImage ? img.profileImage : dummyImg"
+            width="30"
+            alt="..."
+          />
+          <i
+            class="fas fa-plus-circle fa-plus-circle-altered add-icon text-primary"
+            @click="addRemoveMembers( index, img, 'addMember')"
+          ></i>
+        </div>
       </span>
     </div>
   </div>
@@ -42,7 +60,10 @@ export default {
     allMembers: { type: Array },
     searchField: { type: String },
     dummyImg: { type: String },
-    index: { type: Number }
+    index: { type: Number },
+    toBeManagerArray: { type: Array },
+    userArray: { type: Array },
+    searchByAllEmployee: { type: Boolean }
   },
   data() {
     return {
@@ -52,38 +73,43 @@ export default {
   methods: {
     addRemoveMembers(index, img, type) {
       this.$emit("addRemoveMember", index, img, type);
+      this.$emit("addManager", img);
     }
   },
   computed: {
     //eslint-disable-next-line
     searchFilter: function() {
-      if (this.$props.allMembers) {
-        return this.$props.allMembers.filter(item => {
-          if (item.username) {
-            return item.username
-              .toLowerCase()
-              .includes(this.searchFields.toLowerCase());
-          }
-        });
+      if (this.searchByAllEmployee === true) {
+        if (this.toBeManagerArray.length) {
+          return this.toBeManagerArray.filter(item => {
+            if (item.username) {
+              return item.username
+                .toLowerCase()
+                .includes(this.searchFields.toLowerCase());
+            }
+          });
+        } else {
+          return this.userArray.filter(item => {
+            if (item.username) {
+              return item.username
+                .toLowerCase()
+                .includes(this.searchFields.toLowerCase());
+            }
+          });
+        }
+      } else {
+        if (this.$props.allMembers) {
+          return this.$props.allMembers.filter(item => {
+            if (item.username) {
+              return item.username
+                .toLowerCase()
+                .includes(this.searchFields.toLowerCase());
+            }
+          });
+        }
       }
-      // if (this.toBeManagerArray.length) {
-      //   return this.toBeManagerArray.filter(item => {
-      //     if (item.username) {
-      //       return item.username
-      //         .toLowerCase()
-      //         .includes(this.searchField.toLowerCase());
-      //     }
-      //   });
-      // } else {
-      //   return this.userArray.filter(item => {
-      //     if (item.username) {
-      //       return item.username
-      //         .toLowerCase()
-      //         .includes(this.searchField.toLowerCase());
-      //     }
-      //   });
-      // }
     }
   }
 };
 </script>
+<style src="./employeeWidget.scss" lang="scss" />

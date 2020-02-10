@@ -2,6 +2,7 @@
   <div class="h-auto pb-3" lg="4" xs="12">
     <div class="pb-1 bg-white">
       <h4 class="pl-4 pt-3">Group Involved</h4>
+      {{allMembers.length}}
       <hr />
       <!--###### CONTAINER IS FALSE ########### -->
       <b-container class="pb-3 pt-1" v-if="false">
@@ -27,7 +28,7 @@
                   width="33"
                   height="33"
                   alt="..."
-                />       
+                />
                 <b-badge
                   @click="addRemoveMember(index, member, 'deleteMember')"
                   variant="danger"
@@ -45,7 +46,13 @@
         </b-row>
       </b-container>
       <!--@@@ ADDED MEMBERS CONTAINER ENDS @@@-->
-          <allEmployeeBadge :index="index" :allMembers="array_"  :dummyImg="dummyImg"  :searchField="searchField" @addRemoveMember="addRemoveMember " />
+      <allEmployeeBadge
+        :index="index"
+        :allMembers="array_"
+        :dummyImg="dummyImg"
+        :searchField="searchField"
+        @addRemoveMember="addRemoveMember "
+      />
     </div>
   </div>
 </template>
@@ -57,19 +64,19 @@ import dummyImage from "./person-dummy.jpg";
 import allEmployeeBadge from "@/components/Employee/allEmployeeBadge";
 export default {
   name: "Group",
-  components:{
+  components: {
     allEmployeeBadge
   },
   data() {
     return {
       searchField: "",
-      dummyImg: dummyImage
+      dummyImg: dummyImage,
+      searchByAllEmployee: false
     };
   },
   props: {
     index: { type: Number },
     array_: { type: Array }
-    
   },
   methods: {
     addMembers_: call("adminKPI/addMember"),
@@ -95,7 +102,7 @@ export default {
     addNewTeam: sync("adminKPI/addNewTeam"),
     allMembers() {
       return this.addNewTeam.slice().reverse();
-    },
+    }
   }
 };
 </script>

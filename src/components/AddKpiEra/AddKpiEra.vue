@@ -221,6 +221,7 @@ export default {
     api_AddKpi: call("adminKPI/addKpi"),
     api_delKpi: call("adminKPI/delKpi"),
     api_updateKpi: call("adminKPI/updateKpi"),
+    
     api_deleteKpi: call("adminKPI/deleteKpi"),
     api_updateSorting: call("adminKPI/updateKpiEra"),
     inputHandler(e) {
@@ -335,6 +336,7 @@ export default {
     },
     deleteFullKpi(team) {
       this.api_deleteKpi(team._id);
+
     },
     addNewKPI(index, team) {
       team.kpi_json[0].addKpi = false;

@@ -86,34 +86,7 @@
             </b-collapse>
           </div>
           <div class="all-manager-div" v-if="loggedInUserRole === 'admin'">
-            <allEmployeeBadge :dummyImg="dummyImg"  :searchField="searchField"   />
-            <!-- <div class="w-100">
-              <p class="block-example mt-2">All</p> -->
-              <!--### search bar #### -->
-              <!-- <div class="pl-1 pr-1 pb-3">
-                <b-form-input
-                  v-model="searchField"
-                  type="search"
-                  name="search"
-                  placeholder="Search"
-                ></b-form-input>
-              </div>
-            </div>
-            <div class="all_managers">
-              <div class="all-manager mr-1 mb-3" v-for="img in searchFilterNoManager" :key="img._id">
-                <img
-                  class="rounded-circle h-auto"
-                  v-b-tooltip.hover
-                  :title="img.name"
-                  :src="img.profileImage ? img.profileImage : dummyImg"
-                  width="30"
-                >
-                <i
-                  class="fas fa-plus-circle fa-plus-circle-altered add-icon text-primary"
-                  @click="addManager(img)"
-                ></i>
-              </div>
-            </div> -->
+            <allEmployeeBadge :dummyImg="dummyImg"  :searchField="searchField" :toBeManagerArray="toBeManagerArray" :userArray="userArray" @addManager="addManager" :searchByAllEmployee="searchByAllEmployee"  />
           </div>
         </b-container>
       </b-row>
@@ -147,7 +120,8 @@ export default {
       managersArray:[],
       toBeManagerArray:[],
       success: false,
-      showSuccessMessage: ''
+      showSuccessMessage: '',
+      searchByAllEmployee: true
     };
   },
   props: {
@@ -158,25 +132,6 @@ export default {
     loggedInUser: get("profile/user"),
     allMembers: sync("allMember/allMember"),
     managers: get("allMember/managers"),
-    searchFilterNoManager: function() {
-      if (this.toBeManagerArray.length) {
-        return this.toBeManagerArray.filter(item => {
-          if (item.username) {
-            return item.username
-              .toLowerCase()
-              .includes(this.searchField.toLowerCase());
-          }
-        });
-      } else{
-        return this.userArray.filter(item => {
-          if (item.username) {
-            return item.username
-              .toLowerCase()
-              .includes(this.searchField.toLowerCase());
-          }
-        });
-      }
-    },
   },
   mounted () {
       this.getAlluserArray()
