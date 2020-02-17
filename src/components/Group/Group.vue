@@ -2,7 +2,6 @@
   <div class="h-auto pb-3" lg="4" xs="12">
     <div class="pb-1 bg-white">
       <h4 class="pl-4 pt-3">Group Involved</h4>
-      {{allMembers.length}}
       <hr />
       <!--###### CONTAINER IS FALSE ########### -->
       <b-container class="pb-3 pt-1" v-if="false">
@@ -19,7 +18,6 @@
       <b-container class="pb-4 pt-1">
         <b-row v-for="(member, key) in array_" :key="key">
           <div v-if="member.kpi_id && member.kpi_id === allMembers[index]._id" class="d-flex">
-            <!-- <b-col class="col-md-1" v-if="member.kpi_id && member.kpi_id === allMembers[index]._id"> -->
             <b-col class="col-1" v-if="member.kpi_id && member.kpi_id === allMembers[index]._id">
               <span class="position-relative">
                 <img
@@ -76,7 +74,9 @@ export default {
   },
   props: {
     index: { type: Number },
-    array_: { type: Array }
+    array_: { type: Array },
+    deleteMemberArray: { type: Array },
+    deleteasin: { type: Number }
   },
   methods: {
     addMembers_: call("adminKPI/addMember"),
@@ -91,11 +91,21 @@ export default {
           if (response === true) {
             this.getAllMembers_();
           }
-          this.searchField = "";
         })
         .catch(err => {
           console.log(err);
         });
+    }
+  },
+  watch: {
+    deleteasin() {
+      for (let i = 0; i < this.deleteMemberArray.length; i++) {
+        this.addRemoveMember(
+          this.deleteMemberArray[i].index,
+          this.deleteMemberArray[i].member,
+          this.deleteMemberArray[i].type
+        );
+      }
     }
   },
   computed: {

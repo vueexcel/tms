@@ -1,3 +1,4 @@
+ /*eslint-disable*/
 import axios from 'axios'
 import { log } from 'util';
 const actions = {
@@ -20,6 +21,7 @@ const actions = {
     },
     async setSchedularSettings({ state, commit }, payload) {
         let res = await axios.put('/system/schdulers_settings', payload)
+        console.log(payload,"{{{{}}}}}");
         return res
     },
 

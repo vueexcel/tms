@@ -120,6 +120,7 @@
 </template>
 
 <script>
+/*eslint-disable*/
 import starRating from "@/components/Star/Star";
 import { get } from "vuex-pathify";
 export default {

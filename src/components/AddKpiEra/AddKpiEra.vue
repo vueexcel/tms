@@ -9,7 +9,7 @@
               <i
                 v-if="team.kpi_json.length <2 && team.era_json.length < 2 "
                 class="fas fa-times-circle text-secondary cursor pull-right pt-1 pr-4"
-                @click="deleteFullKpi(team)"
+                @click="deleteFullKpi(team,index)"
               ></i>
             </h4>
             <hr />
@@ -133,9 +133,14 @@
                   <hr />
                 </b-col>
               </b-row>
-             
+
               <!-- ==== ROW FOR ERA (ADDED) ERA's ==== -->
-              <AddEra :index="index" :team="team" :showEraform="showEraform" @setEraFormIndex="setEraFormIndex" />
+              <AddEra
+                :index="index"
+                :team="team"
+                :showEraform="showEraform"
+                @setEraFormIndex="setEraFormIndex"
+              />
               <div class="mb-4"></div>
               <!-- ==== ROW FOR ERA (ADDED) ERA's ENDS ==== -->
               <!-- ####################### AddKPI/ERA BIG BUTTONS ################################ -->
@@ -166,7 +171,12 @@
       </b-col>
       <b-col lg="4" xs="12">
         <!--##=== group involved for add new member here ===##-->
-        <Group :index="index" :array_="getAllMember" />
+        <Group
+          :index="index"
+          :array_="getAllMember"
+          :deleteasin="deleteasin"
+          :deleteMemberArray="deleteMemberArray"
+        />
         <!--##=== group involved for add new member here ENDS ===##-->
       </b-col>
     </b-row>
@@ -209,7 +219,10 @@ export default {
       active: false,
       uuid: uuid.v1(),
       v1: this.$uuid.v1(),
-      v4: this.$uuid.v4()
+      v4: this.$uuid.v4(),
+      deleteasin: 1,
+      deleteMemberPayload: {},
+      deleteMemberArray: []
     };
   },
   methods: {
@@ -221,7 +234,7 @@ export default {
     api_AddKpi: call("adminKPI/addKpi"),
     api_delKpi: call("adminKPI/delKpi"),
     api_updateKpi: call("adminKPI/updateKpi"),
-    
+
     api_deleteKpi: call("adminKPI/deleteKpi"),
     api_updateSorting: call("adminKPI/updateKpiEra"),
     inputHandler(e) {
@@ -334,9 +347,27 @@ export default {
         KPIorERA: KPIorERA
       });
     },
-    deleteFullKpi(team) {
+    deleteFullKpi(team, index) {
+      this.deleteMemberArray = [];
+      this.deleteasin = 1;
       this.api_deleteKpi(team._id);
-
+      this.deleteKpiMember(team, index);
+    },
+    deleteKpiMember(team, index) {
+      var arrayReverseIndex = this.array_.length - index - 1;
+      for (var i = 0; i < this.getAllMember.length; i++) {
+        if (
+          this.getAllMember[i].kpi_id === this.array_[arrayReverseIndex]._id
+        ) {
+          this.deleteMemberPayload = {
+            index: index,
+            member: this.getAllMember[i],
+            type: "deleteMember"
+          };
+          this.deleteMemberArray.push(this.deleteMemberPayload);
+          this.deleteasin += this.deleteasin;
+        }
+      }
     },
     addNewKPI(index, team) {
       team.kpi_json[0].addKpi = false;
@@ -361,7 +392,7 @@ export default {
       sortedData.kpi_name = team.kpi_name;
       this.api_updateSorting(sortedData);
     },
-    setEraFormIndex (value) {
+    setEraFormIndex(value) {
       this.showEraform = value;
     }
   },

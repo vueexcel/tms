@@ -1,22 +1,21 @@
 <template>
   <div>
     <div :class="[searchByAllEmployee ? 'w-100' : '']">
+      <p v-if="searchByAllEmployee" class="block-example mt-2">All</p>
       <div :class="[searchByAllEmployee ? 'pl-1 pr-1 pb-3' : 'pl-4 pr-4 pb-1']">
         <b-form-input type="search" v-model="searchFields" name="search" placeholder="Search"></b-form-input>
       </div>
-      <p v-if="searchByAllEmployee" class="block-example mt-2">All</p>
-      <p v-else class="text-center m-0">
+      <p v-if="!searchByAllEmployee" class="text-center m-0">
         <small>ALL MEMBERS</small>
       </p>
     </div>
     <div :class="[searchByAllEmployee ? '' : 'p-2']">
       <span
         class="position-relative d-inline-block"
-        :class="[searchByAllEmployee ? 'all-manager mr-1 mb-3' : ' ml-1 mb-2']"
         v-for="(img, i) in searchFilter"
         :key="i"
       >
-        <div v-if="!img.kpi_id && img.role !== 'Admin' && !searchByAllEmployee">
+        <div v-if="!img.kpi_id && img.role !== 'Admin' && !searchByAllEmployee" class="ml-1 mb-2">
           <img
             v-b-tooltip.hover
             :title="img.name"
@@ -34,7 +33,7 @@
             <i class="fa fa-plus" style="color:white; font-size:10px"></i>
           </b-badge>
         </div>
-        <div v-if="searchByAllEmployee">
+        <div v-if="searchByAllEmployee" class="all-manager mr-1 mb-3">
           <img
             v-b-tooltip.hover
             :title="img.name"
