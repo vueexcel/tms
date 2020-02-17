@@ -1,6 +1,6 @@
 <template>
   <div>
-      <ul class="timeline">
+    <ul class="timeline">
       <!-- :class="{onLeft: (junior.reviewedByUser ? true : false) }" -->
       <li
         v-for="( junior, index ) in juniorReport.slice().reverse()"
@@ -79,15 +79,6 @@
                 <div class="comment-body">
                   <h6 class="author fs-sm fw-semi-bold">{{ comment.manager_id.name }}</h6>
                   <p class="mb-0">{{ comment.comment }}</p>
-                  <!-- <div class="starClass">
-                    <strong>Difficulty : &nbsp;</strong>
-                    <Stars
-                      :displayStar="10"
-                      :ratedStar="comment.difficulty"
-                      :starSize="'15px'"
-                      :disableStar="false"
-                    />
-                  </div> -->
                   <div class="starClass">
                     <strong>Overall Rating : &nbsp;</strong>
                     <Stars
@@ -121,7 +112,33 @@
   </div>
 </template>
 <script>
+import moment from "moment";
+import Stars from "@/components/Star/Star.vue";
 export default {
-    name:"juniorsWeekly"
-}
+  name: "juniorsWeekly",
+  props: {
+    juniorReport: { type: Array }
+  },
+  components:{
+      Stars
+  },
+    filters: {
+    moment: function(date) {
+      return moment(date).format("MMMM DD YYYY [at] hh:mm a");
+    },
+    time: function(time) {
+      return moment(time).format("hh:mm a");
+    },
+    day: function(day) {
+      return moment(day).calendar(null, {
+        sameDay: "[Today]",
+        lastDay: "[Yesterday]",
+        lastWeek: "MMMM DD,YYYY",
+        sameElse: "MMMM DD,YYYY"
+      });
+    }
+  }
+};
 </script>
+
+<style src="@/pages/ViewCheckin/Timeline.scss" lang="scss" scoped />

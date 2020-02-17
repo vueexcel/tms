@@ -20,7 +20,6 @@
 import moment from "moment";
 import { get, call } from "vuex-pathify";
 import image from "./../../assets/avatar.png";
-import Stars from "@/components/Star/Star.vue";
 import Alert360 from "@/components/Alert360/alert360";
 import juniorsWeekly from "@/components/JuniorsReport/JuniorsWeeklyReport"
 
@@ -36,8 +35,8 @@ export default {
     };
   },
   components: {
-    Stars,
-    Alert360
+    Alert360,
+    juniorsWeekly
   },
   computed: {
     user: get("profile/user")
@@ -73,23 +72,6 @@ export default {
           });
         }
       }
-      // this.juniorReport = reportArray;
-    }
-  },
-  filters: {
-    moment: function(date) {
-      return moment(date).format("MMMM DD YYYY [at] hh:mm a");
-    },
-    time: function(time) {
-      return moment(time).format("hh:mm a");
-    },
-    day: function(day) {
-      return moment(day).calendar(null, {
-        sameDay: "[Today]",
-        lastDay: "[Yesterday]",
-        lastWeek: "MMMM DD,YYYY",
-        sameElse: "MMMM DD,YYYY"
-      });
     }
   }
 };

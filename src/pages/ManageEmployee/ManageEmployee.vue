@@ -51,7 +51,6 @@
 /* eslint-enable */
 import employeeWidget from "@/components/Employee/employeeWidget";
 import { get, call } from "vuex-pathify";
-// import _ from "lodash";
 
 export default {
   name: "ManageEmployee",

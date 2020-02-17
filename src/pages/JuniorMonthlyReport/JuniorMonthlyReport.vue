@@ -58,45 +58,7 @@ export default {
         .catch(err => {
           console.log(err);
         });
-      // if (response.length && typeof response !== "string") {
-      //   this.isReviewed(response);
-      //   this.juniorReport = response;
-      // } else {
-      //   this.error = true;
-      //   if (typeof response === "string") {
-      //     this.errorMessage = response;
-      //   } else {
-      //     this.errorMessage = "No Weekly report from you juiniors";
-      //   }
-      // }
       this.loading = false;
-    }
-    // isReviewed(reportArray) {
-    //   for (var i = 0; i < reportArray.length; i++) {
-    //     if (reportArray[i].is_reviewed) {
-    //       var found = reportArray[i].is_reviewed.find(manager => {
-    //         if (manager._id._id === this.user._id) {
-    //           reportArray[i]["reviewedByUser"] = manager.reviewed;
-    //         }
-    //       });
-    //     }
-    //   }
-    // }
-  },
-  filters: {
-    moment: function(date) {
-      return moment(date).format("MMMM DD YYYY [at] hh:mm a");
-    },
-    time: function(time) {
-      return moment(time).format("hh:mm a");
-    },
-    day: function(day) {
-      return moment(day).calendar(null, {
-        sameDay: "[Today]",
-        lastDay: "[Yesterday]",
-        lastWeek: "MMMM DD,YYYY",
-        sameElse: "MMMM DD,YYYY"
-      });
     }
   }
 };

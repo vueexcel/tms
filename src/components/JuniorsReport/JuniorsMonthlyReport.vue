@@ -171,4 +171,4 @@ export default {
 };
 </script>
 
-<style src="./../../pages/ViewCheckin/Timeline.scss" lang="scss" scoped />
+<style src="@/pages/ViewCheckin/Timeline.scss" lang="scss" scoped />
