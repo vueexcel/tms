@@ -134,18 +134,3 @@ export default {
 </script>
 
 <style src="./ManageEmployee.scss" lang="scss" scoped />
-<style scoped>
-.number {
-  display: inline-block;
-  padding: 4px 10px;
-  color: #fff;
-  border-radius: 4px;
-  background: #717699;
-  margin: 0px 5px;
-  cursor: pointer;
-}
-.number:hover,
-.number.active {
-  background: #00b698;
-}
-</style>
