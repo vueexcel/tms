@@ -19,7 +19,7 @@
                     class="rounded-circle h-auto"
                     v-b-tooltip.hover
                     :title="img.username.toUpperCase() + ' , ' + img.weight"
-                    :src="img.profileImage ? img.profileImage : defaultImage"
+                    :src="img.profileImage ? img.profileImage : dummyImg"
                     v-bind:class="{success : img.weight <= 3 ,primary:  img.weight > 3 && img.weight <= 6, warning:  img.weight > 6 && img.weight <= 10}"
                     width="40"
                   >
@@ -53,7 +53,7 @@
                 <img
                   class="rounded-circle h-auto"
                   :title="img.name"
-                  :src="managerObj.profileImage ? managerObj.profileImage : defaultImage"
+                  :src="managerObj.profileImage ? managerObj.profileImage : dummyImg"
                   width="40"
                 >
                 <i
@@ -86,33 +86,7 @@
             </b-collapse>
           </div>
           <div class="all-manager-div" v-if="loggedInUserRole === 'admin'">
-            <div class="w-100">
-              <p class="block-example mt-2">All</p>
-              <!--### search bar #### -->
-              <div class="pl-1 pr-1 pb-3">
-                <b-form-input
-                  v-model="searchField"
-                  type="search"
-                  name="search"
-                  placeholder="Search"
-                ></b-form-input>
-              </div>
-            </div>
-            <div class="all_managers">
-              <div class="all-manager mr-1 mb-3" v-for="img in searchFilterNoManager" :key="img._id">
-                <img
-                  class="rounded-circle h-auto"
-                  v-b-tooltip.hover
-                  :title="img.name"
-                  :src="img.profileImage ? img.profileImage : defaultImage"
-                  width="30"
-                >
-                <i
-                  class="fas fa-plus-circle fa-plus-circle-altered add-icon text-primary"
-                  @click="addManager(img)"
-                ></i>
-              </div>
-            </div>
+            <allEmployeeBadge :dummyImg="dummyImg"  :searchField="searchField" :toBeManagerArray="toBeManagerArray" :userArray="userArray" @addManager="addManager" :searchByAllEmployee="searchByAllEmployee"  />
           </div>
         </b-container>
       </b-row>
@@ -121,15 +95,21 @@
 </template>
 
 <script>
+//eslint-disable-next-line
 import members from "./../../Group/allMembers.json";
+import allEmployeeBadge from "@/components/Employee/allEmployeeBadge";
 import { get, call, sync } from "vuex-pathify";
-import defaultImage from "@/assets/people/dummy.jpeg";
+// import defaultImage from "@/assets/people/dummy.jpeg";
+import dummyImage from "@/components/Group/person-dummy.jpg";
 export default {
   name: "ManagerComponent",
+  components:{
+    allEmployeeBadge
+  },
   data() {
     return {
       managerObj: {},
-      defaultImage: defaultImage,
+      dummyImg: dummyImage,
       ratedWeight: null,
       loading: false,
       managerNameWeight: "",
@@ -140,7 +120,8 @@ export default {
       managersArray:[],
       toBeManagerArray:[],
       success: false,
-      showSuccessMessage: ''
+      showSuccessMessage: '',
+      searchByAllEmployee: true
     };
   },
   props: {
@@ -151,25 +132,6 @@ export default {
     loggedInUser: get("profile/user"),
     allMembers: sync("allMember/allMember"),
     managers: get("allMember/managers"),
-    searchFilterNoManager: function() {
-      if (this.toBeManagerArray.length) {
-        return this.toBeManagerArray.filter(item => {
-          if (item.username) {
-            return item.username
-              .toLowerCase()
-              .includes(this.searchField.toLowerCase());
-          }
-        });
-      } else{
-        return this.userArray.filter(item => {
-          if (item.username) {
-            return item.username
-              .toLowerCase()
-              .includes(this.searchField.toLowerCase());
-          }
-        });
-      }
-    },
   },
   mounted () {
       this.getAlluserArray()
@@ -288,6 +250,7 @@ export default {
               }
             }
           } else {
+            //eslint-disable-next-line
             for(var i =0; i < this.userArray.length; i++){
               if(this.userArray[i]._id === managerToBeAdded._id){
                 this.userArray.splice(i,1)

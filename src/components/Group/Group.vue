@@ -18,7 +18,6 @@
       <b-container class="pb-4 pt-1">
         <b-row v-for="(member, key) in array_" :key="key">
           <div v-if="member.kpi_id && member.kpi_id === allMembers[index]._id" class="d-flex">
-            <!-- <b-col class="col-md-1" v-if="member.kpi_id && member.kpi_id === allMembers[index]._id"> -->
             <b-col class="col-1" v-if="member.kpi_id && member.kpi_id === allMembers[index]._id">
               <span class="position-relative">
                 <img
@@ -45,68 +44,39 @@
         </b-row>
       </b-container>
       <!--@@@ ADDED MEMBERS CONTAINER ENDS @@@-->
-      <div class="pl-4 pr-4 pb-1">
-        <b-form-input type="search" v-model="searchField" name="search" placeholder="Search"></b-form-input>
-      </div>
-      <p class="text-center m-0">
-        <small>ALL MEMBERS</small>
-      </p>
-    </div>
-    <div class="p-2">
-      <!-- ==============================================
-              ======= MEMBER Image with badge (loop)
-      ====================================================-->
-      <span
-        class="position-relative ml-1 d-inline-block mb-2"
-        v-for="(img, i) in searchFilter"
-        :key="i"
-      >
-        <div v-if="!img.kpi_id && img.role !== 'Admin'">
-          <img
-            v-b-tooltip.hover
-            :title="img.name"
-            class="rounded-circle"
-            :src="img.profileImage ? img.profileImage : dummyImg"
-            width="25"
-            height="25"
-            alt="..."
-          />
-          <b-badge
-            @click="addRemoveMember(index, img, 'addMember')"
-            variant="primary"
-            class="circle-2 position-absolute badgePos p-0 top"
-          >
-            <i class="fa fa-plus" style="color:white; font-size:10px"></i>
-          </b-badge>
-          <!-- <b-badge class="badge circle-2 position-absolute badgePos p-0 top badge-white">
-          <i
-            class="fa fa-check-circle text-success"
-            v-if="img.kpi_id && img.kpi_id === allMembers[index]._id"
-          ></i>
-          </b-badge>-->
-        </div>
-      </span>
-      <!-- ======================================================
-              ======= MEMBER Image with badge (loop) ends
-      ===========================================================-->
+      <allEmployeeBadge
+        :index="index"
+        :allMembers="array_"
+        :dummyImg="dummyImg"
+        :searchField="searchField"
+        @addRemoveMember="addRemoveMember "
+      />
     </div>
   </div>
 </template>
 
 <script>
+//eslint-disable-next-line
 import { get, call, sync } from "vuex-pathify";
 import dummyImage from "./person-dummy.jpg";
+import allEmployeeBadge from "@/components/Employee/allEmployeeBadge";
 export default {
   name: "Group",
+  components: {
+    allEmployeeBadge
+  },
   data() {
     return {
       searchField: "",
-      dummyImg: dummyImage
+      dummyImg: dummyImage,
+      searchByAllEmployee: false
     };
   },
   props: {
     index: { type: Number },
-    array_: { type: Array }
+    array_: { type: Array },
+    deleteMemberArray: { type: Array },
+    deleteasin: { type: Number }
   },
   methods: {
     addMembers_: call("adminKPI/addMember"),
@@ -121,28 +91,27 @@ export default {
           if (response === true) {
             this.getAllMembers_();
           }
-          this.searchField = "";
         })
         .catch(err => {
           console.log(err);
         });
     }
   },
+  watch: {
+    deleteasin() {
+      for (let i = 0; i < this.deleteMemberArray.length; i++) {
+        this.addRemoveMember(
+          this.deleteMemberArray[i].index,
+          this.deleteMemberArray[i].member,
+          this.deleteMemberArray[i].type
+        );
+      }
+    }
+  },
   computed: {
     addNewTeam: sync("adminKPI/addNewTeam"),
     allMembers() {
       return this.addNewTeam.slice().reverse();
-    },
-    searchFilter: function() {
-      if (this.$props.array_) {
-        return this.$props.array_.filter(item => {
-          if (item.username) {
-            return item.username
-              .toLowerCase()
-              .includes(this.searchField.toLowerCase());
-          }
-        });
-      }
     }
   }
 };

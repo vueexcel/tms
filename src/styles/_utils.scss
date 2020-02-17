@@ -69,7 +69,7 @@ $z-index-variants: (more: 1, less: -1, '10': 10, '-10': -10);
 .circle-o {
   border: #{$line-height-base/5}em solid transparent;
 
-  // stylelint-disable
+  // stylelint-disablex
   &.circle-o-danger { border-color: theme-color('danger') };
   &.circle-o-warning { border-color: theme-color('warning') };
   &.circle-o-success { border-color: theme-color('success') };
@@ -225,7 +225,7 @@ $z-index-variants: (more: 1, less: -1, '10': 10, '-10': -10);
 }
 
 //override bs .text-* classes so they use $brand-* variables
-
+// stylelint-disablex
 @include text-emphasis-variant('.text-primary', theme-color('primary'));
 @include text-emphasis-variant('.text-success', theme-color('success'));
 @include text-emphasis-variant('.text-info', theme-color('info'));
@@ -240,6 +240,7 @@ $z-index-variants: (more: 1, less: -1, '10': 10, '-10': -10);
 @include text-emphasis-variant('.text-gray-darker', $gray-900);
 @include text-emphasis-variant('.text-gray-lighter', $gray-200);
 @include text-emphasis-variant('.text-bg-sidebar', $sidebar-bg-color);
+// stylelint-enable
 
 .text-ellipsis {
   display: block;

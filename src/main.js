@@ -15,8 +15,9 @@ import 'moment-timezone';
 import UUID from 'vue-uuid';
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+// import VueLodash from "vue-lodash";
 
- 
+// Vue.use(VueLodash);
 Vue.use(UUID);
 
 import store from './store';

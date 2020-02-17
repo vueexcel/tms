@@ -23,6 +23,7 @@
 </template>
 
 <script>
+/*eslint-disable*/
 import Vue from "vue";
 import dummyImage from "./../../assets/people/dummy.jpeg";
 import { get, call } from "vuex-pathify";

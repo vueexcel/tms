@@ -1,4 +1,5 @@
 // import axios from 'axios'
+/* eslint-disable */
 import { make, call } from 'vuex-pathify'
 import axios from './../axios'
 import { uuid } from 'vue-uuid'
