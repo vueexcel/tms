@@ -61,6 +61,7 @@ const actions = {
         }
     },
     // delete api for managers/ admin
+    // eslint-disable-next-line
     async deleteMonthlyReview({commit},payload) {
         let id = payload.id
         try {

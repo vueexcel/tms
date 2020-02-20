@@ -155,19 +155,11 @@
 </template>
 
 <script>
-import $ from "jquery";
 import Vue from "vue";
-
-/* eslint-disable */
-// import "imports-loader?jQuery=jquery,this=>window!flot";
-// import "imports-loader?jQuery=jquery,this=>window!flot/jquery.flot.pie";
-/* eslint-enable */
-import Widget from "@/components/Widget/Widget";
-import { sync, call, get } from "vuex-pathify";
+import { call, get } from "vuex-pathify";
 import StandUpWidget from "./CheckinComponents/StandupReportWidget";
 import Comments from "./CheckinComponents/Comments";
 import GenReport from "./GenReport";
-import { timeout } from "q";
 import dummyimage from "@/components/Group/person-dummy.jpg";
 import Alert360 from "@/components/Alert360/alert360";
 
@@ -183,11 +175,17 @@ export default {
       slackChannels: []
     };
   },
-  components: { Widget, StandUpWidget, Comments, GenReport, Alert360 },
+  components: { 
+    StandUpWidget,
+    Comments,
+    GenReport,
+    Alert360
+  },
   computed: {
     userProfile: get("profile/user"),
     reports: get("checkin/reports"), //data from API getAllCheckins
     time() {
+      let value = null
       this.reports.forEach(element => {
         var time = this.$moment(element.created_at)
           .tz("GMT")
@@ -207,8 +205,10 @@ export default {
             time;
         }
       });
+      return value
     },
     date() {
+      let date = null
       this.reports.forEach(date => {
         var time = this.$moment(date.created_at)
           .tz("GMT")
@@ -226,6 +226,7 @@ export default {
           });
         }
       });
+      return date
     },
     currentUserName() {
       let UserName;

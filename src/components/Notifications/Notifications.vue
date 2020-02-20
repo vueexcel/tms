@@ -36,16 +36,12 @@ import Vue from "vue";
 
 import NotifictionsList from "./NotificationsDemo/NotificationsList";
 import NewNotifictionsList from "./NotificationsDemo/NewNotificationsList";
-import Messages from "./NotificationsDemo/Messages";
-import Progress from "./NotificationsDemo/Progress";
 
 export default {
   name: "WeeklyReview",
   components: {
     NotifictionsList,
-    NewNotifictionsList,
-    Messages,
-    Progress
+    NewNotifictionsList
   },
   data() {
     return {

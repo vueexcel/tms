@@ -131,7 +131,7 @@ export default {
       this.loading = true;
       this.error = false;
       this.api_postFeedback({ feedback: this.feedback })
-        .then(res => {
+        .then(() => {
           this.loading = false;
           this.feedback = "";
           this.getFeedback();

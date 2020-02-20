@@ -41,14 +41,9 @@
 </template>
 
 <script>
-import $ from "jquery";
-/* eslint-disable */
-// import "imports-loader?jQuery=jquery,this=>window!flot";
-// import "imports-loader?jQuery=jquery,this=>window!flot/jquery.flot.pie";
-/* eslint-enable */
 import Widget from "@/components/Widget/Widget";
 import AddKpiEra from "@/components/AddKpiEra/AddKpiEra";
-import { get, call, sync } from "vuex-pathify";
+import { call, sync } from "vuex-pathify";
 
 export default {
   name: "Profile",
@@ -74,6 +69,9 @@ export default {
     ) {
       this.authenticated = window.localStorage.getItem("authenticated");
     }
+    if (localStorage.getItem("authenticated")) {
+      this.getAllKpiEra();
+    }
   },
   methods: {
     getProfile: call("profile/getProfile"),
@@ -95,11 +93,6 @@ export default {
     },
     getAllKpiEra() {
       this.getKpiEra();
-    }
-  },
-  created() {
-    if (localStorage.getItem("authenticated")) {
-      this.getAllKpiEra();
     }
   }
 };

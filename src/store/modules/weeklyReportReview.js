@@ -12,7 +12,7 @@ const state = {
 const mutations = make.mutations(state);
 const actions = {
   ...make.actions(state),
-  async getallWeeklyReport({ state, commit }, payload) {
+  async getallWeeklyReport({ state }) {
     try {
       let res = await axios.get("/manager_weekly_all");
       state.allweeklyReport = res.data
@@ -58,7 +58,7 @@ const actions = {
       }
     }
   },
-  async getManagersReview({ state }) {
+  async getManagersReview() {
     try {
       let response = await axios.get('/junior_review_response')
       return response.data
@@ -73,7 +73,7 @@ const actions = {
       }
     }
   },
-  async juniorWeeklyReport({ state }) {
+  async juniorWeeklyReport() {
     try {
       let response = await axios.get('junior_weekly_report')
       return response.data
@@ -85,10 +85,10 @@ const actions = {
       }
     }
   },
-  async deleteWeeklyReview({ state, commit }, payload) {
+  async deleteWeeklyReview({ state }, payload) {
     state.errorMessageDelete = ""
     try {
-      let response = await axios.delete(`/delete_manager_response/${payload._id}`)
+      await axios.delete(`/delete_manager_response/${payload._id}`)
       state.countToReviewReport++
       return true
     } catch (err) {
@@ -110,6 +110,7 @@ const actions = {
       })
     }
   },
+  // eslint-disable-next-line
   async skipReportReview({ commit }, payload) {
     let payloadToSend = {
       selected : payload.selected,
@@ -128,6 +129,7 @@ const actions = {
       }
     }
   },
+  // eslint-disable-next-line
   async updateReportReview({}, payload) {
     let url = `manager_weekly/update/${payload.id}`
     let payloadToSend = {
@@ -149,8 +151,7 @@ const actions = {
       }
     }
   },
-
-  // @bp.route('/weekly_revoked/<string:weekly_id>', methods=["PUT"])
+  // eslint-disable-next-line
   async revokeWeekly({ commit }, payload) {
     const id = payload._id
     const report = {
