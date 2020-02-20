@@ -34,7 +34,7 @@
 import employeeWidget from "@/components/Employee/employeeWidget";
 import Team from "./Team.json";
 import Group from "@/components/Group/allMembers.json";
-import { get, call } from "vuex-pathify";
+// import { get, call } from "vuex-pathify";
 
 export default {
   name: "Team",

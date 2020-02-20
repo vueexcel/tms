@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+// eslint-disable-next-line
 import pathify from "./pathify";
 // import createPersistedState from "vuex-persistedstate";
 import login from "./modules/login";

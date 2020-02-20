@@ -98,7 +98,6 @@
 
 <script>
 import starRating from "@/components/Star/Star";
-import { get } from "vuex-pathify";
 export default {
   name: "ExtraWorkFeedback",
   components: {
@@ -118,10 +117,11 @@ export default {
   computed: {
     date() {
       if (this.user) {
-        this.user.all_chekin.forEach((v, i) => {
+        this.user.all_chekin.forEach((v) => {
           v.day = this.$moment(v.created_at).format("dddd");
         });
       }
+      return ''
     }
   },
   data() {

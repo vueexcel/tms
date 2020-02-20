@@ -2,7 +2,7 @@
   <section>
     <div
       class="text-center employee"
-      @click="checkEmployee(employee)"
+      @click="checkEmployee()"
       v-bind:class="{activeClass : employee.id === activeId}"
       :style="{border: '1px solid '+ setBorderColor}"
     >
@@ -23,7 +23,6 @@
 </template>
 
 <script>
-import Vue from "vue";
 import image from "@/assets/avatar.png";
 import { get, sync } from "vuex-pathify";
 
@@ -32,7 +31,7 @@ export default {
   props: {
     employee: { type: Object, default: () => ({}) },
     activeId: { type: String, default: "" },
-    employees: { type: Array, default: [] }
+    employees: { type: Array, default: () => { return []} }
   },
   data() {
     return {
@@ -53,8 +52,8 @@ export default {
     userprofile: get("profile/user"),
     allReport: sync("monthlyReportReview/employee"),
     setBorderColor() {
+      let color = "";
       if (this.allemployee) {
-        let color = "";
         let reportArray = [];
         this.allReport.forEach(report => {
           if (report.user.id === this.employee.id) {
@@ -75,15 +74,15 @@ export default {
             }
           });
         }
-        return color;
       }
+      return color;
     }
   },
   mounted() {
     // this.setBorderColor();
   },
   methods: {
-    checkEmployee(employee) {
+    checkEmployee() {
       this.$emit("setActive", this.employee);
     }
     // set border color per user

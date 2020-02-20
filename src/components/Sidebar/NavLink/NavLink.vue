@@ -68,7 +68,7 @@
 
 <script>
 import { mapActions } from "vuex";
-import { get, call } from "vuex-pathify";
+import { get } from "vuex-pathify";
 export default {
   name: "NavLink",
   props: {

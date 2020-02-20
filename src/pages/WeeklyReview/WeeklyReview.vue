@@ -210,14 +210,12 @@
 // import "imports-loader?jQuery=jquery,this=>window!flot";
 // import "imports-loader?jQuery=jquery,this=>window!flot/jquery.flot.pie";
 import starRating from "@/components/Star/Star";
-import Widget from "@/components/Widget/Widget";
 import Alert360 from "@/components/Alert360/alert360";
 import { get, call } from "vuex-pathify";
 
 export default {
   name: "WeeklyReview",
   components: {
-    Widget,
     starRating,
     Alert360
   },
@@ -253,6 +251,7 @@ export default {
     date() {
       if (this.user.kpi) {
         // ES6 version use destructuring/ spread operator for adding arrays
+        // eslint-disable-next-line
         this.kpieraarray = [
           ...this.user.kpi.kpi_json.filter(element => {
             return element.title !== "";
@@ -272,6 +271,7 @@ export default {
           date["day"] = this.$moment(date.created_at).format("dddd");
         }
       });
+      return ''
     }
   },
   methods: {
@@ -359,7 +359,6 @@ export default {
       this.selected = "";
     },
     removeDescription(index) {
-      let objectToAdd = {};
       for (var i = 0; i < this.kpikradescriotionlist.length; i++) {
         if (i === index) {
           this.kpieraarray.push({

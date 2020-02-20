@@ -172,7 +172,7 @@ export default {
     api_getmanagers: call("review360/getmanagers"),
     api_getPost: call("review360/getPost"),
     api_360reviewStatus: call("profile/getManagerReviewStatus"),
-    getWindowWidth(event) {
+    getWindowWidth() {
       this.windowWidth = document.documentElement.clientWidth;
     },
     async postFeedback() {
@@ -247,8 +247,7 @@ export default {
                   element.username.charAt(0).toUpperCase() +
                   element.username.slice(1),
                 profileImage: element.profileImage,
-                id: element._id,
-                profileImage: element.profileImage
+                id: element._id
               });
             });
           }

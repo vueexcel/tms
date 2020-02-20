@@ -158,7 +158,7 @@
                       v-if="loading[n] !== true"
                       class="fa fa-times text-danger ml-3 icon_size"
                       aria-hidden="true"
-                      @click="disableUpdate(n,junior)"
+                      @click="disableUpdate(n)"
                     ></i>
                   </div>
                 </div>
@@ -176,7 +176,7 @@
 
 <script>
 import Vue from "vue";
-import { sync, call, get } from "vuex-pathify";
+import { call, get } from "vuex-pathify";
 import Widget from "@/components/Widget/Widget";
 import defaultImage from "@/components/Group/person-dummy.jpg";
 
@@ -225,9 +225,9 @@ export default {
     updateNote_: call("notes/updateNote"),
     async callApi() {
       this.pageLoader = true;
+      let response = null
       if (!this.emp_arr.length) {
-        let response = await this.getKpiUser_();
-
+        response = await this.getKpiUser_();
         if (response !== true) {
           this.error = true;
           this.errorMessage = response;
@@ -309,7 +309,7 @@ export default {
       Vue.set(this.updateNote, index, true);
       Vue.set(this.textReview, index, user.notes.comment);
     },
-    disableUpdate(index, user) {
+    disableUpdate(index) {
       Vue.set(this.updateNote, index, false);
       Vue.set(this.textReview, index, "");
     },

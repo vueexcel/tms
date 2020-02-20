@@ -5,7 +5,7 @@ import userProfile from "./store/modules/profile";
 import Layout from "@/components/Layout/Layout";
 import LayoutAdmin from "@/components/Layout/Layout";
 import Login from "@/pages/Login/Login";
-import ErrorPage from "@/pages/Error/Error";
+// import ErrorPage from "@/pages/Error/Error";
 // Core
 import TypographyPage from "@/pages/Typography/Typography";
 
@@ -48,7 +48,7 @@ import ChartsPage from "@/pages/Charts/Charts";
 // Ui
 import IconsPage from "@/pages/Icons/Icons";
 import NotificationsPage from "@/pages/Notifications/Notifications";
-import { relativeTimeRounding } from "moment";
+// import { relativeTimeRounding } from "moment";
 import store from "./store/index";
 
 Vue.use(Router);

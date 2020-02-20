@@ -78,11 +78,15 @@
 import MonthlyReviewComponent from "@/components/monthlyPerformanceReview/monthlyPerformanceReview";
 import PerformanceBox from "@/components/monthlyPerformanceReview/monthlyPerformanceReview/PerformanceBox";
 import { get, call, sync } from "vuex-pathify";
-import Alert360 from "@/components/Alert360/alert360";
+// import Alert360 from "@/components/Alert360/alert360";
 
 export default {
   name: "PerformanceReview",
-  components: { MonthlyReviewComponent, PerformanceBox, Alert360 },
+  components: { 
+    MonthlyReviewComponent,
+    PerformanceBox,
+    // Alert360
+  },
   data() {
     return {
       // activeId: "0",

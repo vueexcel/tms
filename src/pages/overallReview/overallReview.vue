@@ -471,15 +471,19 @@ export default {
   computed: {
     userToCheckByAdmin_: sync("allMember/userToCheckByAdmin"),
     sortedArray() {
+      let managers = null
       if (this.user.profile) {
+        // eslint-disable-next-line
         this.checkin_rating = this.user.profile.Checkin_rating
           ? Math.round(this.user.profile.Checkin_rating)
           : 0;
+        // eslint-disable-next-line
         this.Overall_rating = this.user.profile.Overall_rating
           ? this.user.profile.Overall_rating
           : 0;
-        let managers = this.user.profile.managers;
+        managers = this.user.profile.managers;
         if (managers) {
+          // eslint-disable-next-line
           function compare(a, b) {
             if (a.weight && b.weight) {
               if (a.weight > b.weight) return -1;
@@ -488,9 +492,9 @@ export default {
             }
           }
           managers = managers.sort(compare);
-          return managers;
         }
       }
+      return managers;
     },
     newArray() {
       let newArray = [];
@@ -522,8 +526,8 @@ export default {
             });
           }
         });
-        return newArray;
       }
+      return newArray;
     },
     eraArray() {
       let newArray = [];
@@ -555,13 +559,13 @@ export default {
             });
           }
         });
-        return newArray;
       }
+      return newArray;
     },
     WeeklyDateArray() {
       let dateArray = [];
       if (this.user && this.user.weekly) {
-        this.user.weekly.forEach((weekReport, index) => {
+        this.user.weekly.forEach((weekReport) => {
           if (!dateArray.length) {
             dateArray.push({
               text: this.$moment(weekReport.created_at).format("MMMM"),

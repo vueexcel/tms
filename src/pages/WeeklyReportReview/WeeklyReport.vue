@@ -90,11 +90,15 @@
 import WeeklyReviewComponent from "@/components/weeklyReviewComponent/WeeklyReview";
 import PerformanceBox from "@/components/weeklyReviewComponent/WeeklyReview/WeeklyReviewBox";
 import { get, call, sync } from "vuex-pathify";
-import Alert360 from "@/components/Alert360/alert360";
+// import Alert360 from "@/components/Alert360/alert360";
 
 export default {
   name: "PerformanceReview",
-  components: { WeeklyReviewComponent, PerformanceBox, Alert360 },
+  components: { 
+    WeeklyReviewComponent,
+    PerformanceBox,
+    // Alert360
+  },
   data() {
     return {
       activeId: null,
