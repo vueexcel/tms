@@ -1,5 +1,5 @@
 <template>
-    <button type="submit" :disabled="isLoading" class="btn btn-sm mt-4" :class="[variant, width]">
+    <button type="submit" :disabled="isLoading" class="btn" :class="[variant, width, size]">
         <span v-if="!isLoading">{{text}}</span>
         <span v-if="isLoading">
             <i class="fa fa-circle-o-notch fa-spin"></i> Loading...
@@ -9,7 +9,28 @@
 
 <script>
 export default {
-    props: ['text', 'isLoading', 'variant', 'width']
+    props: {
+        text: {
+            type: String,
+            default: ''
+        },
+        isLoading: {
+            type: Boolean,
+            default: false
+        },
+        variant: {
+            type: String,
+            default: ''
+        },
+        width: {
+            type: String,
+            default: ''
+        },
+        size: {
+            type: String,
+            default: ''
+        }
+    }
 }
 </script>
 

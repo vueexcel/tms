@@ -45,7 +45,13 @@
                   <i class="fa fa-circle-o-notch fa-spin"></i> Loading...
                 </span>
               </button> -->
-              <custom-button :text="'Login'" :isLoading="loader" :variant="'btn-inverse'" :width="'w-100'"></custom-button>
+              <primary-button
+                class="mt-4" 
+                :text="'Login'"
+                :isLoading="loader"
+                :variant="'btn-inverse'"
+                :width="'w-100'"
+                :size="'btn-sm'"></primary-button>
             </div>
           </form>
         </div>
@@ -72,7 +78,7 @@
 
 <script>
 import { get, call } from "vuex-pathify";
-import customButton from '@/components/common/button.vue'
+import primaryButton from '@/components/common/button.vue'
 
 
 export default {
@@ -86,7 +92,7 @@ export default {
     }
   },
   components: {
-    customButton
+    primaryButton
   },
   computed:{
     authenticated: get("login/authenticated"),

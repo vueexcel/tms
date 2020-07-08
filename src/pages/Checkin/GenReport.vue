@@ -79,7 +79,12 @@
             </b-form-checkbox-group>
           </b-form-group>
         </div>
-        <button type="submit" class="btn btn-primary btn-lg mb-xs fs-sm pl-4 pr-4 mt-3">SUBMIT</button>
+        <!-- <button type="submit" class="btn btn-primary btn-lg mb-xs fs-sm pl-4 pr-4 mt-3">SUBMIT</button> -->
+        <primary-button 
+          class="mb-xs fs-sm pl-4 pr-4 mt-3"
+          :variant="'btn-primary'" 
+          :text="'SUBMIT'" 
+          :size="'btn-lg'"></primary-button>
       </Widget>
     </b-form>
 
@@ -102,10 +107,11 @@
 <script>
 import { sync, get } from "vuex-pathify";
 import Widget from "@/components/Widget/Widget";
+import primaryButton from '@/components/common/button.vue'
 import { VueEditor } from "vue2-editor";
 
 export default {
-  components: { Widget, VueEditor },
+  components: { Widget, VueEditor, primaryButton },
   computed: {
     missedCheckin: get("profile/user"),
     changeSelectOption: sync("checkin/changeSelectOption"),
