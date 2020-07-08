@@ -47,6 +47,7 @@
               </button> -->
               <primary-button
                 class="mt-4" 
+                :type="'submits'"
                 :text="'Login'"
                 :isLoading="loader"
                 :variant="'btn-inverse'"

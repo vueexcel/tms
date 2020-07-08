@@ -1,5 +1,5 @@
 <template>
-    <button type="submit" :disabled="isLoading" class="btn" :class="[variant, width, size]">
+    <button :type="type" :disabled="isLoading" class="btn" :class="[variant, width, size]" @click="callFunction($event)">
         <span v-if="!isLoading">{{text}}</span>
         <span v-if="isLoading">
             <i class="fa fa-circle-o-notch fa-spin"></i> Loading...
@@ -29,6 +29,17 @@ export default {
         size: {
             type: String,
             default: ''
+        },
+        type: {
+            type: String,
+            default: 'button'
+        }
+    },
+    methods:{
+        callFunction (event) {
+            if (this.type === 'button') {
+                event.preventDefault()
+            }
         }
     }
 }

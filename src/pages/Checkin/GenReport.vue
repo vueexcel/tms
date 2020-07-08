@@ -81,6 +81,7 @@
         </div>
         <!-- <button type="submit" class="btn btn-primary btn-lg mb-xs fs-sm pl-4 pr-4 mt-3">SUBMIT</button> -->
         <primary-button 
+          :type="'submit'"
           class="mb-xs fs-sm pl-4 pr-4 mt-3"
           :variant="'btn-primary'" 
           :text="'SUBMIT'" 
