@@ -28,7 +28,7 @@
 // import 'imports-loader?$=jquery,this=>window!messenger/build/js/messenger'; // eslint-disable-line
 import MonthlyPerformanceReviewComponent from "@/components/monthlyPerformanceReview/monthlyPerformanceReview";
 import PerformanceBox from "@/components/monthlyPerformanceReview/monthlyPerformanceReview/PerformanceBox";
-import { get, call } from "vuex-pathify";
+import { get } from "vuex-pathify";
 
 export default {
   name: "PerformanceReview",

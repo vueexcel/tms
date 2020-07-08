@@ -162,7 +162,6 @@
 <script>
 import { get, call } from "vuex-pathify";
 import moment from "moment-timezone";
-import Vue from "vue";
 import Alert360 from "@/components/Alert360/alert360";
 export default {
   name: "monthlyReport",
@@ -213,17 +212,13 @@ export default {
       this.alertAfter = false;
       this.openalertAfter = false;
       this.alertMsg = "";
-      let obj = {
-        kpi: this.KpiDescription,
-        era: this.EraDescription
-      };
       let resKpi = await this.prepareKpiEra("kpi");
       let resEra = await this.prepareKpiEra("era");
       this.setPayload["kpi"] = this.setPayloadKPI;
       this.setPayload["era"] = this.setPayloadERA;
       if (resKpi && resEra) {
         this.api_postReview(this.setPayload)
-          .then(res => {
+          .then(() => {
             this.getReport();
             this.KpiDescription = [];
             this.EraDescription = [];
@@ -260,7 +255,6 @@ export default {
       if (key === "kpi") {
         this.user.kpi.kpi_json.forEach((element, i) => {
           if (element.title !== "" && element.desc !== "") {
-            let title = element.title;
             this.setPayloadKPI.push({
               title: element.title,
               desc: element.desc,
@@ -272,7 +266,6 @@ export default {
       } else if (key === "era") {
         this.user.kpi.era_json.forEach((element, i) => {
           if (element.title !== "" && element.desc !== "") {
-            let title = element.title;
             this.setPayloadERA.push({
               title: element.title,
               desc: element.desc,

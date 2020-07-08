@@ -100,7 +100,7 @@
 </template>
 
 <script>
-import { sync, call, get } from "vuex-pathify";
+import { sync, get } from "vuex-pathify";
 import Widget from "@/components/Widget/Widget";
 import { VueEditor } from "vue2-editor";
 
@@ -120,7 +120,7 @@ export default {
     this.makeOptions();
   },
   watch: {
-    missedCheckin(newValue) {
+    missedCheckin() {
       this.makeOptions();
     }
   },
@@ -154,7 +154,7 @@ export default {
     },
     slackChannels: {
       type: Array,
-      default: []
+      default: () => { return [] }
     }
   },
   methods: {

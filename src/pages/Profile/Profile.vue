@@ -131,127 +131,8 @@
               </div>
             </div>
             <!-- third bar -->
-            <!-- <div>
-              <div>
-                <h6 class="text-dark fs-larger">
-                  Project Difficulty
-                  <i
-                    v-b-popover.hover="`project difficulty`"
-                    class="fas fa-question-circle fs-sm text-danger"
-                  ></i>
-                  <span class="float-right">{{Number(user.project_difficulty).toFixed(2)}} /10</span>
-                </h6>
-                <span class="text-secondary fs-sm">Project dificulty</span>
-                <b-progress
-                  class="w-75"
-                  style="height: 5px"
-                  variant="success"
-                  :value="user.project_difficulty*10"
-                  :max="100"
-                />
-              </div>
-            </div>-->
             <!-- Recent Activities -->
           </div>
-          <!-- <div class="h-auto mt-5">
-            <h2 class="mb-3">
-              Recent
-              <span class="fw-semi-bold">Activities</span>
-            </h2>
-            <div class="activity">
-          <span v-for="(recentactivity,index) in activity" :key="index">-->
-          <!-- <span v-if="recentactivity.missed_checkin">
-                  <span v-for="(misschecked,index) in recentactivity.missed_checkin" :key="index">
-                    <widget class="mb-3">
-                      <span class="thumb-md float-left mr-2 mt-1">
-                        <img
-                          class="rounded-circle"
-                          :src="user.profileImage ? user.profileImage : image"
-                          alt="..."
-                          width="25"
-                          height="25"
-                        >
-                      </span>
-                      <span class="text-primary fw-semi-bold fs-larger">{{user.name}}</span>
-                      {{date}}
-                      <p class="fs-sm">{{misschecked.datemisstime}}</p>
-                      You have missed your daily checkin on
-                      {{misschecked.datemiss}}
-                    </widget>
-                  </span>
-          </span>-->
-          <!-- Daily_checkin block -->
-          <!-- <span v-if="recentactivity.Daily_checkin">
-                  <span
-                    v-for="(dailycheckin,index) in recentactivity.Daily_checkin.slice().reverse()"
-                    :key="index"
-                  >
-                    <widget class="mb-3">
-                      <span class="thumb-md float-left mr-2 mt-1">
-                        <img
-                          class="rounded-circle"
-                          :src="user.profileImage ? user.profileImage : image"
-                          alt="..."
-                          width="25"
-                          height="25"
-                        >
-                      </span>
-                      <span class="text-primary fw-semi-bold fs-larger">{{user.name}}</span>
-                      {{dailydate}}
-                      <p class="fs-sm">{{dailycheckin.dailycheckintime}}</p>
-                      You have done your daily checkin on
-                      {{dailycheckin.dailycheckindate}}
-                    </widget>
-                  </span>
-          </span>-->
-          <!-- reviewed report block -->
-          <!-- <span v-if="recentactivity.report_reviewed">
-                  <span
-                    v-for="(reportreviewed,index) in recentactivity.report_reviewed.slice().reverse()"
-                    :key="index"
-                  >
-                    <widget class="mb-3">
-                      <span class="thumb-md float-left mr-2 mt-1">
-                        <img
-                          class="rounded-circle"
-                          :src="user.profileImage ? user.profileImage : image"
-                          alt="..."
-                          width="25"
-                          height="25"
-                        >
-                      </span>
-                      <span class="text-primary fw-semi-bold fs-larger">{{user.name}}</span>
-                      <p class="fs-sm">{{recentactivity.dates}}</p>
-                      <p>{{reportreviewed.Message}}</p>
-                    </widget>
-                  </span>
-          </span>-->
-          <!-- Review Report Block  -->
-          <!-- <span v-if="recentactivity.review_report">
-                  <span
-                    v-for="(reviewreport,index) in recentactivity.review_report.slice().reverse()"
-                    :key="index"
-                  >
-                    <widget class="mb-3">
-                      <span class="thumb-md float-left mr-2 mt-1">
-                        <img
-                          class="rounded-circle"
-                          :src="user.profileImage ? user.profileImage : image"
-                          alt="..."
-                          width="25"
-                          height="25"
-                        >
-                      </span>
-                      <span class="text-primary fw-semi-bold fs-larger">{{user.name}}</span>
-                      {{reportreview}}
-                      <p class="fs-sm">{{reviewreport.reportreviewtime}}</p>
-                      <p>{{reviewreport.Message}}</p>
-                    </widget>
-                  </span>
-          </span>-->
-          <!-- </span>
-            </div>
-          </div>-->
         </b-col>
       </b-row>
     </b-container>
@@ -259,17 +140,10 @@
 </template>
 
 <script>
-import $ from "jquery";
-/* eslint-disable */
-// import "imports-loader?jQuery=jquery,this=>window!flot";
-// import "imports-loader?jQuery=jquery,this=>window!flot/jquery.flot.pie";
-/* eslint-enable */
 import Widget from "@/components/Widget/Widget";
 import AreaComponent from "./../../components/Area/Area";
-import starRating from "@/components/Star/Star";
 import { get, call, sync } from "vuex-pathify";
 import dummyimage from "@/components/Group/person-dummy.jpg";
-import RadialProgressBar from "vue-radial-progress";
 import Alert360 from "@/components/Alert360/alert360";
 
 export default {
@@ -290,8 +164,6 @@ export default {
   components: {
     Widget,
     AreaComponent,
-    starRating,
-    RadialProgressBar,
     Alert360
   },
   async mounted() {
@@ -316,21 +188,8 @@ export default {
     userProfile: get("profile/user"),
     activity: get("profile/activity"),
     userToCheckByAdmin_: sync("allMember/userToCheckByAdmin"),
-    // time() {
-    //   console.log(this.activity,'@@@@@');
-
-    //   this.activity.forEach(element => {
-    //     var time = this.$moment(element.date)
-    //       .tz("GMT")
-    //       .local()
-    //       .format("h:mm: A");
-    //     if (time !== "Invalid date") {
-    //       element["dates"] =
-    //         this.$moment(element.date).format("MMMM DD,YYYY") + " at " + time;
-    //     }
-    //   });
-    // },
     date() {
+      let value = null
       this.activity.forEach(activity => {
         if (activity.missed_checkin) {
           activity.missed_checkin.forEach(missdate => {
@@ -352,8 +211,10 @@ export default {
           });
         }
       });
+      return value
     },
     dailydate() {
+      let value = null
       this.activity.forEach(activity => {
         if (activity.Daily_checkin) {
           activity.Daily_checkin.forEach(checkindailydate => {
@@ -375,8 +236,10 @@ export default {
           });
         }
       });
+      return value
     },
     reportreview() {
+      let value = null
       this.activity.forEach(activity => {
         if (activity.review_report) {
           activity.review_report.forEach(reportreviewdate => {
@@ -395,16 +258,21 @@ export default {
           });
         }
       });
+      return value
     },
     sortedArray() {
+      let managers = null
+      // eslint-disable-next-line
       this.checkin_rating = this.user.Checkin_rating
         ? Math.round(this.user.Checkin_rating)
         : 0;
+      // eslint-disable-next-line
       this.Overall_rating = this.user.Overall_rating
         ? this.user.Overall_rating
         : 0;
-      let managers = this.user.managers;
+      managers = this.user.managers;
       if (managers) {
+        // eslint-disable-next-line
         function compare(a, b) {
           if (a.weight && b.weight) {
             if (a.weight > b.weight) return -1;
@@ -413,8 +281,8 @@ export default {
           }
         }
         managers = managers.sort(compare);
-        return managers;
       }
+      return managers;
     }
   },
   filters: {

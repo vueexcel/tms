@@ -88,11 +88,11 @@ export default {
   props: {
     comments: {
       type: Array,
-      default: []
+      default: () => { return [] }
     },
     profile: {
       type: Object,
-      default: {}
+      default: () => { return {} }
     }
   },
   data() {

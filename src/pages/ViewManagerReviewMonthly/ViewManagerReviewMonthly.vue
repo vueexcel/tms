@@ -171,7 +171,7 @@
 </template>
 
 <script>
-import { get, call, sync } from "vuex-pathify";
+import { call } from "vuex-pathify";
 import moment from "moment";
 import image from "./person-dummy.jpg";
 import Stars from "@/components/Star/Star.vue";

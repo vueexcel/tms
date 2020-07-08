@@ -177,7 +177,7 @@
 
 <script>
 import starRating from "@/components/Star/Star";
-import UserMonthlyReport from "@/components/UserMonthlyReport/UserMonthlyReport";
+// import UserMonthlyReport from "@/components/UserMonthlyReport/UserMonthlyReport";
 import { sync, call, get } from "vuex-pathify";
 export default {
   name: "PerformanceBox",
@@ -207,8 +207,8 @@ export default {
     };
   },
   components: {
-    starRating: starRating,
-    UserMonthlyReport: UserMonthlyReport
+    starRating: starRating
+    // UserMonthlyReport: UserMonthlyReport
   },
   computed: {
     activeEmployeReport: sync("monthlyReportReview/activeEmployeReport"),
@@ -217,7 +217,9 @@ export default {
     user: get("profile/user"),
     managerComment() {
       let obj = [];
+      // eslint-disable-next-line
       this.ratedStarKpi = []
+      // eslint-disable-next-line
       this.ratedStarEra = []
       if (this.dateArray.length) {
         this.allReport.forEach(report => {
@@ -273,6 +275,7 @@ export default {
         });
       }
       if(arrayOfDate.length > 1) {
+        // eslint-disable-next-line
         this.dateSelected = arrayOfDate[0]
         return arrayOfDate;
       } else {
@@ -361,7 +364,7 @@ export default {
         this.api_getReports();
       } else {
         this.alertMessageShow = true;
-        if (error === false) {
+        if (res === false) {
           this.alertMessage = "Api server down";
         } else {
           this.alertMessage = res;

@@ -57,7 +57,7 @@ export default {
         return;
       }
       this.api_postFeedbacks(val)
-        .then(res => {
+        .then(() => {
           this.getFeedback();
         })
         .catch(err => {

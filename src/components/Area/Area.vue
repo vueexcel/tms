@@ -2,7 +2,6 @@
   <div>
     <widget class="p-0">
       <section v-if="eraKpiArray">
-        {{ eraKpiArray_ }}
         <!-- <div v-for="(kpiera,index) in eraKpiArray" :key="index" class="areaBorder"> -->
         <div v-for="(kpiera,index) in newArray" :key="index" class="areaBorder">
           <div
@@ -54,18 +53,17 @@ export default {
   data() {
     return {
       // completed: 5.165456,
-      total: 10,
-      newArray: []
+      total: 10
     };
   },
   computed: {
-    eraKpiArray_() {
-      this.newArray = [];
+    newArray() {
+      let newArray = [];
       this.$props.eraKpiArray.forEach(element => {
         if (Object.keys(this.$props.monthlyRating).length) {
           Object.keys(this.$props.monthlyRating).forEach(ele => {
             if (element.ID === ele) {
-              this.newArray.push({
+              newArray.push({
                 ID: element.ID,
                 desc: element.desc,
                 edit: element.edit,
@@ -75,7 +73,7 @@ export default {
             }
           });
         } else {
-          this.newArray.push({
+          newArray.push({
             ID: element.ID,
             desc: element.desc,
             edit: element.edit,
@@ -84,6 +82,7 @@ export default {
           });
         }
       });
+      return newArray
     }
   }
 };

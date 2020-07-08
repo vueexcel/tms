@@ -81,9 +81,8 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
-import { get, call, sync } from "vuex-pathify";
+import { get } from "vuex-pathify";
 import $ from "jquery";
-import Notifications from "@/components/Notifications/Notifications";
 import dummyimage from "@/components/Group/person-dummy.jpg";
 
 export default {
@@ -98,7 +97,6 @@ export default {
       reviewreportlength: 0
     };
   },
-  components: { Notifications },
   computed: {
     user: get("profile/user"),
     activity: get("profile/activity"),
@@ -108,15 +106,19 @@ export default {
     }),
     recentactivitylenght() {
       Array.prototype.forEach.call(this.activity, element => {
+        // eslint-disable-next-line
         this.dailycheckinlength = element.Daily_checkin
           ? element.Daily_checkin.length
           : 0;
+        // eslint-disable-next-line
         this.misscheckinlength = element.missed_checkin
           ? element.missed_checkin.length
           : 0;
+        // eslint-disable-next-line
         this.reportreviewlength = element.report_reviewed
           ? element.report_reviewed.length
           : 0;
+        // eslint-disable-next-line
         this.reviewreportlength = element.review_report
           ? element.review_report.length
           : 0;

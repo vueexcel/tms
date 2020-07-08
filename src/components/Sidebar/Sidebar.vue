@@ -478,7 +478,7 @@ export default {
     };
   },
   watch: {
-    sideBar(newValue, oldValue) {
+    sideBar() {
       this.fetchfeedbackCount();
       // this.getUsersMonthlyReports();
     },
