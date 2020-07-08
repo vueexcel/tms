@@ -2,9 +2,9 @@
   <b-container>
     <b-row class="wrapper">
       <b-col class="p-5">
-        <h5 class="logo pb-4">
+        <!-- <h5 class="logo pb-4">
           <img src="./../../images/logo.png" height="60" width="300" alt="logo" />
-        </h5>
+        </h5> -->
         <span>Welcome to</span>
         <h6 class="botton_padding weight">Team Management System</h6>
         <div class="login-form">
@@ -39,12 +39,13 @@
                 name="password"
                 placeholder="Password"
               />
-              <button type="submit" :disabled="loader" class="w-100 btn btn-inverse btn-sm mt-4">
+              <!-- <button type="submit" :disabled="loader" class="w-100 btn btn-inverse btn-sm mt-4">
                 <span v-if="!loader">Login</span>
                 <span v-if="loader">
                   <i class="fa fa-circle-o-notch fa-spin"></i> Loading...
                 </span>
-              </button>
+              </button> -->
+              <custom-button :text="'Login'" :isLoading="loader" :variant="'btn-inverse'" :width="'w-100'"></custom-button>
             </div>
           </form>
         </div>
@@ -71,6 +72,8 @@
 
 <script>
 import { get, call } from "vuex-pathify";
+import customButton from '@/components/common/button.vue'
+
 
 export default {
   name: 'LoginPage',
@@ -81,6 +84,9 @@ export default {
       signinChecked: "",
       loginError: ""
     }
+  },
+  components: {
+    customButton
   },
   computed:{
     authenticated: get("login/authenticated"),
