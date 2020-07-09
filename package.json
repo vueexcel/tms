@@ -86,7 +86,7 @@
     "jquery.flot-orderBars": "https://github.com/emmerich/flot-orderBars.git"
   },
   "eslintConfig": {
-    "root": true,
+    "root": false,
     "env": {
       "node": true
     },
