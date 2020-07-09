@@ -1,20 +1,27 @@
-import Vue from "vue";
-import { mount } from '@vue/test-utils'
-import Button from "./src/components/common/button.vue";
+import {render, screen, fireEvent} from '@testing-library/vue'
 
-describe("click event", () => {
-  
-  it('has received button as the type property', () => {
-    const wrapper = mount(Button, {
+import Button from "./src/components/common/button.vue";
+import '@testing-library/jest-dom'
+
+test('button value on click', async () => {
+  const {getByRole} = await render(Button, { 
       propsData: {
         type: 'button'
       }
-    })
-    wrapper.find('button').trigger('click')
-    wrapper.find('button').trigger('click', {
+   });
+
+  const button = getByRole('button')
+  await fireEvent.click(button)
+})
+
+
+test('submit value on click', async () => {
+  const {getByRole} = await render(Button, { 
       propsData: {
         type: 'submit'
       }
-    })
-  });
-});
+   });
+
+  const button = getByRole('button')
+  await fireEvent.click(button)
+})
