@@ -9,6 +9,11 @@
 
 <script>
 export default {
+    data () {
+        return {
+            count: 0
+        }
+    },
     props: {
         text: {
             type: String,
