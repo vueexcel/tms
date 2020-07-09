@@ -43,6 +43,7 @@ export default {
     methods:{
         callFunction (event) {
             if (this.type === 'button') {
+                this.$emit('clickCall', true)
                 event.preventDefault()
             }
         }
