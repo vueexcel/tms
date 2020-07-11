@@ -37,12 +37,19 @@
               />
             </b-form-group>
             <div>
-              <b-button variant="danger" size="sm" type="submit" class="btn float-right">
+              <!-- <b-button variant="danger" size="sm" type="submit" class="btn float-right">
                 <span v-if="!loading">Post</span>
                 <span v-if="loading">
                   <i class="fas fa-circle-notch text-white fa-spin"></i>
                 </span>
-              </b-button>
+              </b-button> -->
+              <primary-button 
+                class="float-right"
+                :variant="'btn-danger'"
+                :size="'btn-sm'"
+                :text="'Post'"
+                :isLoading="loading"
+                :type="'submit'"></primary-button>
             </div>
             <div v-if="error" class="mt-3">
               <b-alert
@@ -105,9 +112,10 @@ import { call } from "vuex-pathify";
 import image from "./../../assets/avatar.png";
 import moment from "moment";
 import Alert360 from "@/components/Alert360/alert360";
+import primaryButton from '@/components/common/button.vue'
 export default {
   name: "Profile",
-  components: { Widget, Alert360 },
+  components: { Widget, Alert360, primaryButton },
   data() {
     return {
       feedback: "",

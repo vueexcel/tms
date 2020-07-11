@@ -120,19 +120,32 @@
               <div class="form-actions">
                 <div class="row">
                   <div class="col-md-4 col-12">
-                    <button
+                    <!-- <button
                       v-if="!usersMonthlyReport.kpi"
                       type="submit"
                       class="btn btn-success"
-                    >Submit</button>
+                    >Submit</button> -->
+                    <primary-button
+                      v-if="!usersMonthlyReport.kpi"
+                      :type="'submit'" 
+                      :text="'Submit'"
+                      :variant="'btn-success'"
+                      ></primary-button>
                   </div>
                   <div class="col-md-4 col-12">
-                    <button
+                    <!-- <button
                       v-if="usersMonthlyReport.kpi && !reportStatus.length"
                       @click="deleteMonthlyReport()"
                       type="button"
                       class="btn btn-danger"
-                    >Delete</button>
+                    >Delete</button> -->
+                    <primary-button
+                      v-if="usersMonthlyReport.kpi && !reportStatus.length"
+                      :type="'button'" 
+                      :text="'Delete'"
+                      :variant="'btn-danger'"
+                      @clickCall="deleteMonthlyReport($event)"
+                      ></primary-button>
                   </div>
                 </div>
               </div>
@@ -163,10 +176,13 @@
 import { get, call } from "vuex-pathify";
 import moment from "moment-timezone";
 import Alert360 from "@/components/Alert360/alert360";
+import primaryButton from '@/components/common/button.vue'
+
 export default {
   name: "monthlyReport",
   components: {
-    Alert360
+    Alert360,
+    primaryButton
   },
   data() {
     return {

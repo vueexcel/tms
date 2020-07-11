@@ -74,15 +74,6 @@
         </div>
       </b-col>
     </b-row>
-    <primary-button
-      :type="'button'"
-      class="mt-4" 
-      :text="'Login'"
-      :isLoading="loader"
-      :variant="'btn-inverse'"
-      :width="'w-100'"
-      @clickCall="getAlert($event)"
-      :size="'btn-sm'"></primary-button>
   </b-container>
 </template>
 

@@ -107,7 +107,11 @@
     </b-row>
     <b-row class="my-2" v-if="user.profile.is_reset && user.profile.is_reset === true">
       <b-col>
-        <b-button variant="dark" @click="getOldReports">See Old Reports?</b-button>
+        <!-- <b-button variant="dark" @click="getOldReports">See Old Reports?</b-button> -->
+        <primary-button 
+          :variant="'btn-dark'"
+          :text="'See Old Reports?'"
+          @clickCall="getOldReports($event)"></primary-button>
       </b-col>
     </b-row>
     <b-row>
@@ -430,6 +434,7 @@ import RadialProgressBar from "vue-radial-progress";
 import moment from "moment";
 import Stars from "@/components/Star/Star.vue";
 import Alert360 from "@/components/Alert360/alert360";
+import primaryButton from '@/components/common/button.vue'
 
 export default {
   data() {
@@ -449,7 +454,8 @@ export default {
     RadialProgressBar,
     // AreaComponent,
     Alert360,
-    Stars
+    Stars,
+    primaryButton
   },
   async mounted() {
     if (this.$route.params && Object.keys(this.$route.params).length) {

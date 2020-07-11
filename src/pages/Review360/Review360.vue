@@ -56,12 +56,20 @@
                 />
               </b-form-group>
               <div class="btn-toolbar">
-                <b-button variant="danger" size="sm" type="submit" class="btn ml-auto">
+                <!-- <b-button variant="danger" size="sm" type="submit" class="btn ml-auto">
                   <span v-if="!loading">Post</span>
                   <span v-if="loading">
                     <i class="fas fa-circle-notch text-white fa-spin"></i>
                   </span>
-                </b-button>
+                </b-button> -->
+                <primary-button
+                  class="ml-auto"
+                  :type="'submit'" 
+                  :text="'Post'"
+                  :variant="'btn-danger'"
+                  :size="'btn-sm'"
+                  :isLoading="loading"
+                  ></primary-button>
               </div>
               <div v-if="error" class="mt-3">
                 <b-alert
@@ -131,11 +139,12 @@ import { call } from "vuex-pathify";
 import image from "./../../assets/avatar.png";
 import anon from "./../../assets/people/anon.svg";
 import starRating from "@/components/Star/Star";
+import primaryButton from '@/components/common/button.vue'
 import moment from "moment";
 
 export default {
   name: "Profile",
-  components: { Widget, starRating },
+  components: { Widget, starRating, primaryButton },
   data() {
     return {
       anonymousImage: anon,

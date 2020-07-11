@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/vue'
 
-import Button from "./src/components/common/button.vue";
+import Button from "./button.vue";
 import '@testing-library/jest-dom'
 import userEvent from '@testing-library/user-event'
 
