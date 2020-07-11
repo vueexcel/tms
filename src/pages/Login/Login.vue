@@ -23,6 +23,7 @@
               <input
                 class="form-control no-border"
                 ref="username"
+                id="username"
                 required
                 type="text"
                 name="username"
@@ -34,6 +35,7 @@
               <input
                 class="form-control no-border"
                 ref="password"
+                id="password"
                 required
                 type="password"
                 name="password"
@@ -79,7 +81,7 @@
 
 <script>
 import { get, call } from "vuex-pathify";
-import primaryButton from '@/components/common/button.vue'
+import primaryButton from './../../components/common/button.vue'
 
 
 export default {

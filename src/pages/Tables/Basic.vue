@@ -430,7 +430,7 @@
 import $ from 'jquery';
 import Vue from 'vue';
 import Widget from '@/components/Widget/Widget';
-import 'imports-loader?jQuery=jquery,this=>window!jquery-sparkline'; // eslint-disable-line
+// import 'imports-loader?jQuery=jquery,this=>window!jquery-sparkline'; // eslint-disable-line
 
 export default {
   name: 'Tables',

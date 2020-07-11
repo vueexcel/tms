@@ -78,7 +78,7 @@
 
 <script>
 import $ from 'jquery';
-import 'imports-loader?window.jQuery=jquery,this=>window!widgster'; // eslint-disable-line
+// import 'imports-loader?window.jQuery=jquery,this=>window!widgster'; // eslint-disable-line
 
 export default {
   name: 'Widget',

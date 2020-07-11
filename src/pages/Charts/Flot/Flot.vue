@@ -145,7 +145,7 @@ import 'imports-loader?jQuery=jquery,this=>window!flot/jquery.flot.symbol';
 import 'imports-loader?jQuery=jquery,this=>window!flot/jquery.flot.selection';
 import 'imports-loader?jQuery=jquery,this=>window!flot/jquery.flot.pie';
 import 'imports-loader?jQuery=jquery,this=>window!jquery.flot-orderBars/js/jquery.flot.orderBars';
-import 'imports-loader?jQuery=jquery,this=>window!jquery-sparkline';
+// import 'imports-loader?jQuery=jquery,this=>window!jquery-sparkline';
 /* eslint-enable */
 import LineChart from './charts/LineChart';
 import TrackingChart from './charts/TrackingChart';
