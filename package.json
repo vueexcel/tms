@@ -125,7 +125,8 @@
       "vue"
     ],
     "transformIgnorePatterns": [
-      "<rootDir>/node_modules/"
+      "<rootDir>/node_modules/",
+      "<rootDir>/node_modules/vue-radial-progress"
     ]
   }
 }
