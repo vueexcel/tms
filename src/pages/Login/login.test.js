@@ -8,7 +8,7 @@ import Vue from 'vue'
 import { setupServer } from "msw/node";
 import { store } from '../../store'
 import Router from "vue-router";
-import XXX from "./Login.vue"
+import Login from "./Login.vue"
 
 import { BootstrapVue } from 'bootstrap-vue'
 
@@ -45,7 +45,7 @@ test("login form to render", async () => {
     },
   }
 
-  const { container, getByPlaceholderText, getByText } = await render(XXX, { store : { ...store, ...customStore } })
+  const { container, getByPlaceholderText, getByText } = await render(Login, { store : { ...store, ...customStore } })
 
   expect(getByPlaceholderText("Username")).toBeInTheDocument()
   expect(getByPlaceholderText("Password")).toBeInTheDocument()
