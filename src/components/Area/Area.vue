@@ -10,7 +10,7 @@
           >
             <h4 class="text-primary capitalize">
               {{kpiera.title}}
-              <RadialProgressBar
+              <!-- <RadialProgressBar
                 v-if="kpiera.rating"
                 class="pull-right"
                 :diameter="45"
@@ -20,7 +20,7 @@
               >
                 <p></p>
                 <p class="fs-mini">{{ kpiera.rating.toFixed(1) }}</p>
-              </RadialProgressBar>
+              </RadialProgressBar> -->
             </h4>
             {{kpiera.desc}}
           </div>
@@ -37,10 +37,13 @@
 
 <script>
 import Widget from "./../Widget/Widget";
-import RadialProgressBar from "vue-radial-progress";
+// import RadialProgressBar from "vue-radial-progress";
 export default {
   name: "AreaComponent",
-  components: { Widget, RadialProgressBar },
+  components: { 
+    Widget, 
+    // RadialProgressBar 
+  },
   props: {
     eraKpiArray: {
       type: Array

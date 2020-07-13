@@ -37,6 +37,7 @@
     "messenger": "git+https://github.com/HubSpot/messenger.git#v1.4.2",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.27",
+    "msw": "^0.19.5",
     "napa": "^3.0.0",
     "node-sass": "^4.13.1",
     "nvd3": "1.8.6",
@@ -116,8 +117,8 @@
     },
     "moduleNameMapper": {
       "^vue$": "vue/dist/vue.common.js",
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/assetsTransformer.js", 
-      "\\.(css|less|scss)$": "<rootDir>/assetsTransformer.js",
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/assetsTransformer.js",
+      ".+\\.(css|less|scss)$": "<rootDir>/assetsTransformer.js",
       "^@/(.*)$": "<rootDir>/src/$1"
     },
     "moduleFileExtensions": [
@@ -126,7 +127,7 @@
     ],
     "transformIgnorePatterns": [
       "<rootDir>/node_modules/",
-      "<rootDir>/node_modules/vue-radial-progress"
+      "/node_modules/(?!(vue-radial-progress)/)"
     ]
   }
 }

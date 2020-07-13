@@ -9,7 +9,7 @@
         <h6 class="botton_padding weight">Team Management System</h6>
         <div class="login-form">
           <form @submit.prevent="login">
-            <div class="alert alert-danger alert-sm" v-if="loginfailed">
+            <div class="alert alert-danger alert-sm" v-if="loginfailed" id="error">
               <button
                 type="button"
                 class="close"
