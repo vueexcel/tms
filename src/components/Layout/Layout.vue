@@ -1,10 +1,8 @@
 <template>
-  <div :class="{root: true, chatOpen, sidebarClose, sidebarStatic}">
+  <div :class="{root: true, sidebarClose, sidebarStatic}">
     <Sidebar />
-    <!-- <Helper /> -->
     <div class="wrap">
       <Header />
-      <Chat />
       <v-touch
         class="content"
         @swipeleft="handleSwipe"
@@ -28,15 +26,13 @@ import { mapState, mapActions } from "vuex";
 
 import Sidebar from "@/components/Sidebar/Sidebar";
 import Header from "@/components/Header/Header";
-import Chat from "@/components/Chat/Chat";
 import { get } from "vuex-pathify";
-// import Helper from '@/components/Helper/Helper';
 
 import "./Layout.scss";
 
 export default {
   name: "Layout",
-  components: { Sidebar, Header, Chat },
+  components: { Sidebar, Header },
   methods: {
     ...mapActions("layout", [
       "switchSidebar",
@@ -47,8 +43,7 @@ export default {
   computed: {
     ...mapState("layout", {
       sidebarClose: state => state.sidebarClose,
-      sidebarStatic: state => state.sidebarStatic,
-      chatOpen: state => state.chatOpen
+      sidebarStatic: state => state.sidebarStatic
     }),
     userProfile: get("profile/user")
   },

@@ -5,14 +5,6 @@ import userProfile from "./store/modules/profile";
 import Layout from "@/components/Layout/Layout";
 import LayoutAdmin from "@/components/Layout/Layout";
 import Login from "@/pages/Login/Login";
-// Core
-import TypographyPage from "@/pages/Typography/Typography";
-
-// Tables
-import TablesBasicPage from "@/pages/Tables/Basic";
-
-// Maps
-import GoogleMapPage from "@/pages/Maps/Google";
 
 // === Main
 import Profile from "@/pages/Profile/Profile";
@@ -41,11 +33,9 @@ import ManageEmployee from "@/pages/ManageEmployee/ManageEmployee";
 import ManageKPI from "@/pages/Kpi/Kpi";
 import Settings from "@/pages/Settings/Settings";
 import OverAllReview from "@/pages/overallReview/overallReview"
-// Charts
-import ChartsPage from "@/pages/Charts/Charts";
+
 
 // Ui
-import IconsPage from "@/pages/Icons/Icons";
 import NotificationsPage from "@/pages/Notifications/Notifications";
 import store from "./store/index";
 
@@ -59,11 +49,6 @@ const router = new Router({
       name: "Login",
       component: Login
     },
-    // {
-    //   path: "/error",
-    //   name: "Error",
-    //   component: ErrorPage
-    // },
     {
       path: "/app",
       name: "Layout",
@@ -180,34 +165,9 @@ const router = new Router({
           component: Notes
         },
         {
-          path: "typography",
-          name: "TypographyPage",
-          component: TypographyPage
-        },
-        {
-          path: "components/icons",
-          name: "IconsPage",
-          component: IconsPage
-        },
-        {
           path: "notifications",
           name: "NotificationsPage",
           component: NotificationsPage
-        },
-        {
-          path: "components/charts",
-          name: "ChartsPage",
-          component: ChartsPage
-        },
-        {
-          path: "tables",
-          name: "TablesBasicPage",
-          component: TablesBasicPage
-        },
-        {
-          path: "components/maps",
-          name: "GoogleMapPage",
-          component: GoogleMapPage
         }
       ]
     },
