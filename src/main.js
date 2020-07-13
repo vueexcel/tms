@@ -1,7 +1,7 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-import 'expose-loader?jQuery!jquery' // eslint-disable-line
-import 'expose-loader?$!jquery' // eslint-disable-line
+import 'expose-loader?exposes[]=$&exposes[]=jQuery!jquery' // eslint-disable-line
+// import 'expose-loader?$!jquery' // eslint-disable-line
 import Vue from 'vue';
 import axios from 'axios'
 import VueAxios from 'vue-axios'

@@ -141,7 +141,7 @@
                   </div>
                     <div>{{kpiera.desc}}</div>
                   </div>
-                  <RadialProgressBar
+                  <!-- <RadialProgressBar
                     v-if="kpiera.rating"
                     class="pull-right"
                     :diameter="30"
@@ -151,7 +151,7 @@
                   >
                     <p></p>
                     <p class="fs-mini">{{ kpiera.rating.toFixed(1) }}</p>
-                  </RadialProgressBar>
+                  </RadialProgressBar> -->
                 </div>
                 <b-collapse :id="'manager' + kpiera.ID">
                   <div class="mx-1 line" v-if="user.monthly.length">
@@ -235,7 +235,7 @@
                    
                     <div>{{kpiera.desc}}</div>
                   </div>
-                  <RadialProgressBar
+                  <!-- <RadialProgressBar
                     v-if="kpiera.rating"
                     class="pull-right"
                     :diameter="30"
@@ -245,7 +245,7 @@
                   >
                     <p></p>
                     <p class="fs-mini">{{ kpiera.rating.toFixed(1) }}</p>
-                  </RadialProgressBar>
+                  </RadialProgressBar> -->
                 </div>
                 <b-collapse :id="'manager' + kpiera.ID">
                   <div class="mx-1 line" v-if="user.monthly.length">
@@ -430,7 +430,7 @@ import Widget from "@/components/Widget/Widget";
 // import AreaComponent from "@/components/Area/Area";
 import dummyimage from "@/components/Group/person-dummy.jpg";
 import { call, sync } from "vuex-pathify";
-import RadialProgressBar from "vue-radial-progress";
+// import RadialProgressBar from "vue-radial-progress";
 import moment from "moment";
 import Stars from "@/components/Star/Star.vue";
 import Alert360 from "@/components/Alert360/alert360";
@@ -451,7 +451,7 @@ export default {
   },
   components: {
     Widget,
-    RadialProgressBar,
+    // RadialProgressBar,
     // AreaComponent,
     Alert360,
     Stars,
