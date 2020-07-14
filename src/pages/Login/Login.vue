@@ -85,7 +85,7 @@ import primaryButton from './../../components/common/button.vue'
 
 
 export default {
-  name: 'LoginPageold',
+  name: 'LoginPage',
   data () {
     return {
       loader: false,

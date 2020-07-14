@@ -4,10 +4,7 @@ import Button from "./button.vue";
 import '@testing-library/jest-dom'
 import userEvent from '@testing-library/user-event'
 
-import Login from "../../pages/Login/Login.vue"
-
 test('button value on click', async () => {
-  await render(Login)
   const { getByRole } = await render(Button, {
     propsData: {
       type: 'button',

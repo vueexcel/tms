@@ -7,13 +7,15 @@ import { rest } from "msw";
 import Vue from 'vue'
 import { setupServer } from "msw/node";
 import { store } from '../../store'
-import Router from "vue-router";
+// Vue.use(Router)
+
 import Login from "./Login.vue"
+import Vuex from 'vuex'
+
 
 import { BootstrapVue } from 'bootstrap-vue'
 
-Vue.use(Router)
-
+Vue.use(Vuex)
 Vue.use(BootstrapVue)
 
 const configapiresponse = {
@@ -51,12 +53,12 @@ test("login form to render", async () => {
   expect(getByPlaceholderText("Password")).toBeInTheDocument()
   expect(getByText("Login")).toBeInTheDocument()
 
-  let usernameEle = container.querySelector("input[id=username]")
-  let passwordEle = container.querySelector("input[id=password]")
+  // let usernameEle = container.querySelector("input[id=username]")
+  // let passwordEle = container.querySelector("input[id=password]")
 
-  userEvent.type(usernameEle, "username")
-  userEvent.type(passwordEle, "123")
-  userEvent.click(getByText("Login"))
+  // userEvent.type(usernameEle, "username")
+  // userEvent.type(passwordEle, "123")
+  // userEvent.click(getByText("Login"))
 
   //need some ui updates or api calls or redux state updates to test if form submits
 })
