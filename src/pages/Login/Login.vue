@@ -20,7 +20,7 @@
               {{loginError}}.
             </div>
             <div class="form-group">
-              <input
+              <!-- <input
                 class="form-control no-border"
                 ref="username"
                 id="username"
@@ -29,10 +29,20 @@
                 name="username"
                 placeholder="Username"
                 autofocus
-              />
+              /> -->
+            <common-input
+              @setVal="getVal($event, 'username')"
+              class="form-control no-border"
+              :type="'text'"
+              :name="'username'"
+              :placeholder="'Username'"
+              :id="'username'"
+              v-model="username"
+              >
+            </common-input>
             </div>
             <div class="form-group">
-              <input
+              <!-- <input
                 class="form-control no-border"
                 ref="password"
                 id="password"
@@ -40,7 +50,17 @@
                 type="password"
                 name="password"
                 placeholder="Password"
-              />
+              /> -->
+              <common-input
+              @setVal="getVal($event, 'password')"
+              class="form-control no-border"
+              :id="'password'"
+              :type="'password'"
+              :name="'password'"
+              :placeholder="'Password'"
+              v-model="password"
+              >
+              </common-input>
               <!-- <button type="submit" :disabled="loader" class="w-100 btn btn-inverse btn-sm mt-4">
                 <span v-if="!loader">Login</span>
                 <span v-if="loader">
@@ -54,7 +74,8 @@
                 :isLoading="loader"
                 :variant="'btn-inverse'"
                 :width="'w-100'"
-                :size="'btn-sm'"></primary-button>
+                :size="'btn-sm'"
+                ></primary-button>
             </div>
           </form>
         </div>
@@ -82,7 +103,7 @@
 <script>
 import { get, call } from "vuex-pathify";
 import primaryButton from './../../components/common/button.vue'
-
+import commonInput from '@/components/common/input.vue'
 
 export default {
   name: 'LoginPage',
@@ -91,11 +112,13 @@ export default {
       loader: false,
       loginfailed: false,
       signinChecked: "",
-      loginError: ""
-    }
+      loginError: "",
+username: "" ,
+password: ""   }
   },
   components: {
-    primaryButton
+    primaryButton,
+    commonInput
   },
   computed:{
     authenticated: get("login/authenticated"),
@@ -104,8 +127,8 @@ export default {
     loginApi: call("login/login_"),
     getProfile: call("profile/getProfile"),
     login() {
-      const username = this.$refs.username.value.toLowerCase();
-      const password = this.$refs.password.value;
+      const username = this.username.toLowerCase();
+      const password = this.password;
       if (username.length !== 0 && password.length !== 0) {
         this.loader = true;
         this.loginApi({ username: username, password: password }).then(resp => {
@@ -136,6 +159,9 @@ export default {
 
     getAlert () {
       alert('calling')
+    },
+    getVal(value, str){
+      this[str] = value.target.value
     }
   }
 }

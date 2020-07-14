@@ -7,7 +7,14 @@
       <div class="col-md-4 col-12 month_parent mt-4">
         <div class="d-flex float-right">
           <span class="text-success font-weight-bold">Reports to be review</span>
-          <input class="apple-switch form-control ml-2" v-model="setReportToReview" type="checkbox" />
+            <common-input
+             class="apple-switch form-control ml-2"
+             :type="'checkbox'"
+             @setVal="getVal($event)"
+             v-modal="setReportToReview"
+             >
+             </common-input>
+          <!-- <input class="apple-switch form-control ml-2" v-model="setReportToReview" type="checkbox" /> -->
         </div>
       </div>
     </b-row>
@@ -78,6 +85,7 @@
 import MonthlyReviewComponent from "@/components/monthlyPerformanceReview/monthlyPerformanceReview";
 import PerformanceBox from "@/components/monthlyPerformanceReview/monthlyPerformanceReview/PerformanceBox";
 import { get, call, sync } from "vuex-pathify";
+import commonInput from '@/components/common/input.vue';
 // import Alert360 from "@/components/Alert360/alert360";
 
 export default {
@@ -85,6 +93,7 @@ export default {
   components: { 
     MonthlyReviewComponent,
     PerformanceBox,
+    commonInput,
     // Alert360
   },
   data() {
@@ -157,11 +166,14 @@ export default {
       // }, 100);
       // this.activeId = emp.id;
       // console.log(this.getActiveEmp);
+      }
+    },
+    beforeDestroy() {
+      this.setReportToReview = false;
+    },
+    getVal(e){
+      this.setReportToReview = e.target.value
     }
-  },
-  beforeDestroy() {
-    this.setReportToReview = false;
-  }
 };
 </script>
 

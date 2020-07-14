@@ -7,7 +7,14 @@
       <div class="col-md-4 col-12">
         <div class="d-flex week_parent float-right mt-4">
           <span class="text-success font-weight-bold">Reports to be review</span>
-          <input class="apple-switch form-control ml-2" v-model="setReportToReview" type="checkbox" />
+            <common-input
+              class="apple-switch form-control ml-2"
+              :type="'checkbox'"
+              @setVal="getVal($event)"
+              v-model="setReportToReview"
+              >
+            </common-input>
+          <!-- <input class="apple-switch form-control ml-2" v-model="setReportToReview" type="checkbox" /> -->
         </div>
       </div>
     </b-row>
@@ -90,6 +97,7 @@
 import WeeklyReviewComponent from "@/components/weeklyReviewComponent/WeeklyReview";
 import PerformanceBox from "@/components/weeklyReviewComponent/WeeklyReview/WeeklyReviewBox";
 import { get, call, sync } from "vuex-pathify";
+import commonInput from '@/components/common/input.vue';
 // import Alert360 from "@/components/Alert360/alert360";
 
 export default {
@@ -97,6 +105,7 @@ export default {
   components: { 
     WeeklyReviewComponent,
     PerformanceBox,
+    commonInput,
     // Alert360
   },
   data() {
@@ -234,6 +243,9 @@ export default {
         .catch(() => {
           this.revokeLoader = false;
         });
+    },
+    getVal(e){
+      this.setReportToReview = e.target.value
     }
   }
 };

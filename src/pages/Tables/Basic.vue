@@ -92,10 +92,19 @@
              <tr>
                <th>
                  <div class="abc-checkbox">
-                   <input type="checkbox"
+                    <common-input
+                      class=""
+                      :id="'checkbox1'"
+                      :type="'checkbox'"
+                      @change="event => checkAll(event, 'checkboxes1')"
+                      :checked="checkboxes1[0]"
+                      >
+                    </common-input>
+                      <!-- @setVal="getVal($event, 'password')" -->
+                   <!-- <input type="checkbox"
+                    @change="event => checkAll(event, 'checkboxes1')"
                      id="checkbox1" :checked="checkboxes1[0]"
-                     @change="event => checkAll(event, 'checkboxes1')"
-                   />
+                   /> -->
                    <label for="checkbox1" />
                  </div>
                </th>
@@ -108,10 +117,18 @@
              <tr>
                <td>
                  <div class="abc-checkbox">
-                   <input type="checkbox"
+                   <common-input
+                      class=""
+                      :id="'checkbox2'"
+                      :type="'checkbox'"
+                      @change="event => changeCheck(event, 'checkboxes1', 1)"
+                      >
+                    </common-input>
+                      <!-- @setVal="getVal($event, 'password')" -->
+                   <!-- <input type="checkbox"
                      id="checkbox2" :checked="checkboxes1[1]"
                      @change="event => changeCheck(event, 'checkboxes1', 1)"
-                   />
+                   /> -->
                    <label for="checkbox2" />
                  </div>
                </td>
@@ -122,10 +139,17 @@
              <tr>
                <td>
                  <div class="abc-checkbox">
-                   <input type="checkbox"
+                    <common-input
+                      class=""
+                      :id="'checkbox3'"
+                      :type="'checkbox'"
+                      @change="event => changeCheck(event, 'checkboxes1', 2)"
+                      >
+                    </common-input>
+                   <!-- <input type="checkbox"
                      id="checkbox3" :checked="checkboxes1[2]"
                      @change="event => changeCheck(event, 'checkboxes1', 2)"
-                   />
+                   /> -->
                    <label for="checkbox3" />
                  </div>
                </td>
@@ -136,10 +160,17 @@
              <tr>
                <td>
                  <div class="abc-checkbox">
-                   <input type="checkbox"
+                    <common-input
+                      class=""
+                      :id="'checkbox4'"
+                      :type="'checkbox'"
+                      @change="event => changeCheck(event, 'checkboxes1', 3)"
+                      >
+                    </common-input>
+                   <!-- <input type="checkbox"
                      id="checkbox4" :checked="checkboxes1[3]"
                      @change="event => changeCheck(event, 'checkboxes1', 3)"
-                   />
+                   /> -->
                    <label for="checkbox4" />
                  </div>
                </td>
@@ -211,10 +242,17 @@
               <tr>
                 <th>
                   <div class="abc-checkbox">
-                    <input type="checkbox"
+                     <common-input
+                      class=""
+                      :id="'checkbox10'"
+                      :type="'checkbox'"
+                      @change="event => checkAll(event, 'checkboxes2')"
+                      >
+                    </common-input>
+                    <!-- <input type="checkbox"
                       id="checkbox10" :checked="checkboxes2[0]"
                       @change="event => checkAll(event, 'checkboxes2')"
-                    />
+                    /> -->
                     <label for="checkbox10" />
                   </div>
                 </th>
@@ -227,10 +265,17 @@
               <tr>
                 <td>
                   <div class="abc-checkbox">
-                    <input type="checkbox"
+                     <common-input
+                      class=""
+                      :id="'checkbox11'"
+                      :type="'checkbox'"
+                      @change="event => changeCheck(event, 'checkboxes2', 1)"
+                      >
+                    </common-input>
+                    <!-- <input type="checkbox"
                       id="checkbox11" :checked="checkboxes2[1]"
                       @change="event => changeCheck(event, 'checkboxes2', 1)"
-                    />
+                    /> -->
                     <label for="checkbox11" />
                   </div>
                 </td>
@@ -243,10 +288,17 @@
               <tr>
                 <td>
                   <div class="abc-checkbox">
-                    <input type="checkbox"
+                     <common-input
+                      class=""
+                      :id="'checkbox12'"
+                      :type="'checkbox'"
+                      @change="event => changeCheck(event, 'checkboxes2', 2)"
+                      >
+                    </common-input>
+                    <!-- <input type="checkbox"
                       id="checkbox12" :checked="checkboxes2[2]"
                       @change="event => changeCheck(event, 'checkboxes2', 2)"
-                    />
+                    /> -->
                     <label for="checkbox12" />
                   </div>
                 </td>
@@ -259,10 +311,17 @@
               <tr>
                 <td>
                   <div class="abc-checkbox">
-                    <input type="checkbox"
+                     <common-input
+                      class=""
+                      :id="'checkbox13'"
+                      :type="'checkbox'"
+                      @change="event => changeCheck(event, 'checkboxes2', 3)"
+                      >
+                    </common-input>
+                    <!-- <input type="checkbox"
                       id="checkbox13" :checked="checkboxes2[3]"
                       @change="event => changeCheck(event, 'checkboxes2', 3)"
-                    />
+                    /> -->
                     <label for="checkbox13" />
                   </div>
                 </td>
@@ -275,10 +334,17 @@
               <tr>
                 <td>
                   <div class="abc-checkbox">
-                    <input type="checkbox"
+                     <common-input
+                      class=""
+                      :id="'checkbox14'"
+                      :type="'checkbox'"
+                      @change="event => changeCheck(event, 'checkboxes2', 4)"
+                      >
+                    </common-input>
+                    <!-- <input type="checkbox"
                       id="checkbox14" :checked="checkboxes2[4]"
                       @change="event => changeCheck(event, 'checkboxes2', 4)"
-                    />
+                    /> -->
                     <label for="checkbox14" />
                   </div>
                 </td>
@@ -291,10 +357,17 @@
               <tr>
                 <td>
                   <div class="abc-checkbox">
-                    <input type="checkbox"
+                     <common-input
+                      class=""
+                      :id="'checkbox15'"
+                      :type="'checkbox'"
+                      @change="event => changeCheck(event, 'checkboxes2', 5)"
+                      >
+                    </common-input>
+                    <!-- <input type="checkbox"
                       id="checkbox15" :checked="checkboxes2[5]"
                       @change="event => changeCheck(event, 'checkboxes2', 5)"
-                    />
+                    /> -->
                     <label for="checkbox15" />
                   </div>
                 </td>
@@ -324,10 +397,17 @@
                 <tr>
                   <th>
                     <div class="abc-checkbox">
-                      <input type="checkbox"
+                       <common-input
+                      class=""
+                      :id="'checkbox20'"
+                      :type="'checkbox'"
+                      @change="event => checkAll(event, 'checkboxes3')"
+                      >
+                    </common-input>
+                      <!-- <input type="checkbox"
                         id="checkbox20" :checked="checkboxes3[0]"
                         @change="event => checkAll(event, 'checkboxes3')"
-                      />
+                      /> -->
                       <label for="checkbox20" />
                     </div>
                   </th>
@@ -340,10 +420,17 @@
                 <tr>
                   <td>
                     <div class="abc-checkbox">
-                      <input type="checkbox"
+                       <common-input
+                      class=""
+                      :id="'checkbox21'"
+                      :type="'checkbox'"
+                      @change="event => changeCheck(event, 'checkboxes3', 1)"
+                      >
+                    </common-input>
+                      <!-- <input type="checkbox"
                         id="checkbox21" :checked="checkboxes3[1]"
                         @change="event => changeCheck(event, 'checkboxes3', 1)"
-                      />
+                      /> -->
                       <label for="checkbox21" />
                     </div>
                   </td>
@@ -356,10 +443,17 @@
                 <tr>
                   <td>
                     <div class="abc-checkbox">
-                      <input type="checkbox"
+                       <common-input
+                      class=""
+                      :id="'checkbox22'"
+                      :type="'checkbox'"
+                      @change="event => changeCheck(event, 'checkboxes3', 2)"
+                      >
+                    </common-input>
+                      <!-- <input type="checkbox"
                         id="checkbox22" :checked="checkboxes3[2]"
                         @change="event => changeCheck(event, 'checkboxes3', 2)"
-                      />
+                      /> -->
                       <label for="checkbox22" />
                     </div>
                   </td>
@@ -372,10 +466,17 @@
                 <tr>
                   <td>
                     <div class="abc-checkbox">
-                      <input type="checkbox"
+                       <common-input
+                      class=""
+                      :id="'checkbox23'"
+                      :type="'checkbox'"
+                      @change="event => changeCheck(event, 'checkboxes3', 3)"
+                      >
+                    </common-input>
+                      <!-- <input type="checkbox"
                         id="checkbox23" :checked="checkboxes3[3]"
                         @change="event => changeCheck(event, 'checkboxes3', 3)"
-                      />
+                      /> -->
                       <label for="checkbox23" />
                     </div>
                   </td>
@@ -388,10 +489,17 @@
                 <tr>
                   <td>
                     <div class="abc-checkbox">
-                      <input type="checkbox"
+                       <common-input
+                      class=""
+                      :id="'checkbox24'"
+                      :type="'checkbox'"
+                       @change="event => changeCheck(event, 'checkboxes3', 4)"
+                      >
+                    </common-input>
+                      <!-- <input type="checkbox"
                         id="checkbox24" :checked="checkboxes3[4]"
                         @change="event => changeCheck(event, 'checkboxes3', 4)"
-                      />
+                      /> -->
                       <label for="checkbox24" />
                     </div>
                   </td>
@@ -404,10 +512,17 @@
                 <tr>
                   <td>
                     <div class="abc-checkbox">
-                      <input type="checkbox"
+                       <common-input
+                      class=""
+                      :id="'checkbox25'"
+                      :type="'checkbox'"
+                      @change="event => changeCheck(event, 'checkboxes3', 5)"
+                      >
+                    </common-input>
+                      <!-- <input type="checkbox"
                         id="checkbox25" :checked="checkboxes3[5]"
                         @change="event => changeCheck(event, 'checkboxes3', 5)"
-                      />
+                      /> -->
                       <label for="checkbox25" />
                     </div>
                   </td>
@@ -430,11 +545,12 @@
 import $ from 'jquery';
 import Vue from 'vue';
 import Widget from '@/components/Widget/Widget';
+import commonInput from '@/components/common/input.vue';
 // import 'imports-loader?jQuery=jquery,this=>window!jquery-sparkline'; // eslint-disable-line
 
 export default {
   name: 'Tables',
-  components: { Widget },
+  components: { Widget,commonInput },
   data() {
     return {
       tableStyles: [

@@ -47,14 +47,23 @@
             class="abc-checkbox abc-checkbox-success abc-checkbox-circle float-right"
           >
             <!-- <input type="checkbox" :checked="anon" v-model="anon" id="checkbox-circle"> -->
-            <input
+            <common-input
+              v-if="!spinnerLoading[index]"
+              class="regular-checkbox mr-2"
+              :id="`checkbox-circle${index}`"
+              :type="'checkbox'"
+              @click="seenStatus(junior,index)"
+              :inputVal="anonseen[index]"
+              >
+            </common-input>
+            <!-- <input
               v-if="!spinnerLoading[index]"
               @click="seenStatus(junior,index)"
               :checked="anonseen[index]"
               v-model="anonseen[index]"
               type="checkbox"
               :id="`checkbox-circle${index}`"
-            >
+            > -->
             <label
               v-b-tooltip.hover
               title="Your Junior won't know if you have seen this or not"
