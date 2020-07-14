@@ -75,8 +75,19 @@ export default {
   methods: {
     getProfile: call("profile/getProfile"),
     getAllMember_: call("allMember/getAllMember"),
-    get_profile: function() {
-      this.getProfile();
+    get_profile: async function() {
+      let response = await this.getProfile();
+      if (response.data.role === "Admin") {
+        if (this.$route.path !== '/admin/manageKpi') return this.$router.push("/admin/manageKpi");
+      } else {
+        if (localStorage.getItem("weeklyAutomate")) {
+          this.$router.push("/app/automateWeekly");
+        } else if (localStorage.getItem('updateReview') && localStorage.getItem('updateReview') === 'true') {
+          this.$router.push('/app/week/WeeklyReport')
+        } else {
+          if (this.$route.path !== '/app/profile') return this.$router.push("/app/profile");
+        }
+      }
     },
     async getallMembers() {
       let res = await this.getAllMember_();
