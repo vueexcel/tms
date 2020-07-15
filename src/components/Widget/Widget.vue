@@ -77,7 +77,7 @@
 </template>
 
 <script>
-import $ from 'jquery';
+// import $ from 'jquery';
 // import 'imports-loader?window.jQuery=jquery,this=>window!widgster'; // eslint-disable-line
 
 export default {
@@ -109,9 +109,9 @@ export default {
     },
   },
   mounted() {
-    const { options } = this;
-    options.bodySelector = '.widget-body';
-    $(this.$refs.widget).widgster(options);
+    // const { options } = this;
+    // options.bodySelector = '.widget-body';
+    // $(this.$refs.widget).widgster(options);
   },
 };
 </script>

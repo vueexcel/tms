@@ -131,17 +131,28 @@ export default {
       const password = this.password;
       if (username.length !== 0 && password.length !== 0) {
         this.loader = true;
-        this.loginApi({ username: username, password: password }).then(resp => {
+        await this.loginApi({ username: username, password: password }).then(resp => {
           if (this.signinChecked !== "") {
             this.loader = false;
           }
           if (resp === true) {
-            this.getProfile().then(() => {
+            this.getProfile().then((response) => {
               if (resp === true) {
                 this.loader = resp;
                 this.loader = false;
               } else {
                 this.loader = false;
+              }
+              if (response.data.role === "Admin") {
+                if (this.$route.path !== '/admin/manageKpi') return this.$router.push("/admin/manageKpi");
+              } else {
+                if (localStorage.getItem("weeklyAutomate")) {
+                  this.$router.push("/app/automateWeekly");
+                } else if (localStorage.getItem('updateReview') && localStorage.getItem('updateReview') === 'true') {
+                  this.$router.push('/app/week/WeeklyReport')
+                } else {
+                  if (this.$route.path !== '/app/profile') return this.$router.push("/app/profile");
+                }
               }
             });
           } else {

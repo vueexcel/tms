@@ -1,7 +1,6 @@
 import axios from './../axios'
 import { get } from 'https';
 import profile from './profile'
-import router from '../../Routes';
 const state = {
     count360: 0
 }
@@ -20,9 +19,8 @@ const actions = {
             let res = await axios.get('/360_reviews')
             return res
         } catch (err) {
-            if (err.response.status === 401) {
-                router.push("/")
-            }
+            console.log(err);
+            
         }
     },
     // ######### fetch reviews for managers & admin only ##########
