@@ -1,7 +1,7 @@
 <template>
     <button :type="type" :disabled="isLoading" class="btn" :class="[variant, width, size]" @click="callFunction($event)">
-        <span v-if="!isLoading">{{text}}</span>
-        <span v-if="isLoading">
+        <span v-if="!isLoading" data-testid="text">{{text}}</span>
+        <span v-if="isLoading" data-testid="loading">
             <i class="fa fa-circle-o-notch fa-spin"></i> Loading...
         </span>
     </button>
