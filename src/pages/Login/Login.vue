@@ -113,8 +113,8 @@ export default {
       loginfailed: false,
       signinChecked: "",
       loginError: "",
-username: "" ,
-password: ""   }
+      username: "" ,
+      password: ""   }
   },
   components: {
     primaryButton,
