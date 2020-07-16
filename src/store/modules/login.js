@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { make } from 'vuex-pathify'
+import router from './../../Routes'
 
 const state = {
     authenticated: null,

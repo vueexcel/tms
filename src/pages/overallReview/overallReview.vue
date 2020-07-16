@@ -107,11 +107,7 @@
     </b-row>
     <b-row class="my-2" v-if="user.profile.is_reset && user.profile.is_reset === true">
       <b-col>
-        <!-- <b-button variant="dark" @click="getOldReports">See Old Reports?</b-button> -->
-        <primary-button 
-          :variant="'btn-dark'"
-          :text="'See Old Reports?'"
-          @clickCall="getOldReports($event)"></primary-button>
+        <b-button variant="dark" @click="getOldReports">See Old Reports?</b-button>
       </b-col>
     </b-row>
     <b-row>
@@ -141,7 +137,7 @@
                   </div>
                     <div>{{kpiera.desc}}</div>
                   </div>
-                  <!-- <RadialProgressBar
+                  <RadialProgressBar
                     v-if="kpiera.rating"
                     class="pull-right"
                     :diameter="30"
@@ -151,7 +147,7 @@
                   >
                     <p></p>
                     <p class="fs-mini">{{ kpiera.rating.toFixed(1) }}</p>
-                  </RadialProgressBar> -->
+                  </RadialProgressBar>
                 </div>
                 <b-collapse :id="'manager' + kpiera.ID">
                   <div class="mx-1 line" v-if="user.monthly.length">
@@ -235,7 +231,7 @@
                    
                     <div>{{kpiera.desc}}</div>
                   </div>
-                  <!-- <RadialProgressBar
+                  <RadialProgressBar
                     v-if="kpiera.rating"
                     class="pull-right"
                     :diameter="30"
@@ -245,7 +241,7 @@
                   >
                     <p></p>
                     <p class="fs-mini">{{ kpiera.rating.toFixed(1) }}</p>
-                  </RadialProgressBar> -->
+                  </RadialProgressBar>
                 </div>
                 <b-collapse :id="'manager' + kpiera.ID">
                   <div class="mx-1 line" v-if="user.monthly.length">
@@ -430,11 +426,10 @@ import Widget from "@/components/Widget/Widget";
 // import AreaComponent from "@/components/Area/Area";
 import dummyimage from "@/components/Group/person-dummy.jpg";
 import { call, sync } from "vuex-pathify";
-// import RadialProgressBar from "vue-radial-progress";
+import RadialProgressBar from "vue-radial-progress";
 import moment from "moment";
 import Stars from "@/components/Star/Star.vue";
 import Alert360 from "@/components/Alert360/alert360";
-import primaryButton from '@/components/common/button.vue'
 
 export default {
   data() {
@@ -451,11 +446,10 @@ export default {
   },
   components: {
     Widget,
-    // RadialProgressBar,
+    RadialProgressBar,
     // AreaComponent,
     Alert360,
-    Stars,
-    primaryButton
+    Stars
   },
   async mounted() {
     if (this.$route.params && Object.keys(this.$route.params).length) {
@@ -620,19 +614,8 @@ export default {
     getProfile: call("profile/getProfile"),
     getActivity: call("profile/getActivity"),
     getOldReports_: call("allMember/getOldReports"),
-    get_profile: async function() {
-      let response = await this.getProfile();
-      if (response.data.role === "Admin") {
-        if (this.$route.path !== '/admin/manageKpi') return this.$router.push("/admin/manageKpi");
-      } else {
-        if (localStorage.getItem("weeklyAutomate")) {
-          this.$router.push("/app/automateWeekly");
-        } else if (localStorage.getItem('updateReview') && localStorage.getItem('updateReview') === 'true') {
-          this.$router.push('/app/week/WeeklyReport')
-        } else {
-          if (this.$route.path !== '/app/profile') return this.$router.push("/app/profile");
-        }
-      }
+    get_profile: function() {
+      this.getProfile();
     },
     get_activity: function() {
       this.getActivity();

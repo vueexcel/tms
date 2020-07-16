@@ -175,7 +175,7 @@
               <div class="form-actions">
                 <div class="row">
                   <div class="col-md-4 col-12">
-                    <!-- <button
+                    <button
                       type="button"
                       class="btn btn-success"
                       v-if="deleteReport === false && !loading"
@@ -183,32 +183,16 @@
                     >Submit</button>
                     <button type="button" class="btn btn-success" v-if="loading">
                       <i class="fa fa-circle-o-notch fa-spin"></i>
-                    </button> -->
-                    <primary-button
-                      v-if="deleteReport === false"
-                      :type="'button'" 
-                      :text="'Submit'"
-                      :isLoading="loading"
-                      :variant="'btn-success'"
-                      @clickCall="submitWeeklyReview($event)"
-                    ></primary-button>
+                    </button>
                   </div>
                   <div class="col-md-4 col-12">
-                    <!-- <button
+                    <button
                       type="button"
                       class="btn btn-danger"
                       :disabled="disableDelete"
                       v-if="deleteReport === true && !loading"
                       @click="deletereportFunct"
-                    >Delete</button> -->
-                    <primary-button
-                      v-if="deleteReport === true && !loading"
-                      :type="'button'" 
-                      :text="'Delete'"
-                      :isLoading="disableDelete"
-                      :variant="'btn-danger'"
-                      @clickCall="deletereportFunct($event)"
-                      ></primary-button>
+                    >Delete</button>
                   </div>
                 </div>
               </div>
@@ -227,15 +211,13 @@
 // import "imports-loader?jQuery=jquery,this=>window!flot/jquery.flot.pie";
 import starRating from "@/components/Star/Star";
 import Alert360 from "@/components/Alert360/alert360";
-import primaryButton from '@/components/common/button.vue'
 import { get, call } from "vuex-pathify";
 
 export default {
   name: "WeeklyReview",
   components: {
     starRating,
-    Alert360,
-    primaryButton
+    Alert360
   },
   data() {
     return {

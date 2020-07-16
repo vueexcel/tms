@@ -27,5 +27,5 @@ jobs:
         node-version: ${{ matrix.node-version }}
     
     - run: npm install
-    # - run: CI=false npm run build # commented as lint is failing. need to fix linting and uncomment
+    - run: npm run build
     - run: npm test

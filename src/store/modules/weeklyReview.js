@@ -1,5 +1,6 @@
 import { make } from "vuex-pathify";
 import axios from "axios";
+import router from "./../../Routes";
 // setup store
 const state = {
   report: {},
@@ -51,7 +52,9 @@ const actions = {
       let response = await axios.get("/weekly");
       return response.data;
     } catch (err) {
-      if (err.response) {
+      if (err.response.status === 401) {
+        router.push("/");
+      } else if (err.response) {
         return err.response;
       } else {
         return "Api server down";

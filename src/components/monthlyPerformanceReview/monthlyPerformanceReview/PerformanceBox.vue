@@ -148,7 +148,7 @@
               variant="danger"
               dismissible
             >{{alertMessage}}</b-alert>
-            <!-- <b-button
+            <b-button
               variant="primary"
               v-if="!managerComment.review && !loadingSubmitButton"
               class="width-100 mb-xs mr-xs mt-4"
@@ -159,32 +159,14 @@
               v-if="!managerComment.review && loadingSubmitButton"
               class="width-100 mb-xs mr-xs mt-4"
               type="submit"
-            ><i class="fa fa-circle-o-notch fa-spin"></i></b-button> -->
-            <primary-button
-              v-if="!managerComment.review"
-              class="mb-xs mr-xs mt-4"
-              :type="'submit'" 
-              :text="'Submit'"
-              :variant="'btn-primary'"
-              :width="'width-100'"
-              :isLoading="loadingSubmitButton"
-            ></primary-button>
-            <!-- <b-button
+            ><i class="fa fa-circle-o-notch fa-spin"></i></b-button>
+            <b-button
               variant="danger"
               v-if="managerComment.review && !loadingSubmitButton"
               @click="delReport"
               class="width-100 mb-xs mr-xs mt-4"
               type="button"
-            >Delete</b-button> -->
-            <primary-button
-              v-if="!managerComment.review && !loadingSubmitButton"
-              class="mb-xs mr-xs mt-4"
-              :type="'button'" 
-              :text="'Delete'"
-              :variant="'btn-danger'"
-              :width="'width-100'"
-              @clickCall="delReport($event)"
-            ></primary-button>
+            >Delete</b-button>
           </b-form>
         </div>
       </b-col>
@@ -196,9 +178,7 @@
 <script>
 import starRating from "@/components/Star/Star";
 // import UserMonthlyReport from "@/components/UserMonthlyReport/UserMonthlyReport";
-import primaryButton from '@/components/common/button.vue'
 import { sync, call, get } from "vuex-pathify";
-
 export default {
   name: "PerformanceBox",
   props: {
@@ -227,8 +207,7 @@ export default {
     };
   },
   components: {
-    starRating: starRating,
-    primaryButton: primaryButton
+    starRating: starRating
     // UserMonthlyReport: UserMonthlyReport
   },
   computed: {

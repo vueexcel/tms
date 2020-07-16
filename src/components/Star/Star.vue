@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex justify-content-between">
-    <div class="text-dark" data-testid="star">
+    <div class="text-dark">
       <h2>
         <i
           class="far fa-star mr-xs pointer"

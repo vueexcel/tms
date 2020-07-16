@@ -4,14 +4,7 @@
       <b-modal v-model="success" size="sm" centered :headerBgVariant="header">
         {{showSuccess}}
         <div slot="modal-footer" class="w-100">
-          <!-- <b-button variant="white" size="sm" class="float-right" @click="closeInfoModal">Close</b-button> -->
-          <primary-button 
-            :variant="'btn-white'" 
-            :size="'btn-sm'" 
-            class="float-right"
-            :type="'button'" 
-            :text="'Close'"
-            @clickCall="closeInfoModal($event)" ></primary-button>
+          <b-button variant="white" size="sm" class="float-right" @click="closeInfoModal">Close</b-button>
         </div>
       </b-modal>
     </div>
@@ -137,19 +130,11 @@
                 <span v-if="activeReport.canReview == true">
                   <b-row>
                     <b-col v-if="userProfile.easyRating !== true">
-                      <!-- <b-button
+                      <b-button
                         :disabled="activeReport.canReview == false"
                         class="btn btn-default btn-lg mb-xs bg-primary text-white mt-4"
                         @click="submit"
-                      >Submit</b-button> -->
-                      <primary-button 
-                        :variant="'btn-primary'"
-                        class=" mb-xs mt-4"
-                        :type="'button'" 
-                        :text="'Submit'"
-                        :size="'btn-lg'"
-                        :isLoading="activeReport.canReview == false"
-                        @clickCall="submit" ></primary-button>
+                      >Submit</b-button>
                     </b-col>
                     <b-col>
                       <h5>
@@ -162,7 +147,7 @@
                 </span>
                 <!-- :disabled="activeReport.canReview == false" -->
                 <span v-if="activeReport.weekly_cron === false">
-                  <!-- <b-button
+                  <b-button
                     class="btn btn-default btn-lg mb-xs bg-warning text-dark mt-4 w-25"
                     @click="revoke(activeReport)"
                   >
@@ -170,37 +155,16 @@
                     <span v-if="revokeLoader">
                       <i class="fa fa-circle-o-notch fa-spin"></i>
                     </span>
-                  </b-button> -->
-                  
-
-                  <primary-button 
-                    :variant="'btn-warning'" 
-                    :size="'btn-lg'"
-                    :width="'w-25'"
-                    class="btn btn-default mb-xs text-dark mt-4 "
-                    :type="'button'" 
-                    :text="'Revoke'"
-                    :isLoading="revokeLoader"
-                    @clickCall="revoke($event, activeReport)"></primary-button>
+                  </b-button>
                 </span>
                 <span v-if="activeReport.canReview == false" class="d-flex flex-row-reverse">
                   <!-- class="btn btn-default btn-lg mb-xs bg-primary text-white mt-4" -->
-                  <!-- <b-button
+                  <b-button
                     variant="danger"
                     class="btn btn-lg width-100 mb-xs mr-xs mt-4 float-right"
                     :disabled="userProfile.role == 'admin'?true:false"
                     @click="deleteReport()"
-                  >Delete</b-button> -->
-
-                  <primary-button 
-                    :variant="'btn-warning'" 
-                    :size="'btn-lg'"
-                    :width="'w-100'"
-                    class="btn mb-xs mr-xs mt-4 float-right"
-                    :type="'button'" 
-                    :text="'Delete'"
-                    :isLoading="userProfile.role == 'admin'?true:false"
-                    @clickCall="deleteReport($event)"></primary-button>
+                  >Delete</b-button>
                 </span>
               </div>
               <div class v-if="errorMessageDel">
@@ -273,7 +237,7 @@
       </template>
 
       <template slot="modal-footer">
-        <!-- <b-button
+        <b-button
           variant="primary"
           size="sm"
           v-if="!loadingSkip"
@@ -283,17 +247,7 @@
         <b-button variant="primary" size="sm" v-if="loadingSkip" class="float-right">
           <span class="mr-2">Loading...</span>
           <i class="fas fa-circle-notch fa-spin"></i>
-        </b-button> -->
-        
-
-        <primary-button 
-          :variant="'btn-warning'" 
-          :size="'btn-sm'"
-          class="float-right"
-          :type="'button'" 
-          :text="'Submit Reason'"
-          :isLoading="loadingSkip"
-          @clickCall="submitSkip($event)"></primary-button>
+        </b-button>
       </template>
       <!-- -->
     </b-modal>
@@ -341,7 +295,6 @@
 import starRating from "@/components/Star/Star";
 import emoticonRating from "@/components/Star/emojiRating.vue"
 import ExtraWorkFeedback from "./../../../components/ExtraWorkFeedback/ExtraWorkFeedback";
-import primaryButton from '@/components/common/button.vue'
 import { get, call, sync } from "vuex-pathify";
 
 export default {
@@ -385,8 +338,7 @@ export default {
   components: {
     starRating,
     emoticonRating,
-    ExtraWorkFeedback,
-    primaryButton
+    ExtraWorkFeedback
   },
   props: {
     employee: {

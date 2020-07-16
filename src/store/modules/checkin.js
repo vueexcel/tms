@@ -2,6 +2,7 @@ import {
     make
 } from 'vuex-pathify'
 import axios from 'axios'
+import router from './../../Routes'
 
 // setup store
 
@@ -47,10 +48,8 @@ const actions = {
                 commit('reports', res.data)
             })
             .catch((err) => {
-                if (err.response) {
-                    return err.response.data.msg
-                } else {
-                    return 'API Server Down'
+                if (err.response.status === 401) {
+                    router.push("/")
                 }
             })
     },

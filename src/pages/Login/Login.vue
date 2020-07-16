@@ -2,14 +2,14 @@
   <b-container>
     <b-row class="wrapper">
       <b-col class="p-5">
-        <!-- <h5 class="logo pb-4">
+        <h5 class="logo pb-4">
           <img src="./../../images/logo.png" height="60" width="300" alt="logo" />
-        </h5> -->
+        </h5>
         <span>Welcome to</span>
         <h6 class="botton_padding weight">Team Management System</h6>
         <div class="login-form">
           <form @submit.prevent="login">
-            <div class="alert alert-danger alert-sm" v-if="loginfailed" data-testid="error" id="error">
+            <div class="alert alert-danger alert-sm" v-if="loginfailed">
               <button
                 type="button"
                 class="close"
@@ -23,7 +23,6 @@
               <input
                 class="form-control no-border"
                 ref="username"
-                id="username"
                 required
                 type="text"
                 name="username"
@@ -35,26 +34,17 @@
               <input
                 class="form-control no-border"
                 ref="password"
-                id="password"
                 required
                 type="password"
                 name="password"
                 placeholder="Password"
               />
-              <!-- <button type="submit" :disabled="loader" class="w-100 btn btn-inverse btn-sm mt-4">
+              <button type="submit" :disabled="loader" class="w-100 btn btn-inverse btn-sm mt-4">
                 <span v-if="!loader">Login</span>
                 <span v-if="loader">
                   <i class="fa fa-circle-o-notch fa-spin"></i> Loading...
                 </span>
-              </button> -->
-              <primary-button
-                :type="'submit'"
-                class="mt-4" 
-                :text="'Login'"
-                :isLoading="loader"
-                :variant="'btn-inverse'"
-                :width="'w-100'"
-                :size="'btn-sm'"></primary-button>
+              </button>
             </div>
           </form>
         </div>
@@ -81,8 +71,6 @@
 
 <script>
 import { get, call } from "vuex-pathify";
-import primaryButton from './../../components/common/button.vue'
-
 
 export default {
   name: 'LoginPage',
@@ -94,42 +82,28 @@ export default {
       loginError: ""
     }
   },
-  components: {
-    primaryButton
-  },
   computed:{
     authenticated: get("login/authenticated"),
   },
   methods: {
     loginApi: call("login/login_"),
     getProfile: call("profile/getProfile"),
-    async login() {
+    login() {
       const username = this.$refs.username.value.toLowerCase();
       const password = this.$refs.password.value;
       if (username.length !== 0 && password.length !== 0) {
         this.loader = true;
-        await this.loginApi({ username: username, password: password }).then(resp => {
+        this.loginApi({ username: username, password: password }).then(resp => {
           if (this.signinChecked !== "") {
             this.loader = false;
           }
           if (resp === true) {
-            this.getProfile().then((response) => {
+            this.getProfile().then(() => {
               if (resp === true) {
                 this.loader = resp;
                 this.loader = false;
               } else {
                 this.loader = false;
-              }
-              if (response.data.role === "Admin") {
-                if (this.$route.path !== '/admin/manageKpi') return this.$router.push("/admin/manageKpi");
-              } else {
-                if (localStorage.getItem("weeklyAutomate")) {
-                  this.$router.push("/app/automateWeekly");
-                } else if (localStorage.getItem('updateReview') && localStorage.getItem('updateReview') === 'true') {
-                  this.$router.push('/app/week/WeeklyReport')
-                } else {
-                  if (this.$route.path !== '/app/profile') return this.$router.push("/app/profile");
-                }
               }
             });
           } else {
@@ -137,21 +111,12 @@ export default {
             this.loginfailed = true;
             this.loginError = resp.charAt(0).toUpperCase() + resp.slice(1);
           }
-        }).catch((error) => {
-          if (error.status === 500) {
-            this.loginfailed = true
-            this.loginError = 'Gettting some issue'
-          }
         });
       }
     },
     closeError() {
       this.loginfailed = false;
       this.loginError = "";
-    },
-
-    getAlert () {
-      alert('calling')
     }
   }
 }

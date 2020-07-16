@@ -61,18 +61,12 @@
                 :label-cols="2"
                 breakpoint="md"
               >
-                <!-- <b-button variant="primary" type="submit" class="mr-xs w-28">
+                <b-button variant="primary" type="submit" class="mr-xs w-28">
                   <span v-if="loadingSlackToken">
                     <i class="fa fa-circle-o-notch fa-spin"></i>
                   </span>
                   <span v-else>Save Changes</span>
-                </b-button> -->
-                <primary-button 
-                class="mr-xs w-28"
-                :variant="'btn-primary'"
-                :text="'Save Changes'"
-                :isLoading="loadingSlackToken"
-                :type="'submit'"></primary-button>
+                </b-button>
               </b-form-group>
             </b-form>
           </b-form-group>
@@ -345,12 +339,10 @@
 
 <script>
 import Widget from "@/components/Widget/Widget";
-import primaryButton from '@/components/common/button.vue'
 import { call, sync } from "vuex-pathify";
 export default {
   components: {
-    Widget,
-    primaryButton
+    Widget
   },
   created() {
     this.getSlackSettings();

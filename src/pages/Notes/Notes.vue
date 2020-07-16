@@ -5,13 +5,7 @@
       <b-modal v-model="success" size="sm" centered :headerBgVariant="header">
         {{showSuccess}}
         <div slot="modal-footer" class="w-100">
-          <!-- <b-button variant="white" size="sm" class="float-right" @click="closeInfoModal">Close</b-button> -->
-          <primary-button 
-            class="float-right"
-            :variant="'btn-white'"
-            :size="'btn-sm'"
-            :text="'Close'"
-            @clickCall="closeInfoModal($event)"></primary-button>
+          <b-button variant="white" size="sm" class="float-right" @click="closeInfoModal">Close</b-button>
         </div>
       </b-modal>
     </div>
@@ -185,7 +179,6 @@ import Vue from "vue";
 import { call, get } from "vuex-pathify";
 import Widget from "@/components/Widget/Widget";
 import defaultImage from "@/components/Group/person-dummy.jpg";
-import primaryButton from '@/components/common/button.vue'
 
 export default {
   data() {
@@ -207,8 +200,7 @@ export default {
     };
   },
   components: {
-    Widget,
-    primaryButton
+    Widget
   },
   computed: {
     emp_arr: get("weeklyReportReview/allJuniors"),

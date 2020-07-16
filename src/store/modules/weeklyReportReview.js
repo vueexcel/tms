@@ -1,5 +1,6 @@
 import { make } from "vuex-pathify";
 import axios from "axios";
+import router from './../../Routes'
 // setup store
 const state = {
   allJuniors: [],
@@ -62,7 +63,10 @@ const actions = {
       let response = await axios.get('/junior_review_response')
       return response.data
     } catch (err) {
-      if (err.response) {
+      if (err.response.status === 401) {
+        router.push("/")
+      }
+      else if (err.response) {
         return err.response.data.msg
       } else {
         return 'API Server Down'

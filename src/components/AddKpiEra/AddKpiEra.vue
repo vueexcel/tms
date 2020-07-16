@@ -245,19 +245,8 @@ export default {
     closeAlert() {
       this.alertIndex = -1;
     },
-    async get_profile() {
-      let response = await this.getProfile();
-      if (response.data.role === "Admin") {
-        if (this.$route.path !== '/admin/manageKpi') return this.$router.push("/admin/manageKpi");
-      } else {
-        if (localStorage.getItem("weeklyAutomate")) {
-          this.$router.push("/app/automateWeekly");
-        } else if (localStorage.getItem('updateReview') && localStorage.getItem('updateReview') === 'true') {
-          this.$router.push('/app/week/WeeklyReport')
-        } else {
-          if (this.$route.path !== '/app/profile') return this.$router.push("/app/profile");
-        }
-      }
+    get_profile: function() {
+      this.getProfile();
     },
     addKpi: function(index, team_) {
       // update API needs to be called everyTime
