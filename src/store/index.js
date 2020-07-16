@@ -2,7 +2,6 @@ import Vue from "vue";
 import Vuex from "vuex";
 // eslint-disable-next-line
 import pathify from "./pathify";
-// import createPersistedState from "vuex-persistedstate";
 import login from "./modules/login";
 import checkin from "./modules/checkin";
 import profile from "./modules/profile";
@@ -23,8 +22,9 @@ import notes from './modules/notes'
 import layout from "./layout";
 
 Vue.use(Vuex);
-export default new Vuex.Store({
-  // plugins: [createPersistedState(), pathify.plugin],
+
+export const store = {
+  // plugins: [pathify.plugin],
   modules: {
     layout,
     login,
@@ -44,4 +44,6 @@ export default new Vuex.Store({
     peerreview,
     notes
   }
-});
+}
+
+export default new Vuex.Store(store);

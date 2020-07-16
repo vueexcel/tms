@@ -1,5 +1,4 @@
 import axios from './../axios'
-import router from '../../Routes';
 const state = {}
 const actions = {
     async postReview({ state, dispatch, commit }, payload) {
@@ -36,9 +35,8 @@ const actions = {
                 return res
             }
         } catch (error) {
-            if (error.response.status === 401) {
-                router.push("/")
-            }
+            console.log(error);
+            
         }
     }
 }

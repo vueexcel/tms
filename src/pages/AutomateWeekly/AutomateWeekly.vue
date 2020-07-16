@@ -44,7 +44,7 @@
                 class="fw-bold alert-transparent mt-3"
               >{{ message }}</b-alert>
             </div>
-            <b-button
+            <!-- <b-button
               class="border-0"
               style="width: 200px;"
               :variant="loading ? 'secondary' : 'danger'"
@@ -55,7 +55,16 @@
               <span v-if="loading">
                 <i class="fa fa-circle-o-notch fa-spin"></i>
               </span>
-            </b-button>
+            </b-button> -->
+
+            <primary-button 
+              class="border-0"
+              style="width: 200px;"
+              :variant="loading ? 'btn-secondary' : 'btn-danger'"
+              :type="'button'" 
+              :text="'Submit weekly anyways'"
+              :isLoading="loading"
+              @clickCall="sendWeeklyReport($event)"></primary-button>
           </b-card>
         </b-col>
       </b-row>
@@ -67,6 +76,8 @@
 // import Widget from "@/components/Widget/Widget";
 import { call } from "vuex-pathify";
 import mountains from "../../assets/cards/lifestyle.jpg";
+import primaryButton from '@/components/common/button.vue'
+
 
 export default {
   name: "AutomateWeekly",
@@ -107,6 +118,9 @@ export default {
           console.log(err);
         });
     }
+  },
+  components:{
+    primaryButton
   }
 };
 </script>

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { make } from "vuex-pathify";
-import router from "./../../Routes";
+// import router from "./../../Routes";
 
 // setup store
 const state = {
@@ -19,22 +19,26 @@ const actions = {
         if (payload && payload.reload) {
           return true;
         } else {
-          if (response.data.role === "Admin") {
-            if (router.currentRoute.path !== '/admin/manageKpi') return router.push("/admin/manageKpi");
-          } else {
+          if (response.data.role === "Admin"){
             dispatch("getManagerReviewStatus");
-            if (payload === undefined) {
-              if (localStorage.getItem("weeklyAutomate")) {
-                router.push("/app/automateWeekly");
-              } else if (localStorage.getItem('updateReview') && localStorage.getItem('updateReview') === 'true') {
-                router.push('/app/week/WeeklyReport')
-              } else {
-                if (router.currentRoute.path !== '/app/profile') return router.push("/app/profile");
-              }
-            }
           }
+          return response
+          // if (response.data.role === "Admin") {
+          //   if (router.currentRoute.path !== '/admin/manageKpi') return router.push("/admin/manageKpi");
+          // } else {
+          //   dispatch("getManagerReviewStatus");
+          //   if (payload === undefined) {
+          //     if (localStorage.getItem("weeklyAutomate")) {
+          //       router.push("/app/automateWeekly");
+          //     } else if (localStorage.getItem('updateReview') && localStorage.getItem('updateReview') === 'true') {
+          //       router.push('/app/week/WeeklyReport')
+          //     } else {
+          //       if (router.currentRoute.path !== '/app/profile') return router.push("/app/profile");
+          //     }
+          //   }
+          // }
         }
-        return true;
+        // return true;
       } else {
         // commit('loginfailed', err)
       }

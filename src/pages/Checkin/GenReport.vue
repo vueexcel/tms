@@ -79,7 +79,13 @@
             </b-form-checkbox-group>
           </b-form-group>
         </div>
-        <button type="submit" class="btn btn-primary btn-lg mb-xs fs-sm pl-4 pr-4 mt-3">SUBMIT</button>
+        <!-- <button type="submit" class="btn btn-primary btn-lg mb-xs fs-sm pl-4 pr-4 mt-3">SUBMIT</button> -->
+        <primary-button 
+          :type="'submit'"
+          class="mb-xs fs-sm pl-4 pr-4 mt-3"
+          :variant="'btn-primary'" 
+          :text="'SUBMIT'" 
+          :size="'btn-lg'"></primary-button>
       </Widget>
     </b-form>
 
@@ -91,8 +97,20 @@
         <div class="text-center">
           <div class="fw-bold fs-larger">Checkin for Today already exist</div>
           <p>What do you want to do with existing checkin for today</p>
-          <b-button variant="danger" class="width-100 mb-xs mr-xs" @click="emitDeleteCheckin">Delete</b-button>
-          <b-button variant="primary" class="width-100 mb-xs mr-xs" @click="updateCheckin">Update</b-button>
+          <!-- <b-button variant="danger" class="width-100 mb-xs mr-xs" @click="emitDeleteCheckin">Delete</b-button> -->
+           <primary-button 
+            class="mb-xs mr-xs"
+            :variant="'btn-danger'"
+            :width="'width-100'"
+            :text="'Delete'"
+            @clickCall="emitDeleteCheckin($event)"></primary-button>
+          <!-- <b-button variant="primary" class="width-100 mb-xs mr-xs" @click="updateCheckin">Update</b-button> -->
+          <primary-button 
+            class="mb-xs mr-xs"
+            :variant="'btn-primary'"
+            :width="'width-100'"
+            :text="'Update'"
+            @clickCall="updateCheckin($event)"></primary-button>
         </div>
       </b-modal>
     </div>
@@ -102,10 +120,11 @@
 <script>
 import { sync, get } from "vuex-pathify";
 import Widget from "@/components/Widget/Widget";
+import primaryButton from '@/components/common/button.vue'
 import { VueEditor } from "vue2-editor";
 
 export default {
-  components: { Widget, VueEditor },
+  components: { Widget, VueEditor, primaryButton },
   computed: {
     missedCheckin: get("profile/user"),
     changeSelectOption: sync("checkin/changeSelectOption"),

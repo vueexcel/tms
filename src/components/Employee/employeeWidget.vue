@@ -117,7 +117,7 @@
 <script>
 //eslint-disable-next-line
 import $ from "jquery";
-import "imports-loader?window.jQuery=jquery,this=>window!widgster"; 
+// import "imports-loader?window.jQuery=jquery,this=>window!widgster"; 
 //eslint-disable-next-line
 import ManagerComponent from "@/components/Employee/ManagerComponent/ManagerComponent";
 //eslint-disable-next-line
