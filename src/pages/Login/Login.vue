@@ -132,13 +132,14 @@ export default {
                 }
               }
             });
-          } else {
+          } else {            
             this.loader = false;
             this.loginfailed = true;
             this.loginError = resp.charAt(0).toUpperCase() + resp.slice(1);
           }
         }).catch((error) => {
           if (error.status === 500) {
+            this.loader = false
             this.loginfailed = true
             this.loginError = 'Gettting some issue'
           }

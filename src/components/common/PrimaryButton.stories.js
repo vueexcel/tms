@@ -1,7 +1,7 @@
 import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
 
-import primaryButton from './../src/components/common/button';
+import primaryButton from './button';
 
 export default {
   title: 'Primary Button',

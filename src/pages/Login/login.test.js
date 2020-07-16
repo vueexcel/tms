@@ -66,6 +66,10 @@ test('login success', async () => {
       loginApi: () => jest.fn()
     },
   }
+  const fakeDetail = {
+    username: 'abc',
+    password: '13456'
+  }
   server.use(
     rest.post(
       "http://tms.api.excellencetechnologies.in/auth/login",
@@ -79,23 +83,31 @@ test('login success', async () => {
       }
     )
   );
-  let { queryByText, getByText, getByTestId, getByRole } = render(Login, { store: { ...store, ...customStore } });
+  let { queryByText, getByText, getByTestId, getByRole, getByPlaceholderText } = render(Login, { store: { ...store, ...customStore } });
+  const user = getByPlaceholderText('Username')
+  const pass = getByPlaceholderText('Password')
+
+  await fireEvent.update(user, fakeDetail.username)
+  await fireEvent.update(pass, fakeDetail.password)
+
+  expect(getByText("Login")).toBeInTheDocument(true);
   await waitFor(() => {
-    expect(getByText("Login")).toBeInTheDocument(true);
+    userEvent.click(getByText("Login"));
   });
-  userEvent.click(getByText("Login"));
-  expect(getByTestId("text")).toBeInTheDocument(true); //on button click we should have loading
-  await waitFor(() => {
-    expect(queryByText("Login")).toBeInTheDocument(true);
-  });
-  expect(getByRole("button")).toHaveProperty("disabled", false);
+  expect(getByTestId("loading")).toBeInTheDocument(true); //on button click we should have loading
+  
+  // await waitFor(() => {
+  //   expect(queryByText("Login")).toBeInTheDocument(true);
+  // });
+  // expect(getByRole("button")).toHaveProperty("disabled", true);
 })
 
 
 test("login failure", async () => {
   const customStore = {
     actions: {
-      loginApi: () => jest.fn()
+      loginApi: () => jest.fn(),
+      getProfile: () => jest.fn()
     },
   }
   const fakeDetail = {
@@ -106,14 +118,14 @@ test("login failure", async () => {
     rest.post(
       "http://tms.api.excellencetechnologies.in/auth/login",
       (req, res, ctx) => {
-        console.log(req, "failure");
+        console.log(req, "failure =======>>>");
         console.log(req.body.action)
         if (JSON.parse(req.body).action === "get_generic_configuration") {
           return res(ctx.json(configapiresponse));
         } else {
           return res(
             ctx.status(500),
-            ctx.json({ error: 1, data: { message: "Invalid Login" } })
+            ctx.json({"msg":"invalid login"})
           );
         }
       }
@@ -127,12 +139,12 @@ test("login failure", async () => {
   await fireEvent.update(pass, fakeDetail.password)
 
   expect(queryByText("Login")).toBeInTheDocument(true);
+  userEvent.click(queryByText("Login"));
   await waitFor(() => {
-    userEvent.click(queryByText("Login"));
+      expect(getByTestId("loading")).toBeInTheDocument(); //on button click we should have loading
   });
-  // expect(getByTestId("text")).toBeInTheDocument(); //on button click we should have loading
-  // await waitFor(() => {
-  //   expect(queryByText("Login")).toBeInTheDocument(true);
-  // });
-  // expect(getByTestId("error")).toBeInTheDocument(true)
+  await waitFor(() => {
+    // expect(getByTestId("text")).toBeInTheDocument(true);
+    expect(getByTestId("error").childElementCount).toBe(1);
+  });
 });
