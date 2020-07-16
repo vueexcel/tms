@@ -6,17 +6,13 @@ import "@testing-library/jest-dom/extend-expect";
 import { rest } from "msw";
 import Vue from 'vue'
 import { setupServer } from "msw/node";
-import store from '../../store'
-import { make } from 'vuex-pathify'
-// Vue.use(Router)
+import { store } from '../../store'
 
 import Login from "./Login.vue"
-import Vuex from 'vuex'
+
 
 
 import { BootstrapVue } from 'bootstrap-vue'
-
-Vue.use(Vuex)
 Vue.use(BootstrapVue)
 
 const configapiresponse = {
@@ -42,13 +38,13 @@ afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
 test("login form to render", async () => {
-  const customStore = {
-    actions: {
-      loginApi: () => jest.fn()
-    },
-  }
+  // const customStore = {
+  //   actions: {
+  //     loginApi: () => jest.fn()
+  //   },
+  // }
 
-  const { container, getByPlaceholderText, getByText } = await render(Login, { store : { ...store, ...customStore } })
+  const { container, getByPlaceholderText, getByText } = await render(Login, { store: { ...store } })
 
   expect(getByPlaceholderText("Username")).toBeInTheDocument()
   expect(getByPlaceholderText("Password")).toBeInTheDocument()
@@ -80,7 +76,7 @@ test('login success', async () => {
         } else if (req.body.action === "login") {
           return res(ctx.json(loginapiresponse));
         }
-      } 
+      }
     )
   );
   let { queryByText, getByText, getByTestId, getByRole } = render(Login, { store: { ...store, ...customStore } });
