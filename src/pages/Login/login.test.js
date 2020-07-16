@@ -130,10 +130,10 @@ test("login failure", async () => {
   await fireEvent.update(user, fakeDetail.username)
   await fireEvent.update(pass, fakeDetail.password)
 
+  expect(queryByText("Login")).toBeInTheDocument(true);
   await waitFor(() => {
-    expect(queryByText("Login")).toBeInTheDocument(true);
+    userEvent.click(queryByText("Login"));
   });
-  userEvent.click(queryByText("Login"));
   // expect(getByTestId("text")).toBeInTheDocument(); //on button click we should have loading
   // await waitFor(() => {
   //   expect(queryByText("Login")).toBeInTheDocument(true);

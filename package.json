@@ -8,7 +8,9 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "test": "jest",
-    "start": "node server.js"
+    "start": "node server.js",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "dependencies": {
     "@vue/babel-preset-app": "^4.4.6",
@@ -61,6 +63,11 @@
     "widgster": "^1.0.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.10.5",
+    "@storybook/addon-actions": "^5.3.19",
+    "@storybook/addon-links": "^5.3.19",
+    "@storybook/addons": "^5.3.19",
+    "@storybook/vue": "^5.3.19",
     "@testing-library/jest-dom": "^5.11.0",
     "@testing-library/user-event": "^12.0.11",
     "@testing-library/vue": "^5.0.4",
@@ -70,7 +77,9 @@
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.1.0",
+    "babel-loader": "^8.1.0",
     "babel-preset-env": "^1.7.0",
+    "babel-preset-vue": "^2.0.2",
     "jest": "^26.1.0",
     "jest-serializer-vue": "^2.0.2",
     "jest-transform-stub": "^2.0.0",
