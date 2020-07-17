@@ -38,6 +38,8 @@
               :placeholder="'Username'"
               :id="'username'"
               v-model="username"
+              required
+              autofocus
               >
             </common-input>
             </div>
@@ -59,6 +61,7 @@
               :name="'password'"
               :placeholder="'Password'"
               v-model="password"
+              required
               >
               </common-input>
               <!-- <button type="submit" :disabled="loader" class="w-100 btn btn-inverse btn-sm mt-4">
@@ -126,7 +129,7 @@ export default {
   methods: {
     loginApi: call("login/login_"),
     getProfile: call("profile/getProfile"),
-    login() {
+    async login() {
       const username = this.username.toLowerCase();
       const password = this.password;
       if (username.length !== 0 && password.length !== 0) {
@@ -171,8 +174,8 @@ export default {
     getAlert () {
       alert('calling')
     },
-    getVal(value, str){
-      this[str] = value.target.value
+    getVal(e, str){
+      this[str] = e.target.value
     }
   }
 }

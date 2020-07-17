@@ -118,10 +118,10 @@
                <td>
                  <div class="abc-checkbox">
                    <common-input
-                      class=""
                       :id="'checkbox2'"
                       :type="'checkbox'"
                       @change="event => changeCheck(event, 'checkboxes1', 1)"
+                      :checked="checkboxes1[1]"
                       >
                     </common-input>
                       <!-- @setVal="getVal($event, 'password')" -->
@@ -140,10 +140,10 @@
                <td>
                  <div class="abc-checkbox">
                     <common-input
-                      class=""
                       :id="'checkbox3'"
                       :type="'checkbox'"
                       @change="event => changeCheck(event, 'checkboxes1', 2)"
+                      :checked="checkboxes1[2]"
                       >
                     </common-input>
                    <!-- <input type="checkbox"
@@ -161,10 +161,10 @@
                <td>
                  <div class="abc-checkbox">
                     <common-input
-                      class=""
                       :id="'checkbox4'"
                       :type="'checkbox'"
                       @change="event => changeCheck(event, 'checkboxes1', 3)"
+                      :checked="checkboxes1[3]"
                       >
                     </common-input>
                    <!-- <input type="checkbox"
@@ -243,10 +243,10 @@
                 <th>
                   <div class="abc-checkbox">
                      <common-input
-                      class=""
                       :id="'checkbox10'"
                       :type="'checkbox'"
                       @change="event => checkAll(event, 'checkboxes2')"
+                      :checked="checkboxes2[0]"
                       >
                     </common-input>
                     <!-- <input type="checkbox"
@@ -266,10 +266,10 @@
                 <td>
                   <div class="abc-checkbox">
                      <common-input
-                      class=""
                       :id="'checkbox11'"
                       :type="'checkbox'"
                       @change="event => changeCheck(event, 'checkboxes2', 1)"
+                      :checked="checkboxes2[1]"
                       >
                     </common-input>
                     <!-- <input type="checkbox"
@@ -289,9 +289,9 @@
                 <td>
                   <div class="abc-checkbox">
                      <common-input
-                      class=""
                       :id="'checkbox12'"
                       :type="'checkbox'"
+                      :checked="checkboxes2[2]"
                       @change="event => changeCheck(event, 'checkboxes2', 2)"
                       >
                     </common-input>
@@ -312,9 +312,9 @@
                 <td>
                   <div class="abc-checkbox">
                      <common-input
-                      class=""
                       :id="'checkbox13'"
                       :type="'checkbox'"
+                      :checked="checkboxes2[3]"
                       @change="event => changeCheck(event, 'checkboxes2', 3)"
                       >
                     </common-input>
@@ -335,9 +335,9 @@
                 <td>
                   <div class="abc-checkbox">
                      <common-input
-                      class=""
                       :id="'checkbox14'"
                       :type="'checkbox'"
+                      :checked="checkboxes2[4]"
                       @change="event => changeCheck(event, 'checkboxes2', 4)"
                       >
                     </common-input>
@@ -358,9 +358,9 @@
                 <td>
                   <div class="abc-checkbox">
                      <common-input
-                      class=""
                       :id="'checkbox15'"
                       :type="'checkbox'"
+                      :checked="checkboxes2[5]"
                       @change="event => changeCheck(event, 'checkboxes2', 5)"
                       >
                     </common-input>
@@ -398,9 +398,9 @@
                   <th>
                     <div class="abc-checkbox">
                        <common-input
-                      class=""
                       :id="'checkbox20'"
                       :type="'checkbox'"
+                      :checked="checkboxes3[0]"
                       @change="event => checkAll(event, 'checkboxes3')"
                       >
                     </common-input>
@@ -421,9 +421,9 @@
                   <td>
                     <div class="abc-checkbox">
                        <common-input
-                      class=""
                       :id="'checkbox21'"
                       :type="'checkbox'"
+                      :checked="checkboxes3[1]"
                       @change="event => changeCheck(event, 'checkboxes3', 1)"
                       >
                     </common-input>
@@ -444,9 +444,9 @@
                   <td>
                     <div class="abc-checkbox">
                        <common-input
-                      class=""
                       :id="'checkbox22'"
                       :type="'checkbox'"
+                      :checked="checkboxes3[2]"
                       @change="event => changeCheck(event, 'checkboxes3', 2)"
                       >
                     </common-input>
@@ -467,9 +467,9 @@
                   <td>
                     <div class="abc-checkbox">
                        <common-input
-                      class=""
                       :id="'checkbox23'"
                       :type="'checkbox'"
+                      :checked="checkboxes3[3]"
                       @change="event => changeCheck(event, 'checkboxes3', 3)"
                       >
                     </common-input>
@@ -490,9 +490,9 @@
                   <td>
                     <div class="abc-checkbox">
                        <common-input
-                      class=""
                       :id="'checkbox24'"
                       :type="'checkbox'"
+                      :checked="checkboxes3[4]"
                        @change="event => changeCheck(event, 'checkboxes3', 4)"
                       >
                     </common-input>
@@ -513,9 +513,9 @@
                   <td>
                     <div class="abc-checkbox">
                        <common-input
-                      class=""
                       :id="'checkbox25'"
                       :type="'checkbox'"
+                      :checked="checkboxes3[5]"
                       @change="event => changeCheck(event, 'checkboxes3', 5)"
                       >
                     </common-input>

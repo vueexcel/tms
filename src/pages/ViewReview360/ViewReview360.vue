@@ -49,10 +49,10 @@
             <!-- <input type="checkbox" :checked="anon" v-model="anon" id="checkbox-circle"> -->
             <common-input
               v-if="!spinnerLoading[index]"
-              class="regular-checkbox mr-2"
               :id="`checkbox-circle${index}`"
               :type="'checkbox'"
               @click="seenStatus(junior,index)"
+              :checked="anonseen[index]"
               :inputVal="anonseen[index]"
               >
             </common-input>

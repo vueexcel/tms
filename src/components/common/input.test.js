@@ -2,41 +2,65 @@ import { render, screen, fireEvent } from '@testing-library/vue'
 import '@testing-library/jest-dom'
 import userEvent from '@testing-library/user-event'
 
-import InputText from "./input.vue"
+import Input from "./input.vue"
 
-test("input renders properly", () => {
+test("input for text", async () => {
     let mockCallback = jest.fn((x) => x)
 
-    let input = <InputText id="123" callback={mockCallback} type="text" />
+    const { getByRole, getByPlaceholderText } = await render(Input, {
+        propsData: {
+          type: 'text',
+          id:"123",
+          placeholder:"placeholder"
+        },
+      })
 
-    const { getByRole } = render(input)
+    let input = getByPlaceholderText("placeholder")
+    expect(input).toBeInTheDocument()
 
-    let element = getByRole("text")
+    expect(input).toHaveAttribute("type", "text")
 
-    expect(element).toBeInTheDocument()
+    await userEvent.type(input, "123")
 
-    expect(element).toHaveAttribute("type", "text")
+    // expect(mockCallback).toBeCalledWith("123")
 
-    userEvent.type(element, "123")
+    // expect(mockCallback).toBeCalledTimes(3)
 
-    expect(mockCallback).toBeCalledWith("123")
-
-    expect(mockCallback).toBeCalledTimes(3)
-
-    expect(mockCallback.mock.results[2].value).toBe("123")
 
 })
 
-test("input type for password and other types", () => {
+test("input type for password", async () => {
 
-    let input = <InputText id="123" type="password" />
-
-    const { container } = render(input)
-
+    const { container } =  await render(Input, {
+        propsData: {
+          type: 'password',
+          id:"123",
+          placeholder:"placeholder"
+        }
+      })
+ 
     let element = container.querySelector("input")
 
     expect(element).toBeInTheDocument()
 
     expect(element).toHaveAttribute("type", "password")
+
+}) 
+
+test("input type for checkbox", async () => {
+
+    const { container } =  await render(Input, {
+        propsData: {
+          type: 'checkbox',
+          id:"123",
+          placeholder:"placeholder"
+        }
+      })
+ 
+    let element = container.querySelector("input")
+
+    expect(element).toBeInTheDocument()
+
+    expect(element).toHaveAttribute("type", "checkbox")
 
 }) 

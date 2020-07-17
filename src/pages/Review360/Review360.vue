@@ -38,7 +38,6 @@
 
             <b-form-group class="abc-checkbox abc-checkbox-success abc-checkbox-circle mt-3">
               <common-input
-                class="regular-checkbox mr-2"
                 :id="'checkbox-circle'"
                 :type="'checkbox'"
                 @setVal="getVal($event, 'password')"

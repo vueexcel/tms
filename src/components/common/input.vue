@@ -1,20 +1,17 @@
 <template>
   <input
     :id="id" 
-    required
     :type="type"
     :placeholder="placeholder"
-    autofocus
-    :checked="checked"
     @input="$emit('setVal', $event)"
   />
 </template>
 
 <script>
 export default {
+  name:"Input",
   data() {
     return {
-        // inputVal:""
     };
   },
   props: {
@@ -33,13 +30,6 @@ export default {
     id: {
       type: String,
       default: "",
-    },
-    inputVal:{
-        type: String
-    },
-    checked:{
-        type: Boolean,
-         default: null,
     }
   }
 };
