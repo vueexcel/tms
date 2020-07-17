@@ -7,7 +7,7 @@ import Input from "./input.vue"
 test("input for text", async () => {
     let mockCallback = jest.fn((x) => x)
 
-    const { getByRole, getByPlaceholderText } = await render(Input, {
+    const { getByPlaceholderText } = await render(Input, {
         propsData: {
           type: 'text',
           id:"123",
@@ -38,7 +38,7 @@ test("input type for password", async () => {
           placeholder:"placeholder"
         }
       })
- 
+
     let element = container.querySelector("input")
 
     expect(element).toBeInTheDocument()
