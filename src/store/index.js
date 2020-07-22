@@ -22,8 +22,9 @@ import notes from './modules/notes'
 import layout from "./layout";
 
 Vue.use(Vuex);
-export default new Vuex.Store({
-  // plugins: [createPersistedState(), pathify.plugin],
+
+export const store = {
+  // plugins: [pathify.plugin],
   modules: {
     layout,
     login,
@@ -43,4 +44,6 @@ export default new Vuex.Store({
     peerreview,
     notes
   }
-});
+}
+
+export default new Vuex.Store(store);

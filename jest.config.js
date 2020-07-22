@@ -16,10 +16,6 @@ module.exports = {
         "src/pages/*.{js,vue}",
         "!**/node_modules/**"
     ],
-    coverageReporters: [
-        "html",
-        "text-summary"
-    ],
     moduleNameMapper: {
         "^@/(.*)$": "<rootDir>/src/$1"
     },

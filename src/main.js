@@ -22,6 +22,7 @@ import router from './Routes';
 import App from './App';
 
 Object.defineProperty(Vue.prototype, '$moment', { value: moment })
+
 Vue.use(VueAxios, axios)
 Vue.use(VueBootstrapToasts)
 Vue.use(BootstrapVue);

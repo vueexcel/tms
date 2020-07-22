@@ -9,7 +9,7 @@
         <h6 class="botton_padding weight">Team Management System</h6>
         <div class="login-form">
           <form @submit.prevent="login">
-            <div class="alert alert-danger alert-sm" v-if="loginfailed" id="error">
+            <div class="alert alert-danger alert-sm" v-if="loginfailed" data-testid="error" id="error">
               <button
                 type="button"
                 class="close"
@@ -158,10 +158,16 @@ export default {
                 }
               }
             });
-          } else {
+          } else {            
             this.loader = false;
             this.loginfailed = true;
             this.loginError = resp.charAt(0).toUpperCase() + resp.slice(1);
+          }
+        }).catch((error) => {
+          if (error.status === 500) {
+            this.loader = false
+            this.loginfailed = true
+            this.loginError = 'Gettting some issue'
           }
         });
       }
