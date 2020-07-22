@@ -2,9 +2,9 @@
   <b-container>
     <b-row class="wrapper">
       <b-col class="p-5">
-        <!-- <h5 class="logo pb-4">
+        <h5 class="logo pb-4">
           <img src="./../../images/logo.png" height="60" width="300" alt="logo" />
-        </h5> -->
+        </h5>
         <span>Welcome to</span>
         <h6 class="botton_padding weight">Team Management System</h6>
         <div class="login-form">
