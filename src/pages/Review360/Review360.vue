@@ -37,7 +37,15 @@
             <!-- :disableStar="activeReport.canReview === false ? true : false" -->
 
             <b-form-group class="abc-checkbox abc-checkbox-success abc-checkbox-circle mt-3">
-              <input type="checkbox" :checked="anon" v-model="anon" id="checkbox-circle" />
+              <common-input
+                :id="'checkbox-circle'"
+                :type="'checkbox'"
+                @setVal="getVal($event, 'password')"
+                v-model="anon"
+                :checked="anon"
+                >
+              </common-input>
+              <!-- <input type="checkbox" :checked="anon" v-model="anon" id="checkbox-circle" /> -->
               <label for="checkbox-circle">Anonymous</label>
               <!-- <p
               class="pl-3 fs-sm text-muted"
@@ -141,10 +149,11 @@ import anon from "./../../assets/people/anon.svg";
 import starRating from "@/components/Star/Star";
 import primaryButton from '@/components/common/button.vue'
 import moment from "moment";
+import commonInput from '@/components/common/input.vue';
 
 export default {
   name: "Profile",
-  components: { Widget, starRating, primaryButton },
+  components: { Widget, starRating, primaryButton,commonInput },
   data() {
     return {
       anonymousImage: anon,
@@ -280,6 +289,9 @@ export default {
     },
     getMonth() {
       this.month = moment().format("MMMM");
+    },
+    getVal(e){
+      this.anon = e.target.value
     }
   }
 };

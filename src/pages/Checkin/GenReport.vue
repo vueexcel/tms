@@ -28,7 +28,15 @@
           class="text-muted float-right"
         >slack formatting: *bold* | _italics_ | ~strike~ | `code` | ```preformatted```</div>
         <div class="mt-5">
-          <input type="checkbox" id="checkbox-1-1" class="regular-checkbox mr-2" v-model="status">
+          <common-input
+            class="regular-checkbox mr-2"
+            :id="'checkbox-1-1'"
+            :type="'checkbox'"
+            @setVal="getVal($event)"
+            v-model="status"
+            >
+          </common-input>
+          <!-- <input type="checkbox" id="checkbox-1-1" class="regular-checkbox mr-2" v-model="status"> -->
           <label for="checkbox-1-1" class="checkbox_label">Was task not completed as per the standup</label>
         </div>
         <b-alert class="alert alert-info alert-transparent alert-sm mt-3" show>
@@ -121,10 +129,11 @@
 import { sync, get } from "vuex-pathify";
 import Widget from "@/components/Widget/Widget";
 import primaryButton from '@/components/common/button.vue'
+import commonInput from '@/components/common/input.vue';
 import { VueEditor } from "vue2-editor";
 
 export default {
-  components: { Widget, VueEditor, primaryButton },
+  components: { Widget, VueEditor, primaryButton,commonInput },
   computed: {
     missedCheckin: get("profile/user"),
     changeSelectOption: sync("checkin/changeSelectOption"),
@@ -243,6 +252,9 @@ export default {
     updateCheckin() {
       this.emitFormData();
       this.modalShow = false;
+    },
+    getVal(e){
+      this.status = e.target.value
     }
   }
 };

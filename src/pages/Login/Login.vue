@@ -2,14 +2,14 @@
   <b-container>
     <b-row class="wrapper">
       <b-col class="p-5">
-        <!-- <h5 class="logo pb-4">
+        <h5 class="logo pb-4">
           <img src="./../../images/logo.png" height="60" width="300" alt="logo" />
-        </h5> -->
+        </h5>
         <span>Welcome to</span>
         <h6 class="botton_padding weight">Team Management System</h6>
         <div class="login-form">
           <form @submit.prevent="login">
-            <div class="alert alert-danger alert-sm" v-if="loginfailed" id="error">
+            <div class="alert alert-danger alert-sm" v-if="loginfailed" data-testid="error" id="error">
               <button
                 type="button"
                 class="close"
@@ -20,7 +20,7 @@
               {{loginError}}.
             </div>
             <div class="form-group">
-              <input
+              <!-- <input
                 class="form-control no-border"
                 ref="username"
                 id="username"
@@ -29,10 +29,22 @@
                 name="username"
                 placeholder="Username"
                 autofocus
-              />
+              /> -->
+            <common-input
+              @setVal="getVal($event, 'username')"
+              class="form-control no-border"
+              :type="'text'"
+              :name="'username'"
+              :placeholder="'Username'"
+              :id="'username'"
+              v-model="username"
+              required
+              autofocus
+              >
+            </common-input>
             </div>
             <div class="form-group">
-              <input
+              <!-- <input
                 class="form-control no-border"
                 ref="password"
                 id="password"
@@ -40,7 +52,18 @@
                 type="password"
                 name="password"
                 placeholder="Password"
-              />
+              /> -->
+              <common-input
+              @setVal="getVal($event, 'password')"
+              class="form-control no-border"
+              :id="'password'"
+              :type="'password'"
+              :name="'password'"
+              :placeholder="'Password'"
+              v-model="password"
+              required
+              >
+              </common-input>
               <!-- <button type="submit" :disabled="loader" class="w-100 btn btn-inverse btn-sm mt-4">
                 <span v-if="!loader">Login</span>
                 <span v-if="loader">
@@ -54,7 +77,8 @@
                 :isLoading="loader"
                 :variant="'btn-inverse'"
                 :width="'w-100'"
-                :size="'btn-sm'"></primary-button>
+                :size="'btn-sm'"
+                ></primary-button>
             </div>
           </form>
         </div>
@@ -82,7 +106,7 @@
 <script>
 import { get, call } from "vuex-pathify";
 import primaryButton from './../../components/common/button.vue'
-
+import commonInput from '@/components/common/input.vue'
 
 export default {
   name: 'LoginPage',
@@ -91,11 +115,13 @@ export default {
       loader: false,
       loginfailed: false,
       signinChecked: "",
-      loginError: ""
-    }
+      loginError: "",
+      username: "" ,
+      password: ""   }
   },
   components: {
-    primaryButton
+    primaryButton,
+    commonInput
   },
   computed:{
     authenticated: get("login/authenticated"),
@@ -103,28 +129,45 @@ export default {
   methods: {
     loginApi: call("login/login_"),
     getProfile: call("profile/getProfile"),
-    login() {
-      const username = this.$refs.username.value.toLowerCase();
-      const password = this.$refs.password.value;
+    async login() {
+      const username = this.username.toLowerCase();
+      const password = this.password;
       if (username.length !== 0 && password.length !== 0) {
         this.loader = true;
-        this.loginApi({ username: username, password: password }).then(resp => {
+        await this.loginApi({ username: username, password: password }).then(resp => {
           if (this.signinChecked !== "") {
             this.loader = false;
           }
           if (resp === true) {
-            this.getProfile().then(() => {
+            this.getProfile().then((response) => {
               if (resp === true) {
                 this.loader = resp;
                 this.loader = false;
               } else {
                 this.loader = false;
               }
+              if (response.data.role === "Admin") {
+                if (this.$route.path !== '/admin/manageKpi') return this.$router.push("/admin/manageKpi");
+              } else {
+                if (localStorage.getItem("weeklyAutomate")) {
+                  this.$router.push("/app/automateWeekly");
+                } else if (localStorage.getItem('updateReview') && localStorage.getItem('updateReview') === 'true') {
+                  this.$router.push('/app/week/WeeklyReport')
+                } else {
+                  if (this.$route.path !== '/app/profile') return this.$router.push("/app/profile");
+                }
+              }
             });
-          } else {
+          } else {            
             this.loader = false;
             this.loginfailed = true;
             this.loginError = resp.charAt(0).toUpperCase() + resp.slice(1);
+          }
+        }).catch((error) => {
+          if (error.status === 500) {
+            this.loader = false
+            this.loginfailed = true
+            this.loginError = 'Gettting some issue'
           }
         });
       }
@@ -136,6 +179,9 @@ export default {
 
     getAlert () {
       alert('calling')
+    },
+    getVal(e, str){
+      this[str] = e.target.value
     }
   }
 }
