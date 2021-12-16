@@ -123,6 +123,10 @@ export default {
       this.api_getAllJuniorReviews()
         .then(res => {
           res.data.forEach(element => {
+            if (element.rating && typeof element.rating === 'string') {
+              let rating = element.rating
+              element.rating = JSON.parse(rating)
+            }
             this.allUserReviews.push(element);
           });
           this.loading = false;

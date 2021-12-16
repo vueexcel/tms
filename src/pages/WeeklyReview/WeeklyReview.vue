@@ -267,17 +267,25 @@ export default {
     report: get("weeklyReview/report"),
     reviewedReport_: get("weeklyReview/reviewedReport"),
     date() {
-      if (this.user.kpi) {
+      if (this.user.kpi && this.user.kpi.kpi_json) {
         // ES6 version use destructuring/ spread operator for adding arrays
         // eslint-disable-next-line
-        this.kpieraarray = [
-          ...this.user.kpi.kpi_json.filter(element => {
-            return element.title !== "";
-          }),
-          ...this.user.kpi.era_json.filter(element => {
-            return element.title !== "";
-          })
-        ];
+        if (this.user.kpi.era_json) {
+          this.kpieraarray = [
+            ...this.user.kpi.kpi_json.filter(element => {
+              return element.title !== "";
+            }),
+            ...this.user.kpi.era_json.filter(element => {
+              return element.title !== "";
+            })
+          ];
+        } else {
+          this.kpieraarray = [
+            ...this.user.kpi.kpi_json.filter(element => {
+              return element.title !== "";
+            })
+          ];
+        }
       }
       Array.prototype.forEach.call(this.report, date => {
         var time = this.$moment(date.created_at)

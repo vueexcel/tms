@@ -2,9 +2,12 @@
     <div>
     <h1 class="page-title">Your Juniors</h1>
     <Alert360 />
-    <div class="text-center" v-if="!juniorsArray.length && !error">
+    <div class="text-center" v-if="loading">
       <i class="fas fa-circle-notch text-success fa-spin fa-3x"></i>
       <p>Loading...</p>
+    </div>
+    <div v-if="!juniorsArray.length && !error && !loading">
+      <p>No data available</p>
     </div>
     <div v-if="error">
        <b-alert
@@ -41,7 +44,8 @@ export default {
         return {
             juniorsArray: [],
             error: false,
-            errorMessage: ''
+            errorMessage: '',
+            loading: false
         }
     },
     components: {
@@ -57,7 +61,9 @@ export default {
     methods: {
         getAllJuniors_: call("allMember/getAllJuniors"),
         async getAllData(){
+            this.loading = true
             await this.getAllJuniors();
+            this.loading = false
         },
         async getAllJuniors() {
             let response = await this.getAllJuniors_()

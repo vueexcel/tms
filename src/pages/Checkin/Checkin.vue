@@ -252,7 +252,7 @@ export default {
     async getAllSlackChannels() {
       this.slackChannels = [];
       let response = await this.getAllSlackChannels_();
-      if (response.length && typeof response !== "string") {
+      if (response && response.length && typeof response !== "string") {
         this.slackChannels = response;
       } else {
         this.errorMessage = true;
